@@ -1,0 +1,74 @@
+﻿@font-face {
+    font-family: 'RB-Regular';
+    src: url('../Font/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'THS';
+    src: url('../Font/TH Sarabun PSK/THSarabun.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'THSB';
+    src: url('../Font/TH Sarabun PSK/THSarabun Bold.ttf') format('truetype');
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #f0f0f0;
+    font-family: Tahoma;
+    font-size: 16px;
+}
+#wrapper {
+    width: 100%;
+}
+#control-area {
+    background-color: #404040;
+    color: #ffffff;
+    text-align: center;
+    padding: 5px;
+}
+#control-area a {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    line-height: 30px;
+    font-size: 16px;
+    font-family: RB-Regular, Tahoma;
+}
+#control-area a:hover {
+    text-decoration: underline;
+}
+#control-area a img {
+    margin-right: 10px;
+    margin-bottom: -2px;
+}
+#print-area {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 684px;
+    height: 984px;
+    margin: 0 auto;
+}
+.left {
+    text-align: left;
+}
+.center {
+    text-align: center;
+}
+.right {
+    text-align: right;
+}
+.para {
+    
+}
+.table {
+    border-collapse: collapse;
+}
+.table td {
+    border: 1px solid #000000;
+    padding: 5px;
+}

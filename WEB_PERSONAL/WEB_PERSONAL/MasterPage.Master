@@ -1,0 +1,373 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="WEB_PERSONAL.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="Image/favicon.ico" type="image/x-icon" />
+    <!--link rel="icon" href="Image/favicon.ico" /-->
+    <title>ระบบบุคลากร - มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก</title>
+    
+
+    <link href="jQueryCalendarThai/jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link href="jQueryCalendarThai/SpecialDateSheet.css" rel="stylesheet" />
+
+    <script src="Script/JSFunction.js"></script>
+    <script src="jQueryCalendarThai/jquery-1.9.0.min.js"></script>
+    <script src="jQueryCalendarThai/jquery-ui-1.10.3.custom.js"></script>
+
+    <script src="jquery.mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <link href="jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+    <!-- -->
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css" />
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="plugins/iCheck/all.css" />
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="plugins/colorpicker/bootstrap-colorpicker.min.css" />
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="plugins/timepicker/bootstrap-timepicker.min.css" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/select2.min.css" />
+
+    <link rel="stylesheet" href="CSS/Master.css" />
+
+    <script>
+        $.datepicker.regional['th'] = {
+            changeMonth: true,
+            changeYear: true,
+            
+            //defaultDate: GetFxupdateDate(FxRateDateAndUpdate.d[0].Day),
+            yearOffSet: 543,
+            showOn: "button",
+            buttonImage: 'jQueryCalendarThai/images/calendar.gif',
+            buttonImageOnly: true,
+            dateFormat: 'dd M yy',
+            dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+            dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+            monthNames: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+            monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+            constrainInput: true,
+
+            prevText: 'ก่อนหน้า',
+            nextText: 'ถัดไป',
+            yearRange: '-100:+100',
+            buttonText: 'เลือก',
+            beforeShow: function () {
+                if ($(this).val() != "") {
+                    var arrayDate = $(this).val().split(" ");
+                    if (arrayDate.length == 4) {
+                        arrayDate[2] = arrayDate[3];
+                    }
+                    $(this).val(arrayDate[0] + " " + arrayDate[1] + " " + arrayDate[2]);
+                } else {
+                    $(this).datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
+                }
+            }
+            /*beforeShow: function () {
+                if ($(this).val() != "") {
+                    var arrayDate = $(this).val().split(" ");
+                    if (arrayDate.length == 4) {
+                        arrayDate[2] = arrayDate[3];
+                    }
+                    $(this).val(arrayDate[0] + "/" + arrayDate[1] + "/" + arrayDate[2]);
+                } else {
+                    $(this).datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
+                }
+            }*/
+        };
+        $.datepicker.setDefaults($.datepicker.regional['th']);
+    </script>
+
+    <script>
+        function startTime() {
+            var today = new Date();
+            var d = today.getDate();
+            var M = (today.getMonth() + 1);
+            var y = (today.getFullYear() + 543);
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            d = checkTime(d);
+            M = checkTime(M);
+            m = checkTime(m); 
+            s = checkTime(s);
+
+            var days = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
+            var months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+
+            var day = days[today.getDay()];
+            var month = months[today.getMonth()];
+
+            document.getElementById('txt_date').innerHTML = "วัน" + day + "ที่ " + d + " " + month + " พ.ศ. " + y + " เวลา " + h + ":" + m + ":" + s + "น.";
+            var t = setTimeout(startTime, 500);
+        }
+        function checkTime(i) {
+            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+            return i;
+        }
+        $(document).ready(function () {
+            //startTime();
+            $('#menu1').click(function () {
+                $('#menu1-ct').slideToggle(500);
+                $('#menu2-ct').slideUp(500);
+            });
+            /*$('#menu2').click(function () {
+                $('#menu2-ct').slideToggle(500);
+                $('#menu1-ct').slideUp(500);
+            });*/
+        });
+
+    </script>
+
+    <script>
+
+        function fa1(v) {
+            $(".ps-ms-left-ext").css("display", "block");
+            $("#hvr1").css("display", "none");
+            $("#hvr2").css("display", "none");
+            $("#hvr3").css("display", "none");
+            $("#hvr4").css("display", "none");
+            $("#hv1").attr("class", "ps-ms-left-link-group-rr");
+            $("#hv2").attr("class", "ps-ms-left-link-group-rr");
+            $("#hv3").attr("class", "ps-ms-left-link-group-rr");
+            $("#hv4").attr("class", "ps-ms-left-link-group-rr");
+            $("#hvr" + v).css("display", "block");
+            $("#hv" + v).attr("class", "ps-ms-left-link-group-rr ps-ms-left-link-group-rr-selected");
+        }
+
+        $(document).ready(function () {
+            $("#hv1").click(function () {
+                fa1(1);
+            });
+            $("#hv2").click(function () {
+                fa1(2);
+            });
+            $("#hv3").click(function () {
+                fa1(3);
+            });
+            $("#hv4").click(function () {
+                fa1(4);
+            });
+            $(".ps-ms-left-ext-close").click(function () {
+                $(".ps-ms-left-ext").css("display", "none");
+                $("#hvr1").css("display", "none");
+                $("#hvr2").css("display", "none");
+                $("#hvr3").css("display", "none");
+                $("#hvr4").css("display", "none");
+                $("#hv1").attr("class", "ps-ms-left-link-group-rr");
+                $("#hv2").attr("class", "ps-ms-left-link-group-rr");
+                $("#hv3").attr("class", "ps-ms-left-link-group-rr");
+                $("#hv4").attr("class", "ps-ms-left-link-group-rr");
+            });
+        });
+        
+    </script>
+
+    <script>
+		$(document).ready(function () {
+			/*$(".ps-ms-left").click(function () {
+				$(".ps-ms-left-ext").toggle(0);
+			});
+			$(".ps-ms-left-ext-close").click(function () {
+				$(".ps-ms-left-ext").toggle(0);
+			});*/
+			$("#hdt").click(function () {
+			    $(".ps-ms-center-header-ext").fadeToggle(250);
+			    $(".ps-ms-center-header-notification").fadeOut(100);
+			});
+			$("#menu2").click(function () {
+			    $(".ps-ms-center-header-ext").fadeOut(100);
+			    $(".ps-ms-center-header-notification").fadeToggle(250);
+			});
+		});
+	</script>
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+
+    <form id="form1" runat="server">
+
+        <div class="ps-ms-left">
+            
+            
+            <a href="Default.aspx" class="ps-ms-left-rmutto">ระบบบุคลากร</a>
+            
+            <div class="ps-ms-left-link-group-rr" id="hv1"><img src="Image/Small/person2.png" class="ps-ms-left-link-group-rr-img"/>บุคลากร<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv2"><img src="Image/Small/document.png" class="ps-ms-left-link-group-rr-img" />การลา<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv3"><img src="Image/Small/medal.png" class="ps-ms-left-link-group-rr-img" />เครื่องราชอิสริยาภรณ์<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv4"><img src="Image/Small/wrench.png" class="ps-ms-left-link-group-rr-img" />จัดการข้อมูล<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            
+            <div class="ps-ms-left-separator"></div>
+
+            <div class="ps-ms-left-down">
+                
+                <div>เวอร์ชั่น : v1.3</div>
+             </div>
+
+        </div>
+
+        <div class="ps-ms-left-ext">
+            <button type="button" class="ps-ms-left-ext-close">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+            <div id="hvr1" style="display: none;">
+                <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
+                <a href="listPerson-admin.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/add.png" />จัดการข้อมูลบุคลากร</a>
+                <!--<a href="AddPerson-Edit.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/edit.png" />แก้ไขข้อมูลบุคลากร</a>
+                <a href="ListPerson-ADMIN.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />รายชื่อบุคลากร</a>
+                <a href="SEMINAR-GENERAL.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/add.png" />การเพิ่มพัฒนาบุคลากร</a>
+                <a href="SEMINAR-ADMIN.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/edit.png" />การแก้ไขพัฒนาบุคลากร</a>
+                <a href="PersonBranch.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/list.png" />แผนผังบุคลากร</a>
+                <a href="Boss.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>-->
+            </div>
+            <div id="hvr2" style="display: none;">
+                <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>
+                <a href="Leave.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-create.png" />ทำการลา</a>
+                <a href="LeaveCancel.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-delete.png" />ยกเลิกการลา</a>
+                <a href="LeaveAllow.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-accept.png" />อนุมัติการลา<asp:Label ID="lbLeaveAllowCount" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
+                <a href="LeaveHistory.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/clock-history.png" />ประวัติการลา</a>
+                <a href="WorkingTimeHistory.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/clock-history.png" />ประวัติเวลาปฏิบัติงาน</a>
+                <a href="LeavePermission.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/info.png" />ตารางสิทธิการอนุญาต</a>
+                <a href="LeaveReport.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/report.png" />ออกรายงานการลา</a>
+                <a href="WorkingDay.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการวันปฏิบัติราชการ</a>
+            </div>
+            <div id="hvr3" style="display: none;">
+                <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
+                <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>                   
+                <a href="INSG_Qualified.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่เข้าเกณฑ์การรับเครื่องราชฯ</a>
+                <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อการขอเครื่องราชฯ</a>
+                <a href="INSG_Qualified_Detail.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>
+            </div>
+            <div id="hvr4" style="display: none;">
+                <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>
+                <a href="DataManager.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />แก้ไขข้อมูลตัวเลือก (Dropdown List)</a>
+                <a href="Permission.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการสิทธิใช้งานระบบ</a>
+                <a href="ChangePassword.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />เปลี่ยนรหัสผ่าน</a>
+            </div>
+
+
+            
+        </div>
+
+        <div class="ps-ms-center">
+			<div class="ps-ms-center-header">
+                <!--div id="menu2" class="ps-ms-main-hd-button"><img src="Image/x32/notification.png" /></!--div-->
+                
+				<!--div class="ps-ms-center-header-username">Username</!--div-->
+
+                <button type="button" id="menu2" class="ps-ms-header-toggle">
+                    <span class="glyphicon glyphicon glyphicon-bell"></span>
+                    <span class="ps-ms-main-hd-noti-alert-none" id="noti_alert" runat="server">0</span>
+				</button>
+
+                
+
+				<button type="button" id="hdt" class="ps-ms-header-toggle">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <asp:Label ID="lbMasterHeaderName" runat="server" Text="Label" CssClass="ps-ms-header-toggle-username"></asp:Label>
+				</button>
+
+			</div>
+			<div class="ps-ms-center-header-ext">
+				<div>
+                    <div class="ps-ms-page-header">
+                        <span class="glyphicon glyphicon glyphicon-user"></span>
+                        จัดการผู้ใช้
+                    </div>
+					<div style="margin-right: 5px; font-size: 16px; text-align: center;">
+                        <img src="Image/no_image.png" class="ps-ms-header-profile" id="profile_pic3" runat="server"/>
+					</div>
+					
+					<div style="vertical-align: top; text-align: center; font-weight: bold;">
+						<div><asp:Label ID="lbMasterName" runat="server" Text="Label"></asp:Label></div>
+					</div>
+				</div>
+                <div class="ps-ms-separator"></div>
+				<div>
+				    <a href="Profile.aspx" class="ps-ms-button-orange">แก้ไขข้อมูล</a>
+				    <a href="Access.aspx" class="ps-ms-button-red">ออกจากระบบ</a>
+                </div>
+			</div>
+
+            <div class="ps-ms-center-header-notification">
+                <div>
+                    <div class="ps-ms-page-header">
+                        <span class="glyphicon glyphicon glyphicon-bell"></span>
+                        การแจ้งเตือน
+                    </div>
+                    <div class="ps-box-il-ms">
+                        <div class="ps-box-i0">
+                            <div class="ps-box-hd10-cen"><img src="Image/Small/document.png" />การลา</div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_leave_none" runat="server">
+                            <div class="ps-box-hd10-cen" style="color: #a0a0a0; margin-top: 120px;">ไม่มีการแจ้งเตือนการลา</div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_approve" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/correct.png' class='icon_left' />คุณมีรายการที่ต้องอนุมัติการลา</div><br />
+                                <div><a href='LeaveAllow.aspx'>ไปหน้าการอนุมัติ<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_leave_finish" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/correct.png' class='icon_left' />คุณมีรายการที่การลาที่เสร็จสิ้น</div><br />
+                                <div><a href='LeaveHistory.aspx'>ไปหน้าประวัติการลา<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ps-box-il-ms">
+                        <div class="ps-box-i0">
+                            <div class="ps-box-hd10-cen"><img src="Image/Small/medal.png" />เครื่องราชอิสริยาภรณ์</div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_ins_none" runat="server">
+                            <div class="ps-box-hd10-cen" style="color: #a0a0a0; margin-top: 120px;">ไม่มีการแจ้งเตือนเครื่องราชฯ</div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_ins" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/medal.png' class='icon_left' />คุณมีสิทธิขอเครื่องราชฯ</div><br />
+                                <div><a href='INSG_Request.aspx'>ไปหน้าการขอเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_get_ins" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/medal.png' class='icon_left' />คุณได้รับการแจ้งผลการขอเครื่องราชฯ</div><br />
+                                <div><a href='INSG_Qualified_Detail.aspx'>ไปหน้าประวัติการได้รับเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+			
+			<div class="ps-ms-center-content">
+				<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+			</div>
+			<div class="ps-ms-center-footer">
+                Copyright © 2016 Rajamangala University of Technology Tawan-ok. All rights reserved
+			</div>
+		</div>
+
+        
+        
+
+    </form>
+</body>
+</html>
