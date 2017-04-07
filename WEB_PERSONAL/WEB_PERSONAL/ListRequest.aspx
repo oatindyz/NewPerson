@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="ListPerson-ADMIN.aspx.cs" Inherits="WEB_PERSONAL.ListPerson_ADMIN" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="ListRequest.aspx.cs" Inherits="WEB_PERSONAL.ListRequest" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <!-- for Menu List -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -18,14 +18,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="ps-header">
-        <img src="Image/Icon/manage.png" />จัดการข้อมูลบุคลากร
-        <span style="text-align:right; float:right;"><a href="adduser.aspx">
-        <img src="Image/Icon/add.png" />เพิ่มข้อมูลบุคลากร</a></span>
+        <img src="Image/book_edit.png" />จัดการข้อมูลคำร้องการแก้ไขข้อมูล
     </div>
     <div id="notification" runat="server"></div>
-  
+
     <div id="Dp1" runat="server" class="panel panel-default">
-        <div class="panel-heading">บุคลากรภายในมหาวิทยาลัย</div>
         <div class="panel-body">
             <div class="panel-body">
                 <div id="divLoad" runat="server" class="dataTable_wrapper">
@@ -35,10 +32,8 @@
                                 <th>ลำดับที่</th>
                                 <th>ชื่อ-สกุล</th>
                                 <th>ประเภทบุคลากร</th>
-                                <th>วิทยาเขต</th>
-                                <th>สำนัก / สถาบัน / คณะ</th>
-                                <th>กอง / สำนักงานเลขา / ภาควิชา</th>
-                                <th>งาน / ฝ่าย</th>
+                                <th>คณะ/หน่วยงาน</th>
+                                <th><img src="Image/Small/document-edit.png" class="icon_left" />จัดการข้อมูล</th>
                             </tr>
                         </thead>
                         <asp:Repeater ID="myRepeater" runat="server" OnItemCommand="myRepeater_ItemCommand">
@@ -46,11 +41,11 @@
                                 <tr>
                                     <td><%# Container.ItemIndex +1 %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "STAFFTYPE_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "FACULTY_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "DIVISION_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "WORK_NAME") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "STAFF_NAME") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "FAC_NAME") %></td>
+                                    <td>
+                                        <a><asp:LinkButton ID="lbuEdit" CommandName="Edit" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "R_ID").ToString()) %>' class="btn btn-warning">จัดการข้อมูล</asp:LinkButton></a>
+                                    </td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

@@ -13,7 +13,7 @@ namespace WEB_PERSONAL.Class {
         public static readonly string PROVIDER = "System.Data.OracleClient";
         //public static readonly string DATA_SOURCE = "203.158.140.67";
         //public static readonly string DATA_SOURCE = "192.168.1.49";
-        public static readonly string DATA_SOURCE = "192.168.100.13";
+        public static readonly string DATA_SOURCE = "192.168.100.4";
         public static readonly string PORT = "1521";
         public static readonly string SID = "orcl";
         public static readonly string USER_ID = "rmutto";
@@ -122,7 +122,7 @@ namespace WEB_PERSONAL.Class {
                 con.Open();
                 using (OracleCommand com = new OracleCommand(
 
-                    "SELECT PS_CITIZEN_ID, PS_ID, PS_TITLE_ID, PS_FN_TH, PS_LN_TH, PS_GENDER_ID, PS_BIRTHDAY_DATE, PS_EMAIL, PS_CAMPUS_ID, PS_FACULTY_ID, PS_DIVISION_ID, PS_WORK_DIVISION_ID, PS_ADMIN_POS_ID, PS_WORK_POS_ID, PS_INWORK_DATE, PS_PASSWORD, PS_POSITION_ID, PS_STAFFTYPE_ID, ST_LOGIN_ID, PS_YEAR, PS_HOMEADD, PS_MOO, PS_STREET, PS_DISTRICT_ID, PS_AMPHUR_ID, PS_PROVINCE_ID, PS_TELEPHONE, PS_ZIPCODE, PS_NATION_ID, PS_TIME_CONTACT_ID, PS_BUDGET_ID, PS_SUBSTAFFTYPE_ID, PS_POSITION_WORK, PS_DATE_START_THIS_U, PS_SPECIAL_NAME, PS_TEACH_ISCED_ID, PS_GRAD_LEV_ID, PS_GRAD_CURR, PS_GRAD_ISCED_ID, PS_GRAD_PROG_ID, PS_GRAD_UNIV, PS_GRAD_COUNTRY_ID, PS_DEFORM_ID, PS_SIT_NO, PS_RELIGION_ID, PS_MOVEMENT_TYPE_ID, PS_MOVEMENT_DATE, PERSON_ROLE_ID," +
+                    "SELECT PS_CITIZEN_ID,PS_ID,PS_TITLE_ID,PS_FIRSTNAME,PS_LASTNAME,PS_GENDER_ID,PS_BIRTHDAY_DATE,PS_EMAIL,PS_HOMEADD,PS_MOO,PS_STREET,PS_DISTRICT_ID,PS_AMPHUR_ID,PS_PROVINCE_ID,PS_ZIPCODE,PS_TELEPHONE,PS_NATION_ID,PS_CAMPUS_ID,PS_FACULTY_ID,PS_DIVISION_ID,PS_WORK_DIVISION_ID,PS_STAFFTYPE_ID,PS_TIME_CONTACT_ID,PS_BUDGET_ID,PS_SUBSTAFFTYPE_ID,PS_ADMIN_POS_ID,PS_POSITION_ID,PS_WORK_POS_ID,PS_INWORK_DATE,PS_DATE_START_THIS_U,PS_SPECIAL_NAME,PS_TEACH_ISCED_ID,PS_GRAD_LEV_ID,PS_GRAD_CURR,PS_GRAD_ISCED_ID,PS_GRAD_PROG_ID,PS_GRAD_UNIV,PS_GRAD_COUNTRY_ID,PS_DEFORM_ID,PS_SIT_NO,PS_RELIGION_ID,PS_MOVEMENT_TYPE_ID,PS_MOVEMENT_DATE,PS_PASSWORD,ST_LOGIN_ID,PERSON_ROLE_ID,PS_FIRST_POSITION_ID," +
                     "(SELECT ADMIN_POSITION_POWER FROM TB_ADMIN_POSITION WHERE TB_ADMIN_POSITION.ADMIN_POSITION_ID = PS_PERSON.PS_ADMIN_POS_ID) ADMIN_POSITION_POWER, "+
                     "(SELECT TITLE_NAME_TH FROM TB_TITLENAME WHERE TB_TITLENAME.TITLE_ID = PS_PERSON.PS_TITLE_ID) PS_TITLE_NAME," +
                     "(SELECT GENDER_NAME FROM TB_GENDER WHERE TB_GENDER.GENDER_ID = PS_PERSON.PS_GENDER_ID) PS_GENDER_NAME," +
@@ -138,7 +138,7 @@ namespace WEB_PERSONAL.Class {
                     "(SELECT DISTRICT_TH FROM TB_DISTRICT WHERE TB_DISTRICT.DISTRICT_ID = PS_PERSON.PS_DISTRICT_ID) PS_DISTRICT_NAME," +
                     "(SELECT AMPHUR_TH FROM TB_AMPHUR WHERE TB_AMPHUR.AMPHUR_ID = PS_PERSON.PS_AMPHUR_ID) PS_AMPHUR_NAME," +
                     "(SELECT PROVINCE_TH FROM TB_PROVINCE WHERE TB_PROVINCE.PROVINCE_ID = PS_PERSON.PS_PROVINCE_ID) PS_PROVINCE_NAME," +
-                    "(SELECT NATION_THA FROM TB_NATIONAL WHERE TB_NATIONAL.NATION_SEQ = PS_PERSON.PS_NATION_ID) PS_NATION_NAME," +
+                    "(SELECT NATION_NAME_EN FROM TB_NATION WHERE TB_NATION.NATION_ID = PS_PERSON.PS_NATION_ID) PS_NATION_NAME," +
                     "(SELECT TIME_CONTACT_NAME FROM TB_TIME_CONTACT WHERE TB_TIME_CONTACT.TIME_CONTACT_ID = PS_PERSON.PS_TIME_CONTACT_ID) PS_TIME_CONTACT_NAME," +
                     "(SELECT BUDGET_NAME FROM TB_BUDGET WHERE TB_BUDGET.BUDGET_ID = PS_PERSON.PS_BUDGET_ID) PS_BUDGET_NAME," +
                     "(SELECT SUBSTAFFTYPE_NAME FROM TB_SUBSTAFFTYPE WHERE TB_SUBSTAFFTYPE.SUBSTAFFTYPE_ID = PS_PERSON.PS_SUBSTAFFTYPE_ID) PS_SUBSTAFFTYPE_NAME," +
@@ -146,11 +146,12 @@ namespace WEB_PERSONAL.Class {
                     "(SELECT LEV_NAME_TH FROM TB_LEV WHERE TB_LEV.LEV_ID = PS_PERSON.PS_GRAD_LEV_ID) PS_GRAD_LEV_NAME," +
                     "(SELECT ISCED_NAME FROM TB_ISCED WHERE TB_ISCED.ISCED_ID = PS_PERSON.PS_TEACH_ISCED_ID) PS_GRAD_ISCED_ID," +
                     "(SELECT PROGRAM_NAME FROM TB_PROGRAM WHERE TB_PROGRAM.PROGRAM_ID_NEW = PS_PERSON.PS_GRAD_PROG_ID) PS_GRAD_PROG_NAME," +
-                    "(SELECT COUNTRY_TH FROM TB_COUNTRY WHERE TB_COUNTRY.COUNTRY_ID = PS_PERSON.PS_GRAD_COUNTRY_ID) PS_GRAD_COUNTRY_NAME," +
+                    "(SELECT NATION_NAME_EN FROM TB_NATION WHERE TB_NATION.NATION_ID = PS_PERSON.PS_GRAD_COUNTRY_ID) PS_GRAD_COUNTRY_NAME," +
                     "(SELECT DEFORM_NAME FROM TB_DEFORM WHERE TB_DEFORM.DEFORM_ID = PS_PERSON.PS_DEFORM_ID) PS_DEFORM_NAME," +
                     "(SELECT RELIGION_NAME FROM TB_RELIGION WHERE TB_RELIGION.RELIGION_ID = PS_PERSON.PS_RELIGION_ID) PS_RELIGION_NAME," +
                     "(SELECT MOVEMENT_TYPE_NAME FROM TB_MOVEMENT_TYPE WHERE TB_MOVEMENT_TYPE.MOVEMENT_TYPE_ID = PS_PERSON.PS_MOVEMENT_TYPE_ID) PS_MOVEMENT_TYPE_NAME," +
-                    "(SELECT PERSON_ROLE_NAME FROM TB_PERSON_ROLE WHERE TB_PERSON_ROLE.PERSON_ROLE_ID = PS_PERSON.PERSON_ROLE_ID) PERSON_ROLE_NAME" +
+                    "(SELECT PERSON_ROLE_NAME FROM TB_PERSON_ROLE WHERE TB_PERSON_ROLE.PERSON_ROLE_ID = PS_PERSON.PERSON_ROLE_ID) PERSON_ROLE_NAME," +
+                    "(SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = PS_PERSON.PS_FIRST_POSITION_ID) PS_FIRST_POSITION_NAME" +
                     " FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizenID + "'"
                     , con)) {
                     using (OracleDataReader reader = com.ExecuteReader()) {
@@ -162,36 +163,32 @@ namespace WEB_PERSONAL.Class {
                             person.PS_CITIZEN_ID = reader.GetValue(i++).ToString();
                             person.PS_ID = reader.GetValue(i++).ToString();
                             person.PS_TITLE_ID = reader.GetValue(i++).ToString();
-                            person.PS_FN_TH = reader.GetValue(i++).ToString();
-                            person.PS_LN_TH = reader.GetValue(i++).ToString();
+                            person.PS_FIRSTNAME = reader.GetValue(i++).ToString();
+                            person.PS_LASTNAME = reader.GetValue(i++).ToString();
                             person.PS_GENDER_ID = reader.GetValue(i++).ToString();
                             if (reader.IsDBNull(i)) { person.PS_BIRTHDAY_DATE = null; } else { person.PS_BIRTHDAY_DATE = reader.GetDateTime(i); } ++i;
                             person.PS_EMAIL = reader.GetValue(i++).ToString();
-                            person.PS_CAMPUS_ID = reader.GetValue(i++).ToString();
-                            person.PS_FACULTY_ID = reader.GetValue(i++).ToString();
-                            person.PS_DIVISION_ID = reader.GetValue(i++).ToString();
-                            person.PS_WORK_DIVISION_ID = reader.GetValue(i++).ToString();
-                            person.PS_ADMIN_POS_ID = reader.GetValue(i++).ToString();
-                            person.PS_WORK_POS_ID = reader.GetValue(i++).ToString();
-                            if (reader.IsDBNull(i)) { person.PS_INWORK_DATE = null; } else { person.PS_INWORK_DATE = reader.GetDateTime(i); } ++i;
-                            person.PS_PASSWORD = reader.GetValue(i++).ToString();
-                            person.PS_POSITION_ID = reader.GetValue(i++).ToString();
-                            person.PS_STAFFTYPE_ID = reader.GetValue(i++).ToString();
-                            person.ST_LOGIN_ID = reader.GetValue(i++).ToString();
-                            person.PS_YEAR = reader.GetValue(i++).ToString();
                             person.PS_HOMEADD = reader.GetValue(i++).ToString();
                             person.PS_MOO = reader.GetValue(i++).ToString();
                             person.PS_STREET = reader.GetValue(i++).ToString();
                             person.PS_DISTRICT_ID = reader.GetValue(i++).ToString();
                             person.PS_AMPHUR_ID = reader.GetValue(i++).ToString();
                             person.PS_PROVINCE_ID = reader.GetValue(i++).ToString();
-                            person.PS_TELEPHONE = reader.GetValue(i++).ToString();
                             person.PS_ZIPCODE = reader.GetValue(i++).ToString();
+                            person.PS_TELEPHONE = reader.GetValue(i++).ToString();
                             person.PS_NATION_ID = reader.GetValue(i++).ToString();
+                            person.PS_CAMPUS_ID = reader.GetValue(i++).ToString();
+                            person.PS_FACULTY_ID = reader.GetValue(i++).ToString();
+                            person.PS_DIVISION_ID = reader.GetValue(i++).ToString();
+                            person.PS_WORK_DIVISION_ID = reader.GetValue(i++).ToString();
+                            person.PS_STAFFTYPE_ID = reader.GetValue(i++).ToString();
                             person.PS_TIME_CONTACT_ID = reader.GetValue(i++).ToString();
                             person.PS_BUDGET_ID = reader.GetValue(i++).ToString();
                             person.PS_SUBSTAFFTYPE_ID = reader.GetValue(i++).ToString();
-                            person.PS_POSITION_WORK = reader.GetValue(i++).ToString();
+                            person.PS_ADMIN_POS_ID = reader.GetValue(i++).ToString();
+                            person.PS_POSITION_ID = reader.GetValue(i++).ToString();
+                            person.PS_WORK_POS_ID = reader.GetValue(i++).ToString();
+                            if (reader.IsDBNull(i)) { person.PS_INWORK_DATE = null; } else { person.PS_INWORK_DATE = reader.GetDateTime(i); } ++i;
                             if (reader.IsDBNull(i)) { person.PS_DATE_START_THIS_U = null; } else { person.PS_DATE_START_THIS_U = reader.GetDateTime(i); } ++i;
                             person.PS_SPECIAL_NAME = reader.GetValue(i++).ToString();
                             person.PS_TEACH_ISCED_ID = reader.GetValue(i++).ToString();
@@ -206,7 +203,10 @@ namespace WEB_PERSONAL.Class {
                             person.PS_RELIGION_ID = reader.GetValue(i++).ToString();
                             person.PS_MOVEMENT_TYPE_ID = reader.GetValue(i++).ToString();
                             if (reader.IsDBNull(i)) { person.PS_MOVEMENT_DATE = null; } else { person.PS_MOVEMENT_DATE = reader.GetDateTime(i); } ++i;
+                            person.PS_PASSWORD = reader.GetValue(i++).ToString();
+                            person.ST_LOGIN_ID = reader.GetValue(i++).ToString();
                             person.PERSON_ROLE_ID = reader.GetValue(i++).ToString();
+                            person.FIRST_POSITION_ID = reader.GetValue(i++).ToString();
 
                             //NAME
                             person.AdminPositionPower = reader.GetValue(i++).ToString();
@@ -237,6 +237,7 @@ namespace WEB_PERSONAL.Class {
                             person.PS_RELIGION_NAME = reader.GetValue(i++).ToString();
                             person.PS_MOVEMENT_TYPE_NAME = reader.GetValue(i++).ToString();
                             person.PERSON_ROLE_NAME = reader.GetValue(i++).ToString();
+                            person.FIRST_POSITION_NAME = reader.GetValue(i++).ToString();
 
                             return person;
                         }

@@ -283,7 +283,7 @@ namespace WEB_PERSONAL {
                     con.Open();
                     using (OracleCommand com = new OracleCommand(
                         "SELECT PS_PERSON.PS_CITIZEN_ID รหัสประชาชน" //0
-                        + ", PS_PERSON.PS_FN_TH || ' ' || PS_PERSON.PS_LN_TH ชื่อ" //1
+                        + ", PS_PERSON.PS_FIRSTNAME || ' ' || PS_PERSON.PS_LASTNAME ชื่อ" //1
                         + ", PS_STAFFTYPE_ID" //2
                         + ", (SELECT TRUNC((SYSDATE - PS_INWORK_DATE)/365,0) from PS_PERSON A WHERE A.PS_CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID) ปีทำงาน" //3
                         + ", PS_SALARY" //4

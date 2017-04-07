@@ -165,7 +165,7 @@ namespace WEB_PERSONAL {
                     {
                         TableCell cell = new TableCell();
                         //cell.Text = ps.FirstNameAndLastName;
-                        using (OracleCommand com = new OracleCommand("SELECT PS_FN_TH || ' ' || PS_LN_TH FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizenID + "'", con)) {
+                        using (OracleCommand com = new OracleCommand("SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizenID + "'", con)) {
                             using (OracleDataReader reader = com.ExecuteReader()) {
                                 while (reader.Read()) {
                                     cell.Text = reader.GetString(0);

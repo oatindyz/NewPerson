@@ -22,11 +22,8 @@ namespace WEB_PERSONAL {
             } else {    
                 pp = ps.LoginPerson;
             }
-            
 
             profile_images.InnerHtml = "";
-
-            
 
             List<int> ids = new List<int>();
             List<string> urls = new List<string>();
@@ -90,56 +87,49 @@ namespace WEB_PERSONAL {
                     p2.Controls.Add(lbDeleteImagePresent);
             }
 
-
-            lbCitizenID.Text = pp.PS_CITIZEN_ID;
-            lbFirstName.Text = pp.PS_FN_TH;
-            lbLastName.Text = pp.PS_LN_TH;
-            lbGender.Text = pp.PS_GENDER_NAME;
-            lbBirthday.Text = pp.PS_BIRTHDAY_DATE.Value.ToLongDateString();
-            lbInWorkDay.Text = pp.PS_INWORK_DATE.Value.ToLongDateString();
-            lbPosition.Text = pp.PS_WORK_POS_NAME;
-            lbAdminPosition.Text = pp.PS_ADMIN_POS_NAME;
-            lbWorkDivision.Text = Util.IsBlank(pp.PS_WORK_DIVISION_NAME) ? "-" : pp.PS_WORK_DIVISION_NAME;
-            lbDept.Text = pp.PS_DIVISION_NAME;
-            lbFaculty.Text = pp.PS_FACULTY_NAME;
-            lbCampus.Text = pp.PS_CAMPUS_NAME;
-            //lbMinistry.Text = pp.MinistryName;
-            //lbGrom.Text = pp.Grom;
-            //lbRace.Text = pp.RaceName;
-            lbNation.Text = pp.PS_NATION_NAME;
-            //lbBlood.Text = pp.BloodName;
-            lbEmail.Text = pp.PS_EMAIL;
-            lbPhone.Text = pp.PS_TELEPHONE;
-            //lbWorkPhone.Text = pp.tele;
-            lbReligion.Text = pp.PS_RELIGION_NAME;
-            //lbStatusPerson.Text = pp.StatusPersonName;
-            //lbStatusWork.Text = pp.StatusName;
-            //lbFather.Text = pp.FatherFirstNameAndLastName;
-            //lbMother.Text = pp.MotherFirstNameAndLastName;
-            //lbCouple.Text = pp.CoupleFirstNameAndLastName;
-
-            lbHomeAdd.Text = pp.PS_HOMEADD;
-            //lbSoi.Text = pp.Soi;
-            lbMoo.Text = pp.PS_MOO;
-            lbStreet.Text = pp.PS_STREET;
-            lbProvince.Text = pp.PS_PROVINCE_NAME;
-            lbAmphur.Text = pp.PS_AMPHUR_NAME;
-            lbDistrict.Text = pp.PS_DISTRICT_NAME;
-            lbZipcode.Text = pp.PS_ZIPCODE;
-            //lbCountry.Text = pp.PlaceCountryName;
-            //lbState.Text = pp.PlaceState;
-
-            /*lbHomeAddNow.Text = pp.HomeAddNow;
-            lbSoiNow.Text = pp.SoiNow;
-            lbMooNow.Text = pp.MooNow;
-            lbStreetNow.Text = pp.StreetNow;
-            lbProvinceNow.Text = pp.ProvinceNameNow;
-            lbAmphurNow.Text = pp.AmphurNameNow;
-            lbDistrictNow.Text = pp.DistrictNameNow;
-            lbZipcodeNow.Text = pp.ZipCodeNow;
-            lbCountryNow.Text = pp.PlaceCountryNowName;
-            lbStateNow.Text = pp.PlaceStateNow;*/
-
+            lbCitizenID.Text = Util.IsBlank(pp.PS_CITIZEN_ID) ? "-" : pp.PS_CITIZEN_ID ;
+            lbTitleID.Text = Util.IsBlank(pp.PS_TITLE_NAME) ? "-" : pp.PS_TITLE_NAME;
+            lbFirstName.Text = Util.IsBlank(pp.PS_FIRSTNAME) ? "-" : pp.PS_FIRSTNAME;
+            lbLastName.Text = Util.IsBlank(pp.PS_LASTNAME) ? "-" : pp.PS_LASTNAME;
+            lbGenderID.Text = Util.IsBlank(pp.PS_GENDER_NAME) ? "-" : pp.PS_GENDER_NAME;
+            lbBirthdayDate.Text = Util.IsBlank(pp.PS_BIRTHDAY_DATE.ToString()) ? "-" : pp.PS_BIRTHDAY_DATE.Value.ToLongDateString();
+            lbEmail.Text = Util.IsBlank(pp.PS_EMAIL) ? "-" : pp.PS_EMAIL;
+            lbHomeAdd.Text = Util.IsBlank(pp.PS_HOMEADD) ? "-" : pp.PS_HOMEADD;
+            lbMoo.Text = Util.IsBlank(pp.PS_MOO) ? "-" : pp.PS_MOO;
+            lbStreet.Text = Util.IsBlank(pp.PS_STREET) ? "-" : pp.PS_STREET;
+            lbProvinceID.Text = Util.IsBlank(pp.PS_PROVINCE_NAME) ? "-" : pp.PS_PROVINCE_NAME;
+            lbAmphurID.Text = Util.IsBlank(pp.PS_AMPHUR_NAME) ? "-" : pp.PS_AMPHUR_NAME;
+            lbDistrictID.Text = Util.IsBlank(pp.PS_DISTRICT_NAME) ? "-" : pp.PS_DISTRICT_NAME;
+            lbZipcode.Text = Util.IsBlank(pp.PS_ZIPCODE) ? "-" : pp.PS_ZIPCODE;
+            lbTelephone.Text = Util.IsBlank(pp.PS_TELEPHONE) ? "-" : pp.PS_TELEPHONE;
+            lbNationID.Text = Util.IsBlank(pp.PS_NATION_NAME) ? "-" : pp.PS_NATION_NAME;
+            lbCampusID.Text = Util.IsBlank(pp.PS_CAMPUS_NAME) ? "-" : pp.PS_CAMPUS_NAME;
+            lbFacultyID.Text = Util.IsBlank(pp.PS_FACULTY_NAME) ? "-" : pp.PS_FACULTY_NAME;
+            lbDivisionID.Text = Util.IsBlank(pp.PS_DIVISION_NAME) ? "-" : pp.PS_DIVISION_NAME;
+            lbWorkDivisionID.Text = Util.IsBlank(pp.PS_WORK_DIVISION_NAME) ? "-" : pp.PS_WORK_DIVISION_NAME;
+            lbStafftypeID.Text = Util.IsBlank(pp.PS_STAFFTYPE_NAME) ? "-" : pp.PS_STAFFTYPE_NAME;
+            lbTimeContactID.Text = Util.IsBlank(pp.PS_TIME_CONTACT_NAME) ? "-" : pp.PS_TIME_CONTACT_NAME;
+            lbBudgetID.Text = Util.IsBlank(pp.PS_BUDGET_NAME) ? "-" : pp.PS_BUDGET_NAME;
+            lbSubStafftypeID.Text = Util.IsBlank(pp.PS_SUBSTAFFTYPE_NAME) ? "-" : pp.PS_SUBSTAFFTYPE_NAME;
+            lbAdminPosID.Text = Util.IsBlank(pp.PS_ADMIN_POS_NAME) ? "-" : pp.PS_ADMIN_POS_NAME;
+            lbPositionID.Text = Util.IsBlank(pp.PS_POSITION_NAME) ? "-" : pp.PS_POSITION_NAME;
+            lbWorkPosID.Text = Util.IsBlank(pp.PS_WORK_POS_NAME) ? "-" : pp.PS_WORK_POS_NAME;
+            lbDateInwork.Text = Util.IsBlank(pp.PS_INWORK_DATE.ToString()) ? "-" : pp.PS_INWORK_DATE.Value.ToLongDateString();
+            lbDateStartThisU.Text = Util.IsBlank(pp.PS_DATE_START_THIS_U.ToString()) ? "-" : pp.PS_DATE_START_THIS_U.Value.ToLongDateString();
+            lbSpecialName.Text = Util.IsBlank(pp.PS_SPECIAL_NAME) ? "-" : pp.PS_SPECIAL_NAME;
+            lbTeachIscedID.Text = Util.IsBlank(pp.PS_TEACH_ISCED_NAME) ? "-" : pp.PS_TEACH_ISCED_NAME;
+            lbGradLevID.Text = Util.IsBlank(pp.PS_GRAD_LEV_NAME) ? "-" : pp.PS_GRAD_LEV_NAME;
+            lbGradCurr.Text = Util.IsBlank(pp.PS_GRAD_CURR) ? "-" : pp.PS_GRAD_CURR;
+            lbGradIscedID.Text = Util.IsBlank(pp.PS_GRAD_ISCED_NAME) ? "-" : pp.PS_GRAD_ISCED_NAME;
+            lbGradProgID.Text = Util.IsBlank(pp.PS_GRAD_PROG_NAME) ? "-" : pp.PS_GRAD_PROG_NAME;
+            lbGradUniv.Text = Util.IsBlank(pp.PS_GRAD_UNIV) ? "-" : pp.PS_GRAD_UNIV;
+            lbGradCountryID.Text = Util.IsBlank(pp.PS_GRAD_COUNTRY_NAME) ? "-" : pp.PS_GRAD_COUNTRY_NAME;
+            lbDeformID.Text = Util.IsBlank(pp.PS_DEFORM_NAME) ? "-" : pp.PS_DEFORM_NAME;
+            lbSitNo.Text = Util.IsBlank(pp.PS_SIT_NO) ? "-" : pp.PS_SIT_NO;
+            lbReligionID.Text = Util.IsBlank(pp.PS_RELIGION_NAME) ? "-" : pp.PS_RELIGION_NAME;
+            lbMovementTypeID.Text = Util.IsBlank(pp.PS_MOVEMENT_TYPE_NAME) ? "-" : pp.PS_MOVEMENT_TYPE_NAME;
+            lbMovementDate.Text = Util.IsBlank(pp.PS_MOVEMENT_DATE.ToString()) ? "-" : pp.PS_MOVEMENT_DATE.Value.ToLongDateString();
+    
         }
 
         protected void lbuUploadPicture_Click(object sender, EventArgs e) {

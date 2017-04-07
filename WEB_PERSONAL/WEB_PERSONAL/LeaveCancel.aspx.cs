@@ -111,7 +111,7 @@ namespace WEB_PERSONAL {
                             lbLeaveID.Text = leaveData.LeaveID.ToString();
                             lbLeaveTypeName.Text = leaveData.LeaveTypeName;
                             lbReqDate.Text = leaveData.RequestDate.Value.ToLongDateString();
-                            lbPSName.Text = leaveData.Person.PS_FN_TH + " " + leaveData.Person.PS_LN_TH;
+                            lbPSName.Text = leaveData.Person.PS_FIRSTNAME + " " + leaveData.Person.PS_LASTNAME;
                             lbPSPos.Text = leaveData.Person.PS_WORK_POS_NAME;
                             lbPSAPos.Text = leaveData.Person.PS_ADMIN_POS_NAME;
                             if (Util.IsBlank(leaveData.Person.PS_WORK_DIVISION_ID)) {
@@ -384,7 +384,7 @@ namespace WEB_PERSONAL {
                             lbLeaveID.Text = leaveData.LeaveID.ToString();
                             lbLeaveTypeName.Text = leaveData.LeaveTypeName;
                             lbReqDate.Text = leaveData.RequestDate.Value.ToLongDateString();
-                            lbPSName.Text = leaveData.Person.PS_FN_TH + " " + leaveData.Person.PS_LN_TH;
+                            lbPSName.Text = leaveData.Person.PS_FIRSTNAME + " " + leaveData.Person.PS_LASTNAME;
                             lbPSPos.Text = leaveData.Person.PS_WORK_POS_NAME;
                             lbPSAPos.Text = leaveData.Person.PS_ADMIN_POS_NAME;
                             if (Util.IsBlank(leaveData.Person.PS_WORK_DIVISION_ID)) {

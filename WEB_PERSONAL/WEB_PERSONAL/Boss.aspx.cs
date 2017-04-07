@@ -154,7 +154,7 @@ namespace WEB_PERSONAL {
 
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT BOSS_NODE_ID, BOSS_NODE_NAME, BOSS_NODE_PARENT_ID, BOSS_NODE_TYPE, BOSS_NODE_TYPE_ID, (SELECT PS_FN_TH || ' ' || PS_LN_TH FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = BOSS_NODE_CITIZEN_ID), BOSS_NODE_CITIZEN_ID FROM TB_BOSS_NODE", con)) {
+                using (OracleCommand com = new OracleCommand("SELECT BOSS_NODE_ID, BOSS_NODE_NAME, BOSS_NODE_PARENT_ID, BOSS_NODE_TYPE, BOSS_NODE_TYPE_ID, (SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = BOSS_NODE_CITIZEN_ID), BOSS_NODE_CITIZEN_ID FROM TB_BOSS_NODE", con)) {
                     using (OracleDataReader reader = com.ExecuteReader()) {
                         while(reader.Read()) {
                             int bossNodeID = reader.GetInt32(0);

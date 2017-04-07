@@ -6,12 +6,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.OracleClient;
 using System.Data;
-using System.Text;
 using WEB_PERSONAL.Class;
 
 namespace WEB_PERSONAL
 {
-    public partial class ListPerson_ADMIN : System.Web.UI.Page
+    public partial class ListRequest : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,7 +23,7 @@ namespace WEB_PERSONAL
         protected void BindData()
         {
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT PS_CITIZEN_ID, PS_FIRSTNAME || ' ' || PS_LASTNAME NAME, (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE STAFFTYPE_ID = PS_STAFFTYPE_ID) STAFFTYPE_NAME,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE CAMPUS_ID = PS_CAMPUS_ID) CAMPUS_NAME, (SELECT FACULTY_NAME FROM TB_FACULTY WHERE FACULTY_ID = PS_FACULTY_ID) FACULTY_NAME, (SELECT DIVISION_NAME FROM TB_DIVISION WHERE DIVISION_ID = PS_DIVISION_ID) DIVISION_NAME, (SELECT WORK_NAME FROM TB_WORK_DIVISION WHERE WORK_ID = PS_WORK_DIVISION_ID) WORK_NAME FROM PS_PERSON", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT (SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_REQUEST.CITIZEN_ID) NAME, (SELECT (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE PS_PERSON.PS_STAFFTYPE_ID = TB_STAFFTYPE.STAFFTYPE_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_REQUEST.CITIZEN_ID) STAFF_NAME, R_ID FROM TB_REQUEST WHERE R_STATUS_ID = 0 ORDER BY R_ID ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeater.DataSource = dt;
@@ -33,12 +32,12 @@ namespace WEB_PERSONAL
 
         protected void myRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            /*if (e.CommandName == "Edit" && e.CommandArgument.ToString() != "")
+            if (e.CommandName == "Edit" && e.CommandArgument.ToString() != "")
             {
                 LinkButton lbu = (LinkButton)e.Item.FindControl("lbuEdit");
                 string value = lbu.CommandArgument;
-                Response.Redirect("#.aspx?id=" + value);
-            }*/
+                Response.Redirect("Request.aspx?id=" + value);
+            }
         }
 
     }

@@ -10,429 +10,384 @@
 namespace WEB_PERSONAL {
     
     
-    public partial class Profile {
+    public partial class Addproject {
         
         /// <summary>
-        /// lbCitizenID control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCitizenID;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// lbTitleID control.
+        /// notification control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbTitleID;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl notification;
         
         /// <summary>
-        /// lbFirstName control.
+        /// Notsuccess control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbFirstName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Notsuccess;
         
         /// <summary>
-        /// lbLastName control.
+        /// lbCategoryID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbLastName;
+        protected global::System.Web.UI.WebControls.Label lbCategoryID;
         
         /// <summary>
-        /// lbGenderID control.
+        /// ddlCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGenderID;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
         
         /// <summary>
-        /// lbBirthdayDate control.
+        /// lbCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBirthdayDate;
+        protected global::System.Web.UI.WebControls.Label lbCountry;
         
         /// <summary>
-        /// lbEmail control.
+        /// ddlCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbEmail;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCountry;
         
         /// <summary>
-        /// lbHomeAdd control.
+        /// lbTypeProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbHomeAdd;
+        protected global::System.Web.UI.WebControls.Label lbTypeProject;
         
         /// <summary>
-        /// lbMoo control.
+        /// ddlSubCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMoo;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSubCountry;
         
         /// <summary>
-        /// lbStreet control.
+        /// lbFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbStreet;
+        protected global::System.Web.UI.WebControls.Label lbFile;
         
         /// <summary>
-        /// lbProvinceID control.
+        /// FUdocument control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbProvinceID;
+        protected global::System.Web.UI.WebControls.FileUpload FUdocument;
         
         /// <summary>
-        /// lbAmphurID control.
+        /// lbProjectName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbAmphurID;
+        protected global::System.Web.UI.WebControls.Label lbProjectName;
         
         /// <summary>
-        /// lbDistrictID control.
+        /// tbProjectName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDistrictID;
+        protected global::System.Web.UI.WebControls.TextBox tbProjectName;
         
         /// <summary>
-        /// lbZipcode control.
+        /// lbAddressProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbZipcode;
+        protected global::System.Web.UI.WebControls.Label lbAddressProject;
         
         /// <summary>
-        /// lbTelephone control.
+        /// tbAddressProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbTelephone;
+        protected global::System.Web.UI.WebControls.TextBox tbAddressProject;
         
         /// <summary>
-        /// lbNationID control.
+        /// lbStartDateEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbNationID;
+        protected global::System.Web.UI.WebControls.Label lbStartDateEndDate;
         
         /// <summary>
-        /// lbCampusID control.
+        /// tbStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCampusID;
+        protected global::System.Web.UI.WebControls.TextBox tbStartDate;
         
         /// <summary>
-        /// lbFacultyID control.
+        /// tbEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbFacultyID;
+        protected global::System.Web.UI.WebControls.TextBox tbEndDate;
         
         /// <summary>
-        /// lbDivisionID control.
+        /// lbExpenses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDivisionID;
+        protected global::System.Web.UI.WebControls.Label lbExpenses;
         
         /// <summary>
-        /// trWorkDivision control.
+        /// tbExpenses control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow trWorkDivision;
+        protected global::System.Web.UI.WebControls.TextBox tbExpenses;
         
         /// <summary>
-        /// lbWorkDivisionID control.
+        /// lbFunding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbWorkDivisionID;
+        protected global::System.Web.UI.WebControls.Label lbFunding;
         
         /// <summary>
-        /// lbStafftypeID control.
+        /// tbFunding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbStafftypeID;
+        protected global::System.Web.UI.WebControls.TextBox tbFunding;
         
         /// <summary>
-        /// lbTimeContactID control.
+        /// lbCertificate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbTimeContactID;
+        protected global::System.Web.UI.WebControls.Label lbCertificate;
         
         /// <summary>
-        /// lbBudgetID control.
+        /// tbCertificate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBudgetID;
+        protected global::System.Web.UI.WebControls.TextBox tbCertificate;
         
         /// <summary>
-        /// lbSubStafftypeID control.
+        /// lbSummarizeProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbSubStafftypeID;
+        protected global::System.Web.UI.WebControls.Label lbSummarizeProject;
         
         /// <summary>
-        /// lbAdminPosID control.
+        /// tbSummarizeProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbAdminPosID;
+        protected global::System.Web.UI.WebControls.TextBox tbSummarizeProject;
         
         /// <summary>
-        /// lbPositionID control.
+        /// lbResultTeaching control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbPositionID;
+        protected global::System.Web.UI.WebControls.Label lbResultTeaching;
         
         /// <summary>
-        /// lbWorkPosID control.
+        /// tbResultTeaching control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbWorkPosID;
+        protected global::System.Web.UI.WebControls.TextBox tbResultTeaching;
         
         /// <summary>
-        /// lbDateInwork control.
+        /// lbResultAcademic control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDateInwork;
+        protected global::System.Web.UI.WebControls.Label lbResultAcademic;
         
         /// <summary>
-        /// lbDateStartThisU control.
+        /// tbResultAcademic control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDateStartThisU;
+        protected global::System.Web.UI.WebControls.TextBox tbResultAcademic;
         
         /// <summary>
-        /// lbSpecialName control.
+        /// lbDifficultyProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbSpecialName;
+        protected global::System.Web.UI.WebControls.Label lbDifficultyProject;
         
         /// <summary>
-        /// lbTeachIscedID control.
+        /// tbDifficultyProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbTeachIscedID;
+        protected global::System.Web.UI.WebControls.TextBox tbDifficultyProject;
         
         /// <summary>
-        /// lbGradLevID control.
+        /// lbResultProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGradLevID;
+        protected global::System.Web.UI.WebControls.Label lbResultProject;
         
         /// <summary>
-        /// lbGradCurr control.
+        /// tbResultProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGradCurr;
+        protected global::System.Web.UI.WebControls.TextBox tbResultProject;
         
         /// <summary>
-        /// lbGradIscedID control.
+        /// lbResultResearching control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGradIscedID;
+        protected global::System.Web.UI.WebControls.Label lbResultResearching;
         
         /// <summary>
-        /// lbGradProgID control.
+        /// tbResultResearching control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGradProgID;
+        protected global::System.Web.UI.WebControls.TextBox tbResultResearching;
         
         /// <summary>
-        /// lbGradUniv control.
+        /// lbResultOther control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGradUniv;
+        protected global::System.Web.UI.WebControls.Label lbResultOther;
         
         /// <summary>
-        /// lbGradCountryID control.
+        /// tbResultOther control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGradCountryID;
+        protected global::System.Web.UI.WebControls.TextBox tbResultOther;
         
         /// <summary>
-        /// lbDeformID control.
+        /// lbCounsel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDeformID;
+        protected global::System.Web.UI.WebControls.Label lbCounsel;
         
         /// <summary>
-        /// lbSitNo control.
+        /// tbCounsel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbSitNo;
+        protected global::System.Web.UI.WebControls.TextBox tbCounsel;
         
         /// <summary>
-        /// lbReligionID control.
+        /// btnAddProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbReligionID;
+        protected global::System.Web.UI.WebControls.Button btnAddProject;
         
         /// <summary>
-        /// lbMovementTypeID control.
+        /// success control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMovementTypeID;
-        
-        /// <summary>
-        /// lbMovementDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMovementDate;
-        
-        /// <summary>
-        /// id1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl id1;
-        
-        /// <summary>
-        /// FileUpload1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
-        
-        /// <summary>
-        /// lbuUploadPicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbuUploadPicture;
-        
-        /// <summary>
-        /// profile_images control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl profile_images;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl success;
     }
 }

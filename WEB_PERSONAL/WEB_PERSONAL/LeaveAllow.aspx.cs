@@ -35,7 +35,7 @@ namespace WEB_PERSONAL {
 
             if (count > 0) {
 
-                SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT LEV_DATA.LEAVE_ID รหัสการลา, (SELECT PS_FN_TH || ' ' || PS_LN_TH FROM PS_PERSON WHERE PS_CITIZEN_ID = LEV_DATA.PS_ID) ชื่อผู้ลา, (SELECT LEAVE_TYPE_NAME FROM LEV_TYPE WHERE LEV_TYPE.LEAVE_TYPE_ID = LEV_DATA.LEAVE_TYPE_ID) ประเภทการลา, REQ_DATE วันที่ข้อมูล, (SELECT LEAVE_STATUS_NAME FROM LEV_STATUS WHERE LEAVE_STATUS_ID = LEV_DATA.LEAVE_STATUS_ID) สถานะ FROM LEV_DATA, LEV_BOSS_DATA WHERE LEAVE_STATUS_ID IN(1,4) AND LEV_DATA.LEAVE_ID = LEV_BOSS_DATA.LEAVE_ID AND LEV_DATA.BOSS_STATE = LEV_BOSS_DATA.STATE AND LEV_BOSS_DATA.CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+                SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT LEV_DATA.LEAVE_ID รหัสการลา, (SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = LEV_DATA.PS_ID) ชื่อผู้ลา, (SELECT LEAVE_TYPE_NAME FROM LEV_TYPE WHERE LEV_TYPE.LEAVE_TYPE_ID = LEV_DATA.LEAVE_TYPE_ID) ประเภทการลา, REQ_DATE วันที่ข้อมูล, (SELECT LEAVE_STATUS_NAME FROM LEV_STATUS WHERE LEAVE_STATUS_ID = LEV_DATA.LEAVE_STATUS_ID) สถานะ FROM LEV_DATA, LEV_BOSS_DATA WHERE LEAVE_STATUS_ID IN(1,4) AND LEV_DATA.LEAVE_ID = LEV_BOSS_DATA.LEAVE_ID AND LEV_DATA.BOSS_STATE = LEV_BOSS_DATA.STATE AND LEV_BOSS_DATA.CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
                 GridView1.DataSource = sds;
                 GridView1.DataBind();
 
@@ -139,7 +139,7 @@ namespace WEB_PERSONAL {
                         lbLeaveID.Text = leaveData.LeaveID.ToString();
                         lbLeaveTypeName.Text = leaveData.LeaveTypeName;
                         lbReqDate.Text = leaveData.RequestDate.Value.ToLongDateString();
-                        lbPSName.Text = leaveData.Person.PS_FN_TH + " " + leaveData.Person.PS_LN_TH;
+                        lbPSName.Text = leaveData.Person.PS_FIRSTNAME + " " + leaveData.Person.PS_LASTNAME;
                         lbPSPos.Text = leaveData.Person.PS_WORK_POS_NAME;
                         lbPSAPos.Text = leaveData.Person.PS_ADMIN_POS_NAME;
                         if(Util.IsBlank(leaveData.Person.PS_WORK_DIVISION_ID)) {

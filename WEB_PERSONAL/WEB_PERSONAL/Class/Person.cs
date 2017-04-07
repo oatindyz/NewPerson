@@ -14,8 +14,8 @@ namespace WEB_PERSONAL.Class {
         public string PS_ID;
         public string PS_TITLE_ID;
         public string PS_TITLE_NAME;
-        public string PS_FN_TH;
-        public string PS_LN_TH;
+        public string PS_FIRSTNAME;
+        public string PS_LASTNAME;
         public string PS_GENDER_ID;
         public string PS_GENDER_NAME;
         public DateTime? PS_BIRTHDAY_DATE;
@@ -40,7 +40,6 @@ namespace WEB_PERSONAL.Class {
         public string PS_STAFFTYPE_NAME;
         public string ST_LOGIN_ID;
         public string ST_LOGIN_NAME;
-        public string PS_YEAR;
         public string PS_HOMEADD;
         public string PS_MOO;
         public string PS_STREET;
@@ -60,7 +59,6 @@ namespace WEB_PERSONAL.Class {
         public string PS_BUDGET_NAME;
         public string PS_SUBSTAFFTYPE_ID;
         public string PS_SUBSTAFFTYPE_NAME;
-        public string PS_POSITION_WORK;
         public DateTime? PS_DATE_START_THIS_U;
         public string PS_SPECIAL_NAME;
         public string PS_TEACH_ISCED_ID;
@@ -85,12 +83,14 @@ namespace WEB_PERSONAL.Class {
         public DateTime? PS_MOVEMENT_DATE;
         public string PERSON_ROLE_ID;
         public string PERSON_ROLE_NAME;
+        public string FIRST_POSITION_ID;
+        public string FIRST_POSITION_NAME;
 
         public string FullName {
-            get { return PS_TITLE_NAME + PS_FN_TH + " " + PS_LN_TH; }
+            get { return PS_TITLE_NAME + PS_FIRSTNAME + " " + PS_LASTNAME; }
         }
         public string FirstNameAndLastName {
-            get { return PS_FN_TH + " " + PS_LN_TH; }
+            get { return PS_FIRSTNAME + " " + PS_LASTNAME; }
         }
 
         public bool IsTeacher() {

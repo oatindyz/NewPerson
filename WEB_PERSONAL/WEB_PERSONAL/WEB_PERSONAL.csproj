@@ -185,6 +185,7 @@
   <ItemGroup>
     <Content Include="404.aspx" />
     <Content Include="Access.aspx" />
+    <Content Include="Addproject.aspx" />
     <Content Include="Adduser.aspx" />
     <Content Include="bootstrap\css\bootstrap.css" />
     <Content Include="bootstrap\css\bootstrap.min.css" />
@@ -668,15 +669,12 @@
     <Content Include="CSS\Access.css" />
     <Content Include="CSS\Master.css" />
     <Content Include="CSS\Print.css" />
-    <Content Include="DataManager.aspx" />
+    <Content Include="DataManage.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="bootstrap\css\bootstrap.css.map" />
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
@@ -976,8 +974,10 @@
     <Content Include="Font\TH Sarabun PSK\THSarabun Italic.ttf" />
     <Content Include="Font\TH Sarabun PSK\THSarabun.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Image\Button\Thumbs.db" />
-    <Content Include="Image\ImageTUU\Thumbs.db" />
+    <Content Include="Image\Icon\add.png" />
+    <Content Include="Image\Icon\delete.png" />
+    <Content Include="Image\Icon\edit.png" />
+    <Content Include="Image\Icon\manage.png" />
     <Content Include="Image\Small\Thumbs.db" />
     <Content Include="Image\Thumbs.db" />
     <Content Include="Image\x32\Thumbs.db" />
@@ -997,6 +997,8 @@
     <Content Include="LeavePermission.aspx" />
     <Content Include="LeaveReport.aspx" />
     <Content Include="ListPerson-ADMIN.aspx" />
+    <Content Include="ListProject.aspx" />
+    <Content Include="ListRequest.aspx" />
     <Content Include="NoPermission.aspx" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\WEB_PERSONAL.csprojResolveAssemblyReference.cache" />
@@ -1043,6 +1045,7 @@
     <Content Include="Plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="MasterPage.Master" />
     <Content Include="Profile.aspx" />
+    <Content Include="Request.aspx" />
     <Content Include="ViewLeaveForm.aspx" />
     <Content Include="WorkingDay.aspx" />
     <Content Include="WorkingTime.aspx" />
@@ -1050,51 +1053,8 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="images\icon\Before_Print.gif" />
     <Content Include="images\icon\Icon1.png" />
-    <Content Include="Image\333.jpg" />
-    <Content Include="Image\444.jpg" />
-    <Content Include="Image\444.png" />
-    <Content Include="Image\555.jpg" />
-    <Content Include="Image\anime1.jpg" />
-    <Content Include="Image\anime2.jpg" />
-    <Content Include="Image\anime3.jpg" />
-    <Content Include="Image\anime_p1.png" />
-    <Content Include="Image\anime_p2.png" />
     <Content Include="Image\Bar\header_bar.png" />
-    <Content Include="Image\bg2.jpg" />
-    <Content Include="Image\bg3.jpg" />
-    <Content Include="Image\bg4.jpg" />
-    <Content Include="Image\bg5.jpg" />
-    <Content Include="Image\bgbyid.jpg" />
-    <Content Include="Image\blur-black.jpg" />
-    <Content Include="Image\blurred-blue-background.jpg" />
-    <Content Include="Image\books.jpg" />
-    <Content Include="Image\btx1.jpg" />
-    <Content Include="Image\Button\arrow_up.png" />
-    <Content Include="Image\Button\hamburger_menu.png" />
-    <Content Include="Image\Button\home.png" />
-    <Content Include="Image\Button\logout.png" />
-    <Content Include="Image\Button\menu_button.png" />
-    <Content Include="Image\Button\menu_button_hover.png" />
-    <Content Include="Image\Button\reload.png" />
-    <Content Include="Image\DOC1.png" />
-    <Content Include="Image\DORAEMON.jpg" />
-    <Content Include="Image\ef333.jpg" />
     <Content Include="Image\favicon.ico" />
-    <Content Include="Image\font_icon.png" />
-    <Content Include="Image\google.png" />
-    <Content Include="Image\green_button.jpg" />
-    <Content Include="Image\i1.jpg" />
-    <Content Include="Image\i2.jpg" />
-    <Content Include="Image\i3.jpg" />
-    <Content Include="Image\ImageTUU\Cancel.png" />
-    <Content Include="Image\ImageTUU\correct.png" />
-    <Content Include="Image\ImageTUU\Desktop-icon.png" />
-    <Content Include="Image\ImageTUU\Documents-icon.png" />
-    <Content Include="Image\ImageTUU\maintence.png" />
-    <Content Include="Image\ImageTUU\User-icon.png" />
-    <Content Include="Image\ImageTUU\Utilities-icon.png" />
-    <Content Include="Image\insignia.jpg" />
-    <Content Include="Image\insignia01.jpg" />
     <Content Include="Image\Insignia\จ.ช..png" />
     <Content Include="Image\Insignia\จ.ม..png" />
     <Content Include="Image\Insignia\ต.ช..png" />
@@ -1107,24 +1067,14 @@
     <Content Include="Image\Insignia\ป.ม..png" />
     <Content Include="Image\Insignia\ม.ป.ช..png" />
     <Content Include="Image\Insignia\ม.ว.ม..png" />
-    <Content Include="Image\loading_spinner.gif" />
-    <Content Include="Image\log-keyboard.jpg" />
-    <Content Include="Image\login.png" />
-    <Content Include="Image\nature2.jpg" />
     <Content Include="Image\no-email.jpg" />
     <Content Include="Image\nopm.jpg" />
     <Content Include="Image\no_image.png" />
-    <Content Include="Image\office.jpg" />
     <Content Include="Image\paper.jpg" />
-    <Content Include="Image\papers.jpg" />
-    <Content Include="Image\plus.png" />
-    <Content Include="Image\report-writing.jpg" />
     <Content Include="Image\rmutto-ms-drop.png" />
     <Content Include="Image\RMUTTO.png" />
     <Content Include="Image\rmutto_clear.jpg" />
     <Content Include="Image\rmutto_place.jpg" />
-    <Content Include="Image\roka.gif" />
-    <Content Include="Image\sky.jpg" />
     <Content Include="Image\Small\a.png" />
     <Content Include="Image\Small\add.png" />
     <Content Include="Image\Small\arrow_right.png" />
@@ -1189,18 +1139,7 @@
     <Content Include="Image\Small\word.png" />
     <Content Include="Image\Small\wrench.png" />
     <Content Include="Image\Small\yellow_alert.png" />
-    <Content Include="Image\stickman.png" />
-    <Content Include="Image\Texture.png" />
     <Content Include="Image\time_check_in.jpg" />
-    <Content Include="Image\TUUbg1.jpg" />
-    <Content Include="Image\TUUbg2.jpg" />
-    <Content Include="Image\TUUbg3.jpg" />
-    <Content Include="Image\TUUbg4.jpg" />
-    <Content Include="Image\TUUbg5.jpg" />
-    <Content Include="Image\users6.png" />
-    <Content Include="Image\white1.png" />
-    <Content Include="Image\writing-on-paper.jpg" />
-    <Content Include="Image\X.png" />
     <Content Include="Image\x32\Excel32.png" />
     <Content Include="Image\x32\menu.png" />
     <Content Include="Image\x32\menu2.png" />
@@ -2877,6 +2816,13 @@
     <Compile Include="Access.aspx.designer.cs">
       <DependentUpon>Access.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Addproject.aspx.cs">
+      <DependentUpon>Addproject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Addproject.aspx.designer.cs">
+      <DependentUpon>Addproject.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Adduser.aspx.cs">
       <DependentUpon>Adduser.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2907,12 +2853,13 @@
     <Compile Include="Class\LeaveData.cs" />
     <Compile Include="Class\Person.cs" />
     <Compile Include="Class\PersonnelSystem.cs" />
-    <Compile Include="DataManager.aspx.cs">
-      <DependentUpon>DataManager.aspx</DependentUpon>
+    <Compile Include="Class\Project.cs" />
+    <Compile Include="DataManage.aspx.cs">
+      <DependentUpon>DataManage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DataManager.aspx.designer.cs">
-      <DependentUpon>DataManager.aspx</DependentUpon>
+    <Compile Include="DataManage.aspx.designer.cs">
+      <DependentUpon>DataManage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -3022,6 +2969,20 @@
     <Compile Include="ListPerson-ADMIN.aspx.designer.cs">
       <DependentUpon>ListPerson-ADMIN.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ListProject.aspx.cs">
+      <DependentUpon>ListProject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListProject.aspx.designer.cs">
+      <DependentUpon>ListProject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListRequest.aspx.cs">
+      <DependentUpon>ListRequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListRequest.aspx.designer.cs">
+      <DependentUpon>ListRequest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3030,6 +2991,7 @@
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="MyCrypto.cs" />
     <Compile Include="NoPermission.aspx.cs">
       <DependentUpon>NoPermission.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3055,6 +3017,13 @@
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request.aspx.cs">
+      <DependentUpon>Request.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Request.aspx.designer.cs">
+      <DependentUpon>Request.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="ViewLeaveForm.aspx.cs">
@@ -3096,6 +3065,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Upload\Project\PDF\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
