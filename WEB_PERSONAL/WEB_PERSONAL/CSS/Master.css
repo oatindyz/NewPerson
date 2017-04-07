@@ -1663,3 +1663,15 @@ input[type=radio] + label {
     text-align: center;
     
 }
+.ekknidTop{
+    margin-top:10px;
+}
+.ekknidBottom{
+    margin-bottom:10px;
+}
+.ekknidLeft{
+    margin-left:10px;
+}
+.ekknidRight{
+    margin-right:10px;
+}

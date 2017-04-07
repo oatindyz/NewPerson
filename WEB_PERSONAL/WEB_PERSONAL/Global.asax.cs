@@ -17,5 +17,52 @@ namespace WEB_PERSONAL
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            Session.Timeout = 60;
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+            if (Session["PersonnelSystem"].ToString() == "")
+            {
+                Server.Transfer("Access.aspx");
+            }
+            Session.Abandon();
+            Session.Clear();
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var serverError = Server.GetLastError() as HttpException;
+
+            if (null != serverError)
+            {
+                int errorCode = serverError.GetHttpCode();
+
+                if (404 == errorCode)
+                {
+                    Server.ClearError();
+                    Response.Redirect("404.aspx");
+                }
+            }
+        }
+
+        protected void Application_End(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

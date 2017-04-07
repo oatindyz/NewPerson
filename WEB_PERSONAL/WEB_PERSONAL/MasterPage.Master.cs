@@ -41,7 +41,13 @@ namespace WEB_PERSONAL
             string name = loginPerson.FirstNameAndLastName;
             //profile_name.InnerText = name;
 
-
+            if (loginPerson.ST_LOGIN_ID == "0")
+            {
+                hvr1.Visible = false;
+                hvr2.Visible = false;
+                hvr3.Visible = false;
+                hvr4.Visible = false;
+            }
 
             //---------
             int count_approve = 0;

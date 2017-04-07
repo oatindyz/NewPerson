@@ -19,7 +19,10 @@ namespace WEB_PERSONAL {
                     tbOutput.Text += bossList[i].CitizenID + " / " + bossList[i].FirstNameAndLastName + "/" + bossList[i].AdminPositionName + "\n";
                 }
             }
-            */
+            
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            Person loginPerson = ps.LoginPerson;
+            TextBox1.Text = loginPerson.PS_BIRTHDAY_DATE.Value.ToShortDateString();*/
         }
     }
 }

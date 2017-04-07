@@ -8,6 +8,8 @@ using WEB_PERSONAL.Class;
 using System.Data.OracleClient;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
+using System.Net.Mail;
 
 namespace WEB_PERSONAL
 {
@@ -20,6 +22,28 @@ namespace WEB_PERSONAL
                 PersonnelSystem ps = new PersonnelSystem();
                 ps.LoginPerson = DatabaseManager.GetPerson(tbUsername.Text);
                 Session["PersonnelSystem"] = ps;
+
+
+                if (Request.QueryString["ID"] != null && Request.QueryString["Password"] != null && Request.QueryString["Action"] != null)
+                {
+                    if (DatabaseManager.ValidateUser(Convert.ToInt32(Request.QueryString["ID"]), Util.ToDateTimeOracle(Server.UrlDecode(Request.QueryString["Password"]))))
+                    {
+                        ps.LoginPerson = DatabaseManager.GetPerson(Request.QueryString["ID"].ToString());
+                        Session["PersonnelSystem"] = ps;
+                        if (Request.QueryString["Action"] == "1")
+                        {
+                            Response.Redirect("ChangePassword.aspx");
+                        }
+                        else
+                        {
+                            Response.Redirect("Default.aspx");
+                        }
+                    }
+                    else
+                    {
+                        LabelBottom.Text = "รหัสผ่านไม่ถูกต้อง!";
+                    }
+                }
             }
             Session.Clear();
         }
@@ -71,7 +95,7 @@ namespace WEB_PERSONAL
                                 {
                                     if (Login == 0)
                                     {
-                                        LabelTop.Text = "รหัสบัตรประชาชนดังกล่าวเป็นการล็อคอินครั้งแรก โปรดยืนยันตัวตน ด้วยการใส่รหัสผ่านเป็นวันเกิด รูปแบบ(01/01/2500)";
+                                        LabelTop.Text = "รหัสบัตรประชาชนดังกล่าวเป็นการล็อคอินครั้งแรก โปรดยืนยันตัวตน ด้วยการใส่รหัสผ่านเป็นวันเกิด";
                                         ScriptManager.GetCurrent(this.Page).SetFocus(this.tbPassword);
                                     }
                                     if (Login == 1)
@@ -145,7 +169,7 @@ namespace WEB_PERSONAL
                                 {
                                     if (reader.GetInt32(0) == First)
                                     {
-                                        if (DatabaseManager.ValidatePasswordFirst(tbUsername.Text, tbPassword.Text))
+                                        if (DatabaseManager.ValidatePasswordFirst(tbUsername.Text, Util.ToDateTimeOracle(Server.UrlDecode(tbPassword.Text))))
                                         {
                                             PersonnelSystem ps = new PersonnelSystem();
                                             ps.LoginPerson = DatabaseManager.GetPerson(tbUsername.Text);
@@ -182,5 +206,67 @@ namespace WEB_PERSONAL
                 }
             }
         }
+
+        protected void lbuForget_Click(object sender, EventArgs e)
+        {
+            string EmailCheck = DatabaseManager.ExecuteString("SELECT PS_EMAIL FROM PS_PERSON WHERE PS_EMAIL = '" + tbEmail.Text + "'");
+            if (string.IsNullOrEmpty(EmailCheck))
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ไม่มีอีเมลดังกล่าวในระบบ')", true);
+                return;
+            }
+            else
+            {
+                string psID;
+                string Birthday;
+
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    OracleConnection.ClearAllPools();
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("SELECT PS_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_EMAIL = '" + tbEmail.Text + "'", con))
+                    {
+                        using (OracleDataReader reader = com.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                psID = reader.GetInt32(0).ToString();
+                                Birthday = reader.GetDateTime(1).ToShortDateString();
+                                string Reset = DatabaseManager.ExecuteString("UPDATE PS_PERSON SET PS_PASSWORD = '" + DBNull.Value + "', ST_LOGIN_ID = 0 WHERE PS_ID = '" + psID + "'");
+
+                                var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
+                                var toAddress = new MailAddress(tbEmail.Text, "To Name");
+                                string fromPassword = "A1a2a3a4a5a6a7a8";
+                                string subject = "กู้คืนรหัสผ่านของระบบบุคลากรมหาวิทยาลัยราชมงคลตะวันออก";
+                                string body =
+                                    "<div>เจ้าหน้าที่บุคลากรได้ทำการเพิ่มข้อมูลของคุณแล้ว</div>" +
+                                    "<div style='border-bottom: 1px solid #c0c0c0' margin: 10px 0;></div>" +
+                                    "<div><a href='http://localhost:12188/Access.aspx?ID=" + psID + "&Password=" + Util.ToOracleDateTime(DateTime.Parse(Birthday)) + "&Action=1'>รีเซ็ตรหัสผ่านได้ที่นี่</a></div>";
+
+                                var smtp = new SmtpClient
+                                {
+                                    Host = "smtp.live.com",
+                                    Port = 587,
+                                    EnableSsl = true,
+                                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                                    UseDefaultCredentials = false,
+                                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                                };
+                                MailMessage ms = new MailMessage(fromAddress, toAddress);
+                                ms.IsBodyHtml = true;
+                                ms.Subject = subject;
+                                ms.Body = body;
+                                smtp.Send(ms);
+
+                                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ระบบได้ส่งการรีเซ็ตรหัสผ่านไปยังเมลของคุณแล้ว')", true);
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        }
+
     }
 }

@@ -13,26 +13,26 @@
             </div>
 
             <div class="ps-box-il" style="width: 300px;">
-                <div class="ps-box-i0">
+                <div id="ShowOldPass" runat="server" class="ps-box-i0" visible="false">
                     <div class="ps-box-ct10">
                         <div class="ps-lb-red-b" style="text-align: center;">รหัสผ่านเก่า</div>
                         <div style="text-align: center;">
-                            <asp:TextBox ID="tbOld" runat="server" CssClass="ps-textbox" TextMode="Password" MaxLength="12" placeHolder="รหัสผ่านเก่า"></asp:TextBox>
+                            <asp:TextBox ID="tbOld" runat="server" CssClass="form-control input-sm" TextMode="Password" placeHolder="รหัสผ่านเก่า" required="required" TabIndex="1"></asp:TextBox>
                         </div>
                     </div>
                 </div>
-                <div class="ps-box-i0">
+                <div id="ShowNewPass" runat="server" class="ps-box-i0" visible="false">
                     <div class="ps-box-ct10">
                          <div class="ps-lb-blue-b" style="text-align: center;">รหัสผ่านใหม่</div>
                         <div style="text-align: center;">
-                            <div><asp:TextBox ID="tbNew" runat="server" CssClass="ps-textbox" TextMode="Password" MaxLength="12" style="margin-bottom: 5px;" placeHolder="รหัสผ่านใหม่"></asp:TextBox></div>
-                            <asp:TextBox ID="tbNew2" runat="server" CssClass="ps-textbox" TextMode="Password" MaxLength="12" placeHolder="ยืนยันรหัสผ่าน"></asp:TextBox>
+                            <div><asp:TextBox ID="tbNew" runat="server" CssClass="form-control input-sm" TextMode="Password" style="margin-bottom: 5px;" placeHolder="รหัสผ่านใหม่" required="required" TabIndex="1"></asp:TextBox></div>
+                            <asp:TextBox ID="tbNew2" runat="server" CssClass="form-control input-sm" TextMode="Password" placeHolder="ยืนยันรหัสผ่าน" required="required" TabIndex="1"></asp:TextBox>
                         </div>
                     </div>
                 </div>
                 <div class="ps-box-i0">
                     <div class="ps-box-ct10">
-                        <asp:LinkButton ID="lbuFinish" runat="server" CssClass="ps-button" OnClick="lbuFinish_Click"><img src="Image/Small/wrench.png" class="icon_left"/>เปลี่ยนรหัสผ่าน</asp:LinkButton>
+                        <asp:Button ID="lbuFinish1" runat="server" CssClass="ps-button" OnClick="lbuFinish_Click" Text="เปลี่ยนรหัสผ่าน"></asp:Button>
                     </div>
                 </div>
             </div>
