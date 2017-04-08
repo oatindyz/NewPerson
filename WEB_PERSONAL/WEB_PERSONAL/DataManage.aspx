@@ -138,10 +138,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสคำนำหน้าชื่อ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdTitle" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdTitle" runat="server" CssClass="form-control input-sm" onkeypress="return isNumberKey(event)" MaxLength="4" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อคำนำหน้า<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameTitle" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameTitle" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertTitle" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertTitle_Click" Text="เพิ่มข้อมูล" />
@@ -195,10 +195,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสเพศ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdGender" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdGender" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อเพศ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameGender" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameGender" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertGender" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertGender_Click" Text="เพิ่มข้อมูล" />
@@ -252,10 +252,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสจังหวัด<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdProvince" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdProvince" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อจังหวัด<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameProvince" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameProvince" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertProvince" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertProvince_Click" Text="เพิ่มข้อมูล" />
@@ -309,10 +309,13 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสเขต/อำเภอ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdAmphur" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdAmphur" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อเขต/อำเภอ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameAmphur" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameAmphur" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในจังหวัด<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlProvinceInAmphur" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertAmphur" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertAmphur_Click" Text="เพิ่มข้อมูล" />
@@ -332,6 +335,7 @@
                             <th>ลำดับที่</th>
                             <th>รหัสเขต/อำเภอ</th>
                             <th>ชื่อเขต/อำเภอ</th>
+                            <th>อยู่ในจังหวัด</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
                     </thead>
@@ -344,6 +348,10 @@
                                 </td>
                                 <td>
                                     <asp:Label ID="lbAmphurName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "AMPHUR_TH") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFProvinceInAmphur" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "PROVINCE_ID") %>'/>
+                                    <asp:Label ID="lbProvinceName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PROVINCE_NAME") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:LinkButton ID="lnkEditAmphur" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditAmphur" />
@@ -366,10 +374,16 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสแขวง/ตำบล<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdTambon" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdTambon" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อแขวง/ตำบล<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameTambon" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameTambon" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในจังหวัด<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlProvinceInTambon" runat="server" OnSelectedIndexChanged="ddlProvinceInTambon_SelectedIndexChanged" AutoPostBack="true" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในอำเภอ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlAmphurInTambon" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertTambon" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertTambon_Click" Text="เพิ่มข้อมูล" />
@@ -389,6 +403,8 @@
                             <th>ลำดับที่</th>
                             <th>รหัสแขวง/ตำบล</th>
                             <th>ชื่อแขวง/ตำบล</th>
+                            <th>อยู่ในจังหวัด</th>
+                            <th>อยู่ในอำเภอ</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
                     </thead>
@@ -401,6 +417,14 @@
                                 </td>
                                 <td>
                                     <asp:Label ID="lbTambonName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "DISTRICT_TH") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFProvinceInTambon" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "PROVINCE_ID") %>'/>
+                                    <asp:Label ID="lbProvinceName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PROVINCE_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFAmphurInTambon" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "AMPHUR_ID") %>'/>
+                                    <asp:Label ID="lbAmphurName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "AMPHUR_NAME") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:LinkButton ID="lnkEditTambon" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditTambon" />
@@ -423,10 +447,13 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสสัญชาติ/ประเทศ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdNation" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdNation" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>ตัวย่อชื่อสัญชาติ/ประเทศ<span class="ps-lb-red" />*<br />
+                            <asp:TextBox ID="tbInsertNameNationShort" runat="server" onkeypress="return isLettersOnly(event)" MaxLength="2" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อสัญชาติ/ประเทศ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameNation" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameNationFull" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertNation" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertNation_Click" Text="เพิ่มข้อมูล" />
@@ -445,6 +472,7 @@
                         <tr>
                             <th>ลำดับที่</th>
                             <th>รหัสสัญชาติ/ประเทศ</th>
+                            <th>ตัวย่อชื่อสัญชาติ/ประเทศ</th>
                             <th>ชื่อสัญชาติ/ประเทศ</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
@@ -457,7 +485,10 @@
                                     <asp:Label ID="lbNationID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "NATION_ID") %>'></asp:Label>
                                 </td>
                                 <td>
-                                    <asp:Label ID="lbNationName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "NATION_NAME_EN") %>'></asp:Label>
+                                    <asp:Label ID="lbNationShortName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "NATION_SHORT") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:Label ID="lbNationFullName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "NATION_NAME_EN") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:LinkButton ID="lnkEditNation" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditNation" />
@@ -480,10 +511,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสวิทยาเขต<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdCampus" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdCampus" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อวิทยาเขต<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameCampus" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameCampus" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertCampus" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertCampus_Click" Text="เพิ่มข้อมูล" />
@@ -542,6 +573,9 @@
                         <td>ชื่อสำนัก/สถาบัน/คณะ<span class="ps-lb-red" />*<br />
                             <asp:TextBox ID="tbInsertNameFaculty" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
+                        <td>อยู่ในวิทยาเขต<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlCampusInFaculty" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertFaculty" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertFaculty_Click" Text="เพิ่มข้อมูล" />
                             <asp:Button ID="btnUpdateFaculty" runat="server" CssClass="btn btn-info ekknidRight" OnClick="btnUpdateFaculty_Click" Text="อัพเดทข้อมูล" />
@@ -560,6 +594,7 @@
                             <th>ลำดับที่</th>
                             <th>รหัสสำนัก/สถาบัน/คณะ</th>
                             <th>ชื่อสำนัก/สถาบัน/คณะ</th>
+                             <th>อยู่ในวิทยาเขต</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
                     </thead>
@@ -572,6 +607,10 @@
                                 </td>
                                 <td>
                                     <asp:Label ID="lbFacultyName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "FACULTY_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFCampusInFaculty" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "CAMPUS_ID") %>'/>
+                                    <asp:Label ID="lbCampusName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:LinkButton ID="lnkEditFaculty" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditFaculty" />

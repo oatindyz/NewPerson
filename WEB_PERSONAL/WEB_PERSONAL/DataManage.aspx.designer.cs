@@ -589,6 +589,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbInsertNameAmphur;
         
         /// <summary>
+        /// ddlProvinceInAmphur control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlProvinceInAmphur;
+        
+        /// <summary>
         /// btnInsertAmphur control.
         /// </summary>
         /// <remarks>
@@ -688,6 +697,24 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbInsertNameTambon;
         
         /// <summary>
+        /// ddlProvinceInTambon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlProvinceInTambon;
+        
+        /// <summary>
+        /// ddlAmphurInTambon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAmphurInTambon;
+        
+        /// <summary>
         /// btnInsertTambon control.
         /// </summary>
         /// <remarks>
@@ -778,13 +805,22 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbInsertIdNation;
         
         /// <summary>
-        /// tbInsertNameNation control.
+        /// tbInsertNameNationShort control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbInsertNameNation;
+        protected global::System.Web.UI.WebControls.TextBox tbInsertNameNationShort;
+        
+        /// <summary>
+        /// tbInsertNameNationFull control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbInsertNameNationFull;
         
         /// <summary>
         /// btnInsertNation control.
@@ -983,6 +1019,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbInsertNameFaculty;
+        
+        /// <summary>
+        /// ddlCampusInFaculty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampusInFaculty;
         
         /// <summary>
         /// btnInsertFaculty control.
