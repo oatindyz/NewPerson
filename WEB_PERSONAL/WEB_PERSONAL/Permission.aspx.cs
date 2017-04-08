@@ -11,6 +11,15 @@ namespace WEB_PERSONAL {
     public partial class Permission : System.Web.UI.Page {
 
         protected void Page_Load(object sender, EventArgs e) {
+
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            Person pp = ps.LoginPerson;
+
+            if(pp.PERSON_ROLE_ID != "99") {
+                Server.Transfer("NoPermission.aspx");
+                return;
+            }
+
             lbSaveComplete.Visible = false;
         }
 

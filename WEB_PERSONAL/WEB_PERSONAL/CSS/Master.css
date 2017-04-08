@@ -104,14 +104,14 @@ input[type=radio] + label {
 .ps-ms-main-hd-noti-alert-none {
     display: inline-block;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
     color: #ffffff;
     color: rgb(237, 28, 36);
     padding: 0px 5px;
     border-radius: 4px;
     font-weight: 100;
     vertical-align: top;
-    margin-top: -1px;
+    margin-top: 0px;
 }
 .ps-ms-main-hd-noti-alert {
     display: inline-block;
@@ -1313,10 +1313,12 @@ input[type=radio] + label {
 
 .ps-ms-left {
     float: left;
-    width: 200px;
+    width: 220px;
     position: fixed;
     background-color: #f8f8f8;
-    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 2;
 }
 .ps-ms-left-rmutto {
     display: block;
@@ -1328,6 +1330,7 @@ input[type=radio] + label {
     font-size: 20px;
     padding: 5px 0;
     margin-bottom: 5px;
+    
 }
 .ps-ms-left-rmutto:hover {
     text-decoration: underline;
@@ -1391,7 +1394,7 @@ input[type=radio] + label {
 }
 .ps-ms-left-link-group-rr {
     display: inline-block;
-    width: 200px;
+    width: 220px;
     padding: 3px 0;
     padding-left: 20px;
     margin-bottom: 1px;
@@ -1426,7 +1429,7 @@ input[type=radio] + label {
 .ps-ms-left-ext {
     display: none;
     position: fixed;
-    left: 200px;
+    left: 220px;
     top: 0px;
     width: 250px;
     height: 100vh;
@@ -1434,7 +1437,9 @@ input[type=radio] + label {
     border-right: 1px solid #c0c0c0;
     
     
+
     box-shadow: 20px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 .ps-ms-left-ext-header {
     font-size: 16px;
@@ -1482,7 +1487,7 @@ input[type=radio] + label {
     
     margin-right: 5px;
     position: fixed;
-    left: 440px;
+    left: 460px;
     height: 100%;
 }
 .ps-ms-left-ext-close:hover {
@@ -1492,7 +1497,7 @@ input[type=radio] + label {
 /*-------------------------------*/
 
 .ps-ms-center {
-	margin-left: 200px;
+	margin-left: 220px;
 	background-color: #ffffff;
 	min-height: 100vh;
 	z-index: 0;
@@ -1509,6 +1514,7 @@ input[type=radio] + label {
 	background-color: rgb(0, 122, 192);
     background-color: #f8f8f8;
 	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 .ps-ms-center-header-username {
 	display: inline-block;
@@ -1526,6 +1532,7 @@ input[type=radio] + label {
 	border-radius: 2px;
 	padding: 10px;
 	box-shadow: 0px 1px 2px rgba(128, 128, 128, 0.5);
+    z-index: 1;
 }
 .ps-ms-center-header-notification {
 	display: none;
@@ -1539,6 +1546,7 @@ input[type=radio] + label {
 	border-radius: 2px;
 	padding: 10px;
 	box-shadow: 0px 1px 2px rgba(128, 128, 128, 0.5);
+    z-index: 1;
 }
 .ps-ms-center-content {
 	padding: 20px;
@@ -1578,7 +1586,7 @@ input[type=radio] + label {
 }
 .ps-ms-header-toggle .glyphicon {
     vertical-align: top;
-    margin-top: 5px;
+    margin-top: 3px;
     
     
 }
@@ -1675,3 +1683,7 @@ input[type=radio] + label {
 .ekknidRight{
     margin-right:10px;
 }
+.ui-datepicker-month, .ui-datepicker-year {
+    color: #000000;
+}
+

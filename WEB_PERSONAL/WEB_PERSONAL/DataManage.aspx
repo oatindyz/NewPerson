@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="DataManage.aspx.cs" Inherits="WEB_PERSONAL.DataManage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <!-- for Menu List -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -14,119 +15,83 @@
             });
         });
     </script>
+    
+    
+
     <style>
-        body {
-            font-family: "Lato", sans-serif;
-            transition: background-color .5s;
+        .c1 {
+            padding: 20px 0;
         }
-
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #818181;
+        .c1 a {
             display: block;
-            transition: 0.3s
+            padding: 3px 20px;
+            margin-bottom: 1px;
+            color: #000000;
+            border-radius: 2px;
         }
-
-        .sidenav a:hover, .offcanvas a:focus{
-            color: #f1f1f1;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-        }
-
-        @media screen and (max-height: 450px) {
-          .sidenav {padding-top: 15px;}
-          .sidenav a {font-size: 18px;}
+        .c1 a:hover {
+            color: #ffffff;
+            background-color: rgb(0, 142, 212);
         }
     </style>
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "235px";
-        }
 
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-    </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a>
-            <asp:LinkButton ID="lbuMenuTitle" runat="server" OnClick="lbuMenuTitle_Click"><img src="Image/Small/wrench.png" class="icon_left"/> คำนำหน้า</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuGender" runat="server" OnClick="lbuMenuGender_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เพศ</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuProvince" runat="server" OnClick="lbuMenuProvince_Click"><img src="Image/Small/wrench.png" class="icon_left"/> จังหวัด</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuAmphur" runat="server" OnClick="lbuMenuAmphur_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เขต/อำเภอ</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuTambon" runat="server" OnClick="lbuMenuTambon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> แขวง/ตำบล</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuNation" runat="server" OnClick="lbuMenuNation_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สัญชาติ</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuCampus" runat="server" OnClick="lbuMenuCampus_Click"><img src="Image/Small/wrench.png" class="icon_left"/> วิทยาเขต</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuFaculty" runat="server" OnClick="lbuMenuFaculty_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สำนัก/สถาบัน/คณะ</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuDivision" runat="server" OnClick="lbuMenuDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> กอง/สำนักงานเลขา/ภาควิชา</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuWorkDivision" runat="server" OnClick="lbuMenuWorkDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> งาน/ฝ่าย</asp:LinkButton></a>
 
-        <a>
-            <asp:LinkButton ID="lbuMenuStafftype" runat="server" OnClick="lbuMenuStafftype_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทบุคลากร</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuTimeContact" runat="server" OnClick="lbuMenuTimeContact_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ระยะเวลาจ้าง</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuBudget" runat="server" OnClick="lbuMenuBudget_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทเงินจ้าง</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuSubStafftype" runat="server" OnClick="lbuMenuSubStafftype_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทบุคลากรย่อย</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuAdminPosition" runat="server" OnClick="lbuMenuAdminPosition_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ตำแหน่งทางบริหาร</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuPosition" runat="server" OnClick="lbuMenuPosition_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ระดับตำแหน่ง</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuWorkPos" runat="server" OnClick="lbuMenuWorkPos_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ตำแหน่งในสายงาน</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuTeachISCED" runat="server" OnClick="lbuMenuTeachISCED_Click"><img src="Image/Small/wrench.png" class="icon_left"/> กลุ่มสาขาวิชา</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuGradLev" runat="server" OnClick="lbuMenuGradLev_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ระดับการศึกษา</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuGradProg" runat="server" OnClick="lbuMenuGradProg_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สาขาวิชา</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuDeform" runat="server" OnClick="lbuMenuDeform_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ความพิการ</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuReligion" runat="server" OnClick="lbuMenuReligion_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ศาสนา</asp:LinkButton></a>
-        <a>
-            <asp:LinkButton ID="lbuMenuMovementType" runat="server" OnClick="lbuMenuMovementType_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทการดำรงตำแหน่งปัจจุบัน</asp:LinkButton></a>
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolderLeft" runat="server">
+    <div class="c1">
+        
+            <asp:LinkButton ID="lbuMenuTitle" runat="server" OnClick="lbuMenuTitle_Click"><img src="Image/Small/wrench.png" class="icon_left"/> คำนำหน้า</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuGender" runat="server" OnClick="lbuMenuGender_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เพศ</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuProvince" runat="server" OnClick="lbuMenuProvince_Click"><img src="Image/Small/wrench.png" class="icon_left"/> จังหวัด</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuAmphur" runat="server" OnClick="lbuMenuAmphur_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เขต/อำเภอ</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuTambon" runat="server" OnClick="lbuMenuTambon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> แขวง/ตำบล</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuNation" runat="server" OnClick="lbuMenuNation_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สัญชาติ</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuCampus" runat="server" OnClick="lbuMenuCampus_Click"><img src="Image/Small/wrench.png" class="icon_left"/> วิทยาเขต</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuFaculty" runat="server" OnClick="lbuMenuFaculty_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สำนัก/สถาบัน/คณะ</asp:LinkButton>
+       
+            <asp:LinkButton ID="lbuMenuDivision" runat="server" OnClick="lbuMenuDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> กอง/สำนักงานเลขา/ภาควิชา</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuWorkDivision" runat="server" OnClick="lbuMenuWorkDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> งาน/ฝ่าย</asp:LinkButton>
+
+        
+            <asp:LinkButton ID="lbuMenuStafftype" runat="server" OnClick="lbuMenuStafftype_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทบุคลากร</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuTimeContact" runat="server" OnClick="lbuMenuTimeContact_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ระยะเวลาจ้าง</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuBudget" runat="server" OnClick="lbuMenuBudget_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทเงินจ้าง</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuSubStafftype" runat="server" OnClick="lbuMenuSubStafftype_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทบุคลากรย่อย</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuAdminPosition" runat="server" OnClick="lbuMenuAdminPosition_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ตำแหน่งทางบริหาร</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuPosition" runat="server" OnClick="lbuMenuPosition_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ระดับตำแหน่ง</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuWorkPos" runat="server" OnClick="lbuMenuWorkPos_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ตำแหน่งในสายงาน</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuTeachISCED" runat="server" OnClick="lbuMenuTeachISCED_Click"><img src="Image/Small/wrench.png" class="icon_left"/> กลุ่มสาขาวิชา</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuGradLev" runat="server" OnClick="lbuMenuGradLev_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ระดับการศึกษา</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuGradProg" runat="server" OnClick="lbuMenuGradProg_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สาขาวิชา</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuDeform" runat="server" OnClick="lbuMenuDeform_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ความพิการ</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuReligion" runat="server" OnClick="lbuMenuReligion_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ศาสนา</asp:LinkButton>
+        
+            <asp:LinkButton ID="lbuMenuMovementType" runat="server" OnClick="lbuMenuMovementType_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทการดำรงตำแหน่งปัจจุบัน</asp:LinkButton>
     </div>
-    <div id="divShowMenu" runat="server" class="ps-header">
-    <img src="Image/Small/wrench.png" /><asp:Label ID="Label20" runat="server" Text="&#9776; เลือกเมนู" onclick="openNav()" style="font-size: 20px; cursor: pointer"></asp:Label></div>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+
     <div>
         <asp:Panel ID="Panel1" runat="server" CssClass="divpan" visible="false">
             <div id="divheader1" runat="server" class="ps-header">

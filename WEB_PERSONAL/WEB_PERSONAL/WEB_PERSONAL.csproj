@@ -989,6 +989,9 @@
     <Content Include="INSG_RequestList.aspx" />
     <Content Include="jQueryCalendarThai\images\Contact\Thumbs.db" />
     <Content Include="jQueryCalendarThai\images\Thumbs.db" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery.easing.min.js" />
+    <Content Include="js\jquery.min.js" />
     <Content Include="Leave.aspx" />
     <Content Include="LeaveAllow.aspx" />
     <Content Include="LeaveCancel.aspx" />
@@ -1004,6 +1007,7 @@
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\WEB_PERSONAL.csprojResolveAssemblyReference.cache" />
     <Content Include="Permission.aspx" />
+    <Content Include="PersonBranch.aspx" />
     <Content Include="Plugins\ckeditor\CHANGES.md" />
     <Content Include="Plugins\ckeditor\ckeditor.pack" />
     <Content Include="Plugins\ckeditor\ckeditor.php" />
@@ -3016,6 +3020,13 @@
     </Compile>
     <Compile Include="Permission.aspx.designer.cs">
       <DependentUpon>Permission.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PersonBranch.aspx.cs">
+      <DependentUpon>PersonBranch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PersonBranch.aspx.designer.cs">
+      <DependentUpon>PersonBranch.aspx</DependentUpon>
     </Compile>
     <Compile Include="Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
