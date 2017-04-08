@@ -7,6 +7,8 @@ using System.Data;
 using System.Configuration;
 using WEB_PERSONAL.Class;
 using System.Data.OracleClient;
+using System.Net;
+using System.Net.Mail;
 
 namespace WEB_PERSONAL
 {
@@ -265,6 +267,33 @@ namespace WEB_PERSONAL
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
             INSERT_PERSON();
+            
+            var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
+            var toAddress = new MailAddress(tbEmail.Text, "To Name");
+            string fromPassword = "A1a2a3a4a5a6a7a8";
+            string subject = "ระบบบุคลากรของมหาวิทยาลัยราชมงคลตะวันออก";
+            string body =
+                "<div>เจ้าหน้าที่บุคลากรได้ทำการเพิ่มข้อมูลของคุณแล้ว</div>" +
+                "<div>ชื่อผู้ใช้ : " + tbCitizenID.Text + "</div>" +
+                "<div>รหัสผ่าน : " + tbBirthdayDate.Text + "</div>" +
+                "<div style='border-bottom: 1px solid #c0c0c0' margin: 10px 0;></div>" +
+                "<div><a href='http://localhost:12188/Access.aspx'>เข้าสู่ระบบและเปลี่ยนรหัสผ่านได้ที่นี่</a></div>";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.live.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            MailMessage ms = new MailMessage(fromAddress, toAddress);
+            ms.IsBodyHtml = true;
+            ms.Subject = subject;
+            ms.Body = body;
+            smtp.Send(ms);
+
             DataShow.Visible = false;
             SaveShow.Visible = true;
         }
@@ -279,52 +308,166 @@ namespace WEB_PERSONAL
                 using (OracleCommand com = new OracleCommand("INSERT INTO PS_PERSON (PS_CITIZEN_ID,PS_TITLE_ID,PS_FIRSTNAME,PS_LASTNAME,PS_GENDER_ID,PS_BIRTHDAY_DATE,PS_EMAIL,PS_HOMEADD,PS_MOO,PS_STREET,PS_DISTRICT_ID,PS_AMPHUR_ID,PS_PROVINCE_ID,PS_ZIPCODE,PS_TELEPHONE,PS_NATION_ID,PS_CAMPUS_ID,PS_FACULTY_ID,PS_DIVISION_ID,PS_WORK_DIVISION_ID,PS_STAFFTYPE_ID,PS_TIME_CONTACT_ID,PS_BUDGET_ID,PS_SUBSTAFFTYPE_ID,PS_ADMIN_POS_ID,PS_POSITION_ID,PS_WORK_POS_ID,PS_INWORK_DATE,PS_DATE_START_THIS_U,PS_SPECIAL_NAME,PS_TEACH_ISCED_ID,PS_GRAD_LEV_ID,PS_GRAD_CURR,PS_GRAD_ISCED_ID,PS_GRAD_PROG_ID,PS_GRAD_UNIV,PS_GRAD_COUNTRY_ID,PS_DEFORM_ID,PS_SIT_NO,PS_RELIGION_ID,PS_MOVEMENT_TYPE_ID,PS_MOVEMENT_DATE,ST_LOGIN_ID,PERSON_ROLE_ID,PS_FIRST_POSITION_ID) VALUES (:PS_CITIZEN_ID,:PS_TITLE_ID,:PS_FIRSTNAME,:PS_LASTNAME,:PS_GENDER_ID,:PS_BIRTHDAY_DATE,:PS_EMAIL,:PS_HOMEADD,:PS_MOO,:PS_STREET,:PS_DISTRICT_ID,:PS_AMPHUR_ID,:PS_PROVINCE_ID,:PS_ZIPCODE,:PS_TELEPHONE,:PS_NATION_ID,:PS_CAMPUS_ID,:PS_FACULTY_ID,:PS_DIVISION_ID,:PS_WORK_DIVISION_ID,:PS_STAFFTYPE_ID,:PS_TIME_CONTACT_ID,:PS_BUDGET_ID,:PS_SUBSTAFFTYPE_ID,:PS_ADMIN_POS_ID,:PS_POSITION_ID,:PS_WORK_POS_ID,:PS_INWORK_DATE,:PS_DATE_START_THIS_U,:PS_SPECIAL_NAME,:PS_TEACH_ISCED_ID,:PS_GRAD_LEV_ID,:PS_GRAD_CURR,:PS_GRAD_ISCED_ID,:PS_GRAD_PROG_ID,:PS_GRAD_UNIV,:PS_GRAD_COUNTRY_ID,:PS_DEFORM_ID,:PS_SIT_NO,:PS_RELIGION_ID,:PS_MOVEMENT_TYPE_ID,:PS_MOVEMENT_DATE,:ST_LOGIN_ID,:PERSON_ROLE_ID,:PS_FIRST_POSITION_ID)", con))
                 {
                     com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", tbCitizenID.Text));
-                    com.Parameters.Add(new OracleParameter("PS_TITLE_ID", ddlTitleID.SelectedValue));
+
+                    if (ddlTitleID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_TITLE_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_TITLE_ID", ddlTitleID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_FIRSTNAME", tbFirstName.Text));
                     com.Parameters.Add(new OracleParameter("PS_LASTNAME", tbLastName.Text));
-                    com.Parameters.Add(new OracleParameter("PS_GENDER_ID", ddlGenderID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_BIRTHDAY_DATE", Util.ODT(tbBirthdayDate.Text)));
+
+                    if (ddlGenderID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GENDER_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GENDER_ID", ddlGenderID.SelectedValue));
+                    }
+
+                    com.Parameters.Add(new OracleParameter("PS_BIRTHDAY_DATE", Util.ToDateTimeOracle(tbBirthdayDate.Text)));
                     com.Parameters.Add(new OracleParameter("PS_EMAIL", tbEmail.Text));
                     com.Parameters.Add(new OracleParameter("PS_HOMEADD", tbHomeAdd.Text));
                     com.Parameters.Add(new OracleParameter("PS_MOO", tbMoo.Text));
                     com.Parameters.Add(new OracleParameter("PS_STREET", tbStreet.Text));
-                    com.Parameters.Add(new OracleParameter("PS_DISTRICT_ID", ddlDistrictID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_AMPHUR_ID", ddlAmphurID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_PROVINCE_ID", ddlProvinceID.SelectedValue));
+
+                    if (ddlProvinceID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_PROVINCE_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_PROVINCE_ID", ddlProvinceID.SelectedValue));
+                    }
+
+                    if (ddlAmphurID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_AMPHUR_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_AMPHUR_ID", ddlAmphurID.SelectedValue));
+                    }
+
+                    if (ddlDistrictID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_DISTRICT_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_DISTRICT_ID", ddlDistrictID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_ZIPCODE", tbZipcode.Text));
                     com.Parameters.Add(new OracleParameter("PS_TELEPHONE", tbTelephone.Text));
-                    com.Parameters.Add(new OracleParameter("PS_NATION_ID", ddlNationID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_CAMPUS_ID", ddlCampusID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_FACULTY_ID", ddlFacultyID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_DIVISION_ID", ddlDivisionID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_WORK_DIVISION_ID", ddlWorkDivisionID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_STAFFTYPE_ID", ddlStafftypeID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_TIME_CONTACT_ID", ddlTimeContactID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_BUDGET_ID", ddlBudgetID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_SUBSTAFFTYPE_ID", ddlSubStafftypeID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_ADMIN_POS_ID", ddlAdminPosID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_POSITION_ID", ddlPositionID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_WORK_POS_ID", ddlWorkPosID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_INWORK_DATE", Util.ODT(tbDateInwork.Text)));
-                    com.Parameters.Add(new OracleParameter("PS_DATE_START_THIS_U", Util.ODT(tbDateStartThisU.Text)));
+
+                    if (ddlNationID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_NATION_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_NATION_ID", ddlNationID.SelectedValue));      
+                    }
+
+                    if (ddlCampusID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_CAMPUS_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_CAMPUS_ID", ddlCampusID.SelectedValue));
+                    }
+
+                    if (ddlFacultyID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_FACULTY_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_FACULTY_ID", ddlFacultyID.SelectedValue));
+                    }
+
+                    if (ddlDivisionID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_DIVISION_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_DIVISION_ID", ddlDivisionID.SelectedValue));
+                    }
+
+                    if (ddlWorkDivisionID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_WORK_DIVISION_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_WORK_DIVISION_ID", ddlWorkDivisionID.SelectedValue));
+                    }
+
+                    if (ddlStafftypeID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_STAFFTYPE_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_STAFFTYPE_ID", ddlStafftypeID.SelectedValue));
+                    }
+
+                    if (ddlTimeContactID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_TIME_CONTACT_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_TIME_CONTACT_ID", ddlTimeContactID.SelectedValue));
+                    }
+
+                    if (ddlBudgetID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_BUDGET_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_BUDGET_ID", ddlBudgetID.SelectedValue));
+                    }
+
+                    if (ddlSubStafftypeID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_SUBSTAFFTYPE_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_SUBSTAFFTYPE_ID", ddlSubStafftypeID.SelectedValue));
+                    }
+
+                    if (ddlAdminPosID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_ADMIN_POS_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_ADMIN_POS_ID", ddlAdminPosID.SelectedValue));
+                    }
+
+                    if (ddlPositionID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_POSITION_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_POSITION_ID", ddlPositionID.SelectedValue));
+                    }
+
+                    if (ddlWorkPosID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_WORK_POS_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_WORK_POS_ID", ddlWorkPosID.SelectedValue));
+                    }
+
+                    com.Parameters.Add(new OracleParameter("PS_INWORK_DATE", Util.ToDateTimeOracle(tbDateInwork.Text)));
+                    com.Parameters.Add(new OracleParameter("PS_DATE_START_THIS_U", Util.ToDateTimeOracle(tbDateStartThisU.Text)));
                     com.Parameters.Add(new OracleParameter("PS_SPECIAL_NAME", tbSpecialName.Text));
-                    com.Parameters.Add(new OracleParameter("PS_TEACH_ISCED_ID", ddlTeachIscedID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_GRAD_LEV_ID", ddlGradLevID.SelectedValue));
+
+                    if (ddlTeachIscedID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_TEACH_ISCED_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_TEACH_ISCED_ID", ddlTeachIscedID.SelectedValue));  
+                    }
+
+                    if (ddlGradLevID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GRAD_LEV_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GRAD_LEV_ID", ddlGradLevID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_GRAD_CURR", tbGradCurr.Text));
-                    com.Parameters.Add(new OracleParameter("PS_GRAD_ISCED_ID", ddlGradIscedID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_GRAD_PROG_ID", ddlGradProgID.SelectedValue));
+
+                    if (ddlGradIscedID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GRAD_ISCED_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GRAD_ISCED_ID", ddlGradIscedID.SelectedValue));
+                    }
+
+                    if (ddlGradProgID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GRAD_PROG_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GRAD_PROG_ID", ddlGradProgID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_GRAD_UNIV", tbGradUniv.Text));
-                    com.Parameters.Add(new OracleParameter("PS_GRAD_COUNTRY_ID", ddlGradCountryID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_DEFORM_ID", ddlDeformID.SelectedValue));
+
+                    if (ddlGradCountryID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GRAD_COUNTRY_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GRAD_COUNTRY_ID", ddlGradCountryID.SelectedValue));
+                    }
+
+                    if (ddlDeformID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_DEFORM_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_DEFORM_ID", ddlDeformID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_SIT_NO", tbSitNo.Text));
-                    com.Parameters.Add(new OracleParameter("PS_RELIGION_ID", ddlReligionID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_MOVEMENT_TYPE_ID", ddlMovementTypeID.SelectedValue));
-                    if (tbMovementDate.Text == "") { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", DBNull.Value)); } else { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", DateTime.Parse(tbMovementDate.Text))); }
+
+                    if (ddlReligionID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_RELIGION_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_RELIGION_ID", ddlReligionID.SelectedValue));
+                    }
+
+                    if (ddlMovementTypeID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_TYPE_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_MOVEMENT_TYPE_ID", ddlMovementTypeID.SelectedValue));
+                    }
+
+                    if (tbMovementDate.Text == "") { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", DBNull.Value)); } else { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", Util.ToDateTimeOracle(tbMovementDate.Text))); }
+
                     com.Parameters.Add(new OracleParameter("ST_LOGIN_ID", "0"));
                     com.Parameters.Add(new OracleParameter("PERSON_ROLE_ID", "1"));
-                    com.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", ddlPositionID.SelectedValue));
+
+                    if (ddlPositionID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", DBNull.Value)); } else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", ddlPositionID.SelectedValue));
+                    }     
                     
                     id = com.ExecuteNonQuery();
+
                     /*
                     com.Parameters.Add(new OracleParameter("SALARY", tbSalary.Text));
                     com.Parameters.Add(new OracleParameter("POSITION_SALARY", tbPositionSalary.Text));    
@@ -339,23 +482,5 @@ namespace WEB_PERSONAL
             return id;
         }
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
-            {
-                con.Open();
-                using (OracleCommand com = new OracleCommand("INSERT INTO PS_PERSON (PS_CITIZEN_ID,PS_TITLE_ID,PS_FIRSTNAME,PS_LASTNAME,PS_GENDER_ID,PS_BIRTHDAY_DATE) VALUES (:PS_CITIZEN_ID,:PS_TITLE_ID,:PS_FIRSTNAME,:PS_LASTNAME,:PS_GENDER_ID,:PS_BIRTHDAY_DATE)", con))
-                {
-                    com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", "1102002041685"));
-                    com.Parameters.Add(new OracleParameter("PS_TITLE_ID", "2"));
-                    com.Parameters.Add(new OracleParameter("PS_FIRSTNAME", "เฉลิมชัย"));
-                    com.Parameters.Add(new OracleParameter("PS_LASTNAME", "พีระเลิศกิจ"));
-                    com.Parameters.Add(new OracleParameter("PS_GENDER_ID", "1"));
-                    com.Parameters.Add(new OracleParameter("PS_BIRTHDAY_DATE", Util.ToDateTimeOracle(tbBirthdayDate.Text)));
-                    com.ExecuteNonQuery();
-                }
-            }
-        }
     }
 }

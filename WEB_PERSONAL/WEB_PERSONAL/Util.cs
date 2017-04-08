@@ -523,39 +523,6 @@ namespace WEB_PERSONAL {
             }
             return password;
         }
-        public static void SendMail(Person ps) {
-            var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
-            var toAddress = new MailAddress(ps.PS_EMAIL, "To Name");
-            string fromPassword = "A1a2a3a4a5a6a7a8";
-            string subject = "Your registered successful for this site personnel.rmutto.ac.th";
-            string body =
-                "<div>ชื่อผู้ใช้ : " + ps.PS_CITIZEN_ID + "</div>" +
-                "<div>รหัสผ่าน : " + ps.PS_PASSWORD + "</div>" +
-                "<div style='border-bottom: 1px solid #c0c0c0' margin: 10px 0;></div>" +
-                "<div><a href='http://localhost:65308/Access.aspx?ID=" + ps.PS_CITIZEN_ID + "&Password=" + ps.PS_PASSWORD + "&Action=1'>เปลี่ยนรหัสผ่านได้ที่นี่</a></div>";
-
-            var smtp = new SmtpClient {
-                Host = "smtp.live.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
-            MailMessage ms = new MailMessage(fromAddress, toAddress);
-            ms.IsBodyHtml = true;
-            ms.Subject = subject;
-            ms.Body = body;
-            smtp.Send(ms);
-
-            /*using (var message = new MailMessage(fromAddress, toAddress) {
-                message.IsBodyHtml = true,
-                Subject = subject,
-                Body = body
-            }) {
-                smtp.Send(message);
-            }*/
-        }
 
         public static string RandomString(int length) {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

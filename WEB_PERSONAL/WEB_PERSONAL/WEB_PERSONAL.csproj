@@ -185,6 +185,7 @@
   <ItemGroup>
     <Content Include="404.aspx" />
     <Content Include="Access.aspx" />
+    <Content Include="AddGP7.aspx" />
     <Content Include="Addproject.aspx" />
     <Content Include="Adduser.aspx" />
     <Content Include="bootstrap\css\bootstrap.css" />
@@ -2819,6 +2820,13 @@
     </Compile>
     <Compile Include="Access.aspx.designer.cs">
       <DependentUpon>Access.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AddGP7.aspx.cs">
+      <DependentUpon>AddGP7.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddGP7.aspx.designer.cs">
+      <DependentUpon>AddGP7.aspx</DependentUpon>
     </Compile>
     <Compile Include="Addproject.aspx.cs">
       <DependentUpon>Addproject.aspx</DependentUpon>

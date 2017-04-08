@@ -101,7 +101,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_TITLENAME (TITLE_ID,TITLE_NAME_TH) VALUES (" + tbInsertIdTitle.Text + "," + tbInsertNameTitle.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_TITLENAME (TITLE_ID,TITLE_NAME_TH) VALUES (" + tbInsertIdTitle.Text + ",'" + tbInsertNameTitle.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindTitle();
             ClearTitle();
@@ -186,7 +186,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_GENDER (GENDER_ID,GENDER_NAME) VALUES (" + tbInsertIdGender.Text + "," + tbInsertNameGender.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_GENDER (GENDER_ID,GENDER_NAME) VALUES (" + tbInsertIdGender.Text + ",'" + tbInsertNameGender.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindGender();
             ClearGender();
@@ -271,7 +271,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_PROVINCE (PROVINCE_ID,PROVINCE_TH) VALUES (" + tbInsertIdProvince.Text + "," + tbInsertNameProvince.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_PROVINCE (PROVINCE_ID,PROVINCE_TH) VALUES (" + tbInsertIdProvince.Text + ",'" + tbInsertNameProvince.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindProvince();
             ClearProvince();
@@ -289,7 +289,7 @@ namespace WEB_PERSONAL
 
             if (ValueID != "" && ValueName != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_PROVINCE SET PROVINCE_ID = '" + ValueID + "', PROVINCE_NAME_TH = '" + ValueName + "' WHERE PROVINCE_ID = '" + Session["DefaultIdProvince"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_PROVINCE SET PROVINCE_ID = '" + ValueID + "', PROVINCE_TH = '" + ValueName + "' WHERE PROVINCE_ID = '" + Session["DefaultIdProvince"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindProvince();
                 ClearProvince();
@@ -332,16 +332,18 @@ namespace WEB_PERSONAL
             HideAll();
             Panel4.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT AMPHUR_ID,AMPHUR_TH FROM TB_AMPHUR ORDER BY ABS(AMPHUR_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT AMPHUR_ID,AMPHUR_TH,PROVINCE_ID,(SELECT PROVINCE_TH FROM TB_PROVINCE WHERE TB_PROVINCE.PROVINCE_ID = TB_AMPHUR.PROVINCE_ID) PROVINCE_NAME FROM TB_AMPHUR ORDER BY ABS(AMPHUR_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterAmphur.DataSource = dt;
             myRepeaterAmphur.DataBind();
+            DatabaseManager.BindDropDown(ddlProvinceInAmphur, "SELECT * FROM TB_PROVINCE ORDER BY ABS(PROVINCE_ID) ASC", "PROVINCE_TH", "PROVINCE_ID", "--กรุณาเลือก--");
         }
         protected void ClearAmphur()
         {
             tbInsertIdAmphur.Text = "";
             tbInsertNameAmphur.Text = "";
+            ddlProvinceInAmphur.SelectedIndex = 0;
         }
         protected void lbuMenuAmphur_Click(object sender, EventArgs e)
         {
@@ -356,7 +358,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_AMPHUR (AMPHUR_ID,AMPHUR_TH) VALUES (" + tbInsertIdAmphur.Text + "," + tbInsertNameAmphur.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_AMPHUR (AMPHUR_ID,AMPHUR_TH,PROVINCE_ID) VALUES (" + tbInsertIdAmphur.Text + ",'" + tbInsertNameAmphur.Text + "'," + ddlProvinceInAmphur.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindAmphur();
             ClearAmphur();
@@ -365,6 +367,7 @@ namespace WEB_PERSONAL
         {
             string ValueID = tbInsertIdAmphur.Text;
             string ValueName = tbInsertNameAmphur.Text;
+            string ValueProvinceID = ddlProvinceInAmphur.SelectedValue;
 
             if (Session["DefaultIdAmphur"] == null)
             {
@@ -372,9 +375,9 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            if (ValueID != "" && ValueName != "")
+            if (ValueID != "" && ValueName != "" && ValueProvinceID != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_AMPHUR SET AMPHUR_ID = '" + ValueID + "', AMPHUR_TH = '" + ValueName + "' WHERE AMPHUR_ID = '" + Session["DefaultIdAmphur"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_AMPHUR SET AMPHUR_ID = '" + ValueID + "', AMPHUR_TH = '" + ValueName + "', PROVINCE_ID = " + ddlProvinceInAmphur.SelectedValue + " WHERE AMPHUR_ID = '" + Session["DefaultIdAmphur"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindAmphur();
                 ClearAmphur();
@@ -392,9 +395,11 @@ namespace WEB_PERSONAL
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueID = (item.FindControl("lbAmphurID") as Label).Text;
             string ValueName = (item.FindControl("lbAmphurName") as Label).Text;
+            string ValueProvinceID = (item.FindControl("HFProvinceInAmphur") as HiddenField).Value;
 
             tbInsertIdAmphur.Text = ValueID;
             tbInsertNameAmphur.Text = ValueName;
+            ddlProvinceInAmphur.SelectedValue = ValueProvinceID;
 
             Session["DefaultIdAmphur"] = ValueID;
         }
@@ -417,16 +422,52 @@ namespace WEB_PERSONAL
             HideAll();
             Panel5.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT DISTRICT_ID,DISTRICT_TH FROM TB_DISTRICT ORDER BY ABS(DISTRICT_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT DISTRICT_ID,DISTRICT_TH,PROVINCE_ID,(SELECT PROVINCE_TH FROM TB_PROVINCE WHERE TB_PROVINCE.PROVINCE_ID = TB_DISTRICT.PROVINCE_ID) PROVINCE_NAME,AMPHUR_ID,(SELECT AMPHUR_TH FROM TB_AMPHUR WHERE TB_AMPHUR.AMPHUR_ID = TB_DISTRICT.AMPHUR_ID) AMPHUR_NAME FROM TB_DISTRICT ORDER BY ABS(DISTRICT_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterTambon.DataSource = dt;
             myRepeaterTambon.DataBind();
+
+            DatabaseManager.BindDropDown(ddlProvinceInTambon, "SELECT * FROM TB_PROVINCE ORDER BY ABS(PROVINCE_ID) ASC", "PROVINCE_TH", "PROVINCE_ID", "--กรุณาเลือก--");
+            if (ddlProvinceInTambon.SelectedValue == "")
+            {
+                DatabaseManager.BindDropDown(ddlAmphurInTambon, "SELECT * FROM TB_AMPHUR ORDER BY ABS(AMPHUR_ID) ASC", "AMPHUR_TH", "AMPHUR_ID", "--กรุณาเลือก--");
+            }
+        }
+        //Province
+        protected void ddlProvinceInTambon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OracleConnection sqlConn = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    using (OracleCommand sqlCmd = new OracleCommand())
+                    {
+                        sqlCmd.CommandText = "select * from TB_AMPHUR where PROVINCE_ID=:PROVINCE_ID";
+                        sqlCmd.Parameters.Add(":PROVINCE_ID", ddlProvinceInTambon.SelectedValue);
+                        sqlCmd.Connection = sqlConn;
+                        sqlConn.Open();
+                        OracleDataAdapter da = new OracleDataAdapter(sqlCmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        ddlAmphurInTambon.DataSource = dt;
+                        ddlAmphurInTambon.DataValueField = "AMPHUR_ID";
+                        ddlAmphurInTambon.DataTextField = "AMPHUR_TH";
+                        ddlAmphurInTambon.DataBind();
+                        sqlConn.Close();
+
+                        ddlAmphurInTambon.Items.Insert(0, new ListItem("--กรุณาเลือก--", "0"));
+                    }
+                }
+            }
+            catch { }
         }
         protected void ClearTambon()
         {
             tbInsertIdTambon.Text = "";
             tbInsertNameTambon.Text = "";
+            ddlProvinceInTambon.SelectedIndex = 0;
+            ddlAmphurInTambon.SelectedIndex = 0;
         }
         protected void lbuMenuTambon_Click(object sender, EventArgs e)
         {
@@ -441,7 +482,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_DISTRICT (DISTRICT_ID,DISTRICT_TH) VALUES (" + tbInsertIdTambon.Text + "," + tbInsertNameTambon.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_DISTRICT (DISTRICT_ID,DISTRICT_TH,PROVINCE_ID,AMPHUR_ID) VALUES (" + tbInsertIdTambon.Text + ",'" + tbInsertNameTambon.Text + "'," + ddlProvinceInTambon.SelectedValue + "," + ddlAmphurInTambon.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindTambon();
             ClearTambon();
@@ -450,6 +491,8 @@ namespace WEB_PERSONAL
         {
             string ValueID = tbInsertIdTambon.Text;
             string ValueName = tbInsertNameTambon.Text;
+            string ValueProvinceID = ddlProvinceInTambon.SelectedValue;
+            string ValueAmphurID = ddlAmphurInTambon.SelectedValue;
 
             if (Session["DefaultIdTambon"] == null)
             {
@@ -457,9 +500,9 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            if (ValueID != "" && ValueName != "")
+            if (ValueID != "" && ValueName != "" && ValueProvinceID != "" && ValueAmphurID != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_DISTRICT SET DISTRICT_ID = '" + ValueID + "', DISTRICT_TH = '" + ValueName + "' WHERE DISTRICT_ID = '" + Session["DefaultIdTambon"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_DISTRICT SET DISTRICT_ID = '" + ValueID + "', DISTRICT_TH = '" + ValueName + "', PROVINCE_ID = " + ddlProvinceInTambon.SelectedValue + ", AMPHUR_ID = " + ddlAmphurInTambon.SelectedValue + " WHERE DISTRICT_ID = '" + Session["DefaultIdTambon"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindTambon();
                 ClearTambon();
@@ -477,9 +520,13 @@ namespace WEB_PERSONAL
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueID = (item.FindControl("lbTambonID") as Label).Text;
             string ValueName = (item.FindControl("lbTambonName") as Label).Text;
+            string ValueProvinceID = (item.FindControl("HFProvinceInTambon") as HiddenField).Value;
+            string ValueAmphurID = (item.FindControl("HFAmphurInTambon") as HiddenField).Value;
 
             tbInsertIdTambon.Text = ValueID;
             tbInsertNameTambon.Text = ValueName;
+            ddlProvinceInTambon.SelectedValue = ValueProvinceID;
+            ddlAmphurInTambon.SelectedValue = ValueAmphurID;
 
             Session["DefaultIdTambon"] = ValueID;
         }
@@ -502,7 +549,7 @@ namespace WEB_PERSONAL
             HideAll();
             Panel6.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT NATION_ID,NATION_NAME_EN FROM TB_NATION ORDER BY ABS(NATION_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT NATION_ID,NATION_SHORT,NATION_NAME_EN FROM TB_NATION ORDER BY ABS(NATION_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterNation.DataSource = dt;
@@ -511,7 +558,8 @@ namespace WEB_PERSONAL
         protected void ClearNation()
         {
             tbInsertIdNation.Text = "";
-            tbInsertNameNation.Text = "";
+            tbInsertNameNationShort.Text = "";
+            tbInsertNameNationFull.Text = "";
         }
         protected void lbuMenuNation_Click(object sender, EventArgs e)
         {
@@ -522,11 +570,11 @@ namespace WEB_PERSONAL
             string oldID = DatabaseManager.ExecuteString("SELECT NATION_ID FROM TB_NATION WHERE NATION_ID ='" + tbInsertIdNation.Text + "'");
             if (tbInsertIdNation.Text == oldID)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีรหัสสัญชาติ " + tbInsertIdNation.Text + " อยู่แล้วในระบบ ไม่สามารถเพิ่มได้')", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีรหัสสัญชาติ/ประเทศ " + tbInsertIdNation.Text + " อยู่แล้วในระบบ ไม่สามารถเพิ่มได้')", true);
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_NATION (NATION_ID,NATION_NAME_EN) VALUES (" + tbInsertIdNation.Text + "," + tbInsertNameNation.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_NATION (NATION_ID,NATION_SHORT,NATION_NAME_EN) VALUES (" + tbInsertIdNation.Text + ",'" + tbInsertNameNationShort.Text + "','" + tbInsertNameNationFull.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindNation();
             ClearNation();
@@ -534,7 +582,8 @@ namespace WEB_PERSONAL
         protected void btnUpdateNation_Click(object sender, EventArgs e)
         {
             string ValueID = tbInsertIdNation.Text;
-            string ValueName = tbInsertNameNation.Text;
+            string ValueNameShort = tbInsertNameNationShort.Text;
+            string ValueNameFull = tbInsertNameNationFull.Text;
 
             if (Session["DefaultIdNation"] == null)
             {
@@ -542,9 +591,9 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            if (ValueID != "" && ValueName != "")
+            if (ValueID != "" && ValueNameShort != "" && ValueNameFull != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_NATION SET NATION_ID = '" + ValueID + "', NATION_NAME_EN = '" + ValueName + "' WHERE NATION_ID = '" + Session["DefaultIdNation"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_NATION SET NATION_ID = '" + ValueID + "', NATION_SHORT = '" + ValueNameShort + "', NATION_NAME_EN = '" + ValueNameFull + "' WHERE NATION_ID = '" + Session["DefaultIdNation"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindNation();
                 ClearNation();
@@ -561,10 +610,12 @@ namespace WEB_PERSONAL
         {
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueID = (item.FindControl("lbNationID") as Label).Text;
-            string ValueName = (item.FindControl("lbNationName") as Label).Text;
+            string ValueNameShort = (item.FindControl("lbNationShortName") as Label).Text;
+            string ValueNameFull = (item.FindControl("lbNationFullName") as Label).Text;
 
             tbInsertIdNation.Text = ValueID;
-            tbInsertNameNation.Text = ValueName;
+            tbInsertNameNationShort.Text = ValueNameShort;
+            tbInsertNameNationFull.Text = ValueNameFull;
 
             Session["DefaultIdNation"] = ValueID;
         }
@@ -611,7 +662,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_CAMPUS (CAMPUS_ID,CAMPUS_NAME) VALUES (" + tbInsertIdCampus.Text + "," + tbInsertNameCampus.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_CAMPUS (CAMPUS_ID,CAMPUS_NAME) VALUES (" + tbInsertIdCampus.Text + ",'" + tbInsertNameCampus.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindCampus();
             ClearCampus();
@@ -672,7 +723,7 @@ namespace WEB_PERSONAL
             HideAll();
             Panel8.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT FACULTY_ID,FACULTY_NAME FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT FACULTY_ID,FACULTY_NAME,CAMPUS_ID,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = TB_FACULTY.CAMPUS_ID) FACULTY_NAME FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterFaculty.DataSource = dt;
@@ -682,6 +733,8 @@ namespace WEB_PERSONAL
         {
             tbInsertIdFaculty.Text = "";
             tbInsertNameFaculty.Text = "";
+            ddlCampusInFaculty.SelectedIndex = 0;
+            //ถึงตรงนี้
         }
         protected void lbuMenuFaculty_Click(object sender, EventArgs e)
         {

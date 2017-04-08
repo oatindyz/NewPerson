@@ -145,7 +145,20 @@
             }
             return true;
         }
+        function isLettersOnly(evt) {
+            evt = (evt) ? evt : event;
+            var charCode = (evt.charCode) ? evt.charCode : ((evt.keyCode) ? evt.keyCode :
+                ((evt.which) ? evt.which : 0));
+            if (charCode > 31 && (charCode < 65 || charCode > 90) &&
+                (charCode < 97 || charCode > 122)) {
+                $("#errmsg").html("Letter Only").show().fadeOut("slow");
+                return false;
+            }
+            return true;
+        }
     </script>
+
+
 
     <script>
 
@@ -246,7 +259,7 @@
             <button type="button" class="ps-ms-left-ext-close">
                 <span class="glyphicon glyphicon-chevron-left"></span>
             </button>
-            <div id="hvr1" style="display: none;">
+            <div id="hvr1" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="listPerson-admin.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลบุคลากร</a>
                 <a href="listProject.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลการเพิ่มพัฒนาบุคลากร</a>
@@ -259,7 +272,7 @@
                 <a href="PersonBranch.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/list.png" />แผนผังบุคลากร</a>
                 <a href="Boss.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>-->
             </div>
-            <div id="hvr2" style="display: none;">
+            <div id="hvr2" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>
                 <a href="Leave.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-create.png" />ทำการลา</a>
                 <a href="LeaveCancel.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-delete.png" />ยกเลิกการลา</a>
@@ -270,14 +283,14 @@
                 <a href="LeaveReport.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/report.png" />ออกรายงานการลา</a>
                 <a href="WorkingDay.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการวันปฏิบัติราชการ</a>
             </div>
-            <div id="hvr3" style="display: none;">
+            <div id="hvr3" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>                   
                 <a href="INSG_Qualified.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่เข้าเกณฑ์การรับเครื่องราชฯ</a>
                 <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อการขอเครื่องราชฯ</a>
                 <a href="INSG_Qualified_Detail.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>
             </div>
-            <div id="hvr4" style="display: none;">
+            <div id="hvr4" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>
                 <a href="Permission.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการสิทธิใช้งานระบบ</a>
                 <a href="ChangePassword.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />เปลี่ยนรหัสผ่าน</a>
@@ -323,6 +336,7 @@
                 <div class="ps-ms-separator"></div>
 				<div>
 				    <a href="Profile.aspx" class="ps-ms-button-orange">แก้ไขข้อมูล</a>
+                    <a href="ChangePassword.aspx" class="ps-ms-button-blue">เปลี่ยนรหัสผ่าน</a>
 				    <a href="Access.aspx" class="ps-ms-button-red">ออกจากระบบ</a>
                 </div>
 			</div>

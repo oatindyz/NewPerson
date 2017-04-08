@@ -46,27 +46,13 @@
     <script src="plugins/iCheck/icheck.min.js"></script>
     <!-- FastClick -->
     <script src="plugins/fastclick/fastclick.min.js"></script>
-    
+
     <!-- Page script -->
     <script src="jquery.datetimepicker.js"></script>
     <!-- -->
 
     <link rel="stylesheet" type="text/css" href="CSS/Master.css" />
     <link href="CSS/Access.css" rel="stylesheet" />
-
-    <script type="text/javascript">
-        function ShowHidePassword() {
-            var txt = $('#<%=tbPassword.ClientID%>');
-            if (txt.prop("type") == "password") {
-                txt.prop("type", "text");
-                $("label[for='cbShowHidePassword']").text("Hide Password");
-            }
-            else {
-                txt.prop("type", "password");
-                $("label[for='cbShowHidePassword']").text("Show Password");
-            }
-        }
-    </script>
 
     <script type="text/javascript">
         function isNumberKey(evt) {
@@ -89,12 +75,13 @@
         };
     </script>
 
-    <script type = "text/javascript">
-    function DisableButton() {
-        document.getElementById("<%=btnLogin.ClientID %>").disabled = true;
-    }
-    window.onbeforeunload = DisableButton;
+    <script type="text/javascript">
+        function DisableButton() {
+            document.getElementById("<%=btnLogin.ClientID %>").disabled = true;
+        }
+        window.onbeforeunload = DisableButton;
     </script>
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -110,7 +97,7 @@
                                 <div class="t2">มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก</div>
                             </div>
                         </div>
-                        <div  style="text-align: center; margin-bottom: 10px;">
+                        <div style="text-align: center; margin-bottom: 10px;">
                             <div>
                                 <asp:Panel ID="Panel1" runat="server" DefaultButton="btnLogin">
                                     <div class="input-group date">
@@ -124,22 +111,23 @@
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </div>
-                                    
-                                        <asp:UpdatePanel ID="UpdatetbPassword" runat="server">
-                                            <ContentTemplate>
-                                                <div class="input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy">
-                                                    <asp:TextBox ID="tbPassword" TextMode="Password" runat="server" CssClass="form-control" placeHolder="รหัสผ่าน" MaxLength="25" required="required" TabIndex="1"></asp:TextBox>
-                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
-                                                </div>
-                                            </ContentTemplate>
-                                            <Triggers>
-                                                <asp:AsyncPostBackTrigger ControlID="tbPassword" />
-                                            </Triggers>
-                                        </asp:UpdatePanel>
-                                        
-                                    
+
+                                    <asp:UpdatePanel ID="UpdatetbPassword" runat="server">
+                                        <ContentTemplate>
+                                            <div class="input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy">
+                                                <asp:TextBox ID="tbPassword" TextMode="Password" runat="server" CssClass="form-control" placeHolder="รหัสผ่าน" MaxLength="25" required="required" TabIndex="1"></asp:TextBox>
+                                                <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                                            </div>
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="tbPassword" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+
+
                                     <div style="margin-top: 20px;">
                                         <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-success" OnClick="btnLogin_Click" Text="เข้าสู่ระบบ" />
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">ลืมรหัสผ่าน</button>
                                     </div>
                                     <div>
                                         <asp:UpdatePanel ID="UpdateLabel12X" runat="server">
@@ -152,9 +140,10 @@
                             </div>
                         </div>
                     </div>
-                    <div  style="text-align: center;">
+                    <div style="text-align: center;">
                         <div style="font-size: 16px; margin-bottom: 10px;">
-                            <img src="Image/Small/web.png" class="icon_left" />เว็บไซต์ในสถาบัน</div>
+                            <img src="Image/Small/web.png" class="icon_left" />เว็บไซต์ในสถาบัน
+                        </div>
                         <div>
                             <div class="web-link">
                                 <a href="http://www.rmutto.ac.th">บางพระ</a>
@@ -166,6 +155,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ลืมรหัสผ่าน</h4>
+                    </div>
+
+                    <div class="modal-footer" style="text-align: center; display: inline-block;">
+                        <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm ekknidBottom" placeholder="กรุณากรอกอีเมล" Width="300px"></asp:TextBox>
+                        <asp:LinkButton ID="lbuForget" runat="server" CssClass="btn btn-default" OnClick="lbuForget_Click">กู้คืนรหัสผ่าน</asp:LinkButton>
+                    </div>
+                </div>
+
             </div>
         </div>
     </form>
