@@ -331,7 +331,7 @@
 				<div>
 				    <a href="Profile.aspx" class="ps-ms-button-orange">แก้ไขข้อมูล</a>
                     <a href="ChangePassword.aspx" class="ps-ms-button-blue">เปลี่ยนรหัสผ่าน</a>
-				    <a href="Access.aspx" class="ps-ms-button-red">ออกจากระบบ</a>
+                    <asp:LinkButton ID="lbuLogout" runat="server" CssClass="ps-ms-button-red" OnClick="lbuLogout_Click">ออกจากระบบ</asp:LinkButton>
                 </div>
 			</div>
 

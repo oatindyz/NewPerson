@@ -231,7 +231,7 @@ namespace WEB_PERSONAL
 
         protected void lbuLogout_Click(object sender, EventArgs e)
         {
-            Session.Remove("PersonnelSystem");
+            Session.Clear();
             Response.Redirect("Access.aspx");
         }
 

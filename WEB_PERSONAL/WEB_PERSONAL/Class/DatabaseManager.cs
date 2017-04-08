@@ -99,14 +99,14 @@ namespace WEB_PERSONAL.Class {
         public static SqlDataSource CreateSQLDataSource(string sql) {
             return new SqlDataSource("Oracle.DataAccess.Client", CONNECTION_STRING, sql);
         }
-        public static bool ValidateUser(int personID, DateTime password) {
+        public static bool ValidateUser(string personID, DateTime password) {
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(CONNECTION_STRING)) {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT PS_ID, PS_BIRTHDAY_DATE FROM PS_PERSON", con)) {
+                using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID, PS_BIRTHDAY_DATE FROM PS_PERSON", con)) {
                     using (OracleDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
-                            if (reader.GetInt32(0) == personID && reader.GetDateTime(1) == password) {
+                            if (reader.GetString(0) == personID && reader.GetDateTime(1) == password) {
                                 return true;
                             }
                         }

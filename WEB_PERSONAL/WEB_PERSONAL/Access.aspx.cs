@@ -26,7 +26,7 @@ namespace WEB_PERSONAL
 
                 if (Request.QueryString["ID"] != null && Request.QueryString["Password"] != null && Request.QueryString["Action"] != null)
                 {
-                    if (DatabaseManager.ValidateUser(Convert.ToInt32(Request.QueryString["ID"]), Util.ToDateTimeOracle(Server.UrlDecode(Request.QueryString["Password"]))))
+                    if (DatabaseManager.ValidateUser(Request.QueryString["ID"], Util.ToDateTimeOracle(Server.UrlDecode(Request.QueryString["Password"]))))
                     {
                         ps.LoginPerson = DatabaseManager.GetPerson(Request.QueryString["ID"].ToString());
                         Session["PersonnelSystem"] = ps;
@@ -45,7 +45,7 @@ namespace WEB_PERSONAL
                     }
                 }
             }
-            Session.Clear();
+            //Session.Clear();
         }
 
         static string GetMd5Hash(MD5 md5Hash, string input)
@@ -224,7 +224,7 @@ namespace WEB_PERSONAL
                 {
                     OracleConnection.ClearAllPools();
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("SELECT PS_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_EMAIL = '" + tbEmail.Text + "'", con))
+                    using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_EMAIL = '" + tbEmail.Text + "'", con))
                     {
                         using (OracleDataReader reader = com.ExecuteReader())
                         {
@@ -232,7 +232,7 @@ namespace WEB_PERSONAL
                             {
                                 psID = reader.GetInt32(0).ToString();
                                 Birthday = reader.GetDateTime(1).ToShortDateString();
-                                string Reset = DatabaseManager.ExecuteString("UPDATE PS_PERSON SET PS_PASSWORD = '" + DBNull.Value + "', ST_LOGIN_ID = 0 WHERE PS_ID = '" + psID + "'");
+                                string Reset = DatabaseManager.ExecuteString("UPDATE PS_PERSON SET PS_PASSWORD = '" + DBNull.Value + "', ST_LOGIN_ID = 0 WHERE PS_CITIZEN_ID = '" + psID + "'");
 
                                 var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
                                 var toAddress = new MailAddress(tbEmail.Text, "To Name");

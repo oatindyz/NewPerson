@@ -112,6 +112,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.Label lbMasterName;
         
         /// <summary>
+        /// lbuLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbuLogout;
+        
+        /// <summary>
         /// noti_leave_none control.
         /// </summary>
         /// <remarks>
