@@ -323,6 +323,7 @@ namespace WEB_PERSONAL
                     com.Parameters.Add(new OracleParameter("ST_LOGIN_ID", "0"));
                     com.Parameters.Add(new OracleParameter("PERSON_ROLE_ID", "1"));
                     com.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", ddlPositionID.SelectedValue));
+                    
                     id = com.ExecuteNonQuery();
                     /*
                     com.Parameters.Add(new OracleParameter("SALARY", tbSalary.Text));

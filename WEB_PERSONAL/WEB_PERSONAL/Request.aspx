@@ -32,11 +32,17 @@
                             <td class="col2">
                                 <asp:Label ID="lbTitleID" runat="server"></asp:Label>
                             </td>
+                            <td>
+                                <asp:DropDownList ID="ddlTitleID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
+                            </td>
                         </tr>
                         <tr>
                             <td class="col1">ชื่อ</td>
                             <td class="col2">
                                 <asp:Label ID="lbFirstName" runat="server"></asp:Label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="tbFirstName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -44,11 +50,17 @@
                             <td class="col2">
                                 <asp:Label ID="lbLastName" runat="server"></asp:Label>
                             </td>
+                            <td>
+                                <asp:TextBox ID="tbLastName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
+                            </td>
                         </tr>
                         <tr>
                             <td class="col1">เพศ</td>
                             <td class="col2">
                                 <asp:Label ID="lbGenderID" runat="server"></asp:Label>
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="ddlGenderID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -56,52 +68,21 @@
                             <td class="col2">
                                 <asp:Label ID="lbBirthdayDate" runat="server"></asp:Label>
                             </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">อีเมล</td>
-                            <td class="col2">
-                                <asp:Label ID="lbEmail" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
-                    <table class="ps-table-x16" style="display: inline-block; vertical-align: top; text-align: left;">
-                        <tr>
-                            <td class="col1">คำนำหน้า</td>
-                            <td class="col2">
-                                <asp:DropDownList ID="ddlTitleID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">ชื่อ</td>
-                            <td class="col2">
-                                <asp:TextBox ID="tbFirstName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">นามสกุล</td>
-                            <td class="col2">
-                                <asp:TextBox ID="tbLastName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">เพศ</td>
-                            <td class="col2">
-                                <asp:DropDownList ID="ddlGenderID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">วันเกิด</td>
-                            <td class="col2">
+                            <td>
                                 <asp:TextBox ID="tbBirthdayDate" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">อีเมล</td>
                             <td class="col2">
+                                <asp:Label ID="lbEmail" runat="server"></asp:Label>
+                            </td>
+                            <td>
                                 <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                     </table>
+                    
                     <div style="text-align: center; margin-top: 20px">
                         <asp:Button ID="btnSaveRequest" runat="server" CssClass="btn btn-success" Text="บันทึก" OnClick="btnSaveRequest_Click"></asp:Button>
                     </div>

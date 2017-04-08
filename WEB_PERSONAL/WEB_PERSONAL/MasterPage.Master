@@ -19,6 +19,10 @@
     <script src="jQueryCalendarThai/jquery-1.9.0.min.js"></script>
     <script src="jQueryCalendarThai/jquery-ui-1.10.3.custom.js"></script>
 
+    
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+
     <script src="jquery.mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
     <link href="jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
 
@@ -228,6 +232,9 @@
             
             <div class="ps-ms-left-separator"></div>
 
+            <asp:ContentPlaceHolder ID="ContentPlaceHolderLeft" runat="server">
+                </asp:ContentPlaceHolder>
+
             <div class="ps-ms-left-down">
                 
                 <div>เวอร์ชั่น : v1.3</div>
@@ -272,7 +279,6 @@
             </div>
             <div id="hvr4" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>
-                <a href="DataManager.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />แก้ไขข้อมูลตัวเลือก (Dropdown List)</a>
                 <a href="Permission.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการสิทธิใช้งานระบบ</a>
                 <a href="ChangePassword.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />เปลี่ยนรหัสผ่าน</a>
             </div>

@@ -30,13 +30,15 @@
             <span style="text-align: right; float: right;"><a href="Request.aspx">
                 <img src="Image/Small/edit.png" />ยื่นคำร้องขอแก้ไขข้อมูลที่ถูกล็อค</a></span>
         </div>
-        <table class="ps-table-x16" style="display: inline-block; vertical-align: top; text-align: left;">
-                <tr>
-                </tr>
-        </table>
+
         <div class="ps-box">
             <div class="ps-box-i0">
                 <div class="ps-box-ct10" style="text-align: center;">
+
+                    <div style="float: left;">
+                        <img id="profile_main" src="Image/no_image.png" runat="server" />
+                    </div>
+
                     <table class="ps-table-x16" style="display: inline-block; vertical-align: top; text-align: left;">
                         <tr>
                             <td class="col1">รหัสบัตรประชาชน</td>
@@ -294,19 +296,15 @@
                         </tr>
                     </table>
                     <div class="ps-separator"></div>
-                    <div class="ps-box-hd10"style="text-align:left">
-                        <img src="Image/Small/image.png" />รูปภาพ
-                    </div>
-                    <div class="row">
-                        <div class="input-group">
-                            <div id="id1" runat="server">
-                                <div style="display: inline-block; vertical-align: top; text-align: left;">
-                                    <asp:FileUpload ID="FileUpload1" runat="server" CssClass="btn btn-warning" required="required" />
-                                    <asp:LinkButton ID="lbuUploadPicture" runat="server" OnClick="lbuUploadPicture_Click" CssClass="btn btn-success" Text="อัพโหลด" />
-                                </div>
-                            </div>
+                    <div id="id1" runat="server">
+                        <div class="ps-box-hd10"style="text-align:left">
+                            <img src="Image/Small/image.png" />รูปภาพ
+                            <asp:FileUpload ID="FileUpload1" runat="server" CssClass="btn btn-warning" required="required" style="display: inline-block;" />
+                            <asp:LinkButton ID="lbuUploadPicture" runat="server" OnClick="lbuUploadPicture_Click" CssClass="btn btn-success" Text="อัพโหลด" />
                         </div>
-                    </div>
+                     </div>
+           
+                    
                 </div>
                 <div class="c1" id="profile_images" runat="server">
                 </div>

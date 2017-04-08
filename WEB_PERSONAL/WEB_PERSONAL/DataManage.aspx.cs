@@ -16,7 +16,7 @@ namespace WEB_PERSONAL
         {
             if (!IsPostBack)
             {
-
+                BindTitle();
             }
              
             if (Request.QueryString["ID"] == "Title") { BindTitle(); }
@@ -44,9 +44,37 @@ namespace WEB_PERSONAL
             else if (Request.QueryString["ID"] == "MovementType") { BindMovementType(); }
         }
 
+
+        private void HideAll() {
+            Panel1.Visible = false;
+            Panel2.Visible = false;
+            Panel3.Visible = false;
+            Panel4.Visible = false;
+            Panel5.Visible = false;
+            Panel6.Visible = false;
+            Panel7.Visible = false;
+            Panel8.Visible = false;
+            Panel9.Visible = false;
+            Panel10.Visible = false;
+            Panel11.Visible = false;
+            Panel12.Visible = false;
+            Panel13.Visible = false;
+            Panel14.Visible = false;
+            Panel15.Visible = false;
+            Panel16.Visible = false;
+            Panel17.Visible = false;
+            Panel18.Visible = false;
+            Panel19.Visible = false;
+            Panel20.Visible = false;
+            Panel21.Visible = false;
+            Panel22.Visible = false;
+            Panel23.Visible = false;
+        }
+
         //
         protected void BindTitle()
         {
+            HideAll();
             Panel1.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT TITLE_ID,TITLE_NAME_TH FROM TB_TITLENAME ORDER BY ABS(TITLE_ID) ASC", con);
@@ -131,6 +159,7 @@ namespace WEB_PERSONAL
         //
         protected void BindGender()
         {
+            HideAll();
             Panel2.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT GENDER_ID,GENDER_NAME FROM TB_GENDER ORDER BY ABS(GENDER_ID) ASC", con);
@@ -215,6 +244,7 @@ namespace WEB_PERSONAL
         //
         protected void BindProvince()
         {
+            HideAll();
             Panel3.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT PROVINCE_ID,PROVINCE_TH FROM TB_PROVINCE ORDER BY ABS(PROVINCE_ID) ASC", con);
@@ -299,6 +329,7 @@ namespace WEB_PERSONAL
         //
         protected void BindAmphur()
         {
+            HideAll();
             Panel4.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT AMPHUR_ID,AMPHUR_TH FROM TB_AMPHUR ORDER BY ABS(AMPHUR_ID) ASC", con);
@@ -383,6 +414,7 @@ namespace WEB_PERSONAL
         //
         protected void BindTambon()
         {
+            HideAll();
             Panel5.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT DISTRICT_ID,DISTRICT_TH FROM TB_DISTRICT ORDER BY ABS(DISTRICT_ID) ASC", con);
@@ -467,6 +499,7 @@ namespace WEB_PERSONAL
         //
         protected void BindNation()
         {
+            HideAll();
             Panel6.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT NATION_ID,NATION_NAME_EN FROM TB_NATION ORDER BY ABS(NATION_ID) ASC", con);
@@ -551,6 +584,7 @@ namespace WEB_PERSONAL
         //
         protected void BindCampus()
         {
+            HideAll();
             Panel7.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT CAMPUS_ID,CAMPUS_NAME FROM TB_CAMPUS ORDER BY ABS(CAMPUS_ID) ASC", con);
@@ -635,6 +669,7 @@ namespace WEB_PERSONAL
         //
         protected void BindFaculty()
         {
+            HideAll();
             Panel8.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT FACULTY_ID,FACULTY_NAME FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", con);
@@ -719,6 +754,7 @@ namespace WEB_PERSONAL
         //
         protected void BindDivision()
         {
+            HideAll();
             Panel9.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT DIVISION_ID,DIVISION_NAME FROM TB_DIVISION ORDER BY ABS(DIVISION_ID) ASC", con);
@@ -803,6 +839,7 @@ namespace WEB_PERSONAL
         //
         protected void BindWorkDivision()
         {
+            HideAll();
             Panel10.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT WORK_ID,WORK_NAME FROM TB_WORK_DIVISION ORDER BY ABS(WORK_ID) ASC", con);
@@ -887,6 +924,7 @@ namespace WEB_PERSONAL
         //
         protected void BindStafftype()
         {
+            HideAll();
             Panel11.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT STAFFTYPE_ID,STAFFTYPE_NAME FROM TB_STAFFTYPE ORDER BY ABS(STAFFTYPE_ID) ASC", con);
@@ -971,6 +1009,7 @@ namespace WEB_PERSONAL
         //
         protected void BindTimeContact()
         {
+            HideAll();
             Panel12.Visible = true;
 
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
@@ -1057,6 +1096,7 @@ namespace WEB_PERSONAL
         //
         protected void BindBudget()
         {
+            HideAll();
             Panel13.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT BUDGET_ID,BUDGET_NAME FROM TB_BUDGET ORDER BY ABS(BUDGET_ID) ASC", con);
@@ -1142,6 +1182,7 @@ namespace WEB_PERSONAL
         //
         protected void BindSubStafftype()
         {
+            HideAll();
             Panel14.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT SUBSTAFFTYPE_ID,SUBSTAFFTYPE_NAME FROM TB_SUBSTAFFTYPE ORDER BY ABS(SUBSTAFFTYPE_ID) ASC", con);
@@ -1226,6 +1267,7 @@ namespace WEB_PERSONAL
         //
         protected void BindAdminPosition()
         {
+            HideAll();
             Panel15.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT ADMIN_POSITION_ID,ADMIN_POSITION_NAME FROM TB_ADMIN_POSITION ORDER BY ABS(ADMIN_POSITION_ID) ASC", con);
@@ -1310,6 +1352,7 @@ namespace WEB_PERSONAL
         //
         protected void BindPosition()
         {
+            HideAll();
             Panel16.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT P_ID,P_NAME FROM TB_POSITION ORDER BY ABS(P_ID) ASC", con);
@@ -1394,6 +1437,7 @@ namespace WEB_PERSONAL
         //
         protected void BindWorkPos()
         {
+            HideAll();
             Panel17.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT POSITION_WORK_ID,POSITION_WORK_NAME FROM TB_POSITION_WORK ORDER BY ABS(POSITION_WORK_ID) ASC", con);
@@ -1478,6 +1522,7 @@ namespace WEB_PERSONAL
         //
         protected void BindTeachISCED()
         {
+            HideAll();
             Panel18.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT ISCED_CODE,ISCED_NAME FROM TB_ISCED ORDER BY ABS(ISCED_CODE) ASC", con);
@@ -1562,6 +1607,7 @@ namespace WEB_PERSONAL
         //
         protected void BindGradLev()
         {
+            HideAll();
             Panel19.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT LEV_ID,LEV_NAME_TH FROM TB_LEV ORDER BY ABS(LEV_ID) ASC", con);
@@ -1646,6 +1692,7 @@ namespace WEB_PERSONAL
         //
         protected void BindGradProg()
         {
+            HideAll();
             Panel20.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT PROGRAM_ID_NEW,PROGRAM_NAME FROM TB_PROGRAM ORDER BY ABS(PROGRAM_ID_NEW) ASC", con);
@@ -1731,6 +1778,7 @@ namespace WEB_PERSONAL
         //
         protected void BindDeform()
         {
+            HideAll();
             Panel21.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT DEFORM_ID,DEFORM_NAME FROM TB_DEFORM ORDER BY ABS(DEFORM_ID) ASC", con);
@@ -1815,6 +1863,7 @@ namespace WEB_PERSONAL
         //
         protected void BindReligion()
         {
+            HideAll();
             Panel22.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT RELIGION_ID,RELIGION_NAME FROM TB_RELIGION ORDER BY ABS(RELIGION_ID) ASC", con);
@@ -1899,6 +1948,7 @@ namespace WEB_PERSONAL
         //
         protected void BindMovementType()
         {
+            HideAll();
             Panel23.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
             OracleDataAdapter sda = new OracleDataAdapter("SELECT MOVEMENT_TYPE_ID,MOVEMENT_TYPE_NAME FROM TB_MOVEMENT_TYPE ORDER BY ABS(MOVEMENT_TYPE_ID) ASC", con);

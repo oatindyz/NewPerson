@@ -25,6 +25,8 @@ namespace WEB_PERSONAL {
 
             profile_images.InnerHtml = "";
 
+            profile_main.Src = "Upload/PersonImage/" + DatabaseManager.GetPersonImageFileName(pp.PS_CITIZEN_ID);
+
             List<int> ids = new List<int>();
             List<string> urls = new List<string>();
 
