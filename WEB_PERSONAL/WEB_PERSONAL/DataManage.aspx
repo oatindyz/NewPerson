@@ -15,8 +15,6 @@
             });
         });
     </script>
-    
-    
 
     <style>
         .c1 {
@@ -39,7 +37,6 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolderLeft" runat="server">
     <div class="c1">
-        
             <asp:LinkButton ID="lbuMenuTitle" runat="server" OnClick="lbuMenuTitle_Click"><img src="Image/Small/wrench.png" class="icon_left"/> คำนำหน้า</asp:LinkButton>
         
             <asp:LinkButton ID="lbuMenuGender" runat="server" OnClick="lbuMenuGender_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เพศ</asp:LinkButton>
@@ -59,7 +56,6 @@
             <asp:LinkButton ID="lbuMenuDivision" runat="server" OnClick="lbuMenuDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> กอง/สำนักงานเลขา/ภาควิชา</asp:LinkButton>
         
             <asp:LinkButton ID="lbuMenuWorkDivision" runat="server" OnClick="lbuMenuWorkDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> งาน/ฝ่าย</asp:LinkButton>
-
         
             <asp:LinkButton ID="lbuMenuStafftype" runat="server" OnClick="lbuMenuStafftype_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทบุคลากร</asp:LinkButton>
         
@@ -85,13 +81,11 @@
         
             <asp:LinkButton ID="lbuMenuReligion" runat="server" OnClick="lbuMenuReligion_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ศาสนา</asp:LinkButton>
         
-            <asp:LinkButton ID="lbuMenuMovementType" runat="server" OnClick="lbuMenuMovementType_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทการดำรงตำแหน่งปัจจุบัน</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuMovementType" runat="server" OnClick="lbuMenuMovementType_Click"><img src="Image/Small/wrench.png" class="icon_left"/> ประเภทการดำรงตำแหน่ง</asp:LinkButton>
     </div>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-
     <div>
         <asp:Panel ID="Panel1" runat="server" CssClass="divpan" visible="false">
             <div id="divheader1" runat="server" class="ps-header">
@@ -533,10 +527,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสสำนัก/สถาบัน/คณะ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdFaculty" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdFaculty" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อสำนัก/สถาบัน/คณะ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameFaculty" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameFaculty" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>อยู่ในวิทยาเขต<span class="ps-lb-red" />*<br />
                             <asp:DropDownList ID="ddlCampusInFaculty" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
@@ -598,10 +592,16 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสกอง/สำนักงานเลขา/ภาควิชา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdDivision" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdDivision" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อกอง/สำนักงานเลขา/ภาควิชา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameDivision" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameDivision" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในวิทยาเขต<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlCampusInDivision" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampusInDivision_SelectedIndexChanged" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในสำนัก/สถาบัน/คณะ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlFacultyInDivision" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertDivision" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertDivision_Click" Text="เพิ่มข้อมูล" />
@@ -621,6 +621,8 @@
                             <th>ลำดับที่</th>
                             <th>รหัสกอง/สำนักงานเลขา/ภาควิชา</th>
                             <th>ชื่อกอง/สำนักงานเลขา/ภาควิชา</th>
+                            <th>อยู่ในวิทยาเขต</th>
+                            <th>อยู่ในสำนัก/สถาบัน/คณะ</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
                     </thead>
@@ -633,6 +635,14 @@
                                 </td>
                                 <td>
                                     <asp:Label ID="lbDivisionName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "DIVISION_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFCampusInDivision" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "CAMPUS_ID") %>'/>
+                                    <asp:Label ID="lbCampusName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFFacultyInDivision" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "FACULTY_ID") %>'/>
+                                    <asp:Label ID="lbFacultyName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "FACULTY_NAME") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:LinkButton ID="lnkEditDivision" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditDivision" />
@@ -655,10 +665,19 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสงาน/ฝ่าย<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdWorkDivision" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdWorkDivision" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่องาน/ฝ่าย<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameWorkDivision" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameWorkDivision" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในวิทยาเขต<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlCampusInWorkDivision" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampusInWorkDivision_SelectedIndexChanged" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในสำนัก/สถาบัน/คณะ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlFacultyInWorkDivision" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlFacultyInWorkDivision_SelectedIndexChanged" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        </td>
+                        <td>อยู่ในกอง/สำนักงานเลขา/ภาควิชา<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlDivisionInWorkDivision" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertWorkDivision" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertWorkDivision_Click" Text="เพิ่มข้อมูล" />
@@ -678,6 +697,9 @@
                             <th>ลำดับที่</th>
                             <th>รหัสงาน/ฝ่าย</th>
                             <th>ชื่องาน/ฝ่าย</th>
+                            <th>อยู่ในวิทยาเขต</th>
+                            <th>อยู่ในสำนัก/สถาบัน/คณะ</th>
+                            <th>อยู่ในกอง/สำนักงานเลขา/ภาควิชา</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
                     </thead>
@@ -690,6 +712,18 @@
                                 </td>
                                 <td>
                                     <asp:Label ID="lbWorkDivisionName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "WORK_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFCampusInWorkDivision" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "CAMPUS_ID") %>'/>
+                                    <asp:Label ID="lbCampusName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFFacultyInWorkDivision" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "FACULTY_ID") %>'/>
+                                    <asp:Label ID="lbFacultyName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "FACULTY_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFDivisionInWorkDivision" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "DIVISION_ID") %>'/>
+                                    <asp:Label ID="lbDivisionName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "DIVISION_NAME") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:LinkButton ID="lnkEditWorkDivision" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditWorkDivision" />
@@ -712,10 +746,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสประเภทบุคลากร<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdStafftype" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdStafftype" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อประเภทบุคลากร<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameStafftype" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameStafftype" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertStafftype" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertStafftype_Click" Text="เพิ่มข้อมูล" />
@@ -769,10 +803,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสระยะเวลาจ้าง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdTimeContact" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdTimeContact" onkeypress="return isNumberKey(event)" MaxLength="4" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อระยะเวลาจ้าง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameTimeContact" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameTimeContact" MaxLength="255" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertTimeContact" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertTimeContact_Click" Text="เพิ่มข้อมูล" />
@@ -826,10 +860,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสประเภทเงินจ้าง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdBudget" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdBudget" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อประเภทเงินจ้าง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameBudget" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameBudget" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertBudget" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertBudget_Click" Text="เพิ่มข้อมูล" />
@@ -883,10 +917,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสประเภทบุคลากรย่อย<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdSubStafftype" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdSubStafftype" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อประเภทบุคลากรย่อย<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameSubStafftype" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameSubStafftype" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertSubStafftype" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertSubStafftype_Click" Text="เพิ่มข้อมูล" />
@@ -940,10 +974,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสตำแหน่งบริหาร<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdAdminPosition" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdAdminPosition" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อตำแหน่งบริหาร<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameAdminPosition" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameAdminPosition" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertAdminPosition" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertAdminPosition_Click" Text="เพิ่มข้อมูล" />
@@ -997,10 +1031,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสระดับตำแหน่ง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdPosition" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdPosition" onkeypress="return isNumberKey(event)" MaxLength="4" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อระดับตำแหน่ง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNamePosition" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNamePosition" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertPosition" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertPosition_Click" Text="เพิ่มข้อมูล" />
@@ -1054,10 +1088,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสตำแหน่งในสายงาน<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdWorkPos" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdWorkPos" runat="server" onkeypress="return isNumberKey(event)" MaxLength="5" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อตำแหน่งในสายงาน<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameWorkPos" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameWorkPos" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertWorkPos" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertWorkPos_Click" Text="เพิ่มข้อมูล" />
@@ -1111,10 +1145,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสกลุ่มสาขาวิชา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdTeachISCED" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdTeachISCED" runat="server" MaxLength="8" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อกลุ่มสาขาวิชา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameTeachISCED" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameTeachISCED" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertTeachISCED" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertTeachISCED_Click" Text="เพิ่มข้อมูล" />
@@ -1142,6 +1176,7 @@
                             <tr>
                                 <td><%# Container.ItemIndex +1 %></td>
                                 <td>
+                                    <asp:HiddenField ID="HFTeachISCEDID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "ISCED_ID") %>' />
                                     <asp:Label ID="lbTeachISCEDID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ISCED_CODE") %>'></asp:Label>
                                 </td>
                                 <td>
@@ -1168,10 +1203,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสระดับการศึกษา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdGradLev" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdGradLev" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อระดับการศึกษา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameGradLev" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameGradLev" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertGradLev" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertGradLev_Click" Text="เพิ่มข้อมูล" />
@@ -1225,10 +1260,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสสาขาวิชา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdGradProg" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdGradProg" onkeypress="return isNumberKey(event)" MaxLength="6" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อสาขาวิชา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameGradProg" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameGradProg" MaxLength="255" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertGradProg" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertGradProg_Click" Text="เพิ่มข้อมูล" />
@@ -1282,10 +1317,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสความพิการ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdDeform" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdDeform" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อความพิการ<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameDeform" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameDeform" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertDeform" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertDeform_Click" Text="เพิ่มข้อมูล" />
@@ -1339,10 +1374,10 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <td>รหัสศาสนา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdReligion" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertIdReligion" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>ชื่อศาสนา<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameReligion" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                            <asp:TextBox ID="tbInsertNameReligion" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertReligion" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertReligion_Click" Text="เพิ่มข้อมูล" />
@@ -1395,11 +1430,11 @@
                 </div>
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
-                        <td>รหัสประเภทการดำรงตำแหน่งปัจจุบัน<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertIdMovementType" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        <td>รหัสประเภทการดำรงตำแหน่ง<span class="ps-lb-red" />*<br />
+                            <asp:TextBox ID="tbInsertIdMovementType" runat="server" onkeypress="return isNumberKey(event)" MaxLength="4" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
-                        <td>ชื่อประเภทการดำรงตำแหน่งปัจจุบัน<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertNameMovementType" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        <td>ชื่อประเภทการดำรงตำแหน่ง<span class="ps-lb-red" />*<br />
+                            <asp:TextBox ID="tbInsertNameMovementType" runat="server" MaxLength="255" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
                         <td>จัดการข้อมูล:<br />
                             <asp:Button ID="btnInsertMovementType" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertMovementType_Click" Text="เพิ่มข้อมูล" />
@@ -1417,8 +1452,8 @@
                     <thead>
                         <tr>
                             <th>ลำดับที่</th>
-                            <th>รหัสประเภทการดำรงตำแหน่งปัจจุบัน</th>
-                            <th>ชื่อประเภทการดำรงตำแหน่งปัจจุบัน</th>
+                            <th>รหัสประเภทการดำรงตำแหน่ง</th>
+                            <th>ชื่อประเภทการดำรงตำแหน่ง</th>
                             <th>จัดการข้อมูล</th>
                         </tr>
                     </thead>

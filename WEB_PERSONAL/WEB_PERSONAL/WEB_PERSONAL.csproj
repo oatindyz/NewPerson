@@ -186,7 +186,9 @@
     <Content Include="404.aspx" />
     <Content Include="Access.aspx" />
     <Content Include="AddGP7.aspx" />
+    <Content Include="AddPosition.aspx" />
     <Content Include="Addproject.aspx" />
+    <Content Include="AddSalary.aspx" />
     <Content Include="Adduser.aspx" />
     <Content Include="bootstrap\css\bootstrap.css" />
     <Content Include="bootstrap\css\bootstrap.min.css" />
@@ -1008,6 +1010,7 @@
     <Content Include="obj\Debug\WEB_PERSONAL.csprojResolveAssemblyReference.cache" />
     <Content Include="Permission.aspx" />
     <Content Include="PersonBranch.aspx" />
+    <Content Include="PersonReport.aspx" />
     <Content Include="Plugins\ckeditor\CHANGES.md" />
     <Content Include="Plugins\ckeditor\ckeditor.pack" />
     <Content Include="Plugins\ckeditor\ckeditor.php" />
@@ -2828,12 +2831,26 @@
     <Compile Include="AddGP7.aspx.designer.cs">
       <DependentUpon>AddGP7.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AddPosition.aspx.cs">
+      <DependentUpon>AddPosition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddPosition.aspx.designer.cs">
+      <DependentUpon>AddPosition.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Addproject.aspx.cs">
       <DependentUpon>Addproject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Addproject.aspx.designer.cs">
       <DependentUpon>Addproject.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AddSalary.aspx.cs">
+      <DependentUpon>AddSalary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddSalary.aspx.designer.cs">
+      <DependentUpon>AddSalary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Adduser.aspx.cs">
       <DependentUpon>Adduser.aspx</DependentUpon>
@@ -3027,6 +3044,13 @@
     </Compile>
     <Compile Include="PersonBranch.aspx.designer.cs">
       <DependentUpon>PersonBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PersonReport.aspx.cs">
+      <DependentUpon>PersonReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PersonReport.aspx.designer.cs">
+      <DependentUpon>PersonReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>

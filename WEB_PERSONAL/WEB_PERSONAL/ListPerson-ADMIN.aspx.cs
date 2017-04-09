@@ -24,7 +24,7 @@ namespace WEB_PERSONAL
         protected void BindData()
         {
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT PS_CITIZEN_ID, PS_FIRSTNAME || ' ' || PS_LASTNAME NAME, (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE STAFFTYPE_ID = PS_STAFFTYPE_ID) STAFFTYPE_NAME,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE CAMPUS_ID = PS_CAMPUS_ID) CAMPUS_NAME, (SELECT FACULTY_NAME FROM TB_FACULTY WHERE FACULTY_ID = PS_FACULTY_ID) FACULTY_NAME, (SELECT DIVISION_NAME FROM TB_DIVISION WHERE DIVISION_ID = PS_DIVISION_ID) DIVISION_NAME, (SELECT WORK_NAME FROM TB_WORK_DIVISION WHERE WORK_ID = PS_WORK_DIVISION_ID) WORK_NAME FROM PS_PERSON", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT PS_ID,PS_CITIZEN_ID, PS_FIRSTNAME || ' ' || PS_LASTNAME NAME, (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE STAFFTYPE_ID = PS_STAFFTYPE_ID) STAFFTYPE_NAME, (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) CAMPUS_NAME FROM PS_PERSON", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeater.DataSource = dt;
@@ -33,12 +33,18 @@ namespace WEB_PERSONAL
 
         protected void myRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            /*if (e.CommandName == "Edit" && e.CommandArgument.ToString() != "")
+            if (e.CommandName == "ManagePosition" && e.CommandArgument.ToString() != "")
             {
-                LinkButton lbu = (LinkButton)e.Item.FindControl("lbuEdit");
+                LinkButton lbu = (LinkButton)e.Item.FindControl("lbuManagePosition");
                 string value = lbu.CommandArgument;
-                Response.Redirect("#.aspx?id=" + value);
-            }*/
+                Response.Redirect("AddPosition.aspx?id=" + value);
+            }
+            if (e.CommandName == "ManageSalary" && e.CommandArgument.ToString() != "")
+            {
+                LinkButton lbu = (LinkButton)e.Item.FindControl("lbuManageSalary");
+                string value = lbu.CommandArgument;
+                Response.Redirect("AddSalary.aspx?id=" + value);
+            }
         }
 
     }

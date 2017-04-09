@@ -1111,6 +1111,24 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbInsertNameDivision;
         
         /// <summary>
+        /// ddlCampusInDivision control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampusInDivision;
+        
+        /// <summary>
+        /// ddlFacultyInDivision control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFacultyInDivision;
+        
+        /// <summary>
         /// btnInsertDivision control.
         /// </summary>
         /// <remarks>
@@ -1208,6 +1226,33 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbInsertNameWorkDivision;
+        
+        /// <summary>
+        /// ddlCampusInWorkDivision control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampusInWorkDivision;
+        
+        /// <summary>
+        /// ddlFacultyInWorkDivision control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFacultyInWorkDivision;
+        
+        /// <summary>
+        /// ddlDivisionInWorkDivision control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlDivisionInWorkDivision;
         
         /// <summary>
         /// btnInsertWorkDivision control.

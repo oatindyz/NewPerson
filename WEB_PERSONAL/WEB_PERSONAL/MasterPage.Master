@@ -262,10 +262,11 @@
             <div id="hvr1" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="listPerson-admin.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลบุคลากร</a>
-                <a href="listProject.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลการเพิ่มพัฒนาบุคลากร</a>
+                <a href="listProject.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลการพัฒนาบุคลากร</a>
                 <a href="Boss.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>
                 <a href="PersonBranch.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/list.png" />แผนผังบุคลากร</a>
                 <a href="DataManage.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />การจัดการข้อมูล</a>
+                <a href="PersonReport.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/report.png" />ออกรายงานบุคลากร</a>
                 <!--<a href="AddPerson-Edit.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/edit.png" />แก้ไขข้อมูลบุคลากร</a>
                 <a href="ListPerson-ADMIN.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />รายชื่อบุคลากร</a>        
                 <a href="SEMINAR-ADMIN.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/edit.png" />การแก้ไขพัฒนาบุคลากร</a>

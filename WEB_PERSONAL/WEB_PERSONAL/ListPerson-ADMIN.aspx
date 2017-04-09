@@ -36,21 +36,20 @@
                                 <th>ชื่อ-สกุล</th>
                                 <th>ประเภทบุคลากร</th>
                                 <th>วิทยาเขต</th>
-                                <th>สำนัก / สถาบัน / คณะ</th>
-                                <th>กอง / สำนักงานเลขา / ภาควิชา</th>
-                                <th>งาน / ฝ่าย</th>
+                                <th>จัดการข้อมูล</th>
                             </tr>
                         </thead>
                         <asp:Repeater ID="myRepeater" runat="server" OnItemCommand="myRepeater_ItemCommand">
                             <ItemTemplate>
                                 <tr>
-                                    <td><%# Container.ItemIndex +1 %></td>
+                                    <td><%# Container.ItemIndex +1 %><asp:HiddenField ID="HF1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "PS_ID").ToString()%>'/></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "STAFFTYPE_NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "FACULTY_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "DIVISION_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "WORK_NAME") %></td>
+                                    <td>
+                                        <a><asp:LinkButton ID="lbuManagePosition" CommandName="ManagePosition" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight">จัดการข้อมูลตำแหน่ง</asp:LinkButton></a>
+                                        <a><asp:LinkButton ID="lbuManageSalary" CommandName="ManageSalary" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight">จัดการข้อมูลเงินเดือน</asp:LinkButton></a>
+                                    </td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

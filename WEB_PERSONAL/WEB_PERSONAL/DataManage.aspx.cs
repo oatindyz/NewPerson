@@ -427,12 +427,9 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterTambon.DataSource = dt;
             myRepeaterTambon.DataBind();
-
             DatabaseManager.BindDropDown(ddlProvinceInTambon, "SELECT * FROM TB_PROVINCE ORDER BY ABS(PROVINCE_ID) ASC", "PROVINCE_TH", "PROVINCE_ID", "--กรุณาเลือก--");
-            if (ddlProvinceInTambon.SelectedValue == "")
-            {
-                DatabaseManager.BindDropDown(ddlAmphurInTambon, "SELECT * FROM TB_AMPHUR ORDER BY ABS(AMPHUR_ID) ASC", "AMPHUR_TH", "AMPHUR_ID", "--กรุณาเลือก--");
-            }
+            DatabaseManager.BindDropDown(ddlAmphurInTambon, "SELECT * FROM TB_AMPHUR ORDER BY ABS(AMPHUR_ID) ASC", "AMPHUR_TH", "AMPHUR_ID");
+            ddlAmphurInTambon.Items.Insert(0, new ListItem("--กรุณาเลือก--", "0"));
         }
         //Province
         protected void ddlProvinceInTambon_SelectedIndexChanged(object sender, EventArgs e)
@@ -723,18 +720,18 @@ namespace WEB_PERSONAL
             HideAll();
             Panel8.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT FACULTY_ID,FACULTY_NAME,CAMPUS_ID,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = TB_FACULTY.CAMPUS_ID) FACULTY_NAME FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT FACULTY_ID,FACULTY_NAME,CAMPUS_ID,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = TB_FACULTY.CAMPUS_ID) CAMPUS_NAME FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterFaculty.DataSource = dt;
             myRepeaterFaculty.DataBind();
+            DatabaseManager.BindDropDown(ddlCampusInFaculty, "SELECT * FROM TB_CAMPUS ORDER BY ABS(CAMPUS_ID) ASC", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
         }
         protected void ClearFaculty()
         {
             tbInsertIdFaculty.Text = "";
             tbInsertNameFaculty.Text = "";
             ddlCampusInFaculty.SelectedIndex = 0;
-            //ถึงตรงนี้
         }
         protected void lbuMenuFaculty_Click(object sender, EventArgs e)
         {
@@ -749,7 +746,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_FACULTY (FACULTY_ID,FACULTY_NAME) VALUES (" + tbInsertIdFaculty.Text + "," + tbInsertNameFaculty.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_FACULTY (FACULTY_ID,FACULTY_NAME,CAMPUS_ID) VALUES (" + tbInsertIdFaculty.Text + ",'" + tbInsertNameFaculty.Text + "', " + ddlCampusInFaculty.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindFaculty();
             ClearFaculty();
@@ -758,6 +755,7 @@ namespace WEB_PERSONAL
         {
             string ValueID = tbInsertIdFaculty.Text;
             string ValueName = tbInsertNameFaculty.Text;
+            string ValueCampusID = ddlCampusInFaculty.SelectedValue;
 
             if (Session["DefaultIdFaculty"] == null)
             {
@@ -765,9 +763,9 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            if (ValueID != "" && ValueName != "")
+            if (ValueID != "" && ValueName != "" && ValueCampusID != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_FACULTY SET FACULTY_ID = '" + ValueID + "', FACULTY_NAME = '" + ValueName + "' WHERE FACULTY_ID = '" + Session["DefaultIdFaculty"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_FACULTY SET FACULTY_ID = '" + ValueID + "', FACULTY_NAME = '" + ValueName + "', CAMPUS_ID = " + ValueCampusID + " WHERE FACULTY_ID = '" + Session["DefaultIdFaculty"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindFaculty();
                 ClearFaculty();
@@ -785,9 +783,11 @@ namespace WEB_PERSONAL
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueID = (item.FindControl("lbFacultyID") as Label).Text;
             string ValueName = (item.FindControl("lbFacultyName") as Label).Text;
+            string ValueCampusID = (item.FindControl("HFCampusInFaculty") as HiddenField).Value;
 
             tbInsertIdFaculty.Text = ValueID;
             tbInsertNameFaculty.Text = ValueName;
+            ddlCampusInFaculty.SelectedValue = ValueCampusID;
 
             Session["DefaultIdFaculty"] = ValueID;
         }
@@ -810,16 +810,49 @@ namespace WEB_PERSONAL
             HideAll();
             Panel9.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT DIVISION_ID,DIVISION_NAME FROM TB_DIVISION ORDER BY ABS(DIVISION_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT DIVISION_ID,DIVISION_NAME,CAMPUS_ID,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = TB_DIVISION.CAMPUS_ID) CAMPUS_NAME,FACULTY_ID,(SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = TB_DIVISION.FACULTY_ID) FACULTY_NAME FROM TB_DIVISION ORDER BY ABS(DIVISION_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterDivision.DataSource = dt;
             myRepeaterDivision.DataBind();
+            DatabaseManager.BindDropDown(ddlCampusInDivision, "SELECT * FROM TB_CAMPUS ORDER BY ABS(CAMPUS_ID) ASC", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlFacultyInDivision, "SELECT * FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", "FACULTY_NAME", "FACULTY_ID", "--กรุณาเลือก--");
+            //ddlFacultyInDivision.Items.Insert(0, new ListItem("--กรุณาเลือก--", "0"));
+        }
+        //Campus
+        protected void ddlCampusInDivision_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OracleConnection sqlConn = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    using (OracleCommand sqlCmd = new OracleCommand())
+                    {
+                        sqlCmd.CommandText = "select * from TB_FACULTY where CAMPUS_ID = :CAMPUS_ID";
+                        sqlCmd.Parameters.Add(":CAMPUS_ID", ddlCampusInDivision.SelectedValue);
+                        sqlCmd.Connection = sqlConn;
+                        sqlConn.Open();
+                        OracleDataAdapter da = new OracleDataAdapter(sqlCmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        ddlFacultyInDivision.DataSource = dt;
+                        ddlFacultyInDivision.DataValueField = "FACULTY_ID";
+                        ddlFacultyInDivision.DataTextField = "FACULTY_NAME";
+                        ddlFacultyInDivision.DataBind();
+                        sqlConn.Close();
+
+                        ddlFacultyInDivision.Items.Insert(0, new ListItem("--กรุณาเลือก--", "0"));
+                    }
+                }
+            }
+            catch { }
         }
         protected void ClearDivision()
         {
             tbInsertIdDivision.Text = "";
             tbInsertNameDivision.Text = "";
+            ddlCampusInDivision.SelectedIndex = 0;
+            ddlFacultyInDivision.SelectedIndex = 0;
         }
         protected void lbuMenuDivision_Click(object sender, EventArgs e)
         {
@@ -834,7 +867,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_DIVISION (DIVISION_ID,DIVISION_NAME) VALUES (" + tbInsertIdDivision.Text + "," + tbInsertNameDivision.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_DIVISION (DIVISION_ID,DIVISION_NAME,CAMPUS_ID,FACULTY_ID) VALUES (" + tbInsertIdDivision.Text + ",'" + tbInsertNameDivision.Text + "'," + ddlCampusInDivision.SelectedValue + "," + ddlFacultyInDivision.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindDivision();
             ClearDivision();
@@ -843,6 +876,8 @@ namespace WEB_PERSONAL
         {
             string ValueID = tbInsertIdDivision.Text;
             string ValueName = tbInsertNameDivision.Text;
+            string ValueCampusID = ddlCampusInDivision.SelectedValue;
+            string ValueFacultyID = ddlFacultyInDivision.SelectedValue;
 
             if (Session["DefaultIdDivision"] == null)
             {
@@ -850,9 +885,9 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            if (ValueID != "" && ValueName != "")
+            if (ValueID != "" && ValueName != "" && ValueCampusID != "" && ValueFacultyID != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_DIVISION SET DIVISION_ID = '" + ValueID + "', DIVISION_NAME = '" + ValueName + "' WHERE DIVISION_ID = '" + Session["DefaultIdDivision"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_DIVISION SET DIVISION_ID = '" + ValueID + "', DIVISION_NAME = '" + ValueName + "', CAMPUS_ID = " + ValueCampusID + ", FACULTY_ID = " + ValueFacultyID + " WHERE DIVISION_ID = '" + Session["DefaultIdDivision"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindDivision();
                 ClearDivision();
@@ -870,9 +905,13 @@ namespace WEB_PERSONAL
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueID = (item.FindControl("lbDivisionID") as Label).Text;
             string ValueName = (item.FindControl("lbDivisionName") as Label).Text;
+            string ValueCampusID = (item.FindControl("HFCampusInDivision") as HiddenField).Value;
+            string ValueFacultyID = (item.FindControl("HFFacultyInDivision") as HiddenField).Value;
 
             tbInsertIdDivision.Text = ValueID;
             tbInsertNameDivision.Text = ValueName;
+            ddlCampusInDivision.SelectedValue = ValueCampusID;
+            ddlFacultyInDivision.SelectedValue = ValueFacultyID;
 
             Session["DefaultIdDivision"] = ValueID;
         }
@@ -895,16 +934,78 @@ namespace WEB_PERSONAL
             HideAll();
             Panel10.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT WORK_ID,WORK_NAME FROM TB_WORK_DIVISION ORDER BY ABS(WORK_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT WORK_ID,WORK_NAME,CAMPUS_ID,(SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = TB_WORK_DIVISION.CAMPUS_ID) CAMPUS_NAME,FACULTY_ID,(SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = TB_WORK_DIVISION.FACULTY_ID) FACULTY_NAME,DIVISION_ID,(SELECT DIVISION_NAME FROM TB_DIVISION WHERE TB_DIVISION.DIVISION_ID = TB_WORK_DIVISION.DIVISION_ID) DIVISION_NAME FROM TB_WORK_DIVISION ORDER BY ABS(WORK_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterWorkDivision.DataSource = dt;
             myRepeaterWorkDivision.DataBind();
+            DatabaseManager.BindDropDown(ddlCampusInWorkDivision, "SELECT * FROM TB_CAMPUS ORDER BY ABS(CAMPUS_ID) ASC", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlFacultyInWorkDivision, "SELECT * FROM TB_FACULTY ORDER BY ABS(FACULTY_ID) ASC", "FACULTY_NAME", "FACULTY_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlDivisionInWorkDivision, "SELECT * FROM TB_DIVISION ORDER BY ABS(DIVISION_ID) ASC", "DIVISION_NAME", "DIVISION_ID", "--กรุณาเลือก--");
+        }
+        //Campus
+        protected void ddlCampusInWorkDivision_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OracleConnection sqlConn = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    using (OracleCommand sqlCmd = new OracleCommand())
+                    {
+                        sqlCmd.CommandText = "select * from TB_FACULTY where CAMPUS_ID = :CAMPUS_ID";
+                        sqlCmd.Parameters.Add(":CAMPUS_ID", ddlCampusInWorkDivision.SelectedValue);
+                        sqlCmd.Connection = sqlConn;
+                        sqlConn.Open();
+                        OracleDataAdapter da = new OracleDataAdapter(sqlCmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        ddlFacultyInWorkDivision.DataSource = dt;
+                        ddlFacultyInWorkDivision.DataValueField = "FACULTY_ID";
+                        ddlFacultyInWorkDivision.DataTextField = "FACULTY_NAME";
+                        ddlFacultyInWorkDivision.DataBind();
+                        sqlConn.Close();
+
+                        ddlFacultyInWorkDivision.Items.Insert(0, new ListItem("--กรุณาเลือก--", "0"));
+                    }
+                }
+            }
+            catch { }
+        }
+        //Faculty
+        protected void ddlFacultyInWorkDivision_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OracleConnection sqlConn = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    using (OracleCommand sqlCmd = new OracleCommand())
+                    {
+                        sqlCmd.CommandText = "select * from TB_DIVISION where FACULTY_ID = :FACULTY_ID";
+                        sqlCmd.Parameters.Add(":FACULTY_ID", ddlFacultyInWorkDivision.SelectedValue);
+                        sqlCmd.Connection = sqlConn;
+                        sqlConn.Open();
+                        OracleDataAdapter da = new OracleDataAdapter(sqlCmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        ddlDivisionInWorkDivision.DataSource = dt;
+                        ddlDivisionInWorkDivision.DataValueField = "DIVISION_ID";
+                        ddlDivisionInWorkDivision.DataTextField = "DIVISION_NAME";
+                        ddlDivisionInWorkDivision.DataBind();
+                        sqlConn.Close();
+
+                        ddlDivisionInWorkDivision.Items.Insert(0, new ListItem("--กรุณาเลือก--", "0"));
+                    }
+                }
+            }
+            catch { }
         }
         protected void ClearWorkDivision()
         {
             tbInsertIdWorkDivision.Text = "";
             tbInsertNameWorkDivision.Text = "";
+            ddlCampusInWorkDivision.SelectedIndex = 0;
+            ddlFacultyInWorkDivision.SelectedIndex = 0;
+            ddlDivisionInWorkDivision.SelectedIndex = 0;
         }
         protected void lbuMenuWorkDivision_Click(object sender, EventArgs e)
         {
@@ -919,7 +1020,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_WORK_DIVISION (WORK_ID,WORK_NAME) VALUES (" + tbInsertIdWorkDivision.Text + "," + tbInsertNameWorkDivision.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_WORK_DIVISION (WORK_ID,WORK_NAME,CAMPUS_ID,FACULTY_ID,DIVISION_ID) VALUES (" + tbInsertIdWorkDivision.Text + ",'" + tbInsertNameWorkDivision.Text + "'," + ddlCampusInWorkDivision.SelectedValue + "," + ddlFacultyInWorkDivision.SelectedValue + "," + ddlDivisionInWorkDivision.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindWorkDivision();
             ClearWorkDivision();
@@ -928,6 +1029,9 @@ namespace WEB_PERSONAL
         {
             string ValueID = tbInsertIdWorkDivision.Text;
             string ValueName = tbInsertNameWorkDivision.Text;
+            string ValueCampusID = ddlCampusInWorkDivision.SelectedValue;
+            string ValueFacultyID = ddlFacultyInWorkDivision.SelectedValue;
+            string ValueDivisionID = ddlDivisionInWorkDivision.SelectedValue;
 
             if (Session["DefaultIdWorkDivision"] == null)
             {
@@ -935,9 +1039,9 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            if (ValueID != "" && ValueName != "")
+            if (ValueID != "" && ValueName != "" && ValueCampusID != "" && ValueFacultyID != "" && ValueDivisionID != "")
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_WORK_DIVISION SET WORK_ID = '" + ValueID + "', WORK_NAME = '" + ValueName + "' WHERE WORK_ID = '" + Session["DefaultIdWorkDivision"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_WORK_DIVISION SET WORK_ID = '" + ValueID + "', WORK_NAME = '" + ValueName + "',CAMPUS_ID = " + ValueCampusID + ",FACULTY_ID = " + ValueFacultyID + ",DIVISION_ID = " + ValueDivisionID + " WHERE WORK_ID = '" + Session["DefaultIdWorkDivision"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
                 BindWorkDivision();
                 ClearWorkDivision();
@@ -955,9 +1059,15 @@ namespace WEB_PERSONAL
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueID = (item.FindControl("lbWorkDivisionID") as Label).Text;
             string ValueName = (item.FindControl("lbWorkDivisionName") as Label).Text;
+            string ValueCampusID = (item.FindControl("HFCampusInWorkDivision") as HiddenField).Value;
+            string ValueFacultyID = (item.FindControl("HFFacultyInWorkDivision") as HiddenField).Value;
+            string ValueDivisionID = (item.FindControl("HFDivisionInWorkDivision") as HiddenField).Value;
 
             tbInsertIdWorkDivision.Text = ValueID;
             tbInsertNameWorkDivision.Text = ValueName;
+            ddlCampusInWorkDivision.SelectedValue = ValueCampusID;
+            ddlFacultyInWorkDivision.SelectedValue = ValueFacultyID;
+            ddlDivisionInWorkDivision.SelectedValue = ValueDivisionID;
 
             Session["DefaultIdWorkDivision"] = ValueID;
         }
@@ -1004,7 +1114,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_STAFFTYPE (STAFFTYPE_ID,STAFFTYPE_NAME) VALUES (" + tbInsertIdStafftype.Text + "," + tbInsertNameStafftype.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_STAFFTYPE (STAFFTYPE_ID,STAFFTYPE_NAME) VALUES (" + tbInsertIdStafftype.Text + ",'" + tbInsertNameStafftype.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindStafftype();
             ClearStafftype();
@@ -1091,7 +1201,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_TIME_CONTACT (TIME_CONTACT_ID,TIME_CONTACT_NAME) VALUES (" + tbInsertIdTimeContact.Text + "," + tbInsertNameTimeContact.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_TIME_CONTACT (TIME_CONTACT_ID,TIME_CONTACT_NAME) VALUES (" + tbInsertIdTimeContact.Text + ",'" + tbInsertNameTimeContact.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindTimeContact();
             ClearTimeContact();
@@ -1177,7 +1287,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_BUDGET (BUDGET_ID,BUDGET_NAME) VALUES (" + tbInsertIdBudget.Text + "," + tbInsertNameBudget.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_BUDGET (BUDGET_ID,BUDGET_NAME) VALUES (" + tbInsertIdBudget.Text + ",'" + tbInsertNameBudget.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindBudget();
             ClearBudget();
@@ -1262,7 +1372,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_SUBSTAFFTYPE (SUBSTAFFTYPE_ID,SUBSTAFFTYPE_NAME) VALUES (" + tbInsertIdSubStafftype.Text + "," + tbInsertNameSubStafftype.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_SUBSTAFFTYPE (SUBSTAFFTYPE_ID,SUBSTAFFTYPE_NAME) VALUES (" + tbInsertIdSubStafftype.Text + ",'" + tbInsertNameSubStafftype.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindSubStafftype();
             ClearSubStafftype();
@@ -1347,7 +1457,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_ADMIN_POSITION (ADMIN_POSITION_ID,ADMIN_POSITION_NAME) VALUES (" + tbInsertIdAdminPosition.Text + "," + tbInsertNameAdminPosition.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_ADMIN_POSITION (ADMIN_POSITION_ID,ADMIN_POSITION_NAME) VALUES (" + tbInsertIdAdminPosition.Text + ",'" + tbInsertNameAdminPosition.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindAdminPosition();
             ClearAdminPosition();
@@ -1432,7 +1542,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_POSITION (P_ID,P_NAME) VALUES (" + tbInsertIdPosition.Text + "," + tbInsertNamePosition.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_POSITION (P_ID,P_NAME) VALUES (" + tbInsertIdPosition.Text + ",'" + tbInsertNamePosition.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindPosition();
             ClearPosition();
@@ -1517,7 +1627,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_POSITION_WORK (POSITION_WORK_ID,POSITION_WORK_NAME) VALUES (" + tbInsertIdWorkPos.Text + "," + tbInsertNameWorkPos.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_POSITION_WORK (POSITION_WORK_ID,POSITION_WORK_NAME) VALUES (" + tbInsertIdWorkPos.Text + ",'" + tbInsertNameWorkPos.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindWorkPos();
             ClearWorkPos();
@@ -1578,7 +1688,7 @@ namespace WEB_PERSONAL
             HideAll();
             Panel18.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT ISCED_CODE,ISCED_NAME FROM TB_ISCED ORDER BY ABS(ISCED_CODE) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT ISCED_ID,ISCED_CODE,ISCED_NAME FROM TB_ISCED ORDER BY ABS(ISCED_ID) ASC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterTeachISCED.DataSource = dt;
@@ -1602,7 +1712,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_ISCED (ISCED_CODE,ISCED_NAME) VALUES (" + tbInsertIdTeachISCED.Text + "," + tbInsertNameTeachISCED.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_ISCED (ISCED_CODE,ISCED_NAME) VALUES (" + tbInsertIdTeachISCED.Text + ",'" + tbInsertNameTeachISCED.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindTeachISCED();
             ClearTeachISCED();
@@ -1647,11 +1757,11 @@ namespace WEB_PERSONAL
         protected void OnDeleteTeachISCED(object sender, EventArgs e)
         {
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
-            int ValueID = int.Parse((item.FindControl("lbTeachISCEDID") as Label).Text);
+            int ValueID = Convert.ToInt32((item.FindControl("HFTeachISCEDID") as HiddenField).Value);
 
             if (ValueID != 0)
             {
-                DatabaseManager.ExecuteNonQuery("DELETE TB_ISCED WHERE ISCED_CODE = '" + ValueID + "'");
+                DatabaseManager.ExecuteNonQuery("DELETE TB_ISCED WHERE ISCED_ID = '" + ValueID + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
                 BindTeachISCED();
             }
@@ -1687,7 +1797,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_LEV (LEV_ID,LEV_NAME_TH) VALUES (" + tbInsertIdGradLev.Text + "," + tbInsertNameGradLev.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_LEV (LEV_ID,LEV_NAME_TH) VALUES (" + tbInsertIdGradLev.Text + ",'" + tbInsertNameGradLev.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindGradLev();
             ClearGradLev();
@@ -1773,7 +1883,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_PROGRAM (PROGRAM_ID_NEW,PROGRAM_NAME) VALUES (" + tbInsertIdGradProg.Text + "," + tbInsertNameGradProg.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_PROGRAM (PROGRAM_ID_NEW,PROGRAM_NAME) VALUES (" + tbInsertIdGradProg.Text + ",'" + tbInsertNameGradProg.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindGradProg();
             ClearGradProg();
@@ -1858,7 +1968,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_DEFORM (DEFORM_ID,DEFORM_NAME) VALUES (" + tbInsertIdDeform.Text + "," + tbInsertNameDeform.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_DEFORM (DEFORM_ID,DEFORM_NAME) VALUES (" + tbInsertIdDeform.Text + ",'" + tbInsertNameDeform.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindDeform();
             ClearDeform();
@@ -1943,7 +2053,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_RELIGION (RELIGION_ID,RELIGION_NAME) VALUES (" + tbInsertIdReligion.Text + "," + tbInsertNameReligion.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_RELIGION (RELIGION_ID,RELIGION_NAME) VALUES (" + tbInsertIdReligion.Text + ",'" + tbInsertNameReligion.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindReligion();
             ClearReligion();
@@ -2024,11 +2134,11 @@ namespace WEB_PERSONAL
             string oldID = DatabaseManager.ExecuteString("SELECT MOVEMENT_TYPE_ID FROM TB_MOVEMENT_TYPE WHERE MOVEMENT_TYPE_ID ='" + tbInsertIdMovementType.Text + "'");
             if (tbInsertIdMovementType.Text == oldID)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีรหัสประเภทการดำรงตำแหน่งปัจจุบัน " + tbInsertIdMovementType.Text + " อยู่แล้วในระบบ ไม่สามารถเพิ่มได้')", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีรหัสประเภทการดำรงตำแหน่ง " + tbInsertIdMovementType.Text + " อยู่แล้วในระบบ ไม่สามารถเพิ่มได้')", true);
                 return;
             }
 
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_MOVEMENT_TYPE (MOVEMENT_TYPE_ID,MOVEMENT_TYPE_NAME) VALUES (" + tbInsertIdMovementType.Text + "," + tbInsertNameMovementType.Text + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_MOVEMENT_TYPE (MOVEMENT_TYPE_ID,MOVEMENT_TYPE_NAME) VALUES (" + tbInsertIdMovementType.Text + ",'" + tbInsertNameMovementType.Text + "')");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindMovementType();
             ClearMovementType();
