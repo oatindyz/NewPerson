@@ -42,10 +42,15 @@ namespace WEB_PERSONAL
         }
         protected void btnInsertPosition_Click(object sender, EventArgs e)
         {
-            string oldID = DatabaseManager.ExecuteString("SELECT P_ID FROM PS_POSITION_HISTORY WHERE P_ID ='" + ddlInsertIdPosition.SelectedValue + "'");
+            string oldID = DatabaseManager.ExecuteString("SELECT P_ID FROM PS_POSITION_HISTORY WHERE P_ID ='" + ddlInsertIdPosition.SelectedValue + "' AND CITIZEN_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'");
             if (ddlInsertIdPosition.SelectedValue == oldID)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีชื่อระดับตำแหน่ง " + ddlInsertIdPosition.SelectedItem.ToString() + " อยู่แล้วไม่สามารถเพิ่มได้')", true);
+                return;
+            }
+            
+            if(Util.ToDateTimeOracle(tbInsertDatePosition.Text) > DateTime.Now) {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถมากกว่าวันปัจจุบัน')", true);
                 return;
             }
 
@@ -98,6 +103,10 @@ namespace WEB_PERSONAL
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
                 return;
             }
+            if (Util.ToDateTimeOracle(tbInsertDatePosition.Text) > DateTime.Now) {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถมากกว่าวันปัจจุบัน')", true);
+                return;
+            }
 
             if (ValueID != "" && ValueDate != "")
             {
@@ -119,8 +128,15 @@ namespace WEB_PERSONAL
                         com.ExecuteNonQuery();
                     }
                     //
-                    
-                    using (OracleCommand com = new OracleCommand("SELECT P_ID FROM PS_POSITION_HISTORY WHERE GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY) AND CITIZEN_ID = :CITIZEN_ID", con))
+
+                    //----------
+                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_FIRST_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con)) {
+                        com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                        com.ExecuteNonQuery();
+                    }
+                    //---------
+
+                    /*using (OracleCommand com = new OracleCommand("SELECT P_ID FROM PS_POSITION_HISTORY WHERE GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY) AND CITIZEN_ID = :CITIZEN_ID", con))
                     {
                         com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
                         using (OracleDataReader reader = com.ExecuteReader())
@@ -140,7 +156,7 @@ namespace WEB_PERSONAL
                                 }
                             }
                         }
-                    } 
+                    } */
                 }
 
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
@@ -172,15 +188,26 @@ namespace WEB_PERSONAL
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValuePHID = (item.FindControl("HFPH_ID") as HiddenField).Value;
 
-            if (ValuePHID != "")
-            {
+            if (ValuePHID != "") {
                 DatabaseManager.ExecuteNonQuery("DELETE PS_POSITION_HISTORY WHERE PH_ID = '" + ValuePHID + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
                 BindPosition();
 
 
                 OracleConnection.ClearAllPools();
-                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con)) {
+                        com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                        com.ExecuteNonQuery();
+                    }
+                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_FIRST_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con)) {
+                        com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                        com.ExecuteNonQuery();
+                    }
+                }
+
+                /*using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                 {
                     con.Open();
                     string CheckFrist = DatabaseManager.ExecuteString("SELECT COUNT(*) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'");
@@ -194,7 +221,7 @@ namespace WEB_PERSONAL
                             com.ExecuteNonQuery();
                         }
                     }
-                }
+                }*/
 
             }
         }

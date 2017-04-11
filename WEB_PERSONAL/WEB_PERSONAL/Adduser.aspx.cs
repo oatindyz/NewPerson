@@ -263,6 +263,21 @@ namespace WEB_PERSONAL
             }
         }
 
+        protected void btnTest_Click(object sender, EventArgs e) {
+            DateTime bd = Util.ToDateTimeOracle(tbBirthdayDate.Text);
+            DateTime iw = Util.ToDateTimeOracle(tbDateInwork.Text);
+            DateTime now = DateTime.Today;
+            double year = (now - bd).TotalDays / 365.0;
+            if(year < 18) {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ต้องมีอายุอย่างน้อย 18 ปี')", true);
+            }
+            if(iw.CompareTo(bd) < 0) {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่เข้าทำงานต้องอยู่หลังวันเกิด')", true);
+            }
+            
+        }
+
+
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
             INSERT_PERSON();

@@ -211,6 +211,42 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.Label lbNewInsigName;
         
         /// <summary>
+        /// lbTest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbTest;
+        
+        /// <summary>
+        /// lbRetiring control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbRetiring;
+        
+        /// <summary>
+        /// lbRetired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbRetired;
+        
+        /// <summary>
+        /// lbInsigRequest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbInsigRequest;
+        
+        /// <summary>
         /// TableCondition control.
         /// </summary>
         /// <remarks>

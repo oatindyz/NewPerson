@@ -22,6 +22,11 @@ namespace WEB_PERSONAL
             }
             Session.Timeout = 60;
             OracleConnection.ClearAllPools();
+
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            Person loginPerson = ps.LoginPerson;
+            ps.LoginPerson = DatabaseManager.GetPerson(loginPerson.PS_CITIZEN_ID);
+
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -29,6 +34,7 @@ namespace WEB_PERSONAL
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
             ps.LoginPerson = DatabaseManager.GetPerson(loginPerson.PS_CITIZEN_ID);
+
 
             lbMasterName.Text = loginPerson.FirstNameAndLastName;
             lbMasterHeaderName.Text = loginPerson.FirstNameAndLastName;

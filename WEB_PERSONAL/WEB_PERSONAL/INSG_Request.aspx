@@ -25,12 +25,12 @@
         <div class="ps-header">
             <img src="Image/Small/medal.png" />ขอเครื่องราช
         </div>
-        <table>
+        <table style="width: 100%;">
             <tr>
-                <td>
+                <td style="width: 350px;">
                     <div id="ShowInsig" runat="server"></div>
                 </td>
-                <td style="">
+                <td style="text-align: left;">
                     <asp:MultiView ID="MultiView1" runat="server" ActiveViewIndex="0">
                         <asp:View ID="View0" runat="server">
                             <div>
@@ -45,10 +45,10 @@
                             </div>
                         </asp:View>
                         <asp:View ID="View1" runat="server">
-                            <div style="padding-left: 100px;">
+                            <div style="display: inline-block;">
                                 <div class="ps-div-title-red">ข้อมูลการขอเครื่องราชอิสริยาภรณ์</div>
-                                <div style="text-align: left;">
-                                    <div style="text-align: left; margin-bottom: 20px;">
+                                <div style="text-align: center;">
+                                    <div style="margin-bottom: 20px;">
                                         <table class="ps-table-x16" style="display: inline-block; margin-right: 20px; vertical-align: top;">
 
                                             <tr>
@@ -161,6 +161,19 @@
                                                 </td>
                                             </tr>
                                         </table>
+                                    </div>
+
+                                    <div style="margin: 20px 0; text-align: center;">
+                                         <asp:Label ID="lbTest" runat="server" style="color: rgb(237, 28, 36); font-size: 16px;"></asp:Label>
+                                    </div>
+
+                                    <div style="margin: 20px 0; text-align: center;">
+                                         <asp:Label ID="lbRetiring" runat="server" style="color: rgb(0, 162, 232); font-size: 16px;" Visible="false">* ช่วงเวลาที่เกษียณเพิ่มเครื่องราชหนึ่งลำดับ</asp:Label>
+                                         <asp:Label ID="lbRetired" runat="server" style="color: rgb(237, 28, 36); font-size: 16px;" Visible="false">* ไม่สามารถขอเครื่องราชฯได้เนื่องจากเกินช่วงเวลาที่เกษียณแล้ว</asp:Label>
+                                    </div>
+
+                                    <div style="margin: 20px 0; text-align: center;">
+                                         <asp:Label ID="lbInsigRequest" runat="server" style="color: rgb(237, 28, 36); font-size: 16px;" Visible="false">* อยู่ระหว่างดำเนินการ</asp:Label>
                                     </div>
 
                                     <div style="margin: 20px 0;">

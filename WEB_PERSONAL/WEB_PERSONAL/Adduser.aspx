@@ -73,7 +73,7 @@
                         <tr>
                             <td class="col1">รหัสบัตรประชาชน<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbCitizenID" runat="server" CssClass="form-control input-sm" MaxLength="13" onkeypress="return isNumberKey(event)" onkeyup="keyup(this,event)" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbCitizenID" runat="server" CssClass="form-control input-sm" MaxLength="13" onkeypress="return isNumberKey(event)" onkeyup="keyup(this,event)"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -85,13 +85,13 @@
                         <tr>
                             <td class="col1">ชื่อ<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbFirstName" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbFirstName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">นามสกุล<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbLastName" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbLastName" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -103,13 +103,13 @@
                         <tr>
                             <td class="col1">วันเกิด<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbBirthdayDate" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbBirthdayDate" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">อีเมล<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -163,37 +163,37 @@
                         <tr>
                             <td class="col1">สัญชาติ<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlNationID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlNationID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">วิทยาเขต<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlCampusID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlCampusID_SelectedIndexChanged" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlCampusID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlCampusID_SelectedIndexChanged"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">สำนัก/สถาบัน/คณะ<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlFacultyID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlFacultyID_SelectedIndexChanged" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlFacultyID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlFacultyID_SelectedIndexChanged"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">กอง/สำนักงานเลขา/ภาควิชา<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlDivisionID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlDivisionID_SelectedIndexChanged" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlDivisionID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlDivisionID_SelectedIndexChanged"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr id="trWorkDivision" runat="server">
                             <td class="col1">งาน/ฝ่าย<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlWorkDivisionID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlWorkDivisionID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">ประเภทบุคลากร<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlStafftypeID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlStafftypeID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                     </table>
@@ -201,19 +201,19 @@
                         <tr>
                             <td class="col1">ระยะเวลาจ้าง<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlTimeContactID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlTimeContactID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">ประเภทเงินจ้าง<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlBudgetID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlBudgetID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">ประเภทบุคลากรย่อย<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlSubStafftypeID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlSubStafftypeID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -231,13 +231,13 @@
                         <tr>
                             <td class="col1">วันที่เข้าทำงานครั้งแรก<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbDateInwork" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbDateInwork" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
                             <td class="col1">วันที่เข้าทำงาน ณ สถานที่ปัจจุบัน<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:TextBox ID="tbDateStartThisU" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
+                                <asp:TextBox ID="tbDateStartThisU" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -255,7 +255,7 @@
                         <tr>
                             <td class="col1">ระดับการศึกษาที่จบสูงสุด<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlGradLevID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlGradLevID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -321,6 +321,7 @@
                     </table>
                     <div style="text-align: center; margin-top: 20px">
                         <asp:Button ID="btnAddUser" runat="server" CssClass="btn btn-success" Text="บันทึก" OnClick="btnAddUser_Click"></asp:Button>
+                        <asp:Button ID="btnTest" runat="server" CssClass="btn btn-success" Text="เทส" OnClick="btnTest_Click"></asp:Button>
                     </div>
                 </div>
             </div>
