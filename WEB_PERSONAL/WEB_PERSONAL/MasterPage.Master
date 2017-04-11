@@ -47,6 +47,7 @@
     <script src="plugins/select2/select2.full.min.js"></script>
 
     <link rel="stylesheet" href="CSS/Master.css" />
+    <script src="js/MyScript.js"></script>
 
     <script>
         $.datepicker.regional['th'] = {
@@ -78,18 +79,10 @@
                 } else {
                     $(this).datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
                 }
+            },
+            onClose: function (dateText, inst) {
+                $(this).datepicker('option', 'dateFormat', 'dd M yy');
             }
-            /*beforeShow: function () {
-                if ($(this).val() != "") {
-                    var arrayDate = $(this).val().split(" ");
-                    if (arrayDate.length == 4) {
-                        arrayDate[2] = arrayDate[3];
-                    }
-                    $(this).val(arrayDate[0] + "/" + arrayDate[1] + "/" + arrayDate[2]);
-                } else {
-                    $(this).datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
-                }
-            }*/
         };
         $.datepicker.setDefaults($.datepicker.regional['th']);
     </script>
@@ -287,9 +280,9 @@
             <div id="hvr3" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>                   
-                <a href="INSG_Qualified.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่เข้าเกณฑ์การรับเครื่องราชฯ</a>
                 <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อการขอเครื่องราชฯ</a>
-                <a href="INSG_Qualified_Detail.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>
+                <!--<a href="INSG_Qualified.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่เข้าเกณฑ์การรับเครื่องราชฯ</a>
+                <a href="INSG_Qualified_Detail.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>-->
             </div>
             <div id="hvr4" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>

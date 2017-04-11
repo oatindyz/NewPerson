@@ -223,12 +223,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="col1">ระดับตำแหน่ง<span class="ps-lb-red" />*</td>
-                            <td class="col2">
-                                <asp:DropDownList ID="ddlPositionID" runat="server" CssClass="form-control input-sm select2" required="required" TabIndex="1"></asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
                             <td class="col1">ตำแหน่งในสายงาน</td>
                             <td class="col2">
                                 <asp:DropDownList ID="ddlWorkPosID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>

@@ -22,6 +22,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// ShowInsig control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ShowInsig;
+        
+        /// <summary>
         /// MultiView1 control.
         /// </summary>
         /// <remarks>
@@ -157,13 +166,13 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.Label lbPositionSalary;
         
         /// <summary>
-        /// lbCitizen control.
+        /// lbMinMaxInsig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCitizen;
+        protected global::System.Web.UI.WebControls.Label lbMinMaxInsig;
         
         /// <summary>
         /// imgOldInsig control.

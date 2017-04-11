@@ -21,17 +21,56 @@ namespace WEB_PERSONAL
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
+                
+                using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_GRADE", con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        ShowInsig.InnerHtml = "";
+                        while (reader.Read())
+                        {
+                            string INSIG_GRADE_ID = reader.GetValue(0).ToString();
+                            string INSIG_GRADE_NAME_L = reader.GetValue(1).ToString();
+                            string INSIG_GRADE_NAME_S = reader.GetValue(2).ToString();
+                            string imgPath = "Image/Insignia/" + INSIG_GRADE_NAME_S + ".png";
+                            string str = "";
+                            str += "<div class=\"ps-insig-box\">";
+                            str += "<div class=\"ps-insig-img\">";
+                            str += "<img src=\"" + imgPath + "\" />";
+                            str += "</div>";
+                            str += "<div class=\"ps-insig-s\">" + INSIG_GRADE_NAME_S + "</div>";
+                            str += "<div class=\"ps-insig-l\">" + INSIG_GRADE_NAME_L + "</div>";
+                            str += "</div>";
+                            ShowInsig.InnerHtml += str;
+                        }
+                    }
+                }
+
+                //
+                using (OracleCommand com = new OracleCommand("SELECT P_ID,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX FROM TB_INSIG_AVAIABLE WHERE P_ID = :P_ID", con))
+                {
+                    com.Parameters.Add(new OracleParameter("P_ID", loginPerson.PS_POSITION_ID));
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lbMinMaxInsig.Text = reader.GetValue(1).ToString() + " - " + reader.GetValue(2).ToString();
+                        }
+                    }
+                }
 
                 //SAL
                 int salary = -1;
-                using (OracleCommand com = new OracleCommand("SELECT SALARY FROM PS_SALARY WHERE CITIZEN_ID = :CITIZEN_ID ORDER BY DO_DATE DESC", con))
+                int positionsalary = -1;
+                using (OracleCommand com = new OracleCommand("SELECT SALARY,POSITION_SALARY FROM PS_SALARY WHERE CITIZEN_ID = :CITIZEN_ID ORDER BY DO_DATE DESC", con))
                 {
                     com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            salary = int.Parse(reader.GetValue(0).ToString());
+                            salary = reader.IsDBNull(0) ? -1 : int.Parse(reader.GetValue(0).ToString());
+                            positionsalary = reader.IsDBNull(1) ? -1 : int.Parse(reader.GetValue(1).ToString());
                         }
                     }
                 }
@@ -68,16 +107,19 @@ namespace WEB_PERSONAL
                             {
                                 insig_min = int.Parse(reader.GetValue(3).ToString());
                                 insig_max = int.Parse(reader.GetValue(4).ToString());
+                                
                             }
                         }
                     }
                 }
 
+
+
                 //OLD
                 int insigOldID = -1;
                 int insigNewID = -1;
                 bool foundInsig = false;
-                using (OracleCommand com = new OracleCommand("SELECT INSIG_ID, INSIG_GRADE_NAME_L, IP_STATUS_ID FROM TB_INSIG_PERSON, TB_INSIG_GRADE WHERE TB_INSIG_PERSON.INSIG_ID = TB_INSIG_GRADE.INSIG_GRADE_ID AND CITIZEN_ID = :CITIZEN_ID ORDER BY INSIG_ID ASC", con))
+                using (OracleCommand com = new OracleCommand("SELECT INSIG_ID, INSIG_GRADE_NAME_L, IP_STATUS_ID FROM TB_INSIG_PERSON, TB_INSIG_GRADE WHERE TB_INSIG_PERSON.INSIG_ID = TB_INSIG_GRADE.INSIG_GRADE_ID AND CITIZEN_ID = :CITIZEN_ID ORDER BY ABS(INSIG_ID) ASC", con))
                 {
                     com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                     using (OracleDataReader reader = com.ExecuteReader())
@@ -86,7 +128,6 @@ namespace WEB_PERSONAL
                         {
                             if (reader.GetInt32(2) == 3)
                             {
-
                                 insigOldID = int.Parse(reader.GetValue(0).ToString());
                                 insigNewID = insigOldID - 1;
                                 foundInsig = true;
@@ -131,8 +172,7 @@ namespace WEB_PERSONAL
                         insigNewID = insig_min;
                     }
                 }
-                lbOldInsigName.Text = insigOldID.ToString();
-                lbNewInsigName.Text = insigNewID.ToString();
+
                 //NEW
                 if (insigNewID >= insig_max)
                 {
@@ -244,7 +284,6 @@ namespace WEB_PERSONAL
                                     {
                                         while (reader2.Read())
                                         {
-
                                             TableRow row = new TableRow();
                                             TableCell cell = new TableCell();
 
@@ -260,7 +299,7 @@ namespace WEB_PERSONAL
                                                 {
                                                     cell.ForeColor = System.Drawing.Color.Red;
                                                 }
-                                                cell.Text = "ได้รับเงินเดือนต่ำกว่าขั้นต่ำของ" + posName + " (" + salaryUse + ")";
+                                                cell.Text = "ได้รับเงินเดือนต่ำกว่าขั้นต่ำ " + posName + " (" + salaryUse + ")";
                                             }
                                             else if (salaryCon == 2)
                                             {
@@ -273,7 +312,7 @@ namespace WEB_PERSONAL
                                                 {
                                                     cell.ForeColor = System.Drawing.Color.Red;
                                                 }
-                                                cell.Text = "ได้รับเงินเดือนไม่ต่ำกว่าขั้นต่ำของ" + posName + " (" + salaryUse + ")";
+                                                cell.Text = "ได้รับเงินเดือนไม่ต่ำกว่าขั้นต่ำ " + posName + " (" + salaryUse + ")";
                                             }
 
                                             row.Cells.Add(cell);
@@ -291,7 +330,7 @@ namespace WEB_PERSONAL
                         }
                     }
 
-                    // Check Insig Pos Year Con
+                    // Check Insig Pos  
                     bool insigPosYearCon = true;
                     using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_GOV_POS_YEAR_CON WHERE INSIG_TARGET = :INSIG_TARGET AND P_ID = :P_ID", con))
                     {
@@ -303,6 +342,7 @@ namespace WEB_PERSONAL
                             {
                                 int posUseID = int.Parse(reader.GetValue(3).ToString());
                                 int posUseYear = int.Parse(reader.GetValue(4).ToString());
+
                                 bool posPass = false;
 
                                 using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND P_ID = :P_ID", con))
@@ -316,9 +356,31 @@ namespace WEB_PERSONAL
                                             DateTime getDate = reader2.GetDateTime(0);
                                             DateTime currentDate = DateTime.Now;
                                             double year = (currentDate - getDate).TotalDays / 365;
+
+                                            string posName = DatabaseManager.ExecuteString("SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = " + posUseID);
+
                                             if (year > posUseYear)
                                             {
                                                 posPass = true;
+                                                TableRow row = new TableRow();
+                                                TableCell cell = new TableCell();
+
+                                                cell.ForeColor = System.Drawing.Color.Green;
+                                                cell.Text = "ดำรงตำแหน่ง" + posName + "มาแล้วไม่น้อยกว่า " + posUseYear +" ปี" ;
+
+                                                row.Cells.Add(cell);
+                                                TableCondition.Rows.Add(row);
+                                            }
+                                            else
+                                            {
+                                                TableRow row = new TableRow();
+                                                TableCell cell = new TableCell();
+
+                                                cell.ForeColor = System.Drawing.Color.Red;
+                                                cell.Text = "ดำรงตำแหน่ง" + posName + "มาแล้วไม่น้อยกว่า " + posUseYear + " ปี";
+
+                                                row.Cells.Add(cell);
+                                                TableCondition.Rows.Add(row);
                                             }
                                         }
                                     }
@@ -440,7 +502,7 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
-
+                    Session["INSIGNEWID"] = insigNewID.ToString();
                     // Final
                     if (insigYearCon && insigSalaryCon && insigPosYearCon && insigSalaryYearCon && insigHighSalaryCon)
                     {
@@ -450,43 +512,21 @@ namespace WEB_PERSONAL
                         lbuSubmitView2.Visible = false;
                     }
                 }
+                lbTitleName.Text = Util.IsBlank(loginPerson.PS_TITLE_NAME) ? "-" : loginPerson.PS_TITLE_NAME;
+                lbName.Text = Util.IsBlank(loginPerson.PS_FIRSTNAME) ? "-" : loginPerson.PS_FIRSTNAME;
+                lbLastName.Text = Util.IsBlank(loginPerson.PS_LASTNAME) ? "-" : loginPerson.PS_LASTNAME;
+                lbGender.Text = Util.IsBlank(loginPerson.PS_GENDER_NAME) ? "-" : loginPerson.PS_GENDER_NAME;
+                lbBirthDate.Text = Util.IsBlank(loginPerson.PS_BIRTHDAY_DATE.ToString()) ? "-" : loginPerson.PS_BIRTHDAY_DATE.Value.ToLongDateString();
+                lbDateInwork.Text = Util.IsBlank(loginPerson.PS_INWORK_DATE.ToString()) ? "-" : loginPerson.PS_INWORK_DATE.Value.ToLongDateString();
+                lbFirstPosition.Text = Util.IsBlank(loginPerson.FIRST_POSITION_NAME) ? "-" : loginPerson.FIRST_POSITION_NAME;
+                lbPositionCurrent.Text = Util.IsBlank(loginPerson.PS_POSITION_NAME) ? "-" : loginPerson.PS_POSITION_NAME;
+                lbType.Text = Util.IsBlank(loginPerson.PS_STAFFTYPE_NAME) ? "-" : loginPerson.PS_STAFFTYPE_NAME;
+                lbDegree.Text = Util.IsBlank(loginPerson.PS_ADMIN_POS_NAME) ? "-" : loginPerson.PS_ADMIN_POS_NAME;
+                lbSalaryCurrent.Text = Util.IsBlank(salary.ToString()) ? "-" : Convert.ToInt32(salary).ToString(); ; 
+                lbPositionSalary.Text = Convert.ToInt32(positionsalary).ToString();
             }
 
-            /*
-            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
-            {
-                con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT COUNT(*) FROM TB_INSIG_REQUEST WHERE IR_STATUS = 1 AND IR_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'", con))
-                {
-                    using (OracleDataReader reader = com.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.GetInt32(0) == 0)
-                            {
-                                return;
-                            }
-                        }
-                    }
-                }
-            }*/
-
-            /*lbRank.Text = loginPerson.RankName;
-            lbTitleName.Text = loginPerson.TitleName;
-            lbName.Text = loginPerson.FirstName;
-            lbLastName.Text = loginPerson.LastName;
-            lbGender.Text = loginPerson.GenderName;
-            lbBirthDate.Text = loginPerson.BirthDate.Value.ToLongDateString();
-            lbDateInwork.Text = loginPerson.InWorkDate.Value.ToLongDateString();
-            lbPosiDateInwork.Text = loginPerson.StartPositionWorkName;
-            lbDegreeDateInwork.Text = loginPerson.StartAdminPositionName;
-            lbPositionCurrent.Text = loginPerson.PositionWorkName;
-            lbType.Text = loginPerson.StaffTypeName;
-            lbDegree.Text = loginPerson.AdminPositionName;
-            lbSalaryCurrent.Text = loginPerson.Salary.ToString();
-            lbPositionSalary.Text = loginPerson.PositionSalary;*/
+           
 
             /*lbCitizen.Text = loginPerson.PS_CITIZEN_ID;
 
@@ -600,39 +640,26 @@ namespace WEB_PERSONAL
 
         protected void lbuSubmitView2_Click(object sender, EventArgs e)
         {
-
-            /*PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
 
+            OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
-                using (OracleCommand command = new OracleCommand("UPDATE TB_INSIG_REQUEST SET IR_STATUS = :IR_STATUS, IR_CITIZEN_ID = :IR_CITIZEN_ID, IR_DATE_START = :IR_DATE_START, IR_RANK = :IR_RANK, IR_TITLE = :IR_TITLE, IR_NAME = :IR_NAME, IR_LASTNAME = :IR_LASTNAME, IR_GENDER = :IR_GENDER, IR_BIRTHDATE = :IR_BIRTHDATE, IR_DATE_INWORK = :IR_DATE_INWORK, IR_START_POSITION = :IR_START_POSITION, IR_START_DEGREE = :IR_START_DEGREE, IR_CURRENT_POSITION = :IR_CURRENT_POSITION, IR_TYPE = :IR_TYPE, IR_DEGREE = :IR_DEGREE, IR_CURRENT_SALARY = :IR_CURRENT_SALARY, IR_POSITION_SALARY = :IR_POSITION_SALARY WHERE IR_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND IR_STATUS = 1", con))
+                using (OracleCommand com = new OracleCommand("INSERT INTO TB_INSIG_PERSON (IP_ID,CITIZEN_ID,INSIG_ID,REQ_DATE,IP_STATUS_ID) VALUES (TB_INSIG_PERSON_SEQ.NEXTVAL,:CITIZEN_ID,:INSIG_ID,:REQ_DATE,:IP_STATUS_ID)", con))
                 {
-                    command.Parameters.Add(new OracleParameter("IR_STATUS", 2));
-                    command.Parameters.Add(new OracleParameter("IR_CITIZEN_ID", lbCitizen.Text));
-                    command.Parameters.Add(new OracleParameter("IR_DATE_START", DateTime.Now));
-                    command.Parameters.Add(new OracleParameter("IR_RANK", lbRank.Text));
-                    command.Parameters.Add(new OracleParameter("IR_TITLE", lbTitleName.Text));
-                    command.Parameters.Add(new OracleParameter("IR_NAME", lbName.Text));
-                    command.Parameters.Add(new OracleParameter("IR_LASTNAME", lbLastName.Text));
-                    command.Parameters.Add(new OracleParameter("IR_GENDER", lbGender.Text));
-                    command.Parameters.Add(new OracleParameter("IR_BIRTHDATE", Util.ToDateTimeOracle(Util.ToShortMonth(lbBirthDate.Text))));
-                    command.Parameters.Add(new OracleParameter("IR_DATE_INWORK", Util.ToDateTimeOracle(Util.ToShortMonth(lbDateInwork.Text))));
-                    command.Parameters.Add(new OracleParameter("IR_START_POSITION", lbPosiDateInwork.Text));
-                    command.Parameters.Add(new OracleParameter("IR_START_DEGREE", lbDegreeDateInwork.Text));
-                    command.Parameters.Add(new OracleParameter("IR_CURRENT_POSITION", lbPositionCurrent.Text));
-                    command.Parameters.Add(new OracleParameter("IR_TYPE", lbType.Text));
-                    command.Parameters.Add(new OracleParameter("IR_DEGREE", lbDegree.Text));
-                    command.Parameters.Add(new OracleParameter("IR_CURRENT_SALARY", lbSalaryCurrent.Text));
-                    command.Parameters.Add(new OracleParameter("IR_POSITION_SALARY", lbPositionSalary.Text));
-                    command.ExecuteNonQuery();
+                    
+                    com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
+                    com.Parameters.Add(new OracleParameter("INSIG_ID", Session["INSIGNEWID"].ToString()));
+                    com.Parameters.Add(new OracleParameter("REQ_DATE", DateTime.Today));
+                    com.Parameters.Add(new OracleParameter("IP_STATUS_ID", 1));
+                    com.ExecuteNonQuery();
                     MultiView1.ActiveViewIndex = 2;
                 }
-
-
-            }*/
+            }
         }
+
 
     }
 }

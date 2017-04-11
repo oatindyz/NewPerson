@@ -13,13 +13,31 @@ namespace WEB_PERSONAL {
     public partial class INSG_RequestList {
         
         /// <summary>
-        /// hfIRID control.
+        /// Panel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfIRID;
+        protected global::System.Web.UI.WebControls.Panel Panel1;
+        
+        /// <summary>
+        /// divheader1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divheader1;
+        
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
         /// notification control.
@@ -31,102 +49,93 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl notification;
         
         /// <summary>
-        /// MultiView1 control.
+        /// divInsert control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView MultiView1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInsert;
         
         /// <summary>
-        /// View1 control.
+        /// tbNameUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View View1;
+        protected global::System.Web.UI.WebControls.TextBox tbNameUser;
         
         /// <summary>
-        /// Table1 control.
+        /// tbInsigReq control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table Table1;
+        protected global::System.Web.UI.WebControls.TextBox tbInsigReq;
         
         /// <summary>
-        /// View2 control.
+        /// tbInsigDateReq control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View View2;
+        protected global::System.Web.UI.WebControls.TextBox tbInsigDateReq;
         
         /// <summary>
-        /// rbGet control.
+        /// tbInsertDateInsig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbGet;
+        protected global::System.Web.UI.WebControls.TextBox tbInsertDateInsig;
         
         /// <summary>
-        /// rbNotGet control.
+        /// ddlStatusID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbNotGet;
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusID;
         
         /// <summary>
-        /// tbDateGet control.
+        /// btnUpdateInsig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDateGet;
+        protected global::System.Web.UI.WebControls.Button btnUpdateInsig;
         
         /// <summary>
-        /// tbRef control.
+        /// lbuClearInsig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbRef;
+        protected global::System.Web.UI.WebControls.LinkButton lbuClearInsig;
         
         /// <summary>
-        /// lbBack control.
+        /// divLoadInsig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbBack;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLoadInsig;
         
         /// <summary>
-        /// lbuSave control.
+        /// myRepeaterInsig control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbuSave;
-        
-        /// <summary>
-        /// View3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View View3;
+        protected global::System.Web.UI.WebControls.Repeater myRepeaterInsig;
     }
 }

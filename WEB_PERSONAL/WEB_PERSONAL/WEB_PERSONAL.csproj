@@ -994,6 +994,7 @@
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery.easing.min.js" />
     <Content Include="js\jquery.min.js" />
+    <Content Include="js\MyScript.js" />
     <Content Include="Leave.aspx" />
     <Content Include="LeaveAllow.aspx" />
     <Content Include="LeaveCancel.aspx" />

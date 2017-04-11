@@ -28,16 +28,11 @@ namespace WEB_PERSONAL
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
+            ps.LoginPerson = DatabaseManager.GetPerson(loginPerson.PS_CITIZEN_ID);
 
             lbMasterName.Text = loginPerson.FirstNameAndLastName;
             lbMasterHeaderName.Text = loginPerson.FirstNameAndLastName;
-
-            //lbName.Text = loginPerson.FirstNameAndLastName;
-            /*lbStaffType.Text = loginPerson.StaffTypeName;
-            lbPosition.Text = loginPerson.PositionWorkName;
-            lbPositionRank.Text = loginPerson.AdminPositionName;
-            lbDepartment.Text = loginPerson.DivisionName;*/
-
+        
             string name = loginPerson.FirstNameAndLastName;
             //profile_name.InnerText = name;
 

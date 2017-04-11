@@ -2,69 +2,107 @@
 
 <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <!-- for Menu List -->
+    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <!-- for Menu List -->
     <script>
-        $(function () {
-            $("#ContentPlaceHolder1_tbDateGet").datepicker($.datepicker.regional["th"]);
+        $(document).ready(function () {
+            $('#dataTables-Insig').DataTable({
+                responsive: true
+            });
         });
     </script>
+
+    <script>
+        $(function () {
+            $("#ContentPlaceHolder1_tbInsertDateInsig").datepicker($.datepicker.regional["th"]);
+        });
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:HiddenField ID="hfIRID" runat="server" />
-    <div>
-        <div class="ps-header">
-            <img src="Image/Small/medal.png" />รายชื่อการขอเครื่องราชฯ
+    <asp:Panel ID="Panel1" runat="server" CssClass="divpan">
+        <div id="divheader1" runat="server" class="ps-header">
+            <img src="Image/Small/medal.png" /><asp:Label ID="Label1" runat="server" Text="ข้อมูลเครื่องราชฯ"></asp:Label>
         </div>
+
         <div id="notification" runat="server"></div>
-        <asp:MultiView ID="MultiView1" runat="server" ActiveViewIndex="0">
-            <asp:View ID="View1" runat="server">
-                <div style="text-align: center;">
-                    <asp:Table ID="Table1" runat="server" CssClass="ps-table-1" style="display: inline-block;"></asp:Table>
-                </div>
-            </asp:View>
-            <asp:View ID="View2" runat="server">
-                <div style="text-align: center;">
-                    <table class="ps-table-1" style="display: inline-block; text-align: left;">
+        <div id="divInsert" runat="server" class="dataTable_wrapper">
+            <div class="ps-header">
+                <img src="Image/Small/Edit.png" />อนุมัติข้อมูล        
+            </div>
+            <table class="table table-striped table-bordered table-hover">
+                <tr>
+                    <td>ชื่อ สกุล
+                            <asp:TextBox ID="tbNameUser" runat="server" CssClass="form-control input-sm" Enabled="false"></asp:TextBox>
+                    </td>
+                    <td>ชั้นเครื่องราชฯที่ขอ
+                            <asp:TextBox ID="tbInsigReq" runat="server" CssClass="form-control input-sm" Enabled="false"></asp:TextBox>
+                    </td>
+                    <td>วันที่ขอ
+                            <asp:TextBox ID="tbInsigDateReq" runat="server" CssClass="form-control input-sm" Enabled="false"></asp:TextBox>
+                    </td>
+                    <td>วันที่ได้รับชั้นเครื่องราชฯ<span class="ps-lb-red" />*<br />
+                        <asp:TextBox ID="tbInsertDateInsig" runat="server" MaxLength="15" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                    </td>
+                    <td>สถานะ
+                        <asp:DropDownList ID="ddlStatusID" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" ></asp:DropDownList>
+                    </td>
+                    <td>จัดการข้อมูล:<br />
+                        <asp:Button ID="btnUpdateInsig" runat="server" CssClass="btn btn-info ekknidRight" OnClick="btnUpdateInsig_Click" Text="อัพเดทข้อมูล" />
+                        <asp:LinkButton ID="lbuClearInsig" runat="server" CssClass="btn btn-success" OnClick="lbuClearInsig_Click" Text="ล้างข้อมูล" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="divLoadInsig" runat="server" class="dataTable_wrapper">
+            <div class="ps-header">
+                <img src="Image/Small/list.png" />ข้อมูล
+            </div>
+            <table class="table table-striped table-bordered table-hover" id="dataTables-Insig">
+                <thead>
+                    <tr>
+                        <th>ลำดับที่</th>
+                        <th>ชื่อ สกุล</th>
+                        <th>ชั้นเครื่องราชฯที่ขอ</th>
+                        <th>วันที่ขอ</th>
+                        <th>วันที่ได้รับชั้นเครื่องราชฯ</th>
+                        <th>สถานะ</th>
+                        <th>ดึงข้อมูล</th>
+                    </tr>
+                </thead>
+                <asp:Repeater ID="myRepeaterInsig" runat="server">
+                    <ItemTemplate>
                         <tr>
-                            <th colspan="2" style="text-align: center;">แจ้งผลการขอเครืองราชฯ</th>
-                        </tr>
-                        <tr>
-                            <td>ผลการขอเครื่องราช</td>
+                            <td><%# Container.ItemIndex +1 %><asp:HiddenField ID="HFIP_ID" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "IP_ID").ToString()%>' />
+                            </td>
                             <td>
-                                <asp:RadioButton ID="rbGet" runat="server" Text="ได้รับเครื่องราชฯ" Checked="true" GroupName="g1"/>
-                                <asp:RadioButton ID="rbNotGet" runat="server" Text="ไม่ได้รับเครื่องราชฯ" GroupName="g1"/>
+                                <asp:Label ID="lbInsigName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "PS_NAME") %>'></asp:Label>
+                            </td>
+                            <td>
+                                <asp:Label ID="lbInsigReq" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_NAME") %>'></asp:Label>
+                            </td>
+                            <td>
+                                <asp:Label ID="lbInsigReqDate" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "REQ_DATE","{0:dd MMM yyyy}") %>'></asp:Label>
+                            </td>
+                            <td>
+                                <asp:Label ID="lbInsigGetDate" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "GET_DATE","{0:dd MMM yyyy}") %>'></asp:Label>
+                            </td>
+                            <td>
+                                <asp:HiddenField ID="HFSTATUS_ID" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "IP_STATUS_ID").ToString()%>' />
+                                <asp:Label ID="lbStatusName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "StatusName") %>'></asp:Label>
+                            </td>
+                            <td>
+                                <asp:LinkButton ID="lnkEditInsig" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditInsig" />
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: center; color: #808080;">กรณีได้รับเครื่องราชฯ</td>
-                        </tr>
-                        <tr>
-                            <td>วันที่ได้รับ</td>
-                            <td>
-                                <asp:TextBox ID="tbDateGet" runat="server" Width="150px" CssClass="ps-textbox"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>เอกสารอ้างอิง</td>
-                            <td>
-                                <asp:TextBox ID="tbRef" runat="server" Width="150px" CssClass="ps-textbox"></asp:TextBox>
-                            </td>
-                        </tr>
-                    </table>
-                    <div style="text-align: center; margin-top: 10px;">
-                        <asp:LinkButton ID="lbBack" runat="server" CssClass="ps-button" OnClick="lbBack_Click"><img src="Image/Small/back.png" class="icon_left"/>กลับ</asp:LinkButton>
-                        <asp:LinkButton ID="lbuSave" runat="server" CssClass="ps-button" OnClick="lbuSave_Click"><img src="Image/Small/save.png" class="icon_left"/>บันทึก</asp:LinkButton>
-                    </div>
-                </div>
-           </asp:View>
-            <asp:View ID="View3" runat="server">
-                <div>
-                    <div class="ps-div-title-red">แจ้งผลการขอเครื่องราชฯสำเร็จ</div>
-                    <div style="text-align: center; margin-top: 10px;">
-                        <a href="Default.aspx" class="ps-button"><img src="Image/Small/home3.png" class="icon_left"/>กลับหน้าหลัก</a>
-                    </div>
-                </div>
-            </asp:View>
-        </asp:MultiView>
-        <div class="ps-separator"></div>
-    </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </table>
+        </div>
+
+
+    </asp:Panel>
 </asp:Content>
