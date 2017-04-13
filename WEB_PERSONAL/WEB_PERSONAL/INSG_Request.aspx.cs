@@ -18,6 +18,13 @@ namespace WEB_PERSONAL
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
+            string SalaryJa = DatabaseManager.ExecuteString("SELECT SALARY FROM PS_SALARY WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+            if (string.IsNullOrEmpty(loginPerson.PS_POSITION_ID) || string.IsNullOrEmpty(SalaryJa))
+            {
+                ChangeNotification("danger", "บุคลากรยังไม่มีระดับตำแหน่งและเงินเดือน");
+                return;
+            }
+
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
@@ -173,33 +180,6 @@ namespace WEB_PERSONAL
                     {
                         insigNewID = insig_min;
                     }
-                }
-
-                bool retiring = false;
-                {
-                    int todayYear = DateTime.Now.Year;
-                    int retireYear = loginPerson.PS_BIRTHDAY_DATE.Value.Year + 60;
-                    
-                    if(todayYear - retireYear >= -1 && todayYear - retireYear <= 0) {
-                        retiring = true;
-                    }
-                    if(todayYear - retireYear > 0) {
-                        lbRetired.Visible = true;
-                    }
-
-                    //lbRetiring.Text += " (" + todayYear + " , " + retireYear + ")";
-                    //lbRetiring.Visible = true;
-
-                }
-                if(retiring) {
-
-                    /*int maxAddOne = DatabaseManager.ExecuteInt("SELECT INSIG_MAX FROM TB_INSIG_GOV_ADD_ONE WHERE P_ID = " + loginPerson.PS_POSITION_ID + " AND INSIG_TARGET = " + insigNewID);
-                    if(insigNewID-1 >= maxAddOne) {
-                        --insigNewID;
-                    }*/
-
-                    lbRetiring.Visible = true;
-                    
                 }
 
                 //NEW
@@ -593,10 +573,34 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
+                    bool retiring = false;
+                    {
+                        int todayYear = DateTime.Now.Year;
+                        int retireYear = loginPerson.PS_BIRTHDAY_DATE.Value.Year + 60;
 
-                    int maxAddOne = DatabaseManager.ExecuteInt("SELECT INSIG_MAX FROM TB_INSIG_GOV_ADD_ONE WHERE P_ID = " + loginPerson.PS_POSITION_ID + " AND INSIG_TARGET = " + insigNewID);
-                    if (insigNewID - 1 >= maxAddOne) {
-                        --insigNewID;
+                        if (todayYear - retireYear >= -1 && todayYear - retireYear <= 0)
+                        {
+                            retiring = true;
+                        }
+                        if (todayYear - retireYear > 0)
+                        {
+                            lbRetired.Visible = true;
+                        }
+
+                        //lbRetiring.Text += " (" + todayYear + " , " + retireYear + ")";
+                        //lbRetiring.Visible = true;
+
+                    }
+                    if (retiring)
+                    {
+
+                        int maxAddOne = DatabaseManager.ExecuteInt("SELECT INSIG_MAX FROM TB_INSIG_GOV_ADD_ONE WHERE P_ID = " + loginPerson.PS_POSITION_ID + " AND INSIG_TARGET = " + insigNewID);
+                        if (insigNewID - 1 >= maxAddOne)
+                        {
+                            --insigNewID;
+                        }
+                        lbRetiring.Visible = true;
+                        Session["INSIGNEWID"] = insigNewID.ToString();
                     }
 
                     Session["INSIGNEWID"] = insigNewID.ToString();
@@ -625,8 +629,24 @@ namespace WEB_PERSONAL
                 lbPositionCurrent.Text = Util.IsBlank(loginPerson.PS_POSITION_NAME) ? "-" : loginPerson.PS_POSITION_NAME;
                 lbType.Text = Util.IsBlank(loginPerson.PS_STAFFTYPE_NAME) ? "-" : loginPerson.PS_STAFFTYPE_NAME;
                 lbDegree.Text = Util.IsBlank(loginPerson.PS_ADMIN_POS_NAME) ? "-" : loginPerson.PS_ADMIN_POS_NAME;
-                lbSalaryCurrent.Text = Util.IsBlank(salary.ToString()) ? "-" : Convert.ToInt32(salary).ToString(); ; 
-                lbPositionSalary.Text = Convert.ToInt32(positionsalary).ToString();
+
+                if (salary == -1)
+                {
+                    lbSalaryCurrent.Text = "-";
+                }
+                else
+                {
+                    lbSalaryCurrent.Text = Util.IsBlank(salary.ToString()) ? "-" : Convert.ToInt32(salary).ToString();
+                }
+                
+                if (positionsalary == -1)
+                {
+                    lbPositionSalary.Text = "-";
+                }
+                else
+                {
+                    lbPositionSalary.Text = Util.IsBlank(positionsalary.ToString()) ? "-" : Convert.ToInt32(positionsalary).ToString();
+                }
 
                 using (OracleCommand com = new OracleCommand("SELECT P_ID,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX FROM TB_INSIG_AVAIABLE WHERE P_ID = :P_ID", con)) {
                     com.Parameters.Add(new OracleParameter("P_ID", loginPerson.PS_POSITION_ID));
@@ -640,115 +660,6 @@ namespace WEB_PERSONAL
                     lbuSubmitView2.Visible = false;
                 }
             }
-
-           
-
-            /*lbCitizen.Text = loginPerson.PS_CITIZEN_ID;
-
-            int รหัสเครื่องราชปัจจุบัน = 0;
-            int รหัสเครื่องราชทที่ขอ = 0;
-            string ชื่อเครื่องราชปัจจุบัน = "-";
-            string ชื่อเครื่องราชที่ขอ = "-";
-            OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
-            {
-                con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT IR_INSIG_ID FROM TB_INSIG_REQUEST WHERE IR_GET_STATUS = 1 AND IR_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY IR_ID DESC", con))
-                {
-                    using (OracleDataReader reader = com.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            รหัสเครื่องราชปัจจุบัน = reader.GetInt32(0);
-                        }
-                    }
-                }
-                using (OracleCommand com = new OracleCommand("SELECT IR_INSIG_ID FROM TB_INSIG_REQUEST WHERE IR_STATUS = 1 AND IR_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'", con))
-                {
-                    using (OracleDataReader reader = com.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            รหัสเครื่องราชทที่ขอ = reader.GetInt32(0);
-                        }
-                    }
-                }
-                using (OracleCommand com = new OracleCommand("SELECT NAME_GRADEINSIGNIA_THA FROM INS_GRADEINSIGNIA WHERE ID_GRADEINSIGNIA = " + รหัสเครื่องราชปัจจุบัน, con))
-                {
-                    using (OracleDataReader reader = com.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ชื่อเครื่องราชปัจจุบัน = reader.GetString(0);
-                        }
-                    }
-                }
-                using (OracleCommand com = new OracleCommand("SELECT NAME_GRADEINSIGNIA_THA FROM INS_GRADEINSIGNIA WHERE ID_GRADEINSIGNIA = " + รหัสเครื่องราชทที่ขอ, con))
-                {
-                    using (OracleDataReader reader = com.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ชื่อเครื่องราชที่ขอ = reader.GetString(0);
-                        }
-                    }
-                }
-
-
-            }
-
-            if (รหัสเครื่องราชปัจจุบัน == 0)
-            {
-                imgOldInsig.Visible = false;
-            }
-            else
-            {
-                string fileName;
-                switch (รหัสเครื่องราชปัจจุบัน)
-                {
-                    case 12: fileName = "บ.ม."; break;
-                    case 11: fileName = "บ.ช."; break;
-                    case 10: fileName = "จ.ม."; break;
-                    case 9: fileName = "จ.ช."; break;
-                    case 8: fileName = "ต.ม."; break;
-                    case 7: fileName = "ต.ช."; break;
-                    case 6: fileName = "ท.ม."; break;
-                    case 5: fileName = "ท.ช."; break;
-                    case 4: fileName = "ป.ม."; break;
-                    case 3: fileName = "ป.ช."; break;
-                    case 2: fileName = "ม.ว.ม."; break;
-                    default: fileName = "ม.ป.ช."; break;
-                }
-                imgOldInsig.Attributes["src"] = "Image/Insignia/" + fileName + ".png";
-            }
-
-            if (รหัสเครื่องราชทที่ขอ == 0)
-            {
-                imgNewInsig.Visible = false;
-            }
-            else
-            {
-                string fileName;
-                switch (รหัสเครื่องราชทที่ขอ)
-                {
-                    case 12: fileName = "บ.ม."; break;
-                    case 11: fileName = "บ.ช."; break;
-                    case 10: fileName = "จ.ม."; break;
-                    case 9: fileName = "จ.ช."; break;
-                    case 8: fileName = "ต.ม."; break;
-                    case 7: fileName = "ต.ช."; break;
-                    case 6: fileName = "ท.ม."; break;
-                    case 5: fileName = "ท.ช."; break;
-                    case 4: fileName = "ป.ม."; break;
-                    case 3: fileName = "ป.ช."; break;
-                    case 2: fileName = "ม.ว.ม."; break;
-                    default: fileName = "ม.ป.ช."; break;
-                }
-                imgNewInsig.Attributes["src"] = "Image/Insignia/" + fileName + ".png";
-            }
-
-            lbOldInsigName.Text = ชื่อเครื่องราชปัจจุบัน;
-            lbNewInsigName.Text = ชื่อเครื่องราชที่ขอ;*/
 
             MultiView1.ActiveViewIndex = 1;
         }
@@ -774,6 +685,39 @@ namespace WEB_PERSONAL
                     ShowInsig.Visible = false;
                 }
             }
+        }
+
+        private void ChangeNotification(string type)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+        }
+        private void ChangeNotification(string type, string text)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+            notification.InnerHtml = text;
+        }
+        private void ClearNotification()
+        {
+            notification.Attributes["class"] = null;
+            notification.InnerHtml = "";
+        }
+        private void AddNotification(string text)
+        {
+            notification.InnerHtml += text;
         }
 
 

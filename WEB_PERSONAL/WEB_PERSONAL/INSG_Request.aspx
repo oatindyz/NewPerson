@@ -23,8 +23,9 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div class="default_page_style">
         <div class="ps-header">
-            <img src="Image/Small/medal.png" />ขอเครื่องราช
+            <img src="Image/Small/medal.png" />ขอเครื่องราชฯ
         </div>
+        <div id="notification" runat="server"></div>
         <table style="width: 100%;">
             <tr>
                 <td style="width: 350px;">
@@ -33,15 +34,9 @@
                 <td style="text-align: left;">
                     <asp:MultiView ID="MultiView1" runat="server" ActiveViewIndex="0">
                         <asp:View ID="View0" runat="server">
-                            <div>
-                                <div class="ps-div-title-red">คุณไม่สามารถขอเครื่องราชฯ</div>
-                                <div style="color: #808080; margin-top: 10px; text-align: center;">
-                                    เมื่อคุณมีสิทธิ์ขอเครื่องราชฯ ระบบจะมีการแจ้งเตือนให้คุณสามารถขอเครื่องราชฯได้
-                                </div>
-                                <div style="text-align: center; margin-top: 10px;">
-                                    <a href="Default.aspx" class="ps-button">
-                                        <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
-                                </div>
+                            <div style="text-align: center; margin-top: 10px;">
+                                <a href="Default.aspx" class="ps-button">
+                                    <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
                             </div>
                         </asp:View>
                         <asp:View ID="View1" runat="server">

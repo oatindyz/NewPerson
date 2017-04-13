@@ -14,6 +14,13 @@ namespace WEB_PERSONAL
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            Person loginPerson = ps.LoginPerson;
+            if (loginPerson.PERSON_ROLE_ID != "2")
+            {
+                Server.Transfer("NoPermission.aspx");
+            }
+
             if (!IsPostBack)
             {
                 BindPosition();

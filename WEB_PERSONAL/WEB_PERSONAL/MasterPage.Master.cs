@@ -44,10 +44,45 @@ namespace WEB_PERSONAL
 
             if (loginPerson.ST_LOGIN_ID == "0")
             {
-                hvr1.Visible = false;
-                hvr2.Visible = false;
-                hvr3.Visible = false;
-                hvr4.Visible = false;
+                hv1.Visible = false;
+                hv2.Visible = false;
+                hv3.Visible = false;
+                hv4.Visible = false;
+                hv5.Visible = false;
+                hv6.Visible = false;
+            }
+
+            if (loginPerson.PERSON_ROLE_ID == "1")
+            {
+                hv5.Visible = true;
+                hv2.Visible = true;
+                hv6.Visible = true;
+            }
+            else if (loginPerson.PERSON_ROLE_ID == "2")
+            {
+                hv1.Visible = true;
+                hv2.Visible = true;
+                hv6.Visible = true;
+            }
+            else if (loginPerson.PERSON_ROLE_ID == "3")
+            {
+                hv5.Visible = true;
+                hv2.Visible = true;
+                hv6.Visible = true;
+            }
+            else if (loginPerson.PERSON_ROLE_ID == "4")
+            {
+                hv5.Visible = true;
+                hv2.Visible = true;
+                hv3.Visible = true;
+            }
+            else if (loginPerson.PERSON_ROLE_ID == "5")
+            {
+
+            }
+            else if (loginPerson.PERSON_ROLE_ID == "99")
+            {
+                hv4.Visible = true;
             }
 
             //---------

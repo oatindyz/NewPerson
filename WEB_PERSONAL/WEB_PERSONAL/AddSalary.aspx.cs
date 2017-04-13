@@ -14,6 +14,13 @@ namespace WEB_PERSONAL
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            Person loginPerson = ps.LoginPerson;
+            if (loginPerson.PERSON_ROLE_ID != "2")
+            {
+                Server.Transfer("NoPermission.aspx");
+            }
+
             if (!IsPostBack)
             {
                 BindSalary();
@@ -45,13 +52,6 @@ namespace WEB_PERSONAL
         }
         protected void btnInsertSalary_Click(object sender, EventArgs e)
         {
-            /*string oldID = DatabaseManager.ExecuteString("SELECT P_ID FROM PS_POSITION_HISTORY WHERE P_ID ='" + ddlInsertIdPosition.SelectedValue + "'");
-            if (ddlInsertIdPosition.SelectedValue == oldID)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีชื่อระดับตำแหน่ง " + ddlInsertIdPosition.SelectedItem.ToString() + " อยู่แล้วไม่สามารถเพิ่มได้')", true);
-                return;
-            }*/
-
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
@@ -65,7 +65,7 @@ namespace WEB_PERSONAL
                     com.Parameters.Add(new OracleParameter("PERCENT_SALARY1", tbPercentSalary1.Text));
                     com.Parameters.Add(new OracleParameter("RESULT2", tbResult2.Text));
                     com.Parameters.Add(new OracleParameter("PERCENT_SALARY2", tbPercentSalary2.Text));
-                    com.Parameters.Add(new OracleParameter("DO_DATE", DateTime.Today));
+                    com.Parameters.Add(new OracleParameter("DO_DATE", Util.ToDateTimeOracle(tbInsertDateSalary.Text)));
                     com.ExecuteNonQuery();
                 }
             }
@@ -82,6 +82,7 @@ namespace WEB_PERSONAL
             string ValuePercentSalary1 = tbPercentSalary1.Text;
             string ValueResult2 = tbResult2.Text;
             string ValuePercentSalary2 = tbPercentSalary2.Text;
+            DateTime ValueDate = Util.ToDateTimeOracle(tbInsertDateSalary.Text);
 
             if (Session["DefaultIdSalary"] == null)
             {
@@ -95,7 +96,7 @@ namespace WEB_PERSONAL
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                 {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("UPDATE PS_SALARY SET CITIZEN_ID = :CITIZEN_ID, SALARY = :SALARY, POSITION_SALARY = :POSITION_SALARY, RESULT1 = :RESULT1 ,PERCENT_SALARY1 = :PERCENT_SALARY1 ,RESULT2 = :RESULT2 ,PERCENT_SALARY2 = :PERCENT_SALARY2 WHERE PH_ID = :PH_ID", con))
+                    using (OracleCommand com = new OracleCommand("UPDATE PS_SALARY SET CITIZEN_ID = :CITIZEN_ID, SALARY = :SALARY, POSITION_SALARY = :POSITION_SALARY, RESULT1 = :RESULT1 ,PERCENT_SALARY1 = :PERCENT_SALARY1 ,RESULT2 = :RESULT2 ,PERCENT_SALARY2 = :PERCENT_SALARY2, DO_DATE = :DO_DATE WHERE SALARY_ID = :SALARY_ID", con))
                     {
                         com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
                         com.Parameters.Add(new OracleParameter("SALARY", ValueSalary));
@@ -104,6 +105,7 @@ namespace WEB_PERSONAL
                         com.Parameters.Add(new OracleParameter("PERCENT_SALARY1", ValuePercentSalary1));
                         com.Parameters.Add(new OracleParameter("RESULT2", ValueResult2));
                         com.Parameters.Add(new OracleParameter("PERCENT_SALARY2", ValuePercentSalary2));
+                        com.Parameters.Add(new OracleParameter("DO_DATE", ValueDate));
                         com.Parameters.Add(new OracleParameter("SALARY_ID", Session["DefaultIdSalary"].ToString()));
                         com.ExecuteNonQuery();
                     }
@@ -131,6 +133,7 @@ namespace WEB_PERSONAL
             string ValuePercentSalary1 = (item.FindControl("lbPercentSalary1") as Label).Text;
             string ValueResult2 = (item.FindControl("lbResult2") as Label).Text;
             string ValuePercentSalary2 = (item.FindControl("lbPercentSalary2") as Label).Text;
+            string ValueGetDate = (item.FindControl("lbDoDate") as Label).Text;
 
             tbSalary.Text = ValueSalary;
             tbPositionSalary.Text = ValuePositionSalary;
@@ -138,6 +141,7 @@ namespace WEB_PERSONAL
             tbPercentSalary1.Text = ValuePercentSalary1;
             tbResult2.Text = ValueResult2;
             tbPercentSalary2.Text = ValuePercentSalary2;
+            tbInsertDateSalary.Text = ValueGetDate;
 
             Session["DefaultIdSalary"] = ValueSalaryID;
         }

@@ -984,8 +984,6 @@
     <Content Include="Image\Small\Thumbs.db" />
     <Content Include="Image\Thumbs.db" />
     <Content Include="Image\x32\Thumbs.db" />
-    <Content Include="INS-Result.aspx" />
-    <Content Include="INSG_Qualified.aspx" />
     <Content Include="INSG_Qualified_Detail.aspx" />
     <Content Include="INSG_Request.aspx" />
     <Content Include="INSG_RequestList.aspx" />
@@ -2900,20 +2898,6 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="INS-Result.aspx.cs">
-      <DependentUpon>INS-Result.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="INS-Result.aspx.designer.cs">
-      <DependentUpon>INS-Result.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="INSG_Qualified.aspx.cs">
-      <DependentUpon>INSG_Qualified.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="INSG_Qualified.aspx.designer.cs">
-      <DependentUpon>INSG_Qualified.aspx</DependentUpon>
     </Compile>
     <Compile Include="INSG_Qualified_Detail.aspx.cs">
       <DependentUpon>INSG_Qualified_Detail.aspx</DependentUpon>

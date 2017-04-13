@@ -74,7 +74,7 @@
                 <div>
                 <div class="ps-div-title-red">แจ้งเตือน</div>
                 <div style="color: #808080; margin-top: 10px; text-align: center;">
-                    ไม่มีหน้าดังกล่าวในระบบ โปรดลองใหม่อีกครั้ง!
+                    ไม่มีหน้าดังกล่าวในระบบ โปรดตรวจสอบ URL ใหม่อีกครั้ง!
                 </div>
                 <div style="text-align: center; margin-top: 10px;">
                 <a href="Default.aspx" class="ps-button">

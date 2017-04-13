@@ -161,10 +161,14 @@
             $("#hvr2").css("display", "none");
             $("#hvr3").css("display", "none");
             $("#hvr4").css("display", "none");
+            $("#hvr5").css("display", "none");
+            $("#hvr6").css("display", "none");
             $("#hv1").attr("class", "ps-ms-left-link-group-rr");
             $("#hv2").attr("class", "ps-ms-left-link-group-rr");
             $("#hv3").attr("class", "ps-ms-left-link-group-rr");
             $("#hv4").attr("class", "ps-ms-left-link-group-rr");
+            $("#hv5").attr("class", "ps-ms-left-link-group-rr");
+            $("#hv6").attr("class", "ps-ms-left-link-group-rr");
             $("#hvr" + v).css("display", "block");
             $("#hv" + v).attr("class", "ps-ms-left-link-group-rr ps-ms-left-link-group-rr-selected");
         }
@@ -182,16 +186,26 @@
             $("#hv4").click(function () {
                 fa1(4);
             });
+            $("#hv5").click(function () {
+                fa1(5);
+            });
+            $("#hv6").click(function () {
+                fa1(6);
+            });
             $(".ps-ms-left-ext-close").click(function () {
                 $(".ps-ms-left-ext").css("display", "none");
                 $("#hvr1").css("display", "none");
                 $("#hvr2").css("display", "none");
                 $("#hvr3").css("display", "none");
                 $("#hvr4").css("display", "none");
+                $("#hvr5").css("display", "none");
+                $("#hvr6").css("display", "none");
                 $("#hv1").attr("class", "ps-ms-left-link-group-rr");
                 $("#hv2").attr("class", "ps-ms-left-link-group-rr");
                 $("#hv3").attr("class", "ps-ms-left-link-group-rr");
                 $("#hv4").attr("class", "ps-ms-left-link-group-rr");
+                $("#hv5").attr("class", "ps-ms-left-link-group-rr");
+                $("#hv6").attr("class", "ps-ms-left-link-group-rr");
             });
         });
         
@@ -223,19 +237,17 @@
 
 </head>
 <body>
-
     <form id="form1" runat="server">
-
         <div class="ps-ms-left">
-            
-            
             <a href="Default.aspx" class="ps-ms-left-rmutto">ระบบบุคลากร</a>
             
-            <div class="ps-ms-left-link-group-rr" id="hv1"><img src="Image/Small/person2.png" class="ps-ms-left-link-group-rr-img"/>บุคลากร<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
-            <div class="ps-ms-left-link-group-rr" id="hv2"><img src="Image/Small/document.png" class="ps-ms-left-link-group-rr-img" />การลา<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
-            <div class="ps-ms-left-link-group-rr" id="hv3"><img src="Image/Small/medal.png" class="ps-ms-left-link-group-rr-img" />เครื่องราชอิสริยาภรณ์<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
-            <div class="ps-ms-left-link-group-rr" id="hv4"><img src="Image/Small/wrench.png" class="ps-ms-left-link-group-rr-img" />จัดการข้อมูล<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
-            
+            <div class="ps-ms-left-link-group-rr" id="hv1" runat="server" visible="false"><img src="Image/Small/person2.png" class="ps-ms-left-link-group-rr-img"/>บุคลากร<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv5" runat="server" visible="false"><img src="Image/Small/person2.png" class="ps-ms-left-link-group-rr-img" />บุคลากร<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv2" runat="server" visible="false"><img src="Image/Small/document.png" class="ps-ms-left-link-group-rr-img" />การลา<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv3" runat="server" visible="false"><img src="Image/Small/medal.png" class="ps-ms-left-link-group-rr-img" />เครื่องราชอิสริยาภรณ์<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv6" runat="server" visible="false"><img src="Image/Small/medal.png" class="ps-ms-left-link-group-rr-img" />เครื่องราชอิสริยาภรณ์<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+            <div class="ps-ms-left-link-group-rr" id="hv4" runat="server" visible="false"><img src="Image/Small/wrench.png" class="ps-ms-left-link-group-rr-img" />จัดการข้อมูล<img src="Image/Small/arrow_right.png" class="ps-ms-left-link-group-rr-arrow" /></div>
+             
             <div class="ps-ms-left-separator"></div>
 
             <asp:ContentPlaceHolder ID="ContentPlaceHolderLeft" runat="server">
@@ -254,17 +266,12 @@
             </button>
             <div id="hvr1" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
-                <a href="listPerson-admin.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลบุคลากร</a>
-                <a href="listProject.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Icon/manage.png" />จัดการข้อมูลการพัฒนาบุคลากร</a>
-                <a href="Boss.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>
-                <a href="PersonBranch.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/list.png" />แผนผังบุคลากร</a>
-                <a href="DataManage.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />การจัดการข้อมูล</a>
-                <a href="PersonReport.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/report.png" />ออกรายงานบุคลากร</a>
-                <!--<a href="AddPerson-Edit.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/edit.png" />แก้ไขข้อมูลบุคลากร</a>
-                <a href="ListPerson-ADMIN.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />รายชื่อบุคลากร</a>        
-                <a href="SEMINAR-ADMIN.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/edit.png" />การแก้ไขพัฒนาบุคลากร</a>
-                <a href="PersonBranch.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/list.png" />แผนผังบุคลากร</a>
-                <a href="Boss.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>-->
+                <a href="ListPerson-ADMIN.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลบุคลากร</a> 
+                <a href="ListRequest.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการคำร้องแก้ไขข้อมูลบุคลากร</a> 
+                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูล ก.พ. 7</a> 
+                <a href="Boss.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a> 
+                <a href="DataManage.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลตัวเลือก</a> 
+                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ออกรายงานสรุปบุคลากร</a> 
             </div>
             <div id="hvr2" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>
@@ -279,19 +286,29 @@
             </div>
             <div id="hvr3" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
-                <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>                   
-                <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อการขอเครื่องราชฯ</a>
-                <!--<a href="INSG_Qualified.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่เข้าเกณฑ์การรับเครื่องราชฯ</a>
-                <a href="INSG_Qualified_Detail.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>-->
+                <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่ขอเครื่องราชฯ</a>
+                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานสรุปเครื่องราชฯ</a>        
             </div>
             <div id="hvr4" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>
                 <a href="Permission.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการสิทธิใช้งานระบบ</a>
-                <a href="ChangePassword.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />เปลี่ยนรหัสผ่าน</a>
+            </div>  
+            <!--USER-->
+            <div id="hvr5" runat="server" style="display: none;">
+                <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
+                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />แก้ไขข้อมูลบุคลากร</a> 
+                <a href="Request.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />คำร้องแก้ไขข้อมูลบุคลากร</a> 
+                <a href="Addproject.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลการพัฒนาบุคลากร</a> 
+                <a href="Profile.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูข้อมูลส่วนตัว</a> 
+                <a href="PersonBranch.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูแผนผังบุคลากร</a>
+                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ออกรายงานบุคลากร</a> 
             </div>
-
-
-            
+            <div id="hvr6" runat="server" style="display: none;">
+                <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
+                <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>
+                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>                  
+                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>
+            </div>
         </div>
 
         <div class="ps-ms-center">
@@ -329,7 +346,6 @@
 				</div>
                 <div class="ps-ms-separator"></div>
 				<div>
-				    <a href="Profile.aspx" class="ps-ms-button-orange">แก้ไขข้อมูล</a>
                     <a href="ChangePassword.aspx" class="ps-ms-button-blue">เปลี่ยนรหัสผ่าน</a>
                     <asp:LinkButton ID="lbuLogout" runat="server" CssClass="ps-ms-button-red" OnClick="lbuLogout_Click">ออกจากระบบ</asp:LinkButton>
                 </div>

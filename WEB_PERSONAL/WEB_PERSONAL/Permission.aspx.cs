@@ -13,11 +13,10 @@ namespace WEB_PERSONAL {
         protected void Page_Load(object sender, EventArgs e) {
 
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person pp = ps.LoginPerson;
-
-            if(pp.PERSON_ROLE_ID != "99") {
+            Person loginPerson = ps.LoginPerson;
+            if (loginPerson.PERSON_ROLE_ID != "99")
+            {
                 Server.Transfer("NoPermission.aspx");
-                return;
             }
 
             lbSaveComplete.Visible = false;

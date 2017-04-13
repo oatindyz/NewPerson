@@ -16,6 +16,13 @@ namespace WEB_PERSONAL
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            Person loginPerson = ps.LoginPerson;
+            if (loginPerson.PERSON_ROLE_ID != "2")
+            {
+                Server.Transfer("NoPermission.aspx");
+            }
+
             if (!IsPostBack)
             {
                 BindDDL();
@@ -263,25 +270,48 @@ namespace WEB_PERSONAL
             }
         }
 
-        protected void btnTest_Click(object sender, EventArgs e) {
-            DateTime bd = Util.ToDateTimeOracle(tbBirthdayDate.Text);
-            DateTime iw = Util.ToDateTimeOracle(tbDateInwork.Text);
-            DateTime now = DateTime.Today;
-            double year = (now - bd).TotalDays / 365.0;
-            if(year < 18) {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ต้องมีอายุอย่างน้อย 18 ปี')", true);
-            }
-            if(iw.CompareTo(bd) < 0) {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่เข้าทำงานต้องอยู่หลังวันเกิด')", true);
-            }
-            
-        }
-
-
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
+            if (tbCitizenID.Text.Length != 13)
+            {
+                ScriptManager.GetCurrent(this.Page).SetFocus(this.tbCitizenID);
+                ChangeNotification("danger", "กรุณากรอกรหัสประชาชนให้ครบ 13 หลัก");
+                return;
+            }
+            string CheckCitizen = DatabaseManager.ExecuteString("SELECT PS_CITIZEN_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + tbCitizenID.Text + "'");
+            if (tbCitizenID.Text == CheckCitizen)
+            {
+                ScriptManager.GetCurrent(this.Page).SetFocus(this.tbCitizenID);
+                ChangeNotification("danger", "รหัสบัตรประชาชนซ้ำ");
+                return;
+            }
+
+            DateTime bd = Util.ToDateTimeOracle(tbBirthdayDate.Text);
+            DateTime iw = Util.ToDateTimeOracle(tbDateInwork.Text);
+            DateTime stu = Util.ToDateTimeOracle(tbDateStartThisU.Text);
+            DateTime now = DateTime.Today;
+
+            double year = (now - bd).TotalDays / 365.0;
+            if (year < 18)
+            {
+                ScriptManager.GetCurrent(this.Page).SetFocus(this.tbBirthdayDate);
+                ChangeNotification("danger", "ต้องมีอายุอย่างน้อย 18 ปี");
+                return;
+            }
+            if (iw.CompareTo(bd) < 0)
+            {
+                ScriptManager.GetCurrent(this.Page).SetFocus(this.tbDateInwork);
+                ChangeNotification("danger", "วันที่เข้าทำงานครั้งแรกต้องอยู่หลังวันเกิด");
+                return;
+            }
+            if (stu.CompareTo(bd) < 0)
+            {
+                ScriptManager.GetCurrent(this.Page).SetFocus(this.tbDateStartThisU);
+                ChangeNotification("danger", "วันที่เข้าทำงาน ณ สถานที่ปัจจุบันต้องอยู่หลังวันเกิด");
+                return;
+            }
+
             INSERT_PERSON();
-            
             var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
             var toAddress = new MailAddress(tbEmail.Text, "To Name");
             string fromPassword = "A1a2a3a4a5a6a7a8";
@@ -308,8 +338,10 @@ namespace WEB_PERSONAL
             ms.Body = body;
             smtp.Send(ms);
 
+            ClearNotification();
             DataShow.Visible = false;
             SaveShow.Visible = true;
+
         }
 
         public int INSERT_PERSON()
@@ -337,22 +369,22 @@ namespace WEB_PERSONAL
                     {
                         com.Parameters.Add(new OracleParameter("PS_PROVINCE_ID", ddlProvinceID.SelectedValue));
                     }
-                    
+
                     if (ddlAmphurID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_AMPHUR_ID", DBNull.Value)); }
                     else
                     {
                         com.Parameters.Add(new OracleParameter("PS_AMPHUR_ID", ddlAmphurID.SelectedValue));
                     }
-                    
+
                     if (ddlDistrictID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_DISTRICT_ID", DBNull.Value)); }
                     else
                     {
                         com.Parameters.Add(new OracleParameter("PS_DISTRICT_ID", ddlDistrictID.SelectedValue));
                     }
-                    
+
                     com.Parameters.Add(new OracleParameter("PS_ZIPCODE", tbZipcode.Text));
                     com.Parameters.Add(new OracleParameter("PS_TELEPHONE", tbTelephone.Text));
-                    com.Parameters.Add(new OracleParameter("PS_NATION_ID", ddlNationID.SelectedValue));      
+                    com.Parameters.Add(new OracleParameter("PS_NATION_ID", ddlNationID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_CAMPUS_ID", ddlCampusID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_FACULTY_ID", ddlFacultyID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_DIVISION_ID", ddlDivisionID.SelectedValue));
@@ -370,11 +402,27 @@ namespace WEB_PERSONAL
                     com.Parameters.Add(new OracleParameter("PS_INWORK_DATE", Util.ToDateTimeOracle(tbDateInwork.Text)));
                     com.Parameters.Add(new OracleParameter("PS_DATE_START_THIS_U", Util.ToDateTimeOracle(tbDateStartThisU.Text)));
                     com.Parameters.Add(new OracleParameter("PS_SPECIAL_NAME", tbSpecialName.Text));
-                    com.Parameters.Add(new OracleParameter("PS_TEACH_ISCED_ID", ddlTeachIscedID.SelectedValue));  
+
+                    if (ddlTeachIscedID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_TEACH_ISCED_ID", DBNull.Value)); }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_TEACH_ISCED_ID", ddlTeachIscedID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_GRAD_LEV_ID", ddlGradLevID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_GRAD_CURR", tbGradCurr.Text));
-                    com.Parameters.Add(new OracleParameter("PS_GRAD_ISCED_ID", ddlGradIscedID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_GRAD_PROG_ID", ddlGradProgID.SelectedValue));
+
+                    if (ddlGradIscedID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GRAD_ISCED_ID", DBNull.Value)); }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GRAD_ISCED_ID", ddlGradIscedID.SelectedValue));
+                    }
+                    if (ddlGradProgID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_GRAD_PROG_ID", DBNull.Value)); }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_GRAD_PROG_ID", ddlGradProgID.SelectedValue));
+                    }
+
                     com.Parameters.Add(new OracleParameter("PS_GRAD_UNIV", tbGradUniv.Text));
                     com.Parameters.Add(new OracleParameter("PS_GRAD_COUNTRY_ID", ddlGradCountryID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_DEFORM_ID", ddlDeformID.SelectedValue));
@@ -383,13 +431,89 @@ namespace WEB_PERSONAL
                     com.Parameters.Add(new OracleParameter("PS_MOVEMENT_TYPE_ID", ddlMovementTypeID.SelectedValue));
                     if (tbMovementDate.Text == "") { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", DBNull.Value)); } else { com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", Util.ToDateTimeOracle(tbMovementDate.Text))); }
                     com.Parameters.Add(new OracleParameter("ST_LOGIN_ID", "0"));
-                    com.Parameters.Add(new OracleParameter("PERSON_ROLE_ID", "1"));                   
+                    com.Parameters.Add(new OracleParameter("PERSON_ROLE_ID", "1"));
                     id = com.ExecuteNonQuery();
 
                 }
             }
             return id;
         }
+
+        protected void ddlTitleID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int IsFemale = DatabaseManager.ExecuteInt("SELECT TITLE_ID FROM TB_TITLENAME WHERE TITLE_ID in(1,2)");
+            int IsMale = DatabaseManager.ExecuteInt("SELECT TITLE_ID FROM TB_TITLENAME WHERE TITLE_ID = 3");
+            if (ddlTitleID.SelectedValue == IsFemale.ToString())
+            {
+                ddlGenderID.SelectedIndex = 2;
+            }
+            else if (ddlTitleID.SelectedValue == IsMale.ToString())
+            {
+                ddlGenderID.SelectedIndex = 1;
+            }
+        }
+
+        protected void ddlSubStafftypeID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int subStaffID = DatabaseManager.ExecuteInt("SELECT SUBSTAFFTYPE_ID FROM TB_SUBSTAFFTYPE WHERE SUBSTAFFTYPE_ID = 2");
+            if (ddlSubStafftypeID.SelectedValue == subStaffID.ToString())
+            {
+                trddlTeachIscedID.Visible = false;
+            }
+            else
+            {
+                trddlTeachIscedID.Visible = true;
+            }
+        }
+
+        protected void ddlGradLevID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int LevID = DatabaseManager.ExecuteInt("SELECT LEV_ID FROM TB_LEV WHERE LEV_ID = 25");
+            if (ddlGradLevID.SelectedValue == LevID.ToString())
+            {
+                trGradIscedID.Visible = false;
+                trGradProgID.Visible = false;
+            }
+            else
+            {
+                trGradIscedID.Visible = true;
+                trGradProgID.Visible = true;
+            }
+        }
+
+        private void ChangeNotification(string type)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+        }
+        private void ChangeNotification(string type, string text)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+            notification.InnerHtml = text;
+        }
+        private void ClearNotification()
+        {
+            notification.Attributes["class"] = null;
+            notification.InnerHtml = "";
+        }
+        private void AddNotification(string text)
+        {
+            notification.InnerHtml += text;
+        }
+
 
     }
 }
