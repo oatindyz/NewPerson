@@ -674,6 +674,7 @@
     <Content Include="CSS\Print.css" />
     <Content Include="DataManage.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Edituser.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -2895,6 +2896,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Edituser.aspx.cs">
+      <DependentUpon>Edituser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Edituser.aspx.designer.cs">
+      <DependentUpon>Edituser.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

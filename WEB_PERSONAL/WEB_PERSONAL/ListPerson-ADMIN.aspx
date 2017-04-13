@@ -36,7 +36,9 @@
                                 <th>ชื่อ-สกุล</th>
                                 <th>ประเภทบุคลากร</th>
                                 <th>วิทยาเขต</th>
-                                <th>จัดการข้อมูล</th>
+                                <th>แก้ไขข้อมูลบุคลากร</th>
+                                <th>จัดการข้อมูลตำแหน่ง</th>
+                                <th>จัดการข้อมูลเงินเดือน</th>
                             </tr>
                         </thead>
                         <asp:Repeater ID="myRepeater" runat="server" OnItemCommand="myRepeater_ItemCommand">
@@ -46,10 +48,9 @@
                                     <td><%# DataBinder.Eval(Container.DataItem, "NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "STAFFTYPE_NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %></td>
-                                    <td>
-                                        <a><asp:LinkButton ID="lbuManagePosition" CommandName="ManagePosition" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight">จัดการข้อมูลตำแหน่ง</asp:LinkButton></a>
-                                        <a><asp:LinkButton ID="lbuManageSalary" CommandName="ManageSalary" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight">จัดการข้อมูลเงินเดือน</asp:LinkButton></a>
-                                    </td>
+                                    <td><asp:LinkButton ID="lbuEdituser" CommandName="Edituser" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight"><img src="Image/Icon/manage.png" class="icon_left"/></asp:LinkButton></td>
+                                    <td><asp:LinkButton ID="lbuManagePosition" CommandName="ManagePosition" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight"><img src="Image/Icon/manage.png" class="icon_left"/></asp:LinkButton></td>
+                                    <td><asp:LinkButton ID="lbuManageSalary" CommandName="ManageSalary" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PS_CITIZEN_ID").ToString()) %>' class="btn btn-default ekknidRight"><img src="Image/Icon/manage.png" class="icon_left"/></asp:LinkButton></td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

@@ -1,5 +1,52 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Boss.aspx.cs" Inherits="WEB_PERSONAL.Boss" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+       <script>
+        function keyup(obj, e) {
+            var keynum;
+            var keychar;
+            var id = '';
+            if (window.event) {// IE
+                keynum = e.keyCode;
+            }
+            else if (e.which) {// Netscape/Firefox/Opera
+                keynum = e.which;
+            }
+            keychar = String.fromCharCode(keynum);
+
+
+            var tagInput = document.getElementById('<%= tbCitizenID.ClientID %>').value;
+
+            if (obj.value.length == 13) {
+
+                if (checkID(tagInput)) {
+                    nextObj.focus();
+                }
+                else {
+                    alert('รหัสประจำตัวประชาชนไม่ถูกต้อง');
+                    document.getElementById('<%= tbCitizenID.ClientID %>').value = "";
+                    nextObj.focus();
+                }
+
+            }
+        }
+        function checkID(id) {
+            if (id.length != 13) return false;
+            for (i = 0, sum = 0; i < 12; i++)
+                sum += parseFloat(id.charAt(i)) * (13 - i);
+            if ((11 - sum % 11) % 10 != parseFloat(id.charAt(12)))
+                return false;
+            return true;
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        function DisableButton() {
+            document.getElementById("<%=lbuAdd.ClientID %>").disabled = true;
+        }
+        window.onbeforeunload = DisableButton;
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
@@ -12,7 +59,7 @@
                     <td></td>
                     <td>เลขบัตรประชาชน</td>
                     <td>
-                        <asp:TextBox ID="tbCitizenID" runat="server" CssClass="ps-textbox"></asp:TextBox>
+                        <asp:TextBox ID="tbCitizenID" runat="server" CssClass="ps-textbox" onkeypress="return isNumberKey(event)" onkeyup="keyup(this,event)" required="required" tabindex="1"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>

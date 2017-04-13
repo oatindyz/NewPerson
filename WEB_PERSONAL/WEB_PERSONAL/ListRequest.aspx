@@ -18,7 +18,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="ps-header">
-        <img src="Image/book_edit.png" />จัดการข้อมูลคำร้องการแก้ไขข้อมูล
+        <img src="Image/Icon/manage.png" />จัดการข้อมูลคำร้องการแก้ไขข้อมูล
     </div>
     <div id="notification" runat="server"></div>
 
@@ -32,7 +32,7 @@
                                 <th>ลำดับที่</th>
                                 <th>ชื่อ-สกุล</th>
                                 <th>ประเภทบุคลากร</th>
-                                <th>คณะ/หน่วยงาน</th>
+                                <th>วิทยาเขต</th>
                                 <th><img src="Image/Small/document-edit.png" class="icon_left" />จัดการข้อมูล</th>
                             </tr>
                         </thead>
@@ -41,8 +41,8 @@
                                 <tr>
                                     <td><%# Container.ItemIndex +1 %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "STAFF_NAME") %></td>
-                                    <td><%# DataBinder.Eval(Container.DataItem, "FAC_NAME") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "STAFFTYPE_NAME") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %></td>
                                     <td>
                                         <a><asp:LinkButton ID="lbuEdit" CommandName="Edit" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "R_ID").ToString()) %>' class="btn btn-warning">จัดการข้อมูล</asp:LinkButton></a>
                                     </td>

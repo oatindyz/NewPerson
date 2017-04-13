@@ -233,7 +233,7 @@ namespace WEB_PERSONAL
                             }
                             {
                                 TableCell cell = new TableCell();
-                                cell.Text = reader.GetString(1);
+                                cell.Text = reader.GetValue(1).ToString();
                                 row.Cells.Add(cell);
                             }
                             {
@@ -270,7 +270,7 @@ namespace WEB_PERSONAL
                                         if (reader2.Read())
                                         {
                                             TableCell cell = new TableCell();
-                                            cell.Text = reader2.GetString(0);
+                                            cell.Text = reader2.GetValue(0).ToString();
                                             row.Cells.Add(cell);
                                         }
                                     }
@@ -285,12 +285,12 @@ namespace WEB_PERSONAL
                             }
                             {
                                 TableCell cell = new TableCell();
-                                cell.Text = reader.GetString(5);
+                                cell.Text = reader.GetValue(5).ToString();
                                 row.Cells.Add(cell);
                             }
                             {
                                 TableCell cell = new TableCell();
-                                citizenOld = reader.GetString(6);
+                                citizenOld = reader.GetValue(6).ToString();
                                 tbCitizen.Text = citizenOld;
                                 cell.Controls.Add(tbCitizen);
                                 row.Cells.Add(cell);

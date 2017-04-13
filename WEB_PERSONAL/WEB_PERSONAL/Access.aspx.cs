@@ -189,6 +189,78 @@ namespace WEB_PERSONAL
                                         {
                                             PersonnelSystem ps = new PersonnelSystem();
                                             ps.LoginPerson = DatabaseManager.GetPerson(tbUsername.Text);
+
+                                            //
+                                            //
+                                            if (DatabaseManager.ExecuteInt("SELECT COUNT(*) FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + ps.LoginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear()) == 0)
+                                            {
+                                                using (OracleCommand com3 = new OracleCommand("INSERT INTO LEV_CLAIM (LEAVE_CLAIM_ID, PS_CITIZEN_ID, YEAR, SICK_NOW, SICK_REQ, BUSINESS_NOW, BUSINESS_REQ, GB_NOW, GB_REQ, REST_NOW, REST_REQ, REST_SAVE, REST_SAVE_FIX, REST_THIS, REST_THIS_FIX, REST_MAX, HGB_NOW, HGB_REQ, ORDAIN_NOW, ORDAIN_REQ, HUJ_NOW, HUJ_REQ, SICK_MAX, BUSINESS_MAX, HUJ_MAX, ORDAIN_MAX) VALUES (SEQ_LEV_CLAIM_ID.NEXTVAL, :PS_CITIZEN_ID, :YEAR, :SICK_NOW, :SICK_REQ, :BUSINESS_NOW, :BUSINESS_REQ, :GB_NOW, :GB_REQ, :REST_NOW, :REST_REQ, :REST_SAVE, :REST_SAVE_FIX, :REST_THIS, :REST_THIS_FIX, :REST_MAX, :HGB_NOW, :HGB_REQ, :ORDAIN_NOW, :ORDAIN_REQ, :HUJ_NOW, :HUJ_REQ, :SICK_MAX, :BUSINESS_MAX, :HUJ_MAX, :ORDAIN_MAX)", con))
+                                                {
+
+                                                    com3.Parameters.AddWithValue("PS_CITIZEN_ID", ps.LoginPerson.PS_CITIZEN_ID);
+                                                    com3.Parameters.AddWithValue("YEAR", Util.BudgetYear());
+                                                    int v1 = 0;
+                                                    int v2 = 10;
+                                                    int v60 = 60;
+                                                    int v45 = 45;
+                                                    int v120 = 120;
+                                                    com3.Parameters.AddWithValue("SICK_NOW", v1);
+                                                    com3.Parameters.AddWithValue("SICK_REQ", v1);
+                                                    com3.Parameters.AddWithValue("BUSINESS_NOW", v1);
+                                                    com3.Parameters.AddWithValue("BUSINESS_REQ", v1);
+                                                    com3.Parameters.AddWithValue("GB_NOW", v1);
+                                                    com3.Parameters.AddWithValue("GB_REQ", v1);
+                                                    com3.Parameters.AddWithValue("REST_NOW", v1);
+                                                    com3.Parameters.AddWithValue("REST_REQ", v1);
+                                                    com3.Parameters.AddWithValue("REST_SAVE", v1);
+                                                    com3.Parameters.AddWithValue("REST_SAVE_FIX", v1);
+                                                    com3.Parameters.AddWithValue("REST_THIS", v2);
+                                                    com3.Parameters.AddWithValue("REST_THIS_FIX", v2);
+                                                    com3.Parameters.AddWithValue("REST_MAX", v2);
+                                                    com3.Parameters.AddWithValue("HGB_NOW", v1);
+                                                    com3.Parameters.AddWithValue("HGB_REQ", v1);
+                                                    com3.Parameters.AddWithValue("ORDAIN_NOW", v1);
+                                                    com3.Parameters.AddWithValue("ORDAIN_REQ", v1);
+                                                    com3.Parameters.AddWithValue("HUJ_NOW", v1);
+                                                    com3.Parameters.AddWithValue("HUJ_REQ", v1);
+                                                    com3.Parameters.AddWithValue("SICK_MAX", v60);
+                                                    com3.Parameters.AddWithValue("BUSINESS_MAX", v45);
+                                                    com3.Parameters.AddWithValue("HUJ_MAX", v120);
+                                                    com3.Parameters.AddWithValue("ORDAIN_MAX", v120);
+                                                    com3.ExecuteNonQuery();
+                                                }
+                                            }
+
+                                            //
+                                            using (OracleCommand com4 = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE CURRENT_DATE >= FROM_DATE AND LEAVE_TYPE_ID IN(2,4,6,7) AND LEAVE_STATUS_ID = 1", con))
+                                            {
+                                                using (OracleDataReader reader4 = com.ExecuteReader())
+                                                {
+                                                    while (reader4.Read())
+                                                    {
+                                                        int leaveID = reader4.GetInt32(0);
+                                                        LeaveData leaveData = new LeaveData();
+                                                        leaveData.Load(leaveID);
+                                                        leaveData.ExecuteCancelBySystem();
+                                                    }
+                                                }
+                                            }
+
+                                            using (OracleCommand com5 = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE LEAVE_STATUS_ID = 1 AND TRUNC(CURRENT_DATE - REQ_DATE, 0) >= 3", con))
+                                            {
+                                                using (OracleDataReader reader5 = com5.ExecuteReader())
+                                                {
+                                                    while (reader5.Read())
+                                                    {
+                                                        int leaveID = reader5.GetInt32(0);
+                                                        LeaveData leaveData = new LeaveData();
+                                                        leaveData.Load(leaveID);
+                                                        leaveData.ExecuteCancelBySystem();
+                                                    }
+                                                }
+                                            }
+
+
                                             Session["PersonnelSystem"] = ps;
                                             Response.Redirect("Default.aspx");
                                         }

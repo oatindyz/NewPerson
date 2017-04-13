@@ -33,7 +33,7 @@
     <asp:Panel ID="Panel1" runat="server" CssClass="divpan">
         <div id="divheader1" runat="server" class="ps-header">
             <img src="Image/Small/wrench.png" /><asp:Label ID="Label1" runat="server" Text="จัดการข้อมูลเงินเดือน"></asp:Label>
-            <span style="text-align: right; float: right;"><a href="listPerson-admin.aspx">
+            <span style="text-align: right; float: right;"><a href="ListPerson-ADMIN.aspx">
                 <img src="Image/Small/back.png" />ย้อนกลับ</a></span>
         </div>
 

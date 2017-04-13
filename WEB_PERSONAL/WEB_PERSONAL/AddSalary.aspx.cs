@@ -21,6 +21,11 @@ namespace WEB_PERSONAL
                 Server.Transfer("NoPermission.aspx");
             }
 
+            if (Request.QueryString["id"] == null)
+            {
+                Response.Redirect("ListPerson-ADMIN.aspx");
+            }
+
             if (!IsPostBack)
             {
                 BindSalary();

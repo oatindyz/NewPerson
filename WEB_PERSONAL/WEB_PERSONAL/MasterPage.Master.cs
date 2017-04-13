@@ -55,7 +55,7 @@ namespace WEB_PERSONAL
             if (loginPerson.PERSON_ROLE_ID == "1")
             {
                 hv5.Visible = true;
-                hv2.Visible = true;
+                hv7.Visible = true;
                 hv6.Visible = true;
             }
             else if (loginPerson.PERSON_ROLE_ID == "2")
@@ -73,7 +73,7 @@ namespace WEB_PERSONAL
             else if (loginPerson.PERSON_ROLE_ID == "4")
             {
                 hv5.Visible = true;
-                hv2.Visible = true;
+                hv7.Visible = true;
                 hv3.Visible = true;
             }
             else if (loginPerson.PERSON_ROLE_ID == "5")

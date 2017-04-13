@@ -17,6 +17,11 @@ namespace WEB_PERSONAL
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             loginPerson = ps.LoginPerson;
 
+            if (Request.QueryString["id"] == null)
+            {
+                Response.Redirect("ListRequest.aspx");
+            }
+
             if (!IsPostBack)
             {
                 BindDDL();

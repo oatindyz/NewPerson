@@ -40,6 +40,12 @@ namespace WEB_PERSONAL
 
         protected void myRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            if (e.CommandName == "Edituser" && e.CommandArgument.ToString() != "")
+            {
+                LinkButton lbu = (LinkButton)e.Item.FindControl("lbuEdituser");
+                string value = lbu.CommandArgument;
+                Response.Redirect("Edituser.aspx?id=" + value);
+            }
             if (e.CommandName == "ManagePosition" && e.CommandArgument.ToString() != "")
             {
                 LinkButton lbu = (LinkButton)e.Item.FindControl("lbuManagePosition");
