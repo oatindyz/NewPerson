@@ -16,14 +16,14 @@ namespace WEB_PERSONAL
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
-            if (loginPerson.PERSON_ROLE_ID != "2")
+            if (loginPerson.PERSON_ROLE_ID != "4")
             {
                 Server.Transfer("NoPermission.aspx");
             }
 
             if (!IsPostBack)
             {
-                BindTitle();
+                BindGovAvailable();
             }
 
             /*if (Request.QueryString["ID"] == "Title") { BindTitle(); }
@@ -79,7 +79,7 @@ namespace WEB_PERSONAL
         }
 
         //
-        protected void BindTitle()
+        protected void BindGovAvailable()
         {
             HideAll();
             Panel1.Visible = true;
@@ -90,78 +90,72 @@ namespace WEB_PERSONAL
             myRepeaterGovAvailable.DataSource = dt;
             myRepeaterGovAvailable.DataBind();
         }
-        protected void ClearTitle()
+        protected void ClearGovAvailable()
         {
             ddlInsertGovAvailablePositionID.SelectedIndex = 0;
             tbInsertGovAvailablePositionSalary.Text = "";
             ddlInsertGovAvailableInsigMin.SelectedIndex = 0;
             ddlInsertGovAvailableInsigMax.SelectedIndex = 0;
         }
-        protected void lbuMenuTitle_Click(object sender, EventArgs e)
+        protected void lbuMenuGovAvailable_Click(object sender, EventArgs e)
         {
-            BindTitle();
+            BindGovAvailable();
         }
-        protected void btnInsertTitle_Click(object sender, EventArgs e)
+        protected void btnInsertGovAvailable_Click(object sender, EventArgs e)
         {
-            string oldID = DatabaseManager.ExecuteString("SELECT TITLE_ID FROM TB_TITLENAME WHERE TITLE_ID ='" + tbInsertIdTitle.Text + "'");
-            if (tbInsertIdTitle.Text == oldID)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('มีรหัสคำนำหน้า " + tbInsertIdTitle.Text + " อยู่แล้วในระบบ ไม่สามารถเพิ่มได้')", true);
-                return;
-            }
-
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_TITLENAME (TITLE_ID,TITLE_NAME_TH) VALUES (" + tbInsertIdTitle.Text + ",'" + tbInsertNameTitle.Text + "')");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOV_AVAILABLE (IA_ID,P_ID,POS_SALARY,INSIG_MIN,INSIG_MAX) VALUES (" + ddlInsertGovAvailablePositionID.SelectedValue + ",'" + tbInsertGovAvailablePositionSalary.Text + "'," + ddlInsertGovAvailableInsigMin.SelectedValue + "," + ddlInsertGovAvailableInsigMax.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
-            BindTitle();
-            ClearTitle();
+            BindGovAvailable();
+            ClearGovAvailable();
         }
-        protected void btnUpdateTitle_Click(object sender, EventArgs e)
+        protected void btnUpdateGovAvailable_Click(object sender, EventArgs e)
         {
-            string ValueID = tbInsertIdTitle.Text;
-            string ValueName = tbInsertNameTitle.Text;
-
-            if (Session["DefaultIdTitle"] == null)
+            if (Session["DefaultIdGovAvailable"] == null)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
                 return;
             }
-
-            if (ValueID != "" && ValueName != "")
+            else
             {
-                DatabaseManager.ExecuteNonQuery("UPDATE TB_TITLENAME SET TITLE_ID = '" + ValueID + "', TITLE_NAME_TH = '" + ValueName + "' WHERE TITLE_ID = '" + Session["DefaultIdTitle"].ToString() + "'");
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOV_AVAILABLE SET P_ID = '" + ddlInsertGovAvailablePositionID.SelectedValue + "', POS_SALARY = '" + tbInsertGovAvailablePositionSalary.Text + "', INSIG_MIN = '" + ddlInsertGovAvailableInsigMin.SelectedValue + "', INSIG_MAX = '" + ddlInsertGovAvailableInsigMax.SelectedValue + "' WHERE IA_ID = '" + Session["DefaultIdGovAvailable"].ToString() + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
-                BindTitle();
-                ClearTitle();
-                Session.Remove("DefaultIdTitle");
+                BindGovAvailable();
+                ClearGovAvailable();
+                Session.Remove("DefaultIdGovAvailable");
             }
         }
-        protected void lbuClearTitle_Click(object sender, EventArgs e)
+        protected void lbuClearGovAvailable_Click(object sender, EventArgs e)
         {
-            BindTitle();
-            ClearTitle();
-            Session.Remove("DefaultIdTitle");
+            BindGovAvailable();
+            ClearGovAvailable();
+            Session.Remove("DefaultIdGovAvailable");
         }
-        protected void OnEditTitle(object sender, EventArgs e)
+        protected void OnEditGovAvailable(object sender, EventArgs e)
         {
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
-            string ValueID = (item.FindControl("lbTitleID") as Label).Text;
-            string ValueName = (item.FindControl("lbTitleName") as Label).Text;
+            string ValueGovInsigAvailableID = (item.FindControl("HFGovAvailable") as HiddenField).Value;
+            string ValuePositionID = (item.FindControl("lbPositionID") as Label).Text;
+            string ValuePositionSalary = (item.FindControl("lbPositionSalary") as Label).Text;
+            string ValueGovInsigAvailableMin = (item.FindControl("HFGovInsigAvailableMin") as HiddenField).Value;
+            string ValueGovInsigAvailableMax = (item.FindControl("HFGovInsigAvailableMax") as HiddenField).Value;
 
-            tbInsertIdTitle.Text = ValueID;
-            tbInsertNameTitle.Text = ValueName;
+            ddlInsertGovAvailablePositionID.SelectedValue = ValuePositionID;
+            tbInsertGovAvailablePositionSalary.Text = ValuePositionSalary;
+            ddlInsertGovAvailableInsigMin.SelectedValue = ValueGovInsigAvailableMin;
+            ddlInsertGovAvailableInsigMax.SelectedValue = ValueGovInsigAvailableMax;
 
-            Session["DefaultIdTitle"] = ValueID;
+            Session["DefaultIdGovAvailable"] = ValueGovInsigAvailableID;
         }
-        protected void OnDeleteTitle(object sender, EventArgs e)
+        protected void OnDeleteGovAvailable(object sender, EventArgs e)
         {
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
-            int ValueID = int.Parse((item.FindControl("lbTitleID") as Label).Text);
+            int ValueID = int.Parse((item.FindControl("HFGovAvailable") as HiddenField).Value);
 
             if (ValueID != 0)
             {
-                DatabaseManager.ExecuteNonQuery("DELETE TB_TITLENAME WHERE TITLE_ID = '" + ValueID + "'");
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOV_AVAILABLE WHERE IA_ID = '" + ValueID + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
-                BindTitle();
+                BindGovAvailable();
             }
         }
 

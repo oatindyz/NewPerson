@@ -63,8 +63,8 @@
                         <td>ระดับตำแหน่ง<span class="ps-lb-red" />*<br />
                             <asp:DropDownList ID="ddlInsertGovAvailablePositionID" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
                         </td>
-                        <td>เงินประจำตำแหน่ง<span class="ps-lb-red" />*<br />
-                            <asp:TextBox ID="tbInsertGovAvailablePositionSalary" runat="server" onkeypress="return isNumberKey(event)" MaxLength="10" CssClass="form-control input-sm" required="required" tabindex="1"/>
+                        <td>เงินประจำตำแหน่ง<br />
+                            <asp:TextBox ID="tbInsertGovAvailablePositionSalary" runat="server" onkeypress="return isNumberKey(event)" MaxLength="10" CssClass="form-control input-sm"/>
                         </td>
                         <td>เริ่มขอ<span class="ps-lb-red" />*<br />
                             <asp:DropDownList ID="ddlInsertGovAvailableInsigMin" runat="server" CssClass="form-control input-sm" required="required" tabindex="1"/>
