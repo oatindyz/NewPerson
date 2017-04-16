@@ -12,10 +12,11 @@ namespace WEB_PERSONAL
 {
     public partial class AddPosition : System.Web.UI.Page
     {
+        Person loginPerson;
         protected void Page_Load(object sender, EventArgs e)
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
+            loginPerson = ps.LoginPerson;
             if (loginPerson.PERSON_ROLE_ID != "2")
             {
                 Server.Transfer("NoPermission.aspx");
@@ -41,7 +42,19 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterPosition.DataSource = dt;
             myRepeaterPosition.DataBind();
-            DatabaseManager.BindDropDown(ddlInsertIdPosition,"SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            /*if (loginPerson.PS_STAFFTYPE_ID == "1")
+            {
+                DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            }
+            else if (loginPerson.PS_STAFFTYPE_ID == "5")
+            {
+                DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 5 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            }
+            else
+            {
+                DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            }*/
+            DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
         }
         protected void ClearPosition()
         {
@@ -146,29 +159,6 @@ namespace WEB_PERSONAL
                         com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
                         com.ExecuteNonQuery();
                     }
-                    //---------
-
-                    /*using (OracleCommand com = new OracleCommand("SELECT P_ID FROM PS_POSITION_HISTORY WHERE GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY) AND CITIZEN_ID = :CITIZEN_ID", con))
-                    {
-                        com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
-                        using (OracleDataReader reader = com.ExecuteReader())
-                        {
-                            string checkFirst = "";
-                            while (reader.Read())
-                            {
-                                if (checkFirst != null)
-                                {
-                                    using (OracleCommand com1 = new OracleCommand("UPDATE PS_PERSON SET PS_POSITION_ID = :PS_POSITION_ID, PS_FIRST_POSITION_ID = :PS_FIRST_POSITION_ID WHERE PS_CITIZEN_ID = :PS_CITIZEN_ID", con))
-                                    {
-                                        com1.Parameters.Add(new OracleParameter("PS_POSITION_ID", ddlInsertIdPosition.SelectedValue));
-                                        com1.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", ddlInsertIdPosition.SelectedValue));
-                                        com1.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
-                                        com1.ExecuteNonQuery();
-                                    }
-                                }
-                            }
-                        }
-                    } */
                 }
 
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
@@ -218,22 +208,6 @@ namespace WEB_PERSONAL
                         com.ExecuteNonQuery();
                     }
                 }
-
-                /*using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
-                {
-                    con.Open();
-                    string CheckFrist = DatabaseManager.ExecuteString("SELECT COUNT(*) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'");
-                    if (CheckFrist == "0")
-                    {
-                        using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_POSITION_ID = :PS_POSITION_ID, PS_FIRST_POSITION_ID = :PS_FIRST_POSITION_ID WHERE PS_CITIZEN_ID = :PS_CITIZEN_ID", con))
-                        {
-                            com.Parameters.Add(new OracleParameter("PS_POSITION_ID", DBNull.Value));
-                            com.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", DBNull.Value));
-                            com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
-                            com.ExecuteNonQuery();
-                        }
-                    }
-                }*/
 
             }
         }
