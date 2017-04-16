@@ -17,9 +17,12 @@ namespace WEB_PERSONAL
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             loginPerson = ps.LoginPerson;
 
-            if (Request.QueryString["id"] == null)
+            if (loginPerson.PERSON_ROLE_ID == "2")
             {
-                Response.Redirect("ListRequest.aspx");
+                SpanBack.Visible = true;
+            }else
+            {
+                SpanBack.Visible = false;
             }
 
             if (!IsPostBack)

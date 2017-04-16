@@ -51,7 +51,6 @@ namespace WEB_PERSONAL
             else if (Request.QueryString["ID"] == "MovementType") { BindMovementType(); }
         }
 
-
         private void HideAll() {
             Panel1.Visible = false;
             Panel2.Visible = false;

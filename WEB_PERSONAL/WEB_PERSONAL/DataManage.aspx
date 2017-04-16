@@ -32,7 +32,6 @@
             background-color: rgb(0, 142, 212);
         }
     </style>
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolderLeft" runat="server">
@@ -52,7 +51,7 @@
             <asp:LinkButton ID="lbuMenuCampus" runat="server" OnClick="lbuMenuCampus_Click"><img src="Image/Small/wrench.png" class="icon_left"/> วิทยาเขต</asp:LinkButton>
         
             <asp:LinkButton ID="lbuMenuFaculty" runat="server" OnClick="lbuMenuFaculty_Click"><img src="Image/Small/wrench.png" class="icon_left"/> สำนัก/สถาบัน/คณะ</asp:LinkButton>
-       
+        
             <asp:LinkButton ID="lbuMenuDivision" runat="server" OnClick="lbuMenuDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> กอง/สำนักงานเลขา/ภาควิชา</asp:LinkButton>
         
             <asp:LinkButton ID="lbuMenuWorkDivision" runat="server" OnClick="lbuMenuWorkDivision_Click"><img src="Image/Small/wrench.png" class="icon_left"/> งาน/ฝ่าย</asp:LinkButton>

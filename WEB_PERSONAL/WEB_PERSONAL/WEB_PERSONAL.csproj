@@ -673,7 +673,9 @@
     <Content Include="CSS\Master.css" />
     <Content Include="CSS\Print.css" />
     <Content Include="DataManage.aspx" />
+    <Content Include="DataManageInsig.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Edit.aspx" />
     <Content Include="Edituser.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2890,12 +2892,26 @@
     <Compile Include="DataManage.aspx.designer.cs">
       <DependentUpon>DataManage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataManageInsig.aspx.cs">
+      <DependentUpon>DataManageInsig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataManageInsig.aspx.designer.cs">
+      <DependentUpon>DataManageInsig.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Edit.aspx.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Edit.aspx.designer.cs">
+      <DependentUpon>Edit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Edituser.aspx.cs">
       <DependentUpon>Edituser.aspx</DependentUpon>

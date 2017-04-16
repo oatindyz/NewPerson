@@ -50,6 +50,7 @@ namespace WEB_PERSONAL
                 hv4.Visible = false;
                 hv5.Visible = false;
                 hv6.Visible = false;
+                hv7.Visible = false;
             }
 
             if (loginPerson.PERSON_ROLE_ID == "1")

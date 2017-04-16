@@ -7,8 +7,6 @@ using System.Data;
 using System.Configuration;
 using WEB_PERSONAL.Class;
 using System.Data.OracleClient;
-using System.Net;
-using System.Net.Mail;
 
 namespace WEB_PERSONAL
 {

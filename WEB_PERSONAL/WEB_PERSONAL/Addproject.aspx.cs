@@ -15,10 +15,6 @@ namespace WEB_PERSONAL
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
-            if (loginPerson.PERSON_ROLE_ID != "2")
-            {
-                Server.Transfer("NoPermission.aspx");
-            }
 
             Notsuccess.Visible = true;
             success.Visible = false;

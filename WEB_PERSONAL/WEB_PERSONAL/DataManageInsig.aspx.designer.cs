@@ -10,168 +10,186 @@
 namespace WEB_PERSONAL {
     
     
-    public partial class Request {
+    public partial class DataManageInsig {
         
         /// <summary>
-        /// ScriptManager1 control.
+        /// lbuMenuGovAvailable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovAvailable;
         
         /// <summary>
-        /// SpanBack control.
+        /// lbuMenuGovHighSalaryCon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SpanBack;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovHighSalaryCon;
         
         /// <summary>
-        /// notification control.
+        /// lbuMenuGovInsigYearCon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl notification;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovInsigYearCon;
         
         /// <summary>
-        /// DataShow control.
+        /// lbuMenuGovPosYearCon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DataShow;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovPosYearCon;
         
         /// <summary>
-        /// lbTitleID control.
+        /// lbuMenuGovSalaryCon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbTitleID;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovSalaryCon;
         
         /// <summary>
-        /// ddlTitleID control.
+        /// lbuMenuGovSalaryYearCon control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTitleID;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovSalaryYearCon;
         
         /// <summary>
-        /// lbFirstName control.
+        /// lbuMenuGovAddOne control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbFirstName;
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovAddOne;
         
         /// <summary>
-        /// tbFirstName control.
+        /// Panel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbFirstName;
+        protected global::System.Web.UI.WebControls.Panel Panel1;
         
         /// <summary>
-        /// lbLastName control.
+        /// divheader1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbLastName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divheader1;
         
         /// <summary>
-        /// tbLastName control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbLastName;
+        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// lbGenderID control.
+        /// divInsertGovAvailable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbGenderID;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInsertGovAvailable;
         
         /// <summary>
-        /// ddlGenderID control.
+        /// ddlInsertGovAvailablePositionID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlGenderID;
+        protected global::System.Web.UI.WebControls.DropDownList ddlInsertGovAvailablePositionID;
         
         /// <summary>
-        /// lbBirthdayDate control.
+        /// tbInsertGovAvailablePositionSalary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbBirthdayDate;
+        protected global::System.Web.UI.WebControls.TextBox tbInsertGovAvailablePositionSalary;
         
         /// <summary>
-        /// tbBirthdayDate control.
+        /// ddlInsertGovAvailableInsigMin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbBirthdayDate;
+        protected global::System.Web.UI.WebControls.DropDownList ddlInsertGovAvailableInsigMin;
         
         /// <summary>
-        /// lbEmail control.
+        /// ddlInsertGovAvailableInsigMax control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbEmail;
+        protected global::System.Web.UI.WebControls.DropDownList ddlInsertGovAvailableInsigMax;
         
         /// <summary>
-        /// tbEmail control.
+        /// btnInsertGovAvailable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEmail;
+        protected global::System.Web.UI.WebControls.Button btnInsertGovAvailable;
         
         /// <summary>
-        /// btnSaveRequest control.
+        /// btnUpdateGovAvailable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveRequest;
+        protected global::System.Web.UI.WebControls.Button btnUpdateGovAvailable;
         
         /// <summary>
-        /// SaveShow control.
+        /// lbuClearGovAvailable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SaveShow;
+        protected global::System.Web.UI.WebControls.LinkButton lbuClearGovAvailable;
+        
+        /// <summary>
+        /// divLoadGovAvailable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLoadGovAvailable;
+        
+        /// <summary>
+        /// myRepeaterGovAvailable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater myRepeaterGovAvailable;
     }
 }

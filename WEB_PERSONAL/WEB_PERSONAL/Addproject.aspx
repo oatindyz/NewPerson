@@ -55,15 +55,15 @@
                     </tr>
                 </table>
                 
-                <div class="form-group">
+                <div>
                     <asp:Label ID="lbProjectName" runat="server">ชื่อโครงการ<span class="ps-lb-red" />*</asp:Label>
                     <asp:TextBox ID="tbProjectName" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
                 </div>
-                <div class="form-group">
+                <div>
                     <asp:Label ID="lbAddressProject" runat="server">สถานที่จัดโครงการ<span class="ps-lb-red" />*</asp:Label>
                     <asp:TextBox ID="tbAddressProject" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1"></asp:TextBox>
                 </div>
-                <div class="form-group">
+                <div>
                     <asp:Label ID="lbStartDateEndDate" runat="server">วันที่เริ่มโครงการ - วันที่สิ้นสุดโครงการ<span class="ps-lb-red" />*</asp:Label>
                     <div class="input-group form-group date">
                         <asp:TextBox ID="tbStartDate" runat="server" CssClass="form-control input-sm" Width="200px" Placeholder="วันที่เริ่มโครงการ" required="required" TabIndex="1"></asp:TextBox>

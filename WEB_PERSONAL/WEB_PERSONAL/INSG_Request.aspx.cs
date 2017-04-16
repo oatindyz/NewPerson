@@ -77,7 +77,7 @@ namespace WEB_PERSONAL
                 int insig_max = int.MinValue;
                 bool checkInsigPosYearSal = false;
                 int sal_row_count = 0;
-                using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_AVAIABLE WHERE P_ID = :P_ID", con))
+                using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_GOV_AVAILABLE WHERE P_ID = :P_ID", con))
                 {
                     com.Parameters.Add(new OracleParameter("P_ID", loginPerson.PS_POSITION_ID));
                     using (OracleDataReader reader = com.ExecuteReader())
@@ -96,7 +96,7 @@ namespace WEB_PERSONAL
                     insig_min = int.MaxValue;
                     insig_max = int.MinValue;
                     checkInsigPosYearSal = true;
-                    using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_AVAIABLE WHERE P_ID = :P_ID AND POS_SALARY >= :POS_SALARY", con))
+                    using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_GOV_AVAILABLE WHERE P_ID = :P_ID AND POS_SALARY >= :POS_SALARY", con))
                     {
                         com.Parameters.Add(new OracleParameter("P_ID", loginPerson.PS_POSITION_ID));
                         com.Parameters.Add(new OracleParameter("POS_SALARY", positionsalary));
@@ -648,7 +648,7 @@ namespace WEB_PERSONAL
                     lbPositionSalary.Text = Util.IsBlank(positionsalary.ToString()) ? "-" : Convert.ToInt32(positionsalary).ToString();
                 }
 
-                using (OracleCommand com = new OracleCommand("SELECT P_ID,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX FROM TB_INSIG_AVAIABLE WHERE P_ID = :P_ID", con)) {
+                using (OracleCommand com = new OracleCommand("SELECT P_ID,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX FROM TB_INSIG_GOV_AVAILABLE WHERE P_ID = :P_ID", con)) {
                     com.Parameters.Add(new OracleParameter("P_ID", loginPerson.PS_POSITION_ID));
                     using (OracleDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {

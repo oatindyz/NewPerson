@@ -1107,9 +1107,6 @@ namespace WEB_PERSONAL.Class {
                     com.Parameters.AddWithValue("LEAVE_ID", LeaveID);
                     com.ExecuteNonQuery();
                 }
-                
-                DateTime start = FromDate.Value;
-                DateTime to = ToDate.Value;
 
                 if (LeaveTypeID == 1) {
                     using (OracleCommand com = new OracleCommand("UPDATE LEV_CLAIM SET SICK_REQ = SICK_NOW WHERE YEAR = " + BudgetYear + " AND PS_CITIZEN_ID = :PS_CITIZEN_ID", con)) {
@@ -1160,9 +1157,6 @@ namespace WEB_PERSONAL.Class {
                     com.Parameters.AddWithValue("LEAVE_ID", LeaveID);
                     com.ExecuteNonQuery();
                 }
-
-                DateTime start = FromDate.Value;
-                DateTime to = ToDate.Value;
 
                 if (LeaveTypeID == 1) {
                     using (OracleCommand com = new OracleCommand("UPDATE LEV_CLAIM SET SICK_REQ = SICK_NOW WHERE YEAR = " + BudgetYear + " AND PS_CITIZEN_ID = :PS_CITIZEN_ID", con)) {

@@ -20,7 +20,7 @@
     <div class="default_page_style">
         <div class="ps-header">
             <img src="Image/Icon/edit.png" />ยื่นคำร้องขอแก้ไขข้อมูลที่ถูกล็อค
-            <span style="text-align: right; float: right;"><a href="ListRequest.aspx">
+            <span id="SpanBack" runat="server" visible="false" style="text-align: right; float: right;"><a href="ListRequest.aspx">
                 <img src="Image/Small/back.png" />ย้อนกลับ</a></span>
         </div>
         <div id="notification" runat="server"></div>
