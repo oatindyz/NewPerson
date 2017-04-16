@@ -84,11 +84,14 @@ namespace WEB_PERSONAL
             HideAll();
             Panel1.Visible = true;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT IA_ID, P_ID, POS_SALARY, INSIG_MIN, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN_NAME, INSIG_MAX, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX_NAME FROM TB_INSIG_GOV_AVAILABLE ORDER BY ABS(IA_ID) ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IA_ID, P_ID, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOV_AVAILABLE.P_ID) P_NAME, POS_SALARY, INSIG_MIN, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN_NAME, INSIG_MAX, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX_NAME FROM TB_INSIG_GOV_AVAILABLE", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeaterGovAvailable.DataSource = dt;
             myRepeaterGovAvailable.DataBind();
+            DatabaseManager.BindDropDown(ddlInsertGovAvailablePositionID, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovAvailableInsigMin, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovAvailableInsigMax, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
         }
         protected void ClearGovAvailable()
         {
@@ -103,7 +106,7 @@ namespace WEB_PERSONAL
         }
         protected void btnInsertGovAvailable_Click(object sender, EventArgs e)
         {
-            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOV_AVAILABLE (IA_ID,P_ID,POS_SALARY,INSIG_MIN,INSIG_MAX) VALUES (" + ddlInsertGovAvailablePositionID.SelectedValue + ",'" + tbInsertGovAvailablePositionSalary.Text + "'," + ddlInsertGovAvailableInsigMin.SelectedValue + "," + ddlInsertGovAvailableInsigMax.SelectedValue + ")");
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOV_AVAILABLE (IA_ID,P_ID,POS_SALARY,INSIG_MIN,INSIG_MAX) VALUES (TB_INSIG_GOV_AVAILABLE_SEQ.NEXTVAL," + ddlInsertGovAvailablePositionID.SelectedValue + ",'" + tbInsertGovAvailablePositionSalary.Text + "'," + ddlInsertGovAvailableInsigMin.SelectedValue + "," + ddlInsertGovAvailableInsigMax.SelectedValue + ")");
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
             BindGovAvailable();
             ClearGovAvailable();
@@ -134,12 +137,12 @@ namespace WEB_PERSONAL
         {
             RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
             string ValueGovInsigAvailableID = (item.FindControl("HFGovAvailable") as HiddenField).Value;
-            string ValuePositionID = (item.FindControl("lbPositionID") as Label).Text;
+            string ValueGovInsigAvailablePositionID = (item.FindControl("HFGovInsigPositionID") as HiddenField).Value;
             string ValuePositionSalary = (item.FindControl("lbPositionSalary") as Label).Text;
             string ValueGovInsigAvailableMin = (item.FindControl("HFGovInsigAvailableMin") as HiddenField).Value;
             string ValueGovInsigAvailableMax = (item.FindControl("HFGovInsigAvailableMax") as HiddenField).Value;
 
-            ddlInsertGovAvailablePositionID.SelectedValue = ValuePositionID;
+            ddlInsertGovAvailablePositionID.SelectedValue = ValueGovInsigAvailablePositionID;
             tbInsertGovAvailablePositionSalary.Text = ValuePositionSalary;
             ddlInsertGovAvailableInsigMin.SelectedValue = ValueGovInsigAvailableMin;
             ddlInsertGovAvailableInsigMax.SelectedValue = ValueGovInsigAvailableMax;

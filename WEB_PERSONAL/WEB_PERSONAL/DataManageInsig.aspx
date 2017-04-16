@@ -36,17 +36,17 @@
         <div class="c1">
             <asp:LinkButton ID="lbuMenuGovAvailable" runat="server" OnClick="lbuMenuGovAvailable_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขช่วงที่สามารถขอได้ถึง</asp:LinkButton>
         
-            <asp:LinkButton ID="lbuMenuGovHighSalaryCon" runat="server" OnClick="lbuMenuGovHighSalaryCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขใช้เงินเดือนขั้นสูง</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuGovHighSalaryCon" runat="server" ><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขใช้เงินเดือนขั้นสูง</asp:LinkButton>
         
-            <asp:LinkButton ID="lbuMenuGovInsigYearCon" runat="server" OnClick="lbuMenuGovInsigYearCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuGovInsigYearCon" runat="server" ><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ</asp:LinkButton>
         
-            <asp:LinkButton ID="lbuMenuGovPosYearCon" runat="server" OnClick="lbuMenuGovPosYearCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาดำรงตำแหน่ง</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuGovPosYearCon" runat="server" ><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาดำรงตำแหน่ง</asp:LinkButton>
         
-            <asp:LinkButton ID="lbuMenuGovSalaryCon" runat="server" OnClick="lbuMenuGovSalaryCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขเงินเดือนต่ำกว่า-ไม่ต่ำกว่า</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuGovSalaryCon" runat="server" ><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขเงินเดือนต่ำกว่า-ไม่ต่ำกว่า</asp:LinkButton>
         
-            <asp:LinkButton ID="lbuMenuGovSalaryYearCon" runat="server" OnClick="lbuMenuGovSalaryYearCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขได้รับเงินเดือนต่อเนื่อง</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuGovSalaryYearCon" runat="server" ><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขได้รับเงินเดือนต่อเนื่อง</asp:LinkButton>
 
-            <asp:LinkButton ID="lbuMenuGovAddOne" runat="server" OnClick="lbuMenuGovAddOne_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขเมื่อเกษียณ</asp:LinkButton>
+            <asp:LinkButton ID="lbuMenuGovAddOne" runat="server" ><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขเมื่อเกษียณ</asp:LinkButton>
     </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -100,7 +100,8 @@
                             <tr>
                                 <td><%# Container.ItemIndex +1 %><asp:HiddenField ID="HFGovAvailable" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "IA_ID") %>' /></td>
                                 <td>
-                                    <asp:Label ID="lbPositionID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "P_ID") %>'></asp:Label>
+                                    <asp:HiddenField ID="HFGovInsigPositionID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "P_ID") %>'/>
+                                    <asp:Label ID="lbGovInsigPositionName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "P_NAME") %>'></asp:Label>
                                 </td>
                                 <td>
                                     <asp:Label ID="lbPositionSalary" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "POS_SALARY") %>'></asp:Label>
@@ -113,6 +114,7 @@
                                     <asp:HiddenField ID="HFGovInsigAvailableMax" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "INSIG_MAX") %>'/>
                                     <asp:Label ID="lbGovInsigAvailableMax" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_MAX_NAME") %>'></asp:Label>
                                 </td>
+                                <td>
                                     <asp:LinkButton ID="lnkEditGovAvailable" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditGovAvailable" />
                                     <asp:LinkButton ID="lnkDeleteGovAvailable" Text="ลบ" runat="server" CssClass="btn btn-danger" OnClick="OnDeleteGovAvailable" OnClientClick="return confirm('คุณต้องการที่จะลบใช่หรือไม่?');" />
                                 </td>
