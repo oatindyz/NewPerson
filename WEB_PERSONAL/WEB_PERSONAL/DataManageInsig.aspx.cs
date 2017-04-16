@@ -29,26 +29,14 @@ namespace WEB_PERSONAL
             if (Request.QueryString["ID"] == "GovAvailable") { BindGovAvailable(); }
             else if (Request.QueryString["ID"] == "GovHighSalaryCon") { BindGovHighSalaryCon(); }
             else if (Request.QueryString["ID"] == "GovInsigYearCon") { BindGovInsigYearCon(); }
-            else if (Request.QueryString["ID"] == "Amphur") { BindGovPosYearCon(); }
-            /*else if (Request.QueryString["ID"] == "Tambon") { BindTambon(); }
-            else if (Request.QueryString["ID"] == "Nation") { BindNation(); }
-            else if (Request.QueryString["ID"] == "Campus") { BindCampus(); }
-            else if (Request.QueryString["ID"] == "Faculty") { BindFaculty(); }
-            else if (Request.QueryString["ID"] == "Division") { BindDivision(); }
-            else if (Request.QueryString["ID"] == "WorkDivision") { BindWorkDivision(); }
-            else if (Request.QueryString["ID"] == "Stafftype") { BindStafftype(); }
-            else if (Request.QueryString["ID"] == "TimeContact") { BindTimeContact(); }
-            else if (Request.QueryString["ID"] == "Budget") { BindBudget(); }
-            else if (Request.QueryString["ID"] == "SubStafftype") { BindSubStafftype(); }
-            else if (Request.QueryString["ID"] == "AdminPosition") { BindAdminPosition(); }
-            else if (Request.QueryString["ID"] == "Position") { BindPosition(); }
-            else if (Request.QueryString["ID"] == "WorkPos") { BindWorkPos(); }
-            else if (Request.QueryString["ID"] == "TeachISCED") { BindTeachISCED(); }
-            else if (Request.QueryString["ID"] == "GradLev") { BindGradLev(); }
-            else if (Request.QueryString["ID"] == "GradProg") { BindGradProg(); }
-            else if (Request.QueryString["ID"] == "Deform") { BindDeform(); }
-            else if (Request.QueryString["ID"] == "Religion") { BindReligion(); }
-            else if (Request.QueryString["ID"] == "MovementType") { BindMovementType(); }*/
+            else if (Request.QueryString["ID"] == "GovPosYearCon") { BindGovPosYearCon(); }
+            else if (Request.QueryString["ID"] == "GovSalaryCon") { BindGovSalaryCon(); }
+            else if (Request.QueryString["ID"] == "GovSalaryYearCon") { BindGovSalaryYearCon(); }
+            else if (Request.QueryString["ID"] == "GovAddOne") { BindGovAddOne(); }
+            else if (Request.QueryString["ID"] == "EmpAvailable") { BindEmpAvailable(); }
+            else if (Request.QueryString["ID"] == "EmpInsigYearCon") { BindEmpInsigYearCon(); }
+            else if (Request.QueryString["ID"] == "GovEmpAvailable") { BindGovEmpAvailable(); }
+            else if (Request.QueryString["ID"] == "GovEmpInsigYearCon") { BindGovEmpInsigYearCon(); }
         }
 
         private void HideAll()
@@ -57,25 +45,13 @@ namespace WEB_PERSONAL
             Panel2.Visible = false;
             Panel3.Visible = false;
             Panel4.Visible = false;
-            /*Panel5.Visible = false;
+            Panel5.Visible = false;
             Panel6.Visible = false;
             Panel7.Visible = false;
             Panel8.Visible = false;
             Panel9.Visible = false;
             Panel10.Visible = false;
             Panel11.Visible = false;
-            Panel12.Visible = false;
-            Panel13.Visible = false;
-            Panel14.Visible = false;
-            Panel15.Visible = false;
-            Panel16.Visible = false;
-            Panel17.Visible = false;
-            Panel18.Visible = false;
-            Panel19.Visible = false;
-            Panel20.Visible = false;
-            Panel21.Visible = false;
-            Panel22.Visible = false;
-            Panel23.Visible = false;*/
         }
 
         //
@@ -89,7 +65,7 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterGovAvailable.DataSource = dt;
             myRepeaterGovAvailable.DataBind();
-            DatabaseManager.BindDropDown(ddlInsertGovAvailablePositionID, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovAvailablePositionID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlInsertGovAvailableInsigMin, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlInsertGovAvailableInsigMax, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
         }
@@ -173,9 +149,9 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterGovHighSalaryCon.DataSource = dt;
             myRepeaterGovHighSalaryCon.DataBind();
-            DatabaseManager.BindDropDown(ddlInsertGovHighSalaryConP_ID, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovHighSalaryConP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlInsertGovHighSalaryConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
-            DatabaseManager.BindDropDown(ddlInsertGovHighSalaryConP_ID_USE, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovHighSalaryConP_ID_USE, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
         }
         protected void ClearGovHighSalaryCon()
         {
@@ -254,7 +230,7 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterGovInsigYearCon.DataSource = dt;
             myRepeaterGovInsigYearCon.DataBind();
-            DatabaseManager.BindDropDown(ddlInsertGovInsigYearConP_ID, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovInsigYearConP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlInsertGovInsigYearConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlInsertGovInsigYearConINSIG_USE, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
         }
@@ -341,9 +317,9 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterGovPosYearCon.DataSource = dt;
             myRepeaterGovPosYearCon.DataBind();
-            DatabaseManager.BindDropDown(ddlInsertGovPosYearConP_ID, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovPosYearConP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlInsertGovPosYearConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
-            DatabaseManager.BindDropDown(ddlInsertGovPosYearConP_ID_USE, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovPosYearConP_ID_USE, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
         }
         protected void ClearGovPosYearCon()
         {
@@ -414,10 +390,592 @@ namespace WEB_PERSONAL
             }
         }
 
+        //
+        protected void BindGovSalaryCon()
+        {
+            HideAll();
+            Panel5.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IGSC_ID, P_ID, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOV_SALARY_CON.P_ID) P_NAME, INSIG_TARGET, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE TB_INSIG_GRADE.INSIG_GRADE_ID = TB_INSIG_GOV_SALARY_CON.INSIG_TARGET) INSIG_TARGET_NAME, P_ID_USE, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOV_SALARY_CON.P_ID_USE) P_ID_USE_NAME, IGSC_CON FROM TB_INSIG_GOV_SALARY_CON ORDER BY ABS(IGSC_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterGovSalaryCon.DataSource = dt;
+            myRepeaterGovSalaryCon.DataBind();
+            DatabaseManager.BindDropDown(ddlInsertGovSalaryConP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovSalaryConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovSalaryConP_ID_USE, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearGovSalaryCon()
+        {
+            ddlInsertGovSalaryConP_ID.SelectedIndex = 0;
+            ddlInsertGovSalaryConINSIG_TARGET.SelectedIndex = 0;
+            ddlInsertGovSalaryConP_ID_USE.SelectedIndex = 0;
+            tbInsertGovSalaryConIGSC_CON.Text = "";
+        }
+        protected void lbuMenuGovSalaryCon_Click(object sender, EventArgs e)
+        {
+            BindGovSalaryCon();
+        }
+        protected void btnInsertGovSalaryCon_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOV_SALARY_CON (IGSC_ID,P_ID,INSIG_TARGET,P_ID_USE,IGSC_CON) VALUES (TB_INSIG_GOV_SALARY_CON_SEQ.NEXTVAL," + ddlInsertGovSalaryConP_ID.SelectedValue + "," + ddlInsertGovSalaryConINSIG_TARGET.SelectedValue + "," + ddlInsertGovSalaryConP_ID_USE.SelectedValue + ",'" + tbInsertGovSalaryConIGSC_CON.Text + "')");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindGovSalaryCon();
+            ClearGovSalaryCon();
+        }
+        protected void btnUpdateGovSalaryCon_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdGovSalaryCon"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOV_SALARY_CON SET P_ID = " + ddlInsertGovSalaryConP_ID.SelectedValue + ", INSIG_TARGET = " + ddlInsertGovSalaryConINSIG_TARGET.SelectedValue + ", P_ID_USE = " + ddlInsertGovSalaryConP_ID_USE.SelectedValue + ", IGSC_CON = " + tbInsertGovSalaryConIGSC_CON.Text + " WHERE IGSC_ID = '" + Session["DefaultIdGovSalaryCon"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindGovSalaryCon();
+                ClearGovSalaryCon();
+                Session.Remove("DefaultIdGovSalaryCon");
+            }
+        }
+        protected void lbuClearGovSalaryCon_Click(object sender, EventArgs e)
+        {
+            BindGovSalaryCon();
+            ClearGovSalaryCon();
+            Session.Remove("DefaultIdGovSalaryCon");
+        }
+        protected void OnEditGovSalaryCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFGovSalaryConID = (item.FindControl("HFGovSalaryConID") as HiddenField).Value;
+            string ValueHFGovSalaryConP_ID = (item.FindControl("HFGovSalaryConP_ID") as HiddenField).Value;
+            string ValueHFGovSalaryConINSIG_TARGET = (item.FindControl("HFGovSalaryConINSIG_TARGET") as HiddenField).Value;
+            string ValueHFGovSalaryConP_ID_USE = (item.FindControl("HFGovSalaryConP_ID_USE") as HiddenField).Value;
+            string ValuelbGovSalaryConIGSC_CON = (item.FindControl("lbGovSalaryConIGSC_CON") as Label).Text;
 
+            ddlInsertGovSalaryConP_ID.SelectedValue = ValueHFGovSalaryConP_ID;
+            ddlInsertGovSalaryConINSIG_TARGET.SelectedValue = ValueHFGovSalaryConINSIG_TARGET;
+            ddlInsertGovSalaryConP_ID_USE.SelectedValue = ValueHFGovSalaryConP_ID_USE;
+            tbInsertGovSalaryConIGSC_CON.Text = ValuelbGovSalaryConIGSC_CON;
 
+            Session["DefaultIdGovSalaryCon"] = ValueHFGovSalaryConID;
+        }
+        protected void OnDeleteGovSalaryCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFGovSalaryConID") as HiddenField).Value);
 
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOV_SALARY_CON WHERE IGSC_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindGovSalaryCon();
+            }
+        }
 
+        //
+        protected void BindGovSalaryYearCon()
+        {
+            HideAll();
+            Panel6.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IGSYC_ID, P_ID, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOV_SALARY_YEAR_CON.P_ID) P_NAME, INSIG_TARGET, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE TB_INSIG_GRADE.INSIG_GRADE_ID = TB_INSIG_GOV_SALARY_YEAR_CON.INSIG_TARGET) INSIG_TARGET_NAME, P_ID_USE, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOV_SALARY_YEAR_CON.P_ID_USE) P_ID_USE_NAME, GET_YEAR FROM TB_INSIG_GOV_SALARY_YEAR_CON ORDER BY ABS(IGSYC_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterGovSalaryYearCon.DataSource = dt;
+            myRepeaterGovSalaryYearCon.DataBind();
+            DatabaseManager.BindDropDown(ddlInsertGovSalaryYearConP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovSalaryYearConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovSalaryYearConP_ID_USE, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearGovSalaryYearCon()
+        {
+            ddlInsertGovSalaryYearConP_ID.SelectedIndex = 0;
+            ddlInsertGovSalaryYearConINSIG_TARGET.SelectedIndex = 0;
+            ddlInsertGovSalaryYearConP_ID_USE.SelectedIndex = 0;
+            lbInsertGovSalaryYearConGET_YEAR.Text = "";
+        }
+        protected void lbuMenuGovSalaryYearCon_Click(object sender, EventArgs e)
+        {
+            BindGovSalaryYearCon();
+        }
+        protected void btnInsertGovSalaryYearCon_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOV_SALARY_YEAR_CON (IGSYC_ID,P_ID,INSIG_TARGET,P_ID_USE,GET_YEAR) VALUES (TB_INSIG_GOV_SALARY_YEAR_SEQ.NEXTVAL," + ddlInsertGovSalaryYearConP_ID.SelectedValue + "," + ddlInsertGovSalaryYearConINSIG_TARGET.SelectedValue + "," + ddlInsertGovSalaryYearConP_ID_USE.SelectedValue + ",'" + lbInsertGovSalaryYearConGET_YEAR.Text + "')");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindGovSalaryYearCon();
+            ClearGovSalaryYearCon();
+        }
+        protected void btnUpdateGovSalaryYearCon_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdGovSalaryYearCon"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOV_SALARY_YEAR_CON SET P_ID = " + ddlInsertGovSalaryYearConP_ID.SelectedValue + ", INSIG_TARGET = " + ddlInsertGovSalaryYearConINSIG_TARGET.SelectedValue + ", P_ID_USE = " + ddlInsertGovSalaryYearConP_ID_USE.SelectedValue + ", GET_YEAR = " + lbInsertGovSalaryYearConGET_YEAR.Text + " WHERE IGSYC_ID = '" + Session["DefaultIdGovSalaryYearCon"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindGovSalaryYearCon();
+                ClearGovSalaryYearCon();
+                Session.Remove("DefaultIdGovSalaryYearCon");
+            }
+        }
+        protected void lbuClearGovSalaryYearCon_Click(object sender, EventArgs e)
+        {
+            BindGovSalaryYearCon();
+            ClearGovSalaryYearCon();
+            Session.Remove("DefaultIdGovSalaryYearCon");
+        }
+        protected void OnEditGovSalaryYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFGovSalaryYearConID = (item.FindControl("HFGovSalaryYearConID") as HiddenField).Value;
+            string ValueHFGovSalaryYearConP_ID = (item.FindControl("HFGovSalaryYearConP_ID") as HiddenField).Value;
+            string ValueHFGovSalaryYearConINSIG_TARGET = (item.FindControl("HFGovSalaryYearConINSIG_TARGET") as HiddenField).Value;
+            string ValueHFGovSalaryYearConP_ID_USE = (item.FindControl("HFGovSalaryYearConP_ID_USE") as HiddenField).Value;
+            string ValuelbGovSalaryYearConGET_YEAR = (item.FindControl("lbGovSalaryYearConGET_YEAR") as Label).Text;
+
+            ddlInsertGovSalaryYearConP_ID.SelectedValue = ValueHFGovSalaryYearConP_ID;
+            ddlInsertGovSalaryYearConINSIG_TARGET.SelectedValue = ValueHFGovSalaryYearConINSIG_TARGET;
+            ddlInsertGovSalaryYearConP_ID_USE.SelectedValue = ValueHFGovSalaryYearConP_ID_USE;
+            lbInsertGovSalaryYearConGET_YEAR.Text = ValuelbGovSalaryYearConGET_YEAR;
+
+            Session["DefaultIdGovSalaryYearCon"] = ValueHFGovSalaryYearConID;
+        }
+        protected void OnDeleteGovSalaryYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFGovSalaryYearConID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOV_SALARY_YEAR_CON WHERE IGSYC_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindGovSalaryYearCon();
+            }
+        }
+
+        //
+        //
+        protected void BindGovAddOne()
+        {
+            HideAll();
+            Panel7.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IGAO_ID, P_ID, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOV_ADD_ONE.P_ID) P_NAME, POS_SALARY, INSIG_TARGET, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_TARGET) INSIG_TARGET_NAME, INSIG_MAX, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX_NAME FROM TB_INSIG_GOV_ADD_ONE ORDER BY ABS(IGAO_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterGovAddOne.DataSource = dt;
+            myRepeaterGovAddOne.DataBind();
+            DatabaseManager.BindDropDown(ddlInsertGovAddOneP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovAddOneINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlInsertGovAddOneINSIG_MAX, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearGovAddOne()
+        {
+            ddlInsertGovAddOneP_ID.SelectedIndex = 0;
+            lbInsertGovAddOnePOS_SALARY.Text = "";
+            ddlInsertGovAddOneINSIG_TARGET.SelectedIndex = 0;
+            ddlInsertGovAddOneINSIG_MAX.SelectedIndex = 0;
+        }
+        protected void lbuMenuGovAddOne_Click(object sender, EventArgs e)
+        {
+            BindGovAddOne();
+        }
+        protected void btnInsertGovAddOne_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOV_ADD_ONE (IGAO_ID,P_ID,POS_SALARY,INSIG_TARGET,INSIG_MAX) VALUES (TB_INSIG_GOV_ADD_ONE_SEQ.NEXTVAL," + ddlInsertGovAddOneP_ID.SelectedValue + ",'" + lbInsertGovAddOnePOS_SALARY.Text + "'," + ddlInsertGovAddOneINSIG_TARGET.SelectedValue + "," + ddlInsertGovAddOneINSIG_MAX.SelectedValue + ")");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindGovAddOne();
+            ClearGovAddOne();
+        }
+        protected void btnUpdateGovAddOne_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdGovAddOne"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOV_ADD_ONE SET P_ID = " + ddlInsertGovAddOneP_ID.SelectedValue + ", POS_SALARY = '" + lbInsertGovAddOnePOS_SALARY.Text + "', INSIG_TARGET = " + ddlInsertGovAddOneINSIG_TARGET.SelectedValue + ", INSIG_MAX = " + ddlInsertGovAddOneINSIG_MAX.SelectedValue + " WHERE IGAO_ID = '" + Session["DefaultIdGovAddOne"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindGovAddOne();
+                ClearGovAddOne();
+                Session.Remove("DefaultIdGovAddOne");
+            }
+        }
+        protected void lbuClearGovAddOne_Click(object sender, EventArgs e)
+        {
+            BindGovAddOne();
+            ClearGovAddOne();
+            Session.Remove("DefaultIdGovAddOne");
+        }
+        protected void OnEditGovAddOne(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFGovAddOneID = (item.FindControl("HFGovAddOneID") as HiddenField).Value;
+            string ValueHFGovAddOneP_ID = (item.FindControl("HFGovAddOneP_ID") as HiddenField).Value;
+            string ValuelbGovAddOnePOS_SALARY = (item.FindControl("lbGovAddOnePOS_SALARY") as Label).Text;
+            string ValueHFGovAddOneINSIG_TARGET = (item.FindControl("HFGovAddOneINSIG_TARGET") as HiddenField).Value;
+            string ValueHFGovAddOneINSIG_MAX = (item.FindControl("HFGovAddOneINSIG_MAX") as HiddenField).Value;
+
+            ddlInsertGovAddOneP_ID.SelectedValue = ValueHFGovAddOneP_ID;
+            lbInsertGovAddOnePOS_SALARY.Text = ValuelbGovAddOnePOS_SALARY;
+            ddlInsertGovAddOneINSIG_TARGET.SelectedValue = ValueHFGovAddOneINSIG_TARGET;
+            ddlInsertGovAddOneINSIG_MAX.SelectedValue = ValueHFGovAddOneINSIG_MAX;
+
+            Session["DefaultIdGovAddOne"] = ValueHFGovAddOneID;
+        }
+        protected void OnDeleteGovAddOne(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFGovAddOneID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOV_ADD_ONE WHERE IGAO_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindGovAddOne();
+            }
+        }
+
+        //
+        protected void BindEmpAvailable()
+        {
+            HideAll();
+            Panel8.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IEA_ID, SALARY_MIN, SALARY_MAX, INSIG_MIN, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN_NAME, INSIG_MAX, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX_NAME FROM TB_INSIG_EMP_AVAILABLE ORDER BY ABS(IEA_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterEmpAvailable.DataSource = dt;
+            myRepeaterEmpAvailable.DataBind();
+            DatabaseManager.BindDropDown(ddlEmpAvailableINSIG_MIN, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEmpAvailableINSIG_MAX, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearEmpAvailable()
+        {
+            tbEmpAvailableSALARY_MIN.Text = "";
+            tbEmpAvailableSALARY_MAX.Text = "";
+            ddlEmpAvailableINSIG_MIN.SelectedIndex = 0;
+            ddlEmpAvailableINSIG_MAX.SelectedIndex = 0;
+        }
+        protected void lbuMenuEmpAvailable_Click(object sender, EventArgs e)
+        {
+            BindEmpAvailable();
+        }
+        protected void btnInsertEmpAvailable_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_EMP_AVAILABLE (IEA_ID,SALARY_MIN,SALARY_MAX,INSIG_MIN,INSIG_MAX) VALUES (TB_INSIG_EMP_AVAILABLE_SEQ.NEXTVAL,'" + tbEmpAvailableSALARY_MIN.Text + "','" + tbEmpAvailableSALARY_MAX.Text + "'," + ddlEmpAvailableINSIG_MIN.SelectedValue + "," + ddlEmpAvailableINSIG_MAX.SelectedValue + ")");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindEmpAvailable();
+            ClearEmpAvailable();
+        }
+        protected void btnUpdateEmpAvailable_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdEmpAvailable"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_EMP_AVAILABLE SET SALARY_MIN = " + tbEmpAvailableSALARY_MIN.Text + ", SALARY_MAX = '" + tbEmpAvailableSALARY_MAX.Text + "', INSIG_MIN = " + ddlEmpAvailableINSIG_MIN.SelectedValue + ", INSIG_MAX = " + ddlEmpAvailableINSIG_MAX.SelectedValue + " WHERE IEA_ID = '" + Session["DefaultIdEmpAvailable"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindEmpAvailable();
+                ClearEmpAvailable();
+                Session.Remove("DefaultIdEmpAvailable");
+            }
+        }
+        protected void lbuClearEmpAvailable_Click(object sender, EventArgs e)
+        {
+            BindEmpAvailable();
+            ClearEmpAvailable();
+            Session.Remove("DefaultIdEmpAvailable");
+        }
+        protected void OnEditEmpAvailable(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFEmpAvailableID = (item.FindControl("HFEmpAvailableID") as HiddenField).Value;
+            string ValuelbEmpAvailableSALARY_MIN = (item.FindControl("lbEmpAvailableSALARY_MIN") as Label).Text;
+            string ValuelbEmpAvailableSALARY_MAX = (item.FindControl("lbEmpAvailableSALARY_MAX") as Label).Text;
+            string ValueHFEmpAvailableINSIG_MIN = (item.FindControl("HFEmpAvailableINSIG_MIN") as HiddenField).Value;
+            string ValueHFEmpAvailableINSIG_MAX = (item.FindControl("HFEmpAvailableINSIG_MAX") as HiddenField).Value;
+
+            tbEmpAvailableSALARY_MIN.Text = ValuelbEmpAvailableSALARY_MIN;
+            tbEmpAvailableSALARY_MAX.Text = ValuelbEmpAvailableSALARY_MAX;
+            ddlEmpAvailableINSIG_MIN.SelectedValue = ValueHFEmpAvailableINSIG_MIN;
+            ddlEmpAvailableINSIG_MAX.SelectedValue = ValueHFEmpAvailableINSIG_MAX;
+
+            Session["DefaultIdEmpAvailable"] = ValueHFEmpAvailableID;
+        }
+        protected void OnDeleteEmpAvailable(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFEmpAvailableID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_EMP_AVAILABLE WHERE IEA_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindEmpAvailable();
+            }
+        }
+
+        //
+        protected void BindEmpInsigYearCon()
+        {
+            HideAll();
+            Panel9.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IEIYC_ID, SALARY_MIN, SALARY_MAX, INSIG_TARGET, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE TB_INSIG_GRADE.INSIG_GRADE_ID = TB_INSIG_EMP_INSIG_YEAR_CON.INSIG_TARGET)INSIG_TARGET_NAME, INSIG_USE, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE TB_INSIG_GRADE.INSIG_GRADE_ID = TB_INSIG_EMP_INSIG_YEAR_CON.INSIG_USE)INSIG_USE_NAME, INSIG_YEAR FROM TB_INSIG_EMP_INSIG_YEAR_CON ORDER BY ABS(IEIYC_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterEmpInsigYearCon.DataSource = dt;
+            myRepeaterEmpInsigYearCon.DataBind();
+            DatabaseManager.BindDropDown(ddlEmpInsigYearConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEmpInsigYearConINSIG_USE, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearEmpInsigYearCon()
+        {
+            tbEmpInsigYearConSALARY_MIN.Text = "";
+            tbEmpInsigYearConSALARY_MAX.Text = "";
+            ddlEmpInsigYearConINSIG_TARGET.SelectedIndex = 0;
+            ddlEmpInsigYearConINSIG_USE.SelectedIndex = 0;
+            tbEmpInsigYearConINSIG_YEAR.Text = "";
+        }
+        protected void lbuMenuEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            BindEmpInsigYearCon();
+        }
+        protected void btnInsertEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_EMP_INSIG_YEAR_CON (IEIYC_ID,SALARY_MIN,SALARY_MAX,INSIG_TARGET,INSIG_USE,INSIG_YEAR) VALUES (TB_INSIG_EMP_INSIG_YEAR_SEQ.NEXTVAL,'" + tbEmpInsigYearConSALARY_MIN.Text + "','" + tbEmpInsigYearConSALARY_MAX.Text + "'," + ddlEmpInsigYearConINSIG_TARGET.SelectedValue + "," + ddlEmpInsigYearConINSIG_USE.SelectedValue + ",'" + tbEmpInsigYearConINSIG_YEAR.Text + "')");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindEmpInsigYearCon();
+            ClearEmpInsigYearCon();
+        }
+        protected void btnUpdateEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdEmpInsigYearCon"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_EMP_INSIG_YEAR_CON SET SALARY_MIN = '" + tbEmpInsigYearConSALARY_MIN.Text + "', SALARY_MAX = '" + tbEmpInsigYearConSALARY_MAX.Text + "', INSIG_TARGET = " + ddlEmpInsigYearConINSIG_TARGET.SelectedValue + ", INSIG_USE = " + ddlEmpInsigYearConINSIG_USE.SelectedValue + ", INSIG_YEAR = '" + tbEmpInsigYearConINSIG_YEAR.Text + "' WHERE IEIYC_ID = '" + Session["DefaultIdEmpInsigYearCon"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindEmpInsigYearCon();
+                ClearEmpInsigYearCon();
+                Session.Remove("DefaultIdEmpInsigYearCon");
+            }
+        }
+        protected void lbuClearEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            BindEmpInsigYearCon();
+            ClearEmpInsigYearCon();
+            Session.Remove("DefaultIdEmpInsigYearCon");
+        }
+        protected void OnEditEmpInsigYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFEmpInsigYearConID = (item.FindControl("HFEmpInsigYearConID") as HiddenField).Value;
+            string ValuelblbEmpInsigYearSALARY_MIN = (item.FindControl("lbEmpInsigYearSALARY_MIN") as Label).Text;
+            string ValuelblbEmpInsigYearSALARY_MAX = (item.FindControl("lbEmpInsigYearSALARY_MAX") as Label).Text;
+            string ValueHFEmpInsigYearConINSIG_TARGET = (item.FindControl("HFEmpInsigYearConINSIG_TARGET") as HiddenField).Value;
+            string ValueHFEmpInsigYearConINSIG_USE = (item.FindControl("HFEmpInsigYearConINSIG_USE") as HiddenField).Value;
+            string ValuelblbInsigYear = (item.FindControl("lbInsigYear") as Label).Text;
+
+            tbEmpInsigYearConSALARY_MIN.Text = ValuelblbEmpInsigYearSALARY_MIN;
+            tbEmpInsigYearConSALARY_MAX.Text = ValuelblbEmpInsigYearSALARY_MAX;
+            ddlEmpInsigYearConINSIG_TARGET.SelectedValue = ValueHFEmpInsigYearConINSIG_TARGET;
+            ddlEmpInsigYearConINSIG_USE.SelectedValue = ValueHFEmpInsigYearConINSIG_USE;
+            tbEmpInsigYearConINSIG_YEAR.Text = ValuelblbInsigYear;
+
+            Session["DefaultIdEmpInsigYearCon"] = ValueHFEmpInsigYearConID;
+        }
+        protected void OnDeleteEmpInsigYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFEmpInsigYearConID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_EMP_INSIG_YEAR_CON WHERE IEIYC_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindEmpInsigYearCon();
+            }
+        }
+
+        //
+        protected void BindGovEmpAvailable()
+        {
+            HideAll();
+            Panel10.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IGA_ID, P_ID, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOVEMP_AVAILABLE.P_ID) P_NAME, INSIG_MIN, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN_NAME, INSIG_MAX, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX_NAME FROM TB_INSIG_GOVEMP_AVAILABLE ORDER BY ABS(IGA_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterGovEmpAvailable.DataSource = dt;
+            myRepeaterGovEmpAvailable.DataBind();
+            DatabaseManager.BindDropDown(ddlGovEmpAvailableP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 5 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlGovEmpAvailableINSIG_MIN, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlGovEmpAvailableINSIG_MAX, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearGovEmpAvailable()
+        {
+            ddlGovEmpAvailableP_ID.SelectedIndex = 0;
+            ddlGovEmpAvailableINSIG_MIN.SelectedIndex = 0;
+            ddlGovEmpAvailableINSIG_MAX.SelectedIndex = 0;
+        }
+        protected void lbuMenuGovEmpAvailable_Click(object sender, EventArgs e)
+        {
+            BindGovEmpAvailable();
+        }
+        protected void btnInsertGovEmpAvailable_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOVEMP_AVAILABLE (IGA_ID,P_ID,INSIG_MIN,INSIG_MAX) VALUES (TB_INSIG_GOVEMP_AVAILABLE_SEQ.NEXTVAL," + ddlGovEmpAvailableP_ID.SelectedValue + "," + ddlGovEmpAvailableINSIG_MIN.SelectedValue + "," + ddlGovEmpAvailableINSIG_MAX.SelectedValue + ")");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindGovEmpAvailable();
+            ClearGovEmpAvailable();
+        }
+        protected void btnUpdateGovEmpAvailable_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdGovEmpAvailable"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOVEMP_AVAILABLE SET P_ID = " + ddlGovEmpAvailableP_ID.SelectedValue + ", INSIG_MIN = " + ddlGovEmpAvailableINSIG_MIN.SelectedValue + ", INSIG_MAX = " + ddlGovEmpAvailableINSIG_MAX.SelectedValue + " WHERE IGA_ID = '" + Session["DefaultIdGovEmpAvailable"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindGovEmpAvailable();
+                ClearGovEmpAvailable();
+                Session.Remove("DefaultIdGovEmpAvailable");
+            }
+        }
+        protected void lbuClearGovEmpAvailable_Click(object sender, EventArgs e)
+        {
+            BindGovEmpAvailable();
+            ClearGovEmpAvailable();
+            Session.Remove("DefaultIdGovEmpAvailable");
+        }
+        protected void OnEditGovEmpAvailable(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFGovEmpAvailableID = (item.FindControl("HFGovEmpAvailableID") as HiddenField).Value;
+            string ValueHFGovEmpAvailableP_ID = (item.FindControl("HFGovEmpAvailableP_ID") as HiddenField).Value;
+            string ValueHFGovEmpAvailableINSIG_MIN = (item.FindControl("HFGovEmpAvailableINSIG_MIN") as HiddenField).Value;
+            string ValueHFGovEmpAvailableINSIG_MAX = (item.FindControl("HFGovEmpAvailableINSIG_MAX") as HiddenField).Value;
+
+            ddlGovEmpAvailableP_ID.SelectedValue = ValueHFGovEmpAvailableP_ID;
+            ddlGovEmpAvailableINSIG_MIN.SelectedValue = ValueHFGovEmpAvailableINSIG_MIN;
+            ddlGovEmpAvailableINSIG_MAX.SelectedValue = ValueHFGovEmpAvailableINSIG_MAX;
+
+            Session["DefaultIdGovEmpAvailable"] = ValueHFGovEmpAvailableID;
+        }
+        protected void OnDeleteGovEmpAvailable(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFGovEmpAvailableID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOVEMP_AVAILABLE WHERE IGA_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindGovEmpAvailable();
+            }
+        }
+
+        //
+        protected void BindGovEmpInsigYearCon()
+        {
+            HideAll();
+            Panel11.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IGYC_ID, P_ID, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOVEMP_INSIG_YEAR_CON.P_ID)P_NAME, INSIG_TARGET, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE TB_INSIG_GRADE.INSIG_GRADE_ID = TB_INSIG_GOVEMP_INSIG_YEAR_CON.INSIG_TARGET)INSIG_TARGET_NAME, INSIG_USE, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE TB_INSIG_GRADE.INSIG_GRADE_ID = TB_INSIG_GOVEMP_INSIG_YEAR_CON.INSIG_USE)INSIG_USE_NAME, INSIG_YEAR FROM TB_INSIG_GOVEMP_INSIG_YEAR_CON ORDER BY ABS(IGYC_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterGovEmpInsigYearCon.DataSource = dt;
+            myRepeaterGovEmpInsigYearCon.DataBind();
+            DatabaseManager.BindDropDown(ddlGovEmpInsigYearConP_ID, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 5 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlGovEmpInsigYearConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlGovEmpInsigYearConINSIG_USE, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearGovEmpInsigYearCon()
+        {
+            ddlGovEmpInsigYearConP_ID.SelectedIndex = 0;
+            ddlGovEmpInsigYearConINSIG_TARGET.SelectedIndex = 0;
+            ddlGovEmpInsigYearConINSIG_USE.SelectedIndex = 0;
+            tbGovEmpInsigYearConINSG_YEAR.Text = "";
+        }
+        protected void lbuMenuGovEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            BindGovEmpInsigYearCon();
+        }
+        protected void btnInsertGovEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOVEMP_INSIG_YEAR_CON (IGYC_ID,P_ID,INSIG_TARGET,INSIG_USE,INSIG_YEAR) VALUES (TB_INSIG_GOVEMP_INSIG_YEAR_SEQ.NEXTVAL," + ddlGovEmpInsigYearConP_ID.SelectedValue + "," + ddlGovEmpInsigYearConINSIG_TARGET.SelectedValue + "," + ddlGovEmpInsigYearConINSIG_USE.SelectedValue + ",'" + tbGovEmpInsigYearConINSG_YEAR.Text + "')");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindGovEmpInsigYearCon();
+            ClearGovEmpInsigYearCon();
+        }
+        protected void btnUpdateGovEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdGovEmpInsigYearCon"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOVEMP_INSIG_YEAR_CON SET P_ID = " + ddlGovEmpInsigYearConP_ID.SelectedValue + ", INSIG_TARGET = " + ddlGovEmpInsigYearConINSIG_TARGET.SelectedValue + ", INSIG_USE = " + ddlGovEmpInsigYearConINSIG_USE.SelectedValue + ", INSIG_YEAR = '" + tbGovEmpInsigYearConINSG_YEAR.Text + "' WHERE IGYC_ID = '" + Session["DefaultIdGovEmpInsigYearCon"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindGovEmpInsigYearCon();
+                ClearGovEmpInsigYearCon();
+                Session.Remove("DefaultIdGovEmpInsigYearCon");
+            }
+        }
+        protected void lbuClearGovEmpInsigYearCon_Click(object sender, EventArgs e)
+        {
+            BindGovEmpInsigYearCon();
+            ClearGovEmpInsigYearCon();
+            Session.Remove("DefaultIdGovEmpInsigYearCon");
+        }
+        protected void OnEditGovEmpInsigYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFGovEmpInsigYearConID = (item.FindControl("HFGovEmpInsigYearConID") as HiddenField).Value;
+            string ValueHFGovEmpInsigYearConP_ID = (item.FindControl("HFGovEmpInsigYearConP_ID") as HiddenField).Value;
+            string ValueHFGovEmpInsigYearConINSIG_TARGET = (item.FindControl("HFGovEmpInsigYearConINSIG_TARGET") as HiddenField).Value;
+            string ValueHFGovEmpInsigYearConINSIG_USE = (item.FindControl("HFGovEmpInsigYearConINSIG_USE") as HiddenField).Value;
+            string ValuelbInsigYear = (item.FindControl("lbInsigYear") as Label).Text;
+
+            ddlGovEmpInsigYearConP_ID.SelectedValue = ValueHFGovEmpInsigYearConP_ID;
+            ddlGovEmpInsigYearConINSIG_TARGET.SelectedValue = ValueHFGovEmpInsigYearConINSIG_TARGET;
+            ddlGovEmpInsigYearConINSIG_USE.SelectedValue = ValueHFGovEmpInsigYearConINSIG_USE;
+            tbGovEmpInsigYearConINSG_YEAR.Text = ValuelbInsigYear;
+
+            Session["DefaultIdGovEmpInsigYearCon"] = ValueHFGovEmpInsigYearConID;
+        }
+        protected void OnDeleteGovEmpInsigYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFGovEmpInsigYearConID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOVEMP_INSIG_YEAR_CON WHERE IGYC_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindGovEmpInsigYearCon();
+            }
+        }
 
     }
 }
