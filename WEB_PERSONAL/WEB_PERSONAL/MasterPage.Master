@@ -314,14 +314,14 @@
             <div id="hvr6" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>
-                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>                  
+                <a href="INS_History.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>                  
                 <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>
             </div>
             <div id="hvr7" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>
                 <a href="Leave.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-create.png" />ทำการลา</a>
                 <a href="LeaveCancel.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-delete.png" />ยกเลิกการลา</a>
-                <a href="LeaveAllow.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-accept.png" />อนุมัติการลา<asp:Label ID="Label1" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
+                <a href="LeaveAllow.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/document-accept.png" />อนุมัติการลา<asp:Label ID="lbLeaveAllowCount2" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
                 <a href="LeaveHistory.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/clock-history.png" />ประวัติการลา</a>
                 <a href="WorkingTimeHistory.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/clock-history.png" />ประวัติเวลาปฏิบัติงาน</a>
                 <a href="LeavePermission.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/info.png" />ตารางสิทธิการอนุญาต</a>
@@ -412,6 +412,12 @@
                             <div class="ps-box-ct10-cen">
                                 <div><img src='Image/Small/medal.png' class='icon_left' />คุณได้รับการแจ้งผลการขอเครื่องราชฯ</div><br />
                                 <div><a href='INSG_Qualified_Detail.aspx'>ไปหน้าประวัติการได้รับเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_req_ins" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/medal.png' class='icon_left' />คุณได้รับการแจ้งการขอเครื่องราชฯ</div><br />
+                                <div><a href='INSG_RequestList.aspx'>ไปหน้ารายชื่อผู้ขอเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
                             </div>
                         </div>
 

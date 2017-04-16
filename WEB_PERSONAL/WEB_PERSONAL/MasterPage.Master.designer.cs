@@ -175,13 +175,13 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl hvr7;
         
         /// <summary>
-        /// Label1 control.
+        /// lbLeaveAllowCount2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label lbLeaveAllowCount2;
         
         /// <summary>
         /// noti_alert control.
@@ -281,6 +281,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl noti_get_ins;
+        
+        /// <summary>
+        /// noti_req_ins control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noti_req_ins;
         
         /// <summary>
         /// ContentPlaceHolder1 control.

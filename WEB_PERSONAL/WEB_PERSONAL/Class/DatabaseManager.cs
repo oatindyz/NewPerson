@@ -389,7 +389,18 @@ namespace WEB_PERSONAL.Class {
                 }
                 int bossNodeType = -1;
                 int bossNodeTypeID = -1;
-                if ((workPositionID == 10108 || workPositionID == 10077) && (adminPositionPower >= 3 || adminPositionPower == 0)) { //อาจารย์
+
+                /*if ((workPositionID == 10075)) { //บุคคลธรรมดา
+                    if (adminPositionPower == 0) {
+                        bossNodeType = 3;
+                        bossNodeTypeID = divisionID;
+                    } else if (adminPositionPower == 3) {
+                        bossNodeType = 3;
+                        bossNodeTypeID = divisionID;
+                        no_me = true;
+                    }
+                }
+                else */if ((workPositionID == 10108 || workPositionID == 10077) && (adminPositionPower >= 3 || adminPositionPower == 0)) { //อาจารย์
                     if(adminPositionPower == 0) {
                         bossNodeType = 3;
                         bossNodeTypeID = divisionID;
@@ -411,6 +422,15 @@ namespace WEB_PERSONAL.Class {
                         bossNodeTypeID = -1;
                     } else if(adminPositionID == 1) { //อธิการ
                         cancel = true;
+                    } else {
+                        if(workDivisionID == -1) {
+                            bossNodeType = 3;
+                            bossNodeTypeID = divisionID;
+                        } else {
+                            bossNodeType = 4;
+                            bossNodeTypeID = workDivisionID;
+                        }
+                        
                     }
                 }
                 if(cancel) {

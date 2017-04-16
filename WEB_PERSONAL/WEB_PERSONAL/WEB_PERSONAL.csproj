@@ -990,6 +990,8 @@
     <Content Include="INSG_Qualified_Detail.aspx" />
     <Content Include="INSG_Request.aspx" />
     <Content Include="INSG_RequestList.aspx" />
+    <Content Include="INS_History.aspx" />
+    <Content Include="INS_Request_Complete.aspx" />
     <Content Include="jQueryCalendarThai\images\Contact\Thumbs.db" />
     <Content Include="jQueryCalendarThai\images\Thumbs.db" />
     <Content Include="js\bootstrap.min.js" />
@@ -2943,6 +2945,20 @@
     </Compile>
     <Compile Include="INSG_RequestList.aspx.designer.cs">
       <DependentUpon>INSG_RequestList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INS_History.aspx.cs">
+      <DependentUpon>INS_History.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="INS_History.aspx.designer.cs">
+      <DependentUpon>INS_History.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INS_Request_Complete.aspx.cs">
+      <DependentUpon>INS_Request_Complete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="INS_Request_Complete.aspx.designer.cs">
+      <DependentUpon>INS_Request_Complete.aspx</DependentUpon>
     </Compile>
     <Compile Include="Leave.aspx.cs">
       <DependentUpon>Leave.aspx</DependentUpon>

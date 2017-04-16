@@ -91,6 +91,7 @@ namespace WEB_PERSONAL
             int count_leave_finish = 0;
             int count_ins = 0;
             int count_get_ins = 0;
+            int count_req_ins = 0;
 
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
@@ -135,11 +136,13 @@ namespace WEB_PERSONAL
                 {
                     lbLeaveAllowCount.Text = "" + count_approve;
                     lbLeaveAllowCount.Visible = true;
+                    lbLeaveAllowCount2.Visible = true;
                 }
                 else
                 {
                     lbLeaveAllowCount.Text = "";
                     lbLeaveAllowCount.Visible = false;
+                    lbLeaveAllowCount2.Visible = false;
                 }
 
                 using (OracleCommand com = new OracleCommand("SELECT COUNT(LEAVE_ID) FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_STATUS_ID in(2,5)", con))
@@ -166,9 +169,17 @@ namespace WEB_PERSONAL
                         }
                     }
                 }*/
+                if (loginPerson.PERSON_ROLE_ID == "4") {
+                    using (OracleCommand com = new OracleCommand("SELECT COUNT(IP_ID) FROM TB_INSIG_PERSON WHERE TB_INSIG_PERSON.IP_STATUS_ID = 1", con)) {
+                        using (OracleDataReader reader = com.ExecuteReader()) {
+                            while (reader.Read()) {
+                                count_req_ins = reader.GetInt32(0);
+                            }
+                        }
+                    }
+                }
 
-
-                int count = count_approve + count_leave_finish + count_ins + count_get_ins;
+                int count = count_approve + count_leave_finish + count_ins + count_get_ins + count_req_ins;
 
                 noti_leave_none.Visible = false;
                 noti_approve.Visible = false;
@@ -177,6 +188,7 @@ namespace WEB_PERSONAL
                 noti_ins_none.Visible = false;
                 noti_ins.Visible = false;
                 noti_get_ins.Visible = false;
+                noti_req_ins.Visible = false;
 
                 if (count_approve + count_leave_finish == 0)
                 {
@@ -194,7 +206,7 @@ namespace WEB_PERSONAL
                     }
                 }
 
-                if (count_ins + count_get_ins == 0)
+                if (count_ins + count_get_ins + count_req_ins == 0)
                 {
                     noti_ins_none.Visible = true;
                 }
@@ -207,6 +219,9 @@ namespace WEB_PERSONAL
                     if (count_get_ins != 0)
                     {
                         noti_get_ins.Visible = true;
+                    }
+                    if (count_req_ins != 0) {
+                        noti_req_ins.Visible = true;
                     }
                 }
 

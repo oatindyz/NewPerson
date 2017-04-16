@@ -154,14 +154,17 @@ namespace WEB_PERSONAL
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("INSERT INTO TB_BOSS_NODE (BOSS_NODE_ID, BOSS_NODE_NAME, BOSS_NODES_ID, BOSS_NODE_PARENT_ID, BOSS_NODE_TYPE, BOSS_NODE_TYPE_ID, BOSS_NODE_CITIZEN_ID) VALUES(SEQ_BOSS_NODE_ID.NEXTVAL, :BOSS_NODE_NAME, :BOSS_NODES_ID, :BOSS_NODE_PARENT_ID, :BOSS_NODE_TYPE, :BOSS_NODE_TYPE_ID, :BOSS_NODE_CITIZEN_ID)", con))
-                {
+                using (OracleCommand com = new OracleCommand("INSERT INTO TB_BOSS_NODE (BOSS_NODE_ID, BOSS_NODE_NAME, BOSS_NODES_ID, BOSS_NODE_PARENT_ID, BOSS_NODE_TYPE, BOSS_NODE_TYPE_ID, BOSS_NODE_CITIZEN_ID) VALUES(SEQ_BOSS_NODE_ID.NEXTVAL, :BOSS_NODE_NAME, :BOSS_NODES_ID, :BOSS_NODE_PARENT_ID, :BOSS_NODE_TYPE, :BOSS_NODE_TYPE_ID, :BOSS_NODE_CITIZEN_ID)", con)) {
                     com.Parameters.AddWithValue("BOSS_NODE_NAME", bossNodeName + bossNodeNameNuy);
                     com.Parameters.AddWithValue("BOSS_NODES_ID", 1);
-                    com.Parameters.AddWithValue("BOSS_NODE_PARENT_ID", ddlHighNode.SelectedValue);
+                    if (type != -1) {
+                        com.Parameters.AddWithValue("BOSS_NODE_PARENT_ID", ddlHighNode.SelectedValue);
+                    } else {
+                        com.Parameters.AddWithValue("BOSS_NODE_PARENT_ID", DBNull.Value);
+                    }
                     if (type == -1)
                     {
-                        com.Parameters.AddWithValue("BOSS_NODE_TYPE", null);
+                        com.Parameters.AddWithValue("BOSS_NODE_TYPE", DBNull.Value);
                     }
                     else
                     {
@@ -169,7 +172,7 @@ namespace WEB_PERSONAL
                     }
                     if (typeID == null)
                     {
-                        com.Parameters.AddWithValue("BOSS_NODE_TYPE_ID", null);
+                        com.Parameters.AddWithValue("BOSS_NODE_TYPE_ID", DBNull.Value);
                     }
                     else
                     {

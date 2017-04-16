@@ -25,8 +25,8 @@
             if (vdd.options[vdd.selectedIndex].value == "6") {
                 vtr.style.display = "table-row";
             } else {
-                */vtr.style.display = "none";
-            }
+                vtr.style.display = "none";
+            }*/
         }
         function showSelfViewLeaveID() {
            /* var vdd = document.getElementById("ContentPlaceHolder1_ddlSelfView");

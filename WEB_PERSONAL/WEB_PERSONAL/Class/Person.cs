@@ -103,7 +103,7 @@ namespace WEB_PERSONAL.Class {
                 return PS_CAMPUS_NAME;
             } else if (PS_ADMIN_POS_ID == "4") {
                 return PS_FACULTY_NAME;
-            } else if (PS_ADMIN_POS_ID == "5") {
+            } else if (PS_ADMIN_POS_ID == "5" || PS_ADMIN_POS_ID == "11") {
                 return PS_WORK_DIVISION_NAME;
             } else if (PS_ADMIN_POS_ID == "10") {
                 return PS_DIVISION_NAME;

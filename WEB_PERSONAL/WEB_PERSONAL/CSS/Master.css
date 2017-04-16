@@ -117,7 +117,7 @@ input[type=radio] + label {
     display: inline-block;
     color: #ffffff;
     background-color: rgb(237,28,36);
-    padding: 3px 5px;
+    padding: 0px 5px;
     border-radius: 4px;
     vertical-align: top;
 }

@@ -670,6 +670,9 @@ namespace WEB_PERSONAL {
                             if (imagePath != "") {
                                 image.Attributes["src"] = "Upload/PersonImage/" + imagePath;
                                 cell3.Controls.Add(image);
+                            } else {
+                                image.Attributes["src"] = "Image/no_image.png";
+                                cell3.Controls.Add(image);
                             }
                             tr.Cells.Add(cell3);
 
