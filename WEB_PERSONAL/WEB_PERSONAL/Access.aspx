@@ -165,8 +165,8 @@
                         <h4 class="modal-title">ลืมรหัสผ่าน</h4>
                     </div>
 
-                    <div class="modal-footer" style="text-align: center; display: inline-block;">
-                        <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm ekknidBottom" placeholder="กรุณากรอกอีเมล" Width="300px"></asp:TextBox>
+                    <div class="modal-footer" style="text-align: center;">
+                        <asp:TextBox ID="tbEmail" runat="server" CssClass="ps-textbox" placeholder="กรุณากรอกอีเมล" Width="300px"></asp:TextBox><br />
                         <asp:LinkButton ID="lbuForget" runat="server" CssClass="btn btn-default" OnClick="lbuForget_Click">กู้คืนรหัสผ่าน</asp:LinkButton>
                     </div>
                 </div>

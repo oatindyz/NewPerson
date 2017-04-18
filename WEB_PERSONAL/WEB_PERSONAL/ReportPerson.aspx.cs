@@ -4,11 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.OracleClient;
 using WEB_PERSONAL.Class;
+using System.Text;
+using System.IO;
+using System.Data;
 
 namespace WEB_PERSONAL
 {
-    public partial class PersonReport : System.Web.UI.Page
+    public partial class ReportPerson : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,8 +22,13 @@ namespace WEB_PERSONAL
             {
                 Server.Transfer("NoPermission.aspx");
             }
+
+            if (!IsPostBack)
+            {
+
+            }
         }
 
-
+ 
     }
 }

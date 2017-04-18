@@ -26,7 +26,7 @@ namespace WEB_PERSONAL
             if (!IsPostBack)
             {
                 BindDDL();
-            }
+            } 
         }
 
         protected void BindDDL()
@@ -397,7 +397,13 @@ namespace WEB_PERSONAL
                     com.Parameters.Add(new OracleParameter("PS_TIME_CONTACT_ID", ddlTimeContactID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_BUDGET_ID", ddlBudgetID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_SUBSTAFFTYPE_ID", ddlSubStafftypeID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("PS_ADMIN_POS_ID", ddlAdminPosID.SelectedValue));
+
+                    if (ddlAdminPosID.SelectedIndex == 0) { com.Parameters.Add(new OracleParameter("PS_ADMIN_POS_ID", "0")); }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("PS_ADMIN_POS_ID", ddlAdminPosID.SelectedValue));
+                    }
+                    
                     com.Parameters.Add(new OracleParameter("PS_WORK_POS_ID", ddlWorkPosID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("PS_INWORK_DATE", Util.ToDateTimeOracle(tbDateInwork.Text)));
                     com.Parameters.Add(new OracleParameter("PS_DATE_START_THIS_U", Util.ToDateTimeOracle(tbDateStartThisU.Text)));

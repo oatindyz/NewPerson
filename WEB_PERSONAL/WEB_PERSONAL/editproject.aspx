@@ -1,8 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Addproject.aspx.cs" Inherits="WEB_PERSONAL.Addproject" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="editproject.aspx.cs" Inherits="WEB_PERSONAL.editproject" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <script type = "text/javascript">
+        <script type = "text/javascript">
     function DisableButton() {
-        document.getElementById("<%=btnAddProject.ClientID %>").disabled = true;
+        document.getElementById("<%=btnUpdateProject.ClientID %>").disabled = true;
     }
     window.onbeforeunload = DisableButton;
     </script>
@@ -12,13 +12,12 @@
             $("#ContentPlaceHolder1_tbStartDate, #ContentPlaceHolder1_tbEndDate").datepicker($.datepicker.regional["th"]);
         });
     </script>
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+<asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div class="default_page_style">
         <div class="ps-header">
-            <img src="Image/Small/add.png" />เพิ่มข้อมูลอบรม/สัมมนา/ดูงาน
+            <img src="Image/Small/document-edit.png" />แก้ไขข้อมูลอบรม/สัมมนา/ดูงาน
             <span style="text-align:right; float:right;"><a href="listproject.aspx">
             <img src="Image/Small/back.png" />ย้อนกลับ</a></span>
         </div>
@@ -26,31 +25,49 @@
 
         <div id="Notsuccess" runat="server" class="panel panel-default">
             <div class="panel-body">
+                <div class="form-group">
+                    <table class="table table-striped table-bordered table-hover ps-table-1">
+                        <tr>
+                            <td class="col1">ชื่อ - สกุล:</td>
+                            <td class="col2" style="margin-right: 10px">
+                                <asp:Label ID="lbName" runat="server" CssClass="ekknidRight"></asp:Label></td>
+                            <td class="col1">ตำแหน่ง :</td>
+                            <td class="col2" style="margin-right: 10px">
+                                <asp:Label ID="lbPosition" runat="server" CssClass="ekknidRight"></asp:Label></td>
+                            <td class="col1">สังกัด :</td>
+                            <td class="col2" style="margin-right: 10px">
+                                <asp:Label ID="lbDepartment" runat="server"></asp:Label></td>
+                        </tr>
+                    </table>
+                </div>
                 <table style="width: 97%;">
                     <tr>
                         <td>
                             <div class="form-group">
-                                <asp:Label ID="lbCategoryID" runat="server">ประเภทโครงการ<span class="ps-lb-red" />*</asp:Label>
-                                <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control input-sm ekknidRight" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:Label ID="Label1" runat="server">ประเภทโครงการ<span class="ps-lb-red" />*</asp:Label>
+                                <asp:DropDownList ID="ddlCategory" runat="server" CssClass="form-control input-sm select2 ekknidRight" required="required" TabIndex="1"></asp:DropDownList>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
                                 <asp:Label ID="lbCountry" runat="server">ประเภทการอบรม<span class="ps-lb-red" />*</asp:Label>
-                                <asp:DropDownList ID="ddlCountry" runat="server" CssClass="form-control input-sm ekknidRight" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlCountry" runat="server" CssClass="form-control input-sm select2 ekknidRight" required="required" TabIndex="1"></asp:DropDownList>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
                                 <asp:Label ID="lbTypeProject" runat="server">รูปแบบประเภทการอบรม<span class="ps-lb-red" />*</asp:Label>
-                                <asp:DropDownList ID="ddlSubCountry" runat="server" CssClass="form-control input-sm ekknidRight" required="required" TabIndex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlSubCountry" runat="server" CssClass="form-control input-sm select2 ekknidRight" required="required" TabIndex="1"></asp:DropDownList>
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <asp:Label ID="lbFile" runat="server">แนบไฟล์ .pdf (รูปภาพ,เอกสาร ประกอบการอบรม)<span class="ps-lb-red" />*</asp:Label>
-                                <asp:FileUpload ID="FUdocument" runat="server" Width="250px" required="required" TabIndex="1"/>
-                            </div>
+                                <asp:Label ID="lbFile" runat="server">แนบไฟล์ .pdf (รูปภาพ,เอกสาร ประกอบการอบรม)<span id="spFile" runat="server"></span></asp:Label>
+                                <asp:FileUpload ID="FUdocument" runat="server" Width="250px"/>
+                            </div>   
+                        </td>
+                        <td>
+                            <div class="c1" id="file_pdf" runat="server"></div>
                         </td>
                     </tr>
                 </table>
@@ -126,7 +143,7 @@
                 </table>
 
                 <div style="text-align: center; margin-top: 10px;">
-                    <asp:Button ID="btnAddProject" runat="server" CssClass="btn btn-success" OnClick="btnAddProject_Click" Text="บันทึก"></asp:Button>
+                    <asp:Button ID="btnUpdateProject" runat="server" CssClass="btn btn-success" OnClick="btnUpdateProject_Click" Text="บันทึก"></asp:Button>
                 </div>
 
             </div>
@@ -140,8 +157,7 @@
                         ระบบได้ทำการบันทึกข้อมูลอบรม/สัมมนา/ดูงานเรียบร้อยแล้ว
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
-                        <a href="Default.aspx" class="ps-button btn btn-primary">
-                            <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
+                        <a href="listproject.aspx" class="ps-button btn btn-primary">ย้อนกลับ</a>
                     </div>
                 </div>
             </div>

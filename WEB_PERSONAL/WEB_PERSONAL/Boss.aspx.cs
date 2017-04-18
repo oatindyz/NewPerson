@@ -74,10 +74,10 @@ namespace WEB_PERSONAL
                 lbResult.Visible = false;
             }
 
-            int type;
-            string typeID;
-            int adminPositionID;
-            string personUpdate;
+            int type = -1;
+            string typeID = "";
+            int adminPositionID = -1;
+            string personUpdate = "";
             if (rbAtikan.Checked)
             {
                 type = -1;
@@ -108,10 +108,34 @@ namespace WEB_PERSONAL
             }
             else
             {
-                type = 4;
-                typeID = ddlWorkDivision.SelectedValue;
-                adminPositionID = 11;
-                personUpdate = ", PS_WORK_DIVISION_ID = " + ddlWorkDivision.SelectedValue;
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("SELECT BOSS_NODE_TYPE FROM TB_BOSS_NODE WHERE BOSS_NODE_ID = '" + ddlHighNode.SelectedValue + "'", con))
+                    {
+                        using (OracleDataReader reader = com.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.GetValue(0).ToString() == "2")
+                                {
+                                    type = 5;
+                                    typeID = ddlWorkDivision.SelectedValue;
+                                    adminPositionID = 5;
+                                    personUpdate = ", PS_WORK_DIVISION_ID = " + ddlWorkDivision.SelectedValue;
+                                }
+                                else
+                                {
+                                    type = 4;
+                                    typeID = ddlWorkDivision.SelectedValue;
+                                    adminPositionID = 11;
+                                    personUpdate = ", PS_WORK_DIVISION_ID = " + ddlWorkDivision.SelectedValue;
+                                }
+                            }
+                        }
+                    }
+                }
+                
             }
             string bossNodeName;
             if (type == 1)
@@ -129,6 +153,11 @@ namespace WEB_PERSONAL
             else if (type == 4)
             {
                 bossNodeName = "หัวหน้า";
+            }
+            else if (type == 5)
+            {
+                bossNodeName = "รองคณบดี";
+                type = 4;
             }
             else
             {

@@ -107,7 +107,7 @@ namespace WEB_PERSONAL
             {
                 LinkButton lbu = (LinkButton)e.Item.FindControl("lbuReport");
                 string value = lbu.CommandArgument;
-                Response.Redirect("reportproject-admin.aspx?id=" + value);
+                Response.Redirect("Reportproject.aspx?id=" + value);
             }
         }
     }

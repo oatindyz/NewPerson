@@ -238,9 +238,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="col1">ตำแหน่งในสายงาน</td>
+                            <td class="col1">ตำแหน่งในสายงาน<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlWorkPosID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlWorkPosID" runat="server" CssClass="form-control input-sm select2" required="required" tabindex="1"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>

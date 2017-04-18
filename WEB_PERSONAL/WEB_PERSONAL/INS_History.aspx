@@ -23,5 +23,6 @@
     <div class="ps-header">
         <img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ
     </div>
+    <div id="NoInsig" runat="server" visible="false" class="ps-div-title-red">ยังไม่มีประวัติการได้รับเครื่องราชฯ</div>
     <div id="div1" runat="server"></div>
 </asp:Content>

@@ -26,15 +26,18 @@ namespace WEB_PERSONAL {
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สถานะ"; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
-            
-            
 
-            
+            string CheckNull = DatabaseManager.ExecuteString("SELECT CITIZEN_ID FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+            if (string.IsNullOrEmpty(CheckNull))
+            {
+                NoInsig.Visible = true;
+                return;
+            }
 
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT TB_INSIG_PERSON.*, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID), (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID", con)) {
+                using (OracleCommand com = new OracleCommand("SELECT TB_INSIG_PERSON.*, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID), (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND IP_STATUS_ID = 3", con)) {
 
                     com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                     using (OracleDataReader reader = com.ExecuteReader()) {

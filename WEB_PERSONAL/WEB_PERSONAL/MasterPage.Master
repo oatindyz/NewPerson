@@ -275,11 +275,11 @@
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="ListPerson-ADMIN.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลบุคลากร</a> 
                 <a href="ListRequest.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการคำร้องแก้ไขข้อมูลบุคลากร</a> 
-                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูล ก.พ. 7</a> 
                 <a href="Boss.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>
                 <a href="PersonBranch.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูแผนผังบุคลากร</a>
                 <a href="DataManage.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลตัวเลือก</a> 
-                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ออกรายงานสรุปบุคลากร</a> 
+                <a href="ReportPerson.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ออกรายงานบุคลากร</a> 
+                <a href="ReportProject-Admin.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ออกรายงานการพัฒนาบุคลากร</a> 
             </div>
             <div id="hvr2" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>
@@ -296,26 +296,24 @@
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่ขอเครื่องราชฯ</a>
                 <a href="DataManageInsig.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />จัดการข้อมูลเงื่อนไข</a>
-                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานสรุปเครื่องราชฯ</a>        
+                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>        
             </div>
             <div id="hvr4" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>
                 <a href="Permission.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/wrench.png" />จัดการสิทธิใช้งานระบบ</a>
-            </div>  
+            </div>
             <!--USER-->
             <div id="hvr5" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="Edit.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />แก้ไขข้อมูลบุคลากร</a> 
                 <a href="Request.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />คำร้องแก้ไขข้อมูลบุคลากร</a> 
-                <a href="Addproject.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลการพัฒนาบุคลากร</a> 
+                <a href="listproject.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลการพัฒนาบุคลากร</a> 
                 <a href="Profile.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูข้อมูลส่วนตัว</a> 
-                <a href="#.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ออกรายงานบุคลากร</a> 
             </div>
             <div id="hvr6" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>
                 <a href="INS_History.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการได้รับเครื่องราชฯ</a>                  
-                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>
             </div>
             <div id="hvr7" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>

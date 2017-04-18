@@ -25,7 +25,11 @@ namespace WEB_PERSONAL
 
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
-            ps.LoginPerson = DatabaseManager.GetPerson(loginPerson.PS_CITIZEN_ID);
+            if (loginPerson != null)
+            {
+                ps.LoginPerson = DatabaseManager.GetPerson(loginPerson.PS_CITIZEN_ID);
+            }
+            
 
         }
 

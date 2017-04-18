@@ -12,7 +12,7 @@ namespace WEB_PERSONAL.Class {
 
         public static readonly string PROVIDER = "System.Data.OracleClient";
         //public static readonly string DATA_SOURCE = "203.158.140.67";
-        public static readonly string DATA_SOURCE = "192.168.1.49";
+        public static readonly string DATA_SOURCE = "192.168.1.50";
         //public static readonly string DATA_SOURCE = "192.168.100.4";
         //public static readonly string DATA_SOURCE = "localhost";
         public static readonly string PORT = "1521";
