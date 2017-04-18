@@ -10,7 +10,7 @@
 namespace WEB_PERSONAL {
     
     
-    public partial class Request {
+    public partial class RequestManage {
         
         /// <summary>
         /// ScriptManager1 control.
@@ -40,6 +40,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DataShow;
         
         /// <summary>
+        /// trTitleID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trTitleID;
+        
+        /// <summary>
         /// lbTitleID control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTitleID;
+        
+        /// <summary>
+        /// trFirstName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trFirstName;
         
         /// <summary>
         /// lbFirstName control.
@@ -76,6 +94,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbFirstName;
         
         /// <summary>
+        /// trLastName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trLastName;
+        
+        /// <summary>
         /// lbLastName control.
         /// </summary>
         /// <remarks>
@@ -92,6 +119,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbLastName;
+        
+        /// <summary>
+        /// trGenderID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGenderID;
         
         /// <summary>
         /// lbGenderID control.
@@ -112,6 +148,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlGenderID;
         
         /// <summary>
+        /// trBirthdayDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trBirthdayDate;
+        
+        /// <summary>
         /// lbBirthdayDate control.
         /// </summary>
         /// <remarks>
@@ -128,6 +173,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbBirthdayDate;
+        
+        /// <summary>
+        /// trEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trEmail;
         
         /// <summary>
         /// lbEmail control.
@@ -148,6 +202,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbEmail;
         
         /// <summary>
+        /// trNationID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trNationID;
+        
+        /// <summary>
         /// lbNationID control.
         /// </summary>
         /// <remarks>
@@ -164,6 +227,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlNationID;
+        
+        /// <summary>
+        /// trCampusID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trCampusID;
         
         /// <summary>
         /// lbCampusID control.
@@ -184,6 +256,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlCampusID;
         
         /// <summary>
+        /// trFacultyID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trFacultyID;
+        
+        /// <summary>
         /// lbFacultyID control.
         /// </summary>
         /// <remarks>
@@ -200,6 +281,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlFacultyID;
+        
+        /// <summary>
+        /// trDivisionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trDivisionID;
         
         /// <summary>
         /// lbDivisionID control.
@@ -247,6 +337,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlWorkDivisionID;
         
         /// <summary>
+        /// trStafftypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trStafftypeID;
+        
+        /// <summary>
         /// lbStafftypeID control.
         /// </summary>
         /// <remarks>
@@ -263,6 +362,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlStafftypeID;
+        
+        /// <summary>
+        /// trTimeContactID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trTimeContactID;
         
         /// <summary>
         /// lbTimeContactID control.
@@ -283,6 +391,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlTimeContactID;
         
         /// <summary>
+        /// trBudgetID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trBudgetID;
+        
+        /// <summary>
         /// lbBudgetID control.
         /// </summary>
         /// <remarks>
@@ -299,6 +416,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBudgetID;
+        
+        /// <summary>
+        /// trSubStafftypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSubStafftypeID;
         
         /// <summary>
         /// lbSubStafftypeID control.
@@ -319,6 +445,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlSubStafftypeID;
         
         /// <summary>
+        /// trAdminPosID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trAdminPosID;
+        
+        /// <summary>
         /// lbAdminPosID control.
         /// </summary>
         /// <remarks>
@@ -335,6 +470,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlAdminPosID;
+        
+        /// <summary>
+        /// trWorkPosID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trWorkPosID;
         
         /// <summary>
         /// lbWorkPosID control.
@@ -355,6 +499,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlWorkPosID;
         
         /// <summary>
+        /// trDateInwork control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trDateInwork;
+        
+        /// <summary>
         /// lbDateInwork control.
         /// </summary>
         /// <remarks>
@@ -371,6 +524,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbDateInwork;
+        
+        /// <summary>
+        /// trDateStartThisU control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trDateStartThisU;
         
         /// <summary>
         /// lbDateStartThisU control.
@@ -391,6 +553,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbDateStartThisU;
         
         /// <summary>
+        /// trSpecialName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSpecialName;
+        
+        /// <summary>
         /// lbSpecialName control.
         /// </summary>
         /// <remarks>
@@ -407,6 +578,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbSpecialName;
+        
+        /// <summary>
+        /// trTeachIscedID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trTeachIscedID;
         
         /// <summary>
         /// lbTeachIscedID control.
@@ -427,6 +607,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlTeachIscedID;
         
         /// <summary>
+        /// trGradLevID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGradLevID;
+        
+        /// <summary>
         /// lbGradLevID control.
         /// </summary>
         /// <remarks>
@@ -443,6 +632,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGradLevID;
+        
+        /// <summary>
+        /// trGradCurr control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGradCurr;
         
         /// <summary>
         /// lbGradCurr control.
@@ -463,6 +661,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbGradCurr;
         
         /// <summary>
+        /// trGradIscedID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGradIscedID;
+        
+        /// <summary>
         /// lbGradIscedID control.
         /// </summary>
         /// <remarks>
@@ -479,6 +686,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGradIscedID;
+        
+        /// <summary>
+        /// trGradProgID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGradProgID;
         
         /// <summary>
         /// lbGradProgID control.
@@ -499,6 +715,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlGradProgID;
         
         /// <summary>
+        /// trGradUniv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGradUniv;
+        
+        /// <summary>
         /// lbGradUniv control.
         /// </summary>
         /// <remarks>
@@ -515,6 +740,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbGradUniv;
+        
+        /// <summary>
+        /// trGradCountryID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trGradCountryID;
         
         /// <summary>
         /// lbGradCountryID control.
@@ -535,6 +769,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlGradCountryID;
         
         /// <summary>
+        /// trDeformID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trDeformID;
+        
+        /// <summary>
         /// lbDeformID control.
         /// </summary>
         /// <remarks>
@@ -551,6 +794,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlDeformID;
+        
+        /// <summary>
+        /// trSitNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trSitNo;
         
         /// <summary>
         /// lbSitNo control.
@@ -571,6 +823,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbSitNo;
         
         /// <summary>
+        /// trReligionID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trReligionID;
+        
+        /// <summary>
         /// lbReligionID control.
         /// </summary>
         /// <remarks>
@@ -589,6 +850,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlReligionID;
         
         /// <summary>
+        /// trMovementTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trMovementTypeID;
+        
+        /// <summary>
         /// lbMovementTypeID control.
         /// </summary>
         /// <remarks>
@@ -605,6 +875,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlMovementTypeID;
+        
+        /// <summary>
+        /// trMovementDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trMovementDate;
         
         /// <summary>
         /// lbMovementDate control.

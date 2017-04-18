@@ -13,10 +13,15 @@ namespace WEB_PERSONAL
     public partial class AddPosition : System.Web.UI.Page
     {
         Person loginPerson;
+        string Citizen_id;
+        Person QueryString;
         protected void Page_Load(object sender, EventArgs e)
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             loginPerson = ps.LoginPerson;
+            Citizen_id = DatabaseManager.ExecuteString("SELECT PS_CITIZEN_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'");
+            QueryString = DatabaseManager.GetPerson(Citizen_id);
+
             if (loginPerson.PERSON_ROLE_ID != "2")
             {
                 Server.Transfer("NoPermission.aspx");
@@ -42,19 +47,19 @@ namespace WEB_PERSONAL
             sda.Fill(dt);
             myRepeaterPosition.DataSource = dt;
             myRepeaterPosition.DataBind();
-            /*if (loginPerson.PS_STAFFTYPE_ID == "1")
+            if (QueryString.PS_STAFFTYPE_ID == "1")
             {
                 DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 1 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
             }
-            else if (loginPerson.PS_STAFFTYPE_ID == "5")
+            else if (QueryString.PS_STAFFTYPE_ID == "5")
             {
                 DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 5 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
             }
             else
             {
                 DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
-            }*/
-            DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            }
+            //DatabaseManager.BindDropDown(ddlInsertIdPosition, "SELECT * FROM TB_POSITION ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
         }
         protected void ClearPosition()
         {

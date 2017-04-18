@@ -43,7 +43,7 @@ namespace WEB_PERSONAL
             {
                 LinkButton lbu = (LinkButton)e.Item.FindControl("lbuEdit");
                 string value = lbu.CommandArgument;
-                Response.Redirect("Request.aspx?id=" + value);
+                Response.Redirect("RequestManage.aspx?id=" + value);
             }
         }
 
