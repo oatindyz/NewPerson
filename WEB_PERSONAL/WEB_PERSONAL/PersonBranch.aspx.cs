@@ -297,7 +297,6 @@ namespace WEB_PERSONAL
                             string WorkDivisionName = reader.IsDBNull(9) ? "" : reader.GetString(9);
                             bool isBoss = false;
 
-                            //using (OracleCommand com2 = new OracleCommand("SELECT COUNT(*) FROM PS_BOSS WHERE CITIZEN_ID = '" + citizenID + "' AND BOS_TYPE = '" + searchBossType + "' AND BOS_TYPE_ID = " + searchID, con)) {
                             using (OracleCommand com2 = new OracleCommand("SELECT PS_ADMIN_POS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizenID + "'", con))
                             {
                                 using (OracleDataReader reader2 = com2.ExecuteReader())

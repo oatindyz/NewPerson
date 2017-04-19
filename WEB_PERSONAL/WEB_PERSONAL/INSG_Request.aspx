@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                         </asp:View>
-                        <asp:View ID="View2" runat="server">
+                        <asp:View ID="View2" runat="server"> 
                             <div>
                                 <div class="ps-div-title-red">ทำการขอเครื่องราชฯเรียบร้อย</div>
                                 <div style="color: #808080; margin-top: 10px; text-align: center;">

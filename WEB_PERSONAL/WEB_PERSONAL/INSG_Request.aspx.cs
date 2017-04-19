@@ -548,6 +548,7 @@ namespace WEB_PERSONAL
                             }
                             if (todayYear - retireYear > 0) {
                                 lbRetired.Visible = true;
+                                lbuSubmitView2.Visible = false;
                             }
 
                             //lbRetiring.Text += " (" + todayYear + " , " + retireYear + ")";
