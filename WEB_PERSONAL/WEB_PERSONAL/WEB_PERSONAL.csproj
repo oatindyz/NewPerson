@@ -1056,6 +1056,7 @@
     <Content Include="Plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="MasterPage.Master" />
     <Content Include="Profile.aspx" />
+    <Content Include="ReportInsig.aspx" />
     <Content Include="ReportPerson.aspx" />
     <Content Include="ReportProject-Admin.aspx" />
     <Content Include="Reportproject.aspx" />
@@ -3081,6 +3082,13 @@
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportInsig.aspx.cs">
+      <DependentUpon>ReportInsig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportInsig.aspx.designer.cs">
+      <DependentUpon>ReportInsig.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ReportPerson.aspx.cs">
       <DependentUpon>ReportPerson.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

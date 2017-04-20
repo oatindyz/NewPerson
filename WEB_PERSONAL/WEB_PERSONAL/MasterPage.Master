@@ -296,7 +296,7 @@
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />รายชื่อผู้ที่ขอเครื่องราชฯ</a>
                 <a href="DataManageInsig.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />จัดการข้อมูลเงื่อนไข</a>
-                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>        
+                <a href="ReportInsig.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>        
             </div>
             <div id="hvr4" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/wrench.png" />จัดการข้อมูล</div>

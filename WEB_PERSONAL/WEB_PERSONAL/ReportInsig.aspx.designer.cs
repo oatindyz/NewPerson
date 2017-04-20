@@ -10,7 +10,7 @@
 namespace WEB_PERSONAL {
     
     
-    public partial class ReportPerson {
+    public partial class ReportInsig {
         
         /// <summary>
         /// lbuV1Search control.
@@ -29,24 +29,6 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbuV1Export;
-        
-        /// <summary>
-        /// lbuV2Search control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbuV2Search;
-        
-        /// <summary>
-        /// lbuV2Export control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbuV2Export;
         
         /// <summary>
         /// Panel1 control.
