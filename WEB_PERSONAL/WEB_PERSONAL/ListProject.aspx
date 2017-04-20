@@ -18,9 +18,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="ps-header">
-        <img src="Image/Icon/manage.png" />จัดการข้อมูลอบรม/สัมมนา/ดูงาน
+        <img src="Image/Icon/manage.png" />จัดการข้อมูลการพัฒนาบุคลากร
         <span style="text-align:right; float:right;"><a href="addproject.aspx">
-        <img src="Image/Small/add.png" />เพิ่มข้อมูลอบรม/สัมมนา/ดูงาน</a></span>
+        <img src="Image/Small/add.png" />เพิ่มข้อมูลการพัฒนาบุคลากร</a></span>
     </div>
     <div id="notification" runat="server"></div>
   

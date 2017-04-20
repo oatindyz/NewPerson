@@ -296,7 +296,7 @@ namespace WEB_PERSONAL
                 {
                     OracleConnection.ClearAllPools();
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_EMAIL = '" + tbEmail.Text + "'", con))
+                    using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + tbCitizenID.Text + "' AND PS_EMAIL = '" + tbEmail.Text + "'", con))
                     {
                         using (OracleDataReader reader = com.ExecuteReader())
                         {

@@ -10,7 +10,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="default_page_style">
         <div class="ps-header">
-            <img src="Image/Small/copy.png" />ออกรายงานข้อมูลอบรม/สัมมนา/ดูงาน
+            <img src="Image/Small/copy.png" />ออกรายงานข้อมูลการพัฒนาบุคลากร
         </div>
     <div style="margin-bottom:10px">
         <asp:LinkButton ID="lbuExport" runat="server" CssClass="ps-button" OnClick="lbuExport_Click"><img src="Image/Small/word.png" class="icon_left"/>ออกรายงาน WORD</asp:LinkButton>

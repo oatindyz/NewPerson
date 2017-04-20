@@ -75,6 +75,19 @@
         };
     </script>
 
+    <script>
+        function validateEmail(emailField) {
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+            if (reg.test(emailField.value) == false) {
+                alert('อีเมลไม่ถูกต้อง');
+                document.getElementById('<%= tbEmail.ClientID %>').value = "";
+                return false;
+            }
+            return true;
+        }
+    </script>
+
     <script type="text/javascript">
         function DisableButton() {
             document.getElementById("<%=btnLogin.ClientID %>").disabled = true;
@@ -166,6 +179,7 @@
                     </div>
 
                     <div class="modal-footer" style="text-align: center;">
+                        <asp:TextBox ID="tbCitizenID" runat="server" CssClass="ps-textbox" MaxLength="13" onblur="validateEmail(this);" onkeypress="return isNumberKey(event)" placeholder="กรุณากรอกรหัสบัตรประชาชน" Width="300px"></asp:TextBox><br />
                         <asp:TextBox ID="tbEmail" runat="server" CssClass="ps-textbox" placeholder="กรุณากรอกอีเมล" Width="300px"></asp:TextBox><br />
                         <asp:LinkButton ID="lbuForget" runat="server" CssClass="btn btn-default" OnClick="lbuForget_Click">กู้คืนรหัสผ่าน</asp:LinkButton>
                     </div>

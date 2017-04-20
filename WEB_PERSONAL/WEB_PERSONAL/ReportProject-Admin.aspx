@@ -27,7 +27,7 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div class="default_page_style">
         <div class="ps-header">
-            <img src="Image/Small/copy.png" />ออกรายงานข้อมูลอบรม/สัมมนา/ดูงาน
+            <img src="Image/Small/copy.png" />ออกรายงานข้อมูลการพัฒนาบุคลากร
         </div>
         <div id="notification" runat="server"></div>
         <div id="Dp1" runat="server" class="panel panel-default">

@@ -17,7 +17,7 @@
 <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div class="default_page_style">
         <div class="ps-header">
-            <img src="Image/Small/document-edit.png" />แก้ไขข้อมูลอบรม/สัมมนา/ดูงาน
+            <img src="Image/Small/document-edit.png" />แก้ไขข้อมูลการพัฒนาบุคลากร
             <span style="text-align:right; float:right;"><a href="listproject.aspx">
             <img src="Image/Small/back.png" />ย้อนกลับ</a></span>
         </div>
@@ -152,9 +152,9 @@
         <div id="success" runat="server">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="ps-div-title-red">ทำการบันทึกข้อมูลอบรม/สัมมนา/ดูงานสำเร็จ</div>
+                    <div class="ps-div-title-red">ทำการบันทึกข้อมูลการพัฒนาบุคลากรสำเร็จ</div>
                     <div style="color: #808080; margin-top: 10px; text-align: center;">
-                        ระบบได้ทำการบันทึกข้อมูลอบรม/สัมมนา/ดูงานเรียบร้อยแล้ว
+                        ระบบได้ทำการบันทึกข้อมูลการพัฒนาบุคลากรเรียบร้อยแล้ว
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
                         <a href="listproject.aspx" class="ps-button btn btn-primary">ย้อนกลับ</a>
