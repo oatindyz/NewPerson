@@ -104,70 +104,148 @@ namespace WEB_PERSONAL
             Table table = new Table();
             table.CssClass = "ps-table-1";
 
-           /* {
+            {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "รายชื่อข้อมูลบุคลากร"; cell.ColumnSpan = 4; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ข้อมูลบุคลากร"; cell.ColumnSpan = 41; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วิทยาเขต"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ป.ตรี"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ป.โท"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ป.เอก"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "CITIZEN_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "TITLE_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "STF_FNAME"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "STF_LNAME"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GENDER_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "BIRTHDATE"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "HOMEADD"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "MOO"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "STREET"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "DISTRICT_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "AMPHUR_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "PROVINCE_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ZIPCODE"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "TELEPHONE"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "NATION_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "CAMPUS_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "FACULTY_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "DIVISION_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "WORK_DIVISION_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "STAFFTYPE_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "TIME_CONTACT_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "BUDGET_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "SUBSTAFFTYPE_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ADMIN_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "POSITION_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "WORK_POS_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "INWORK_DATE"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "DATE_START_THIS_U"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "SPECIAL_NAME"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "TEACH_ISCED_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GRAD_LEV_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GRAD_CURR"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GRAD_ISCED_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GRAD_PROG_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GRAD_UNIV"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "GRAD_COUNTRY_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "DEFORM_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "SIT_NO"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "RELIGION_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "MOVEMENT_TYPE_ID"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "MOVEMENT_TYPE_DATE"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 table.Rows.Add(row);
-            }*/
+            }
 
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID,PS_ID,PS_TITLE_ID,PS_FIRSTNAME,PS_LASTNAME,PS_GENDER_ID,PS_BIRTHDAY_DATE,PS_HOMEADD,PS_MOO,PS_STREET,PS_DISTRICT_ID,PS_AMPHUR_ID,PS_PROVINCE_ID,PS_ZIPCODE,PS_TELEPHONE,PS_NATION_ID,PS_CAMPUS_ID,PS_FACULTY_ID,PS_DIVISION_ID,PS_WORK_DIVISION_ID,PS_STAFFTYPE_ID,PS_TIME_CONTACT_ID,PS_BUDGET_ID,PS_SUBSTAFFTYPE_ID,PS_ADMIN_POS_ID,PS_POSITION_ID,PS_WORK_POS_ID,PS_INWORK_DATE,PS_DATE_START_THIS_U,PS_SPECIAL_NAME,PS_TEACH_ISCED_ID,PS_GRAD_LEV_ID,PS_GRAD_CURR,PS_GRAD_ISCED_ID,PS_GRAD_PROG_ID,PS_GRAD_UNIV,PS_GRAD_COUNTRY_ID,PS_DEFORM_ID,PS_SIT_NO,PS_RELIGION_ID,PS_MOVEMENT_TYPE_ID,PS_MOVEMENT_DATE FROM PS_PERSON", con)) {
+                using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID,PS_TITLE_ID,PS_FIRSTNAME,PS_LASTNAME,PS_GENDER_ID,PS_BIRTHDAY_DATE,PS_HOMEADD,PS_MOO,PS_STREET,PS_DISTRICT_ID,PS_AMPHUR_ID,PS_PROVINCE_ID,PS_ZIPCODE,PS_TELEPHONE,PS_NATION_ID,PS_CAMPUS_ID,PS_FACULTY_ID,PS_DIVISION_ID,PS_WORK_DIVISION_ID,PS_STAFFTYPE_ID,PS_TIME_CONTACT_ID,PS_BUDGET_ID,PS_SUBSTAFFTYPE_ID,PS_ADMIN_POS_ID,PS_POSITION_ID,PS_WORK_POS_ID,PS_INWORK_DATE,PS_DATE_START_THIS_U,PS_SPECIAL_NAME,PS_TEACH_ISCED_ID,PS_GRAD_LEV_ID,PS_GRAD_CURR,PS_GRAD_ISCED_ID,PS_GRAD_PROG_ID,PS_GRAD_UNIV,PS_GRAD_COUNTRY_ID,PS_DEFORM_ID,PS_SIT_NO,PS_RELIGION_ID,PS_MOVEMENT_TYPE_ID,PS_MOVEMENT_DATE FROM PS_PERSON", con)) {
                     using (OracleDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
+                            int i = 0;
                             TableRow row = new TableRow();
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(0).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(1).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(2).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(3).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(4).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(5).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(6).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(7).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(8).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(9).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(10).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(11).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(12).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(13).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(14).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(15).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(16).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(17).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(18).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(19).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(20).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(21).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(22).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(23).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(24).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(25).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(26).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(27).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(28).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(29).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(30).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(31).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(32).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(33).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(34).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(35).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(36).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(37).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(38).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(39).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(40).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(41).ToString(); row.Cells.Add(cell); }
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.IsDBNull(i) ? "" : reader.GetDateTime(i).ToString("dd/MMM/yyyy"); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.IsDBNull(i) ? "" : reader.GetDateTime(i).ToString("dd/MM/yyyy"); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.IsDBNull(i) ? "" : reader.GetDateTime(i).ToString("dd/MM/yyyy"); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(i).ToString(); row.Cells.Add(cell); }
+                            ++i;
+                            { TableCell cell = new TableCell(); cell.Text = reader.IsDBNull(i) ? "": reader.GetDateTime(i).ToString("dd/MM/yyyy"); row.Cells.Add(cell); }
+                            ++i;
                             table.Rows.Add(row);
                         }
                     }

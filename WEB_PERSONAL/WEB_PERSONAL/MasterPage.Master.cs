@@ -46,17 +46,6 @@ namespace WEB_PERSONAL
             string name = loginPerson.FirstNameAndLastName;
             //profile_name.InnerText = name;
 
-            if (loginPerson.ST_LOGIN_ID == "0")
-            {
-                hv1.Visible = false;
-                hv2.Visible = false;
-                hv3.Visible = false;
-                hv4.Visible = false;
-                hv5.Visible = false;
-                hv6.Visible = false;
-                hv7.Visible = false;
-            }
-
             if (loginPerson.PERSON_ROLE_ID == "1")
             {
                 hv5.Visible = true;
@@ -88,6 +77,17 @@ namespace WEB_PERSONAL
             else if (loginPerson.PERSON_ROLE_ID == "99")
             {
                 hv4.Visible = true;
+            }
+
+            if (loginPerson.ST_LOGIN_ID == "0")
+            {
+                hv1.Visible = false;
+                hv2.Visible = false;
+                hv3.Visible = false;
+                hv4.Visible = false;
+                hv5.Visible = false;
+                hv6.Visible = false;
+                hv7.Visible = false;
             }
 
             //---------

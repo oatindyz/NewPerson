@@ -245,9 +245,9 @@
                             </td>
                         </tr>
                         <tr id="trGradProgID" runat="server">
-                            <td class="col1">สาขาวิชาที่จบสูงสุด<span class="ps-lb-red" />*</td>
+                            <td class="col1">สาขาวิชาที่จบสูงสุด</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlGradProgID" runat="server" CssClass="form-control input-sm select2" required="required" tabindex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlGradProgID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>

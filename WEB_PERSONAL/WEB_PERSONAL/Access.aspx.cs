@@ -281,64 +281,72 @@ namespace WEB_PERSONAL
 
         protected void lbuForget_Click(object sender, EventArgs e)
         {
-            string EmailCheck = DatabaseManager.ExecuteString("SELECT PS_EMAIL FROM PS_PERSON WHERE PS_EMAIL = '" + tbEmail.Text + "'");
-            if (string.IsNullOrEmpty(EmailCheck))
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ไม่มีอีเมลดังกล่าวในระบบ')", true);
-                return;
-            }
-            else
-            {
-                string psID;
-                string Birthday;
-
-                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                con.Open();
+                using (OracleCommand com = new OracleCommand("SELECT PS_EMAIL FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + tbCitizenID.Text + "' AND PS_EMAIL = '" + tbEmail.Text + "'", con))
                 {
-                    OracleConnection.ClearAllPools();
-                    con.Open();
-                    using (OracleCommand com = new OracleCommand("SELECT PS_CITIZEN_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + tbCitizenID.Text + "' AND PS_EMAIL = '" + tbEmail.Text + "'", con))
+                    using (OracleDataReader reader = com.ExecuteReader())
                     {
-                        using (OracleDataReader reader = com.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
+                            if (reader.IsDBNull(0))
                             {
-                                psID = reader.GetInt32(0).ToString();
-                                Birthday = reader.GetDateTime(1).ToShortDateString();
-                                string Reset = DatabaseManager.ExecuteString("UPDATE PS_PERSON SET PS_PASSWORD = '" + DBNull.Value + "', ST_LOGIN_ID = 0 WHERE PS_CITIZEN_ID = '" + psID + "'");
+                                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ข้อมูลของรหัสบัตรประชาชน'" + tbCitizenID.Text + "' ไม่ตรงกับอีเมลในระบบ')", true);
+                                return;
+                            }
+                            else
+                            {
+                                string psID;
+                                string Birthday;
 
-                                var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
-                                var toAddress = new MailAddress(tbEmail.Text, "To Name");
-                                string fromPassword = "A1a2a3a4a5a6a7a8";
-                                string subject = "กู้คืนรหัสผ่านของระบบบุคลากรมหาวิทยาลัยราชมงคลตะวันออก";
-                                string body =
-                                    "<div>เจ้าหน้าที่บุคลากรได้ทำการเพิ่มข้อมูลของคุณแล้ว</div>" +
-                                    "<div style='border-bottom: 1px solid #c0c0c0' margin: 10px 0;></div>" +
-                                    "<div><a href='http://localhost:12188/Access.aspx?ID=" + psID + "&Password=" + Util.ToOracleDateTime(DateTime.Parse(Birthday)) + "&Action=1'>รีเซ็ตรหัสผ่านได้ที่นี่</a></div>";
-
-                                var smtp = new SmtpClient
+                                using (OracleCommand com1 = new OracleCommand("SELECT PS_ID,PS_BIRTHDAY_DATE FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + tbCitizenID.Text + "' AND PS_EMAIL = '" + tbEmail.Text + "'", con))
                                 {
-                                    Host = "smtp.live.com",
-                                    Port = 587,
-                                    EnableSsl = true,
-                                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                                    UseDefaultCredentials = false,
-                                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-                                };
-                                MailMessage ms = new MailMessage(fromAddress, toAddress);
-                                ms.IsBodyHtml = true;
-                                ms.Subject = subject;
-                                ms.Body = body;
-                                smtp.Send(ms);
+                                    using (OracleDataReader reader1 = com1.ExecuteReader())
+                                    {
+                                        while (reader1.Read())
+                                        {
+                                            psID = reader1.GetInt32(0).ToString();
+                                            Birthday = reader1.GetDateTime(1).ToShortDateString();
+                                            string Reset = DatabaseManager.ExecuteString("UPDATE PS_PERSON SET PS_PASSWORD = '" + DBNull.Value + "', ST_LOGIN_ID = 0 WHERE PS_CITIZEN_ID = '" + psID + "'");
 
-                                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ระบบได้ส่งการรีเซ็ตรหัสผ่านไปยังเมลของคุณแล้ว')", true);
+                                            var fromAddress = new MailAddress("zplaygiirlz1@hotmail.com", "From Name");
+                                            var toAddress = new MailAddress(tbEmail.Text, "To Name");
+                                            string fromPassword = "A1a2a3a4a5a6a7a8";
+                                            string subject = "กู้คืนรหัสผ่านของระบบบุคลากรมหาวิทยาลัยราชมงคลตะวันออก";
+                                            string body =
+                                                "<div>เจ้าหน้าที่บุคลากรได้ทำการเพิ่มข้อมูลของคุณแล้ว</div>" +
+                                                "<div style='border-bottom: 1px solid #c0c0c0' margin: 10px 0;></div>" +
+                                                "<div><a href='http://localhost:12188/Access.aspx?ID=" + psID + "&Password=" + Util.ToOracleDateTime(DateTime.Parse(Birthday)) + "&Action=1'>รีเซ็ตรหัสผ่านได้ที่นี่</a></div>";
+
+                                            var smtp = new SmtpClient
+                                            {
+                                                Host = "smtp.live.com",
+                                                Port = 587,
+                                                EnableSsl = true,
+                                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                                UseDefaultCredentials = false,
+                                                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                                            };
+                                            MailMessage ms = new MailMessage(fromAddress, toAddress);
+                                            ms.IsBodyHtml = true;
+                                            ms.Subject = subject;
+                                            ms.Body = body;
+                                            smtp.Send(ms);
+
+                                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ระบบได้ส่งการรีเซ็ตรหัสผ่านไปยังเมลของคุณแล้ว')", true);
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }
-
                 }
-
             }
         }
 
     }
+
 }
+

@@ -913,12 +913,30 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.Button btnSaveRequest;
         
         /// <summary>
-        /// SaveShow control.
+        /// btnNoRequest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SaveShow;
+        protected global::System.Web.UI.WebControls.Button btnNoRequest;
+        
+        /// <summary>
+        /// Accept control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Accept;
+        
+        /// <summary>
+        /// NoAccept control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NoAccept;
     }
 }

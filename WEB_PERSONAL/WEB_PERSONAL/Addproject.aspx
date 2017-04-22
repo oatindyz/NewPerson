@@ -48,8 +48,8 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <asp:Label ID="lbFile" runat="server">แนบไฟล์ .pdf (รูปภาพ,เอกสาร ประกอบการอบรม)<span class="ps-lb-red" />*</asp:Label>
-                                <asp:FileUpload ID="FUdocument" runat="server" Width="250px" required="required" TabIndex="1"/>
+                                <asp:Label ID="lbFile" runat="server">แนบไฟล์ .pdf (รูปภาพ,เอกสาร ประกอบการอบรม)</asp:Label>
+                                <asp:FileUpload ID="FUdocument" runat="server" Width="250px"/>
                             </div>
                         </td>
                     </tr>

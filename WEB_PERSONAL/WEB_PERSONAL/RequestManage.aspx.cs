@@ -622,7 +622,29 @@ namespace WEB_PERSONAL
         protected void btnSaveRequest_Click(object sender, EventArgs e)
         {
             UPDATE_PERSON();
-            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกข้อมูลเรียบร้อย')", true);
+            DataShow.Visible = false;
+            Accept.Visible = true;
+            //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกข้อมูลเรียบร้อย')", true);
         }
+
+        protected void btnNoRequest_Click(object sender, EventArgs e)
+        {
+            int id = 0;
+            OracleConnection.ClearAllPools();
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+                using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                {
+                    com.Parameters.Add(new OracleParameter("DATE_END", DateTime.Today));
+                    com.Parameters.Add(new OracleParameter("R_STATUS_ID", "2"));
+                    id = com.ExecuteNonQuery();
+                }
+            }
+            DataShow.Visible = false;
+            NoAccept.Visible = true;
+
+        }
+
     }
 }

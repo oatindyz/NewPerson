@@ -2,46 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
-        function keyup(obj, e) {
-            var keynum;
-            var keychar;
-            var id = '';
-            if (window.event) {// IE
-                keynum = e.keyCode;
-            }
-            else if (e.which) {// Netscape/Firefox/Opera
-                keynum = e.which;
-            }
-            keychar = String.fromCharCode(keynum);
-
-
-            var tagInput = document.getElementById('<%= tbCitizenID.ClientID %>').value;
-
-            if (obj.value.length == 13) {
-
-                if (checkID(tagInput)) {
-                    nextObj.focus();
-                }
-                else {
-                    alert('รหัสประจำตัวประชาชนไม่ถูกต้อง');
-                    document.getElementById('<%= tbCitizenID.ClientID %>').value = "";
-                    nextObj.focus();
-                }
-
-            }
-        }
-        function checkID(id) {
-            if (id.length != 13) return false;
-            for (i = 0, sum = 0; i < 12; i++)
-                sum += parseFloat(id.charAt(i)) * (13 - i);
-            if ((11 - sum % 11) % 10 != parseFloat(id.charAt(12)))
-                return false;
-            return true;
-
-        }
-    </script>
-
-    <script>
         function validateEmail(emailField) {
             var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
@@ -285,9 +245,9 @@
                             </td>
                         </tr>
                         <tr id="trGradProgID" runat="server">
-                            <td class="col1">สาขาวิชาที่จบสูงสุด<span class="ps-lb-red" />*</td>
+                            <td class="col1">สาขาวิชาที่จบสูงสุด</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlGradProgID" runat="server" CssClass="form-control input-sm select2" required="required" tabindex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlGradProgID" runat="server" CssClass="form-control input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>

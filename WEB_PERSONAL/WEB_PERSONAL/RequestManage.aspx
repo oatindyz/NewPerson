@@ -327,17 +327,32 @@
                     </table>
                     
                     <div style="text-align: center; margin-top: 20px">
-                        <asp:Button ID="btnSaveRequest" runat="server" CssClass="btn btn-success" OnClick="btnSaveRequest_Click" Text="บันทึก" ></asp:Button>
+                        <asp:Button ID="btnSaveRequest" runat="server" CssClass="btn btn-success" OnClick="btnSaveRequest_Click" Text="อนุมัติ" ></asp:Button>
+                        <asp:Button ID="btnNoRequest" runat="server" CssClass="btn btn-danger" OnClick="btnNoRequest_Click" Text="ไม่อนุมัติ" ></asp:Button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="SaveShow" runat="server" visible="false" class="panel panel-default">
+        <div id="Accept" runat="server" visible="false" class="panel panel-default">
             <div class="panel-body">
                 <div class="ps-box-ct10" style="text-align: center;">
                     <div class="ps-div-title-red">ทำการบันทึกข้อมูลสำเร็จ</div>
                     <div style="color: #808080; margin-top: 10px; text-align: center;">
-                        ระบบได้ทำการบันทึกข้อมูลแล้ว
+                        ระบบได้ทำการอนุมัติคำร้องขอแก้ไขข้อมูลแล้ว
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="Default.aspx" class="ps-button btn btn-primary">
+                            <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="NoAccept" runat="server" visible="false" class="panel panel-default">
+            <div class="panel-body">
+                <div class="ps-box-ct10" style="text-align: center;">
+                    <div class="ps-div-title-red">ทำการบันทึกข้อมูลสำเร็จ</div>
+                    <div style="color: #808080; margin-top: 10px; text-align: center;">
+                        ระบบได้ยกเลิกคำร้องข้อแก้ไขข้อมูลแล้ว
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
                         <a href="Default.aspx" class="ps-button btn btn-primary">

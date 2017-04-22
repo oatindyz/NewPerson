@@ -53,6 +53,7 @@
         <div class="ps-header">
             <img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า
         </div>
+        <div id="notification" runat="server"></div>
         <div>
             <table>
                 <tr>

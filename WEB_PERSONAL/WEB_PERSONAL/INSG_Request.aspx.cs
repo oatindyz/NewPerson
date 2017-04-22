@@ -18,12 +18,35 @@ namespace WEB_PERSONAL
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
-            string SalaryJa = DatabaseManager.ExecuteString("SELECT SALARY FROM PS_SALARY WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
-            if (string.IsNullOrEmpty(loginPerson.PS_POSITION_ID) || string.IsNullOrEmpty(SalaryJa))
+
+            if (loginPerson.PS_STAFFTYPE_ID == "1" || loginPerson.PS_STAFFTYPE_ID == "3" || loginPerson.PS_STAFFTYPE_ID == "5")
             {
-                ChangeNotification("danger", "บุคลากรยังไม่มีระดับตำแหน่งและเงินเดือน");
+                
+            }else
+            {
+                ChangeNotification("danger", "สามารถขอเครื่องราชฯได้ เฉพาะบุคลากรประเภท ข้าราชการ, ลูกจ้างประจำ, พนักงานราชการ");
                 return;
             }
+
+            if (loginPerson.PS_STAFFTYPE_ID == "3")
+            {
+                string SalaryJa1 = DatabaseManager.ExecuteString("SELECT SALARY FROM PS_SALARY WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+                if (string.IsNullOrEmpty(SalaryJa1))
+                {
+                    ChangeNotification("danger", "บุคลากรยังไม่มีเงินเดือน");
+                    return;
+                }
+            }
+            if (loginPerson.PS_STAFFTYPE_ID == "1" || loginPerson.PS_STAFFTYPE_ID == "5")
+            {
+                string SalaryJa = DatabaseManager.ExecuteString("SELECT SALARY FROM PS_SALARY WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+                if (string.IsNullOrEmpty(loginPerson.PS_POSITION_ID) || string.IsNullOrEmpty(SalaryJa))
+                {
+                    ChangeNotification("danger", "บุคลากรยังไม่มีระดับตำแหน่งและเงินเดือน");
+                    return;
+                }
+            }
+            
 
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {

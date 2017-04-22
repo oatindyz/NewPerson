@@ -44,7 +44,7 @@ namespace WEB_PERSONAL
 
         protected void lbuAdd_Click(object sender, EventArgs e)
         {
-
+           
             bool found = false;
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
@@ -80,13 +80,20 @@ namespace WEB_PERSONAL
             string personUpdate = "";
             if (rbAtikan.Checked)
             {
+                int Atikan = DatabaseManager.ExecuteInt("SELECT PS_ADMIN_POS_ID FROM PS_PERSON WHERE PS_ADMIN_POS_ID = 1");
+                if (Atikan == 1)
+                {
+                    ChangeNotification("danger", "ไม่สามารถเพิ่มอธิการได้");
+                    return;
+                }
+
                 type = -1;
                 typeID = null;
                 adminPositionID = 1;
                 personUpdate = "";
             }
             else if (rbCampus.Checked)
-            {
+            {            
                 type = 1;
                 typeID = ddlCampus.SelectedValue;
                 adminPositionID = 2;
@@ -616,5 +623,39 @@ namespace WEB_PERSONAL
                 }
             }
         }
+
+        private void ChangeNotification(string type)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+        }
+        private void ChangeNotification(string type, string text)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+            notification.InnerHtml = text;
+        }
+        private void ClearNotification()
+        {
+            notification.Attributes["class"] = null;
+            notification.InnerHtml = "";
+        }
+        private void AddNotification(string text)
+        {
+            notification.InnerHtml += text;
+        }
+
     }
 }
