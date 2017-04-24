@@ -334,8 +334,8 @@ namespace WEB_PERSONAL
                     using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                     {
                         con.Open();
-                        using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE TO_DATE <= TO_DATE('" + tbS1FromDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND FROM_DATE >= TO_DATE('" + tbS1ToDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1", con))
-                      //using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE " + Util.DatabaseToDateSearch(tbS1FromDate.Text) + " <= TO_DATE AND " + Util.DatabaseToDateSearch(tbS1ToDate.Text) + " >= FROM_DATE AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1", con))
+                        //using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE TO_DATE <= TO_DATE('" + tbS1FromDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND FROM_DATE >= TO_DATE('" + tbS1ToDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1", con))
+                      using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE " + Util.DatabaseToDateSearch(tbS1FromDate.Text) + " <= TO_DATE AND " + Util.DatabaseToDateSearch(tbS1ToDate.Text) + " >= FROM_DATE AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(2,3) AND V_ALLOW = 1", con))
                         {
                             using (OracleDataReader reader = com.ExecuteReader())
                             {

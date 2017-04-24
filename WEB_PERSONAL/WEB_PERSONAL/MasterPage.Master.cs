@@ -140,12 +140,14 @@ namespace WEB_PERSONAL
                 {
                     lbLeaveAllowCount.Text = "" + count_approve;
                     lbLeaveAllowCount.Visible = true;
+                    lbLeaveAllowCount2.Text = "" + count_approve;
                     lbLeaveAllowCount2.Visible = true;
                 }
                 else
                 {
                     lbLeaveAllowCount.Text = "";
                     lbLeaveAllowCount.Visible = false;
+                    lbLeaveAllowCount2.Text = "";
                     lbLeaveAllowCount2.Visible = false;
                 }
 
@@ -165,14 +167,17 @@ namespace WEB_PERSONAL
                             count_ins = reader.GetInt32(0);
                         }
                     }
-                }
-                using (OracleCommand com = new OracleCommand("SELECT COUNT(IR_ID) FROM TB_INSIG_REQUEST WHERE IR_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND IR_STATUS = 3", con)) {
+                }*/
+                using (OracleCommand com = new OracleCommand("SELECT COUNT(IP_ID) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND IP_STATUS_ID IN(2, 4)", con)) {
                     using (OracleDataReader reader = com.ExecuteReader()) {
                         while (reader.Read()) {
                             count_get_ins = reader.GetInt32(0);
                         }
                     }
-                }*/
+                }
+                if (InsigCheckGet.Check(loginPerson)) {
+                    count_ins = 1;
+                }
                 if (loginPerson.PERSON_ROLE_ID == "4") {
                     using (OracleCommand com = new OracleCommand("SELECT COUNT(IP_ID) FROM TB_INSIG_PERSON WHERE TB_INSIG_PERSON.IP_STATUS_ID = 1", con)) {
                         using (OracleDataReader reader = com.ExecuteReader()) {
@@ -182,6 +187,14 @@ namespace WEB_PERSONAL
                         }
                     }
                 }
+                if (count_req_ins != 0) {
+                    lbInsigCount.Text = "" + count_req_ins;
+                    lbInsigCount.Visible = true;
+                } else {
+                    lbInsigCount.Text = "";
+                    lbInsigCount.Visible = false;
+                }
+
 
                 int count = count_approve + count_leave_finish + count_ins + count_get_ins + count_req_ins;
 

@@ -990,6 +990,7 @@
     <Content Include="INSG_Qualified_Detail.aspx" />
     <Content Include="INSG_Request.aspx" />
     <Content Include="INSG_RequestList.aspx" />
+    <Content Include="INS_Allow.aspx" />
     <Content Include="INS_History.aspx" />
     <Content Include="INS_Request_Complete.aspx" />
     <Content Include="jQueryCalendarThai\images\Contact\Thumbs.db" />
@@ -2879,6 +2880,7 @@
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Class\DatabaseManager.cs" />
+    <Compile Include="Class\InsigCheckGet.cs" />
     <Compile Include="Class\LeaveBossData.cs" />
     <Compile Include="Class\LeaveData.cs" />
     <Compile Include="Class\Person.cs" />
@@ -2949,6 +2951,13 @@
     </Compile>
     <Compile Include="INSG_RequestList.aspx.designer.cs">
       <DependentUpon>INSG_RequestList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INS_Allow.aspx.cs">
+      <DependentUpon>INS_Allow.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="INS_Allow.aspx.designer.cs">
+      <DependentUpon>INS_Allow.aspx</DependentUpon>
     </Compile>
     <Compile Include="INS_History.aspx.cs">
       <DependentUpon>INS_History.aspx</DependentUpon>

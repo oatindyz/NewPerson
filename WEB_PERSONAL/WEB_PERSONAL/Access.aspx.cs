@@ -75,7 +75,7 @@ namespace WEB_PERSONAL
             }
         }
 
-        protected void tbUsername_TextChanged(object sender, EventArgs e)
+        /*protected void tbUsername_TextChanged(object sender, EventArgs e)
         {
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
@@ -132,7 +132,7 @@ namespace WEB_PERSONAL
                 }
             }
 
-        }
+        }*/
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
@@ -152,6 +152,31 @@ namespace WEB_PERSONAL
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
+
+                using (OracleCommand com = new OracleCommand("SELECT ST_LOGIN_ID FROM PS_PERSON WHERE PS_CITIZEN_ID ='" + tbUsername.Text + "'", con)) {
+                    using (OracleDataReader reader = com.ExecuteReader()) {
+                        while (reader.Read()) {
+                            if (!reader.IsDBNull(0)) {
+                                int Login = reader.GetInt32(0);
+
+                                if (tbUsername.Text.Length == 13) {
+                                    if (Login == 0) {
+                                        LabelTop.Text = "รหัสบัตรประชาชนดังกล่าวเป็นการล็อคอินครั้งแรก โปรดยืนยันตัวตน ด้วยการใส่รหัสผ่านเป็นวันเกิด";
+                                        ScriptManager.GetCurrent(this.Page).SetFocus(this.tbPassword);
+                                        return;
+                                    }
+                                    if (Login == 1) {
+                                        LabelTop.Text = "";
+                                        ScriptManager.GetCurrent(this.Page).SetFocus(this.tbPassword);
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
                 int First = 0;
                 int NotFirst = 1;
                 using (OracleCommand com = new OracleCommand("SELECT ST_LOGIN_ID,PS_PASSWORD FROM PS_PERSON WHERE PS_CITIZEN_ID ='" + tbUsername.Text + "'", con))

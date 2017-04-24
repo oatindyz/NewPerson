@@ -547,7 +547,7 @@ namespace WEB_PERSONAL {
         public static string DatabaseToDateSearch(string v1) {
             string[] v2 = v1.Split(' ');
             switch(v2[1]) {
-                case "ม.ค.": v2[1] = "JAN"; break;
+                /*case "ม.ค.": v2[1] = "JAN"; break;
                 case "ก.พ.": v2[1] = "FEB"; break;
                 case "มี.ค.": v2[1] = "MAR"; break;
                 case "เม.ย.": v2[1] = "APR"; break;
@@ -558,7 +558,7 @@ namespace WEB_PERSONAL {
                 case "ก.ย.": v2[1] = "SEP"; break;
                 case "ต.ค.": v2[1] = "OCT"; break;
                 case "พ.ย.": v2[1] = "NOV"; break;
-                case "ธ.ค.": v2[1] = "DEC"; break;
+                case "ธ.ค.": v2[1] = "DEC"; break;*/
             }
             return "TO_DATE('" + v2[0] + " " + v2[1] + " " + (int.Parse(v2[2]) - 543) + "', 'DD MON YYYY')";
         }

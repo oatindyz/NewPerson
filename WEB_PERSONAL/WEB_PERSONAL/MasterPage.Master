@@ -294,7 +294,7 @@
             </div>
             <div id="hvr3" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
-                <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />อนุมัติการขอเครื่องราชฯ<asp:Label ID="lbInsigAllowCount" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
+                <a href="INSG_RequestList.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />อนุมัติการขอเครื่องราชฯ<asp:Label ID="lbInsigCount" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
                 <a href="DataManageInsig.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />จัดการข้อมูลเงื่อนไข</a>
                 <a href="ReportInsig.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>        
             </div>
@@ -410,7 +410,7 @@
                         <div class="ps-box-i0" id="noti_get_ins" runat="server">
                             <div class="ps-box-ct10-cen">
                                 <div><img src='Image/Small/medal.png' class='icon_left' />คุณได้รับการแจ้งผลการขอเครื่องราชฯ</div><br />
-                                <div><a href='INSG_Qualified_Detail.aspx'>ไปหน้าประวัติการได้รับเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                                <div><a href='INS_History.aspx'>ไปหน้าประวัติการได้รับเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
                             </div>
                         </div>
                         <div class="ps-box-i0" id="noti_req_ins" runat="server">

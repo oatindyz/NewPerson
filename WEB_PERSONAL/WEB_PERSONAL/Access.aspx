@@ -101,15 +101,13 @@
                             <div>
                                 <asp:Panel ID="Panel1" runat="server" DefaultButton="btnLogin">
                                     <div class="input-group date">
-                                        <asp:TextBox ID="tbUsername" runat="server" CssClass="form-control" MaxLength="13" placeHolder="รหัสประชาชน" onkeyup="RefreshUpdatePanel();" onkeypress="return isNumberKey(event)" AutoPostBack="true" OnTextChanged="tbUsername_TextChanged" required="required" TabIndex="1"></asp:TextBox>
+                                        <asp:TextBox ID="tbUsername" runat="server" CssClass="form-control" MaxLength="13" placeHolder="รหัสประชาชน" onkeypress="return isNumberKey(event)" required="required" TabIndex="1"></asp:TextBox>
                                         <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
                                     </div>
                                     <div>
-                                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                                            <ContentTemplate>
-                                                <asp:Label ID="LabelTop" runat="server" CssClass="cerror"></asp:Label>
-                                            </ContentTemplate>
-                                        </asp:UpdatePanel>
+                                       
+                                       <asp:Label ID="LabelTop" runat="server" CssClass="cerror"></asp:Label>
+                         
                                     </div>
 
                                     <asp:UpdatePanel ID="UpdatetbPassword" runat="server">
