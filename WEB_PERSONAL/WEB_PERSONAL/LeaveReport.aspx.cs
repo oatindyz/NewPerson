@@ -19,7 +19,11 @@ namespace WEB_PERSONAL {
 
             if (!IsPostBack) {
                 //Session["LeaveReportTable"] = null;
-                for (int i = 2500; i < 2600; ++i) {
+
+                int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
+                int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
+
+                for (int i = yearMin; i <= yearMax; ++i) {
                     DropDownList1.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
                 }
                 //DateTime dt = Util.ODTT();

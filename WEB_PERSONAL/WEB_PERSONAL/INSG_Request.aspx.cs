@@ -183,7 +183,7 @@ namespace WEB_PERSONAL
                     {
                         while (reader.Read())
                         {
-                            if (reader.GetInt32(2) == 3)
+                            if (reader.GetInt32(2) == 2 || reader.GetInt32(2) == 3)
                             {
                                 insigOldID = int.Parse(reader.GetValue(0).ToString());
                                 insigNewID = insigOldID - 1;
@@ -283,7 +283,7 @@ namespace WEB_PERSONAL
                                     int insigUseYear = int.Parse(reader.GetValue(5).ToString());
                                     bool insigPass = false;
 
-                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID = 3", con)) {
+                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID IN(2,3)", con)) {
                                         com2.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                                         com2.Parameters.Add(new OracleParameter("INSIG_ID", insigUseID));
                                         using (OracleDataReader reader2 = com2.ExecuteReader()) {
@@ -652,7 +652,7 @@ namespace WEB_PERSONAL
                                     int insigUseYear = int.Parse(reader.GetValue(5).ToString());
                                     bool insigPass = false;
 
-                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID = 3", con)) {
+                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID IN(2,3)", con)) {
                                         com2.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                                         com2.Parameters.Add(new OracleParameter("INSIG_ID", insigUseID));
                                         using (OracleDataReader reader2 = com2.ExecuteReader()) {
@@ -821,7 +821,7 @@ namespace WEB_PERSONAL
                                     int insigUseYear = int.Parse(reader.GetValue(4).ToString());
                                     bool insigPass = false;
 
-                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID = 3", con)) {
+                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID IN(2,3)", con)) {
                                         com2.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                                         com2.Parameters.Add(new OracleParameter("INSIG_ID", insigUseID));
                                         using (OracleDataReader reader2 = com2.ExecuteReader()) {

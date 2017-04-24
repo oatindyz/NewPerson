@@ -991,6 +991,7 @@
     <Content Include="INSG_Request.aspx" />
     <Content Include="INSG_RequestList.aspx" />
     <Content Include="INS_Allow.aspx" />
+    <Content Include="INS_GetList.aspx" />
     <Content Include="INS_History.aspx" />
     <Content Include="INS_Request_Complete.aspx" />
     <Content Include="jQueryCalendarThai\images\Contact\Thumbs.db" />
@@ -2958,6 +2959,13 @@
     </Compile>
     <Compile Include="INS_Allow.aspx.designer.cs">
       <DependentUpon>INS_Allow.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="INS_GetList.aspx.cs">
+      <DependentUpon>INS_GetList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="INS_GetList.aspx.designer.cs">
+      <DependentUpon>INS_GetList.aspx</DependentUpon>
     </Compile>
     <Compile Include="INS_History.aspx.cs">
       <DependentUpon>INS_History.aspx</DependentUpon>
