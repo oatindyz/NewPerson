@@ -143,7 +143,7 @@ namespace WEB_PERSONAL
                 }
                 if (tbStartDate.Text != "" && tbEndDate.Text != "")
                 {
-                    where += " AND START_DATE >= TO_DATE('" + tbStartDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND END_DATE <= TO_DATE('" + tbEndDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI')";
+                    where += " AND START_DATE >= TO_DATE('" + tbStartDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND END_DATE <= TO_DATE('" + tbEndDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') ";
                 }
 
                 using (OracleCommand com = new OracleCommand("SELECT TB_PROJECT.PRO_ID,TB_PROJECT.CITIZEN_ID,TB_PROJECT.CATEGORY_ID FROM TB_PROJECT,PS_PERSON WHERE TB_PROJECT.CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID" + where, con))

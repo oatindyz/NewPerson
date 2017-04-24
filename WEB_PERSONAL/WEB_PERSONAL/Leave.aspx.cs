@@ -12,8 +12,10 @@ using WEB_PERSONAL.Class;
 using System.IO;
 using System.Data.OracleClient;
 
-namespace WEB_PERSONAL {
-    public partial class Leave : System.Web.UI.Page {
+namespace WEB_PERSONAL
+{
+    public partial class Leave : System.Web.UI.Page
+    {
 
         private Person loginPerson;
         private int businessBeforeDay = 3;
@@ -23,7 +25,8 @@ namespace WEB_PERSONAL {
         private int ordainBeforeDay = 60;
         private int hujBeforeDay = 60;
 
-        protected void Page_Load(object sender, EventArgs e) {
+        protected void Page_Load(object sender, EventArgs e)
+        {
 
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             loginPerson = ps.LoginPerson;
@@ -42,13 +45,17 @@ namespace WEB_PERSONAL {
             lbReqHelpGiveBirthDate.Text = dt.AddDays(-helpGiveBirthAfterDay).ToLongDateString();
             lbReqOrdainDate.Text = dt.AddDays(ordainBeforeDay).ToLongDateString();
             lbReqHujDate.Text = dt.AddDays(hujBeforeDay).ToLongDateString();
-                
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 OracleConnection.ClearAllPools();
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT SICK_MAX - SICK_NOW, BUSINESS_MAX - BUSINESS_NOW, REST_MAX - REST_NOW, ORDAIN_MAX - ORDAIN_NOW, HUJ_MAX - HUJ_NOW FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while(reader.Read()) {
+                using (OracleCommand com = new OracleCommand("SELECT SICK_MAX - SICK_NOW, BUSINESS_MAX - BUSINESS_NOW, REST_MAX - REST_NOW, ORDAIN_MAX - ORDAIN_NOW, HUJ_MAX - HUJ_NOW FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
                             lbSickLeftDay.Text = reader.GetInt32(0).ToString();
                             lbBusinessLeftDay.Text = reader.GetInt32(1).ToString();
                             lbRestLeftDay.Text = reader.GetInt32(2).ToString();
@@ -57,22 +64,29 @@ namespace WEB_PERSONAL {
                         }
                     }
                 }
-                using (OracleCommand com = new OracleCommand("SELECT TO_DATE FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = 1 AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND V_ALLOW = 1 ORDER BY LEAVE_ID DESC", con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        if (reader.Read()) {
+                using (OracleCommand com = new OracleCommand("SELECT TO_DATE FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = 1 AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND V_ALLOW = 1 ORDER BY LEAVE_ID DESC", con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
                             divSickFrom.Visible = true;
                             DateTime dtLastToDate = reader.GetDateTime(0);
                             dtLastToDate = dtLastToDate.AddDays(1);
                             lbSickFrom.Text = dtLastToDate.ToLongDateString();
-                        } else {
+                        }
+                        else
+                        {
                             divSickFrom.Visible = false;
                         }
                     }
                 }
             }
 
-            if(!IsPostBack) {
-                if (loginPerson.IsMale()) {
+            if (!IsPostBack)
+            {
+                if (loginPerson.IsMale())
+                {
                     trReqGiveBirth.Visible = false;
                     trReqHelpGiveBirth.Visible = true;
                     trReqOrdain.Visible = true;
@@ -83,7 +97,9 @@ namespace WEB_PERSONAL {
                     lbuSelectOrdain.Visible = true;
                     lbuSelectHuj.Visible = true;
 
-                } else {
+                }
+                else
+                {
                     trReqGiveBirth.Visible = true;
                     trReqHelpGiveBirth.Visible = false;
                     trReqOrdain.Visible = false;
@@ -95,11 +111,12 @@ namespace WEB_PERSONAL {
                     lbuSelectHuj.Visible = false;
                 }
             }
-            
+
 
         }
 
-        protected void lbuS1Check_Click(object sender, EventArgs e) {
+        protected void lbuS1Check_Click(object sender, EventArgs e)
+        {
 
             ClearNotification();
             //PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
@@ -122,31 +139,42 @@ namespace WEB_PERSONAL {
             trS2RestLeft.Visible = false;
             trS2RestTotal.Visible = false;
 
-            if (hfLeaveTypeID.Value == "1") {
+            if (hfLeaveTypeID.Value == "1")
+            {
                 trS2Reason.Visible = true;
                 trS2Contact.Visible = true;
                 trS2Phone.Visible = true;
                 trS2DrCer.Visible = true;
-            } else if (hfLeaveTypeID.Value == "2") {
+            }
+            else if (hfLeaveTypeID.Value == "2")
+            {
                 trS2Reason.Visible = true;
                 trS2Contact.Visible = true;
                 trS2Phone.Visible = true;
-            } else if (hfLeaveTypeID.Value == "3") {
+            }
+            else if (hfLeaveTypeID.Value == "3")
+            {
                 trS2Reason.Visible = true;
                 trS2Contact.Visible = true;
                 trS2Phone.Visible = true;
-            } else if (hfLeaveTypeID.Value == "4") {
+            }
+            else if (hfLeaveTypeID.Value == "4")
+            {
                 trS2RestSave.Visible = true;
                 trS2RestLeft.Visible = true;
                 trS2RestTotal.Visible = true;
                 trS2Contact.Visible = true;
                 trS2Phone.Visible = true;
-            } else if (hfLeaveTypeID.Value == "5") {
+            }
+            else if (hfLeaveTypeID.Value == "5")
+            {
                 trS2WifeName.Visible = true;
                 trS2GBDate.Visible = true;
                 trS2Contact.Visible = true;
                 trS2Phone.Visible = true;
-            } else if (hfLeaveTypeID.Value == "6") {
+            }
+            else if (hfLeaveTypeID.Value == "6")
+            {
                 trS2BirthDate.Visible = true;
                 trS2WorkInDate.Visible = true;
                 trS2Ordained.Visible = true;
@@ -154,33 +182,42 @@ namespace WEB_PERSONAL {
                 trS2TempleLocation.Visible = true;
                 trS2OrdainDate.Visible = true;
                 trS2Phone.Visible = true;
-            } else if (hfLeaveTypeID.Value == "7") {
+            }
+            else if (hfLeaveTypeID.Value == "7")
+            {
                 trS2BirthDate.Visible = true;
                 trS2WorkInDate.Visible = true;
                 trS2Hujed.Visible = true;
             }
 
-            if(tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text)) {
+            if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text))
+            {
                 ChangeNotification("danger", "กรุณากรอกวันที่ให้ถูกต้อง");
                 return;
-            } else {
+            }
+            else
+            {
                 DateTime dtFromDate = Util.ToDateTimeOracle(tbS1FromDate.Text);
                 DateTime dtToDate = Util.ToDateTimeOracle(tbS1ToDate.Text);
                 int totalDay = (int)(dtToDate - dtFromDate).TotalDays + 1;
                 int fromToNowtotalDay = (int)(dtFromDate - DateTime.Today).TotalDays;
-                if (totalDay <= 0) {
+                if (totalDay <= 0)
+                {
                     ChangeNotification("danger", "วันที่ไม่ถูกต้อง");
                     return;
                 }
-                if ((DateTime.Today - dtFromDate).TotalDays >= 90) {
+                if ((DateTime.Today - dtFromDate).TotalDays >= 90)
+                {
                     ChangeNotification("danger", "ไม่สามารถลาย้อนหลังมากกว่า 3 เดือน");
                     return;
                 }
-                if ((dtFromDate - DateTime.Today).TotalDays >= 90) {
+                if ((dtFromDate - DateTime.Today).TotalDays >= 90)
+                {
                     ChangeNotification("danger", "ไม่สามารถลาล่วงหน้ามากกว่า 3 เดือน");
                     return;
                 }
-                if (dtFromDate.DayOfWeek == DayOfWeek.Saturday || dtFromDate.DayOfWeek == DayOfWeek.Sunday || dtToDate.DayOfWeek == DayOfWeek.Saturday || dtToDate.DayOfWeek == DayOfWeek.Sunday) {
+                if (dtFromDate.DayOfWeek == DayOfWeek.Saturday || dtFromDate.DayOfWeek == DayOfWeek.Sunday || dtToDate.DayOfWeek == DayOfWeek.Saturday || dtToDate.DayOfWeek == DayOfWeek.Sunday)
+                {
                     ChangeNotification("danger", "ไม่สามารถเรื่มหรือจบการลาในวันเสาร์หรือาทิตย์ได้");
                     return;
                 }
@@ -194,11 +231,15 @@ namespace WEB_PERSONAL {
                 int ordain_max = -1;
                 {
                     OracleConnection.ClearAllPools();
-                    using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+                    using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                    {
                         con.Open();
-                        using (OracleCommand com = new OracleCommand("SELECT SICK_NOW, SICK_MAX, BUSINESS_NOW, BUSINESS_MAX, HUJ_NOW, HUJ_MAX, ORDAIN_NOW, ORDAIN_MAX FROM LEV_CLAIM WHERE YEAR = " + Util.BudgetYear() + " AND PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'", con)) {
-                            using (OracleDataReader reader = com.ExecuteReader()) {
-                                while (reader.Read()) {
+                        using (OracleCommand com = new OracleCommand("SELECT SICK_NOW, SICK_MAX, BUSINESS_NOW, BUSINESS_MAX, HUJ_NOW, HUJ_MAX, ORDAIN_NOW, ORDAIN_MAX FROM LEV_CLAIM WHERE YEAR = " + Util.BudgetYear() + " AND PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
                                     sick_now = reader.GetInt32(0);
                                     sick_max = reader.GetInt32(1);
                                     business_now = reader.GetInt32(2);
@@ -213,69 +254,93 @@ namespace WEB_PERSONAL {
 
                     }
                 }
-                if(hfLeaveTypeID.Value == "1") {
-                    if(sick_now + totalDay > sick_max) {
+                if (hfLeaveTypeID.Value == "1")
+                {
+                    if (sick_now + totalDay > sick_max)
+                    {
                         ChangeNotification("danger", "ไม่สามารถลาป่วยได้มากกว่า " + sick_max + " วัน คุณลาไปแล้ว " + sick_now + " วัน ครั้งนี้ " + totalDay + " วัน รวม " + (sick_now + totalDay) + " วัน");
                         return;
                     }
                 }
-                if (hfLeaveTypeID.Value == "2") {
-                    if (fromToNowtotalDay < businessBeforeDay) {
+                if (hfLeaveTypeID.Value == "2")
+                {
+                    if (fromToNowtotalDay < businessBeforeDay)
+                    {
                         ChangeNotification("danger", "ต้องลาล่วงหน้ามากกว่า " + businessBeforeDay + " วัน");
                         return;
-                    } else if (business_now + totalDay > business_max) {
+                    }
+                    else if (business_now + totalDay > business_max)
+                    {
                         ChangeNotification("danger", "ไม่สามารถลากิจได้มากกว่า " + business_max + " วัน คุณลาไปแล้ว " + business_now + " วัน ครั้งนี้ " + totalDay + " วัน รวม " + (business_now + totalDay) + " วัน");
                         return;
                     }
                 }
-                if (hfLeaveTypeID.Value == "3") {
+                if (hfLeaveTypeID.Value == "3")
+                {
                     DateTime dt1 = DateTime.Today.AddDays(-giveBirthAfterDay);
-                    if ((dtFromDate - dt1).TotalDays < 0) {
+                    if ((dtFromDate - dt1).TotalDays < 0)
+                    {
                         ChangeNotification("danger", "ไม่สามารถลาย้อนหลังได้มากกว่า " + giveBirthAfterDay + " วัน");
                         return;
                     }
                 }
-                if (hfLeaveTypeID.Value == "4") {
-                    if (fromToNowtotalDay < restBeforeDay) {
+                if (hfLeaveTypeID.Value == "4")
+                {
+                    if (fromToNowtotalDay < restBeforeDay)
+                    {
                         ChangeNotification("danger", "ต้องลาล่วงหน้ามากกว่า " + restBeforeDay + " วัน");
                         return;
                     }
                 }
-                if (hfLeaveTypeID.Value == "5") {
+                if (hfLeaveTypeID.Value == "5")
+                {
                     DateTime dt1 = DateTime.Today.AddDays(-helpGiveBirthAfterDay);
-                    if ((dtFromDate - dt1).TotalDays < 0) {
+                    if ((dtFromDate - dt1).TotalDays < 0)
+                    {
                         ChangeNotification("danger", "ไม่สามารถลาย้อนหลังได้มากกว่า " + helpGiveBirthAfterDay + " วัน");
                         return;
                     }
                 }
-                if (hfLeaveTypeID.Value == "6") {
-                    if (fromToNowtotalDay < ordainBeforeDay) {
+                if (hfLeaveTypeID.Value == "6")
+                {
+                    if (fromToNowtotalDay < ordainBeforeDay)
+                    {
                         ChangeNotification("danger", "ต้องลาล่วงหน้ามากกว่า " + ordainBeforeDay + " วัน");
                         return;
-                    } else if (huj_now + totalDay > huj_max) {
+                    }
+                    else if (huj_now + totalDay > huj_max)
+                    {
                         ChangeNotification("danger", "ไม่สามารถลาไปอุปสมบทได้มากกว่า " + ordain_max + " วัน คุณลาไปแล้ว " + ordain_now + " วัน ครั้งนี้ " + totalDay + " วัน รวม " + (ordain_now + totalDay) + " วัน");
                         return;
                     }
                 }
-                if (hfLeaveTypeID.Value == "7") {
-                    if(fromToNowtotalDay < hujBeforeDay) {
+                if (hfLeaveTypeID.Value == "7")
+                {
+                    if (fromToNowtotalDay < hujBeforeDay)
+                    {
                         ChangeNotification("danger", "ต้องลาล่วงหน้ามากกว่า " + hujBeforeDay + " วัน");
                         return;
                     }
-                    else if (huj_now + totalDay > huj_max) {
+                    else if (huj_now + totalDay > huj_max)
+                    {
                         ChangeNotification("danger", "ไม่สามารถลาไปประกอบพิธีฮัจญ์ได้มากกว่า " + huj_max + " วัน คุณลาไปแล้ว " + huj_now + " วัน ครั้งนี้ " + totalDay + " วัน รวม " + (huj_now + totalDay) + " วัน");
                         return;
                     }
                 }
 
                 {
-                    
+
                     OracleConnection.ClearAllPools();
-                    using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+                    using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                    {
                         con.Open();
-                        using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE " + Util.DatabaseToDateSearch(tbS1FromDate.Text) + " <= TO_DATE AND " + Util.DatabaseToDateSearch(tbS1ToDate.Text) + " >= FROM_DATE AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1", con)) {
-                            using (OracleDataReader reader = com.ExecuteReader()) {
-                                while (reader.Read()) {
+                        using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE TO_DATE <= TO_DATE('" + tbS1FromDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND FROM_DATE >= TO_DATE('" + tbS1ToDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1", con))
+                      //using (OracleCommand com = new OracleCommand("SELECT LEAVE_ID FROM LEV_DATA WHERE " + Util.DatabaseToDateSearch(tbS1FromDate.Text) + " <= TO_DATE AND " + Util.DatabaseToDateSearch(tbS1ToDate.Text) + " >= FROM_DATE AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND BUDGET_YEAR = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
                                     LeaveData leaveData = new LeaveData();
                                     leaveData.Load(reader.GetInt32(0));
                                     ChangeNotification("danger", "ไม่สามารถลาได้ พบวันลาซ้อนทับกัน (รหัสการลา " + leaveData.LeaveID + ", " + leaveData.FromDate.Value.ToLongDateString() + " ถึง " + leaveData.ToDate.Value.ToLongDateString() + ")");
@@ -283,11 +348,15 @@ namespace WEB_PERSONAL {
                                 }
                             }
                         }
-                        using (OracleCommand com = new OracleCommand("SELECT TO_DATE FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = " + hfLeaveTypeID.Value + " AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1 ORDER BY LEAVE_ID DESC", con)) {
-                            using (OracleDataReader reader = com.ExecuteReader()) {
-                                if (reader.Read()) {
+                        using (OracleCommand com = new OracleCommand("SELECT TO_DATE FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = " + hfLeaveTypeID.Value + " AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND LEAVE_STATUS_ID IN(3,4) AND V_ALLOW = 1 ORDER BY LEAVE_ID DESC", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
                                     DateTime dtLastToDate = reader.GetDateTime(0);
-                                    if((dtFromDate - dtLastToDate).TotalDays <= 0) {
+                                    if ((dtFromDate - dtLastToDate).TotalDays <= 0)
+                                    {
                                         ChangeNotification("danger", "ไม่สามารถลาก่อนวันที่ลาล่าสุดได้ (" + dtLastToDate.ToLongDateString() + ")");
                                         return;
                                     }
@@ -300,43 +369,54 @@ namespace WEB_PERSONAL {
 
             }
 
-            if(hfLeaveTypeID.Value == "1" || hfLeaveTypeID.Value == "2" || hfLeaveTypeID.Value == "3") {
-                if(tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text)) {
+            if (hfLeaveTypeID.Value == "1" || hfLeaveTypeID.Value == "2" || hfLeaveTypeID.Value == "3")
+            {
+                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text))
+                {
                     ChangeNotification("danger", "วันที่ไม่ถูกต้อง");
                     return;
                 }
-                if(tbS1Reason.Text == "") {
+                if (tbS1Reason.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกเหตุผล");
                     return;
                 }
-                if (tbS1Contact.Text == "") {
+                if (tbS1Contact.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกติดต่อได้ที่");
                     return;
                 }
-                if (tbS1Phone.Text == "") {
+                if (tbS1Phone.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกเบอร์โทรศัพท์");
                     return;
                 }
-                if(hfLeaveTypeID.Value == "1") {
+                if (hfLeaveTypeID.Value == "1")
+                {
                     DateTime dtFromDate = Util.ToDateTimeOracle(tbS1FromDate.Text);
                     DateTime dtToDate = Util.ToDateTimeOracle(tbS1ToDate.Text);
                     int totalDay = (int)(dtToDate - dtFromDate).TotalDays + 1;
-                    if (totalDay >= 30 && !FileUpload1.HasFile) {
+                    if (totalDay >= 30 && !FileUpload1.HasFile)
+                    {
                         ChangeNotification("danger", "คุณต้องมีใบรับรองแพทย์เมื่อทำการลาเกิน 30 วัน ลาครั้งนี้ " + totalDay + " วัน");
                         return;
                     }
                 }
             }
-            if (hfLeaveTypeID.Value == "4") {
-                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text)) {
+            if (hfLeaveTypeID.Value == "4")
+            {
+                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text))
+                {
                     ChangeNotification("danger", "วันที่ไม่ถูกต้อง");
                     return;
                 }
-                if (tbS1Contact.Text == "") {
+                if (tbS1Contact.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกติดต่อได้ที่");
                     return;
                 }
-                if (tbS1Phone.Text == "") {
+                if (tbS1Phone.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกเบอร์โทรศัพท์");
                     return;
                 }
@@ -345,69 +425,87 @@ namespace WEB_PERSONAL {
                 int totalDay = (int)(dtToDate - dtFromDate).TotalDays + 1;
                 int max = DatabaseManager.ExecuteInt("SELECT REST_MAX FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear());
                 int now = DatabaseManager.ExecuteInt("SELECT REST_NOW FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear());
-                if (now + totalDay > max) {
+                if (now + totalDay > max)
+                {
                     ChangeNotification("danger", "ปีนี้คุณไม่สามารถลาพักผ่อนเกิน " + max + " วันได้ ลาไปแล้ว " + now + " วัน ครั้งนี้ " + totalDay + " วัน รวม " + (totalDay + now) + " วัน");
                     return;
                 }
             }
-            if (hfLeaveTypeID.Value == "5") {
-                if (tbS1WifeFirstName.Text == "") {
+            if (hfLeaveTypeID.Value == "5")
+            {
+                if (tbS1WifeFirstName.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกชื่อจริงภริยา");
                     return;
                 }
-                if (tbS1WifeLastName.Text == "") {
+                if (tbS1WifeLastName.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกนามสกุลภริยา");
                     return;
                 }
-                if (tbS1GBDate.Text == "" || !Util.IsDateValid(tbS1GBDate.Text)) {
+                if (tbS1GBDate.Text == "" || !Util.IsDateValid(tbS1GBDate.Text))
+                {
                     ChangeNotification("danger", "วันที่คลอดบุตรไม่ถูกต้อง");
                     return;
                 }
-                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text)) {
+                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text))
+                {
                     ChangeNotification("danger", "วันที่ไม่ถูกต้อง");
                     return;
                 }
-                if (tbS1Contact.Text == "") {
+                if (tbS1Contact.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกติดต่อได้ที่");
                     return;
                 }
-                if (tbS1Phone.Text == "") {
+                if (tbS1Phone.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกเบอร์โทรศัพท์");
                     return;
                 }
             }
-            if (hfLeaveTypeID.Value == "6") {
-                if (!rbS1OrdainedT.Checked && !rbS1OrdainedF.Checked) {
+            if (hfLeaveTypeID.Value == "6")
+            {
+                if (!rbS1OrdainedT.Checked && !rbS1OrdainedF.Checked)
+                {
                     ChangeNotification("danger", "กรุณาเลือกการอุปสมบท");
                     return;
                 }
-                if (tbS1TempleName.Text == "") {
+                if (tbS1TempleName.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกชื่อวัด");
                     return;
                 }
-                if (tbS1TempleLocation.Text == "") {
+                if (tbS1TempleLocation.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกสถานที่");
                     return;
                 }
-                if (tbS1OrdainDate.Text == "" || !Util.IsDateValid(tbS1OrdainDate.Text)) {
+                if (tbS1OrdainDate.Text == "" || !Util.IsDateValid(tbS1OrdainDate.Text))
+                {
                     ChangeNotification("danger", "วันที่อุปสมบทไม่ถูกต้อง");
                     return;
                 }
-                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text)) {
+                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text))
+                {
                     ChangeNotification("danger", "วันที่ไม่ถูกต้อง");
                     return;
                 }
-                if (tbS1Phone.Text == "") {
+                if (tbS1Phone.Text == "")
+                {
                     ChangeNotification("danger", "กรุณากรอกเบอร์โทรศัพท์");
                     return;
                 }
             }
-            if (hfLeaveTypeID.Value == "7") {
-                if (!rbS1HujedT.Checked && !rbS1HujedF.Checked) {
+            if (hfLeaveTypeID.Value == "7")
+            {
+                if (!rbS1HujedT.Checked && !rbS1HujedF.Checked)
+                {
                     ChangeNotification("danger", "กรุณาเลือกการไปประกอบพิธีฮัจย์");
                     return;
                 }
-                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text)) {
+                if (tbS1FromDate.Text == "" || tbS1ToDate.Text == "" || !Util.IsDateValid(tbS1FromDate.Text) || !Util.IsDateValid(tbS1ToDate.Text))
+                {
                     ChangeNotification("danger", "วันที่ไม่ถูกต้อง");
                     return;
                 }
@@ -416,7 +514,7 @@ namespace WEB_PERSONAL {
 
 
             {
-               
+
                 MV1.ActiveViewIndex = 2;
 
                 Session["LeaveSickFileUpload"] = FileUpload1;
@@ -424,7 +522,7 @@ namespace WEB_PERSONAL {
                 divReq.Visible = false;
                 //ChangeNotification("info", "กรุณายืนยันข้อมูลอีกครั้ง");
 
-                
+
 
                 string leavedDate = "ไม่เคยลา";
                 DateTime? lastFromDate = null;
@@ -434,16 +532,22 @@ namespace WEB_PERSONAL {
                 int pastTotalDay = DatabaseManager.ExecuteInt("SELECT NVL(SUM(TOTAL_DAY),0) FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = " + hfLeaveTypeID.Value + " AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND V_ALLOW = 1");
 
                 OracleConnection.ClearAllPools();
-                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("SELECT FROM_DATE, TO_DATE, TOTAL_DAY FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = " + hfLeaveTypeID.Value + " AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND V_ALLOW = 1 ORDER BY LEAVE_ID DESC", con)) {
-                        using (OracleDataReader reader = com.ExecuteReader()) {
-                            if (reader.Read()) {
+                    using (OracleCommand com = new OracleCommand("SELECT FROM_DATE, TO_DATE, TOTAL_DAY FROM LEV_DATA WHERE PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND LEAVE_TYPE_ID = " + hfLeaveTypeID.Value + " AND EXTRACT(YEAR FROM FROM_DATE) = " + Util.BudgetYear() + " AND V_ALLOW = 1 ORDER BY LEAVE_ID DESC", con))
+                    {
+                        using (OracleDataReader reader = com.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
                                 lastFromDate = reader.GetDateTime(0);
                                 lastToDate = reader.GetDateTime(1);
                                 lastTotalDay = (int)(lastToDate.Value - lastFromDate.Value).TotalDays + 1;
                                 leavedDate = lastFromDate.Value.ToLongDateString() + " ถึง " + lastToDate.Value.ToLongDateString() + " รวม " + lastTotalDay + " วัน ";
-                            } else {
+                            }
+                            else
+                            {
                                 lastTotalDay = 0;
                             }
                         }
@@ -455,11 +559,15 @@ namespace WEB_PERSONAL {
                 int restLeft = -1;
                 int restTotal = -1;
                 OracleConnection.ClearAllPools();
-                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("SELECT REST_SAVE, REST_THIS FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                        using (OracleDataReader reader = com.ExecuteReader()) {
-                            if (reader.Read()) {
+                    using (OracleCommand com = new OracleCommand("SELECT REST_SAVE, REST_THIS FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                    {
+                        using (OracleDataReader reader = com.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
                                 restSave = reader.GetInt32(0);
                                 restLeft = reader.GetInt32(1);
                                 restTotal = restSave + restLeft;
@@ -497,11 +605,14 @@ namespace WEB_PERSONAL {
                 lbS2Contact.Text = tbS1Contact.Text;
                 lbS2Phone.Text = tbS1Phone.Text;
                 string drCer;
-                if (FileUpload1.HasFile) {
+                if (FileUpload1.HasFile)
+                {
                     lbS2DrCer.Text = "มี";
                     FileInfo fi = new FileInfo(FileUpload1.FileName);
                     drCer = Util.RandomFileName() + fi.Extension;
-                } else {
+                }
+                else
+                {
                     lbS2DrCer.Text = "ไม่มี";
                     drCer = "";
                 }
@@ -518,28 +629,24 @@ namespace WEB_PERSONAL {
                 bool อธิการบดีลาช่วยเหลือภริยาคลอดบุตร = false;
                 bool อธิการบดีลาพักผ่อน = false;
                 bool อธิการบดีลาอุปสมบทฮัจญ์ = false;
-
                 int คณะบดีลาป่วยวัน = -1;
                 int คณะบดีลากิจวัน = -1;
                 bool คณะบดีลาคลอดบุตร = false;
                 bool คณะบดีลาช่วยเหลือภริยาคลอดบุตร = false;
                 bool คณะบดีลาพักผ่อน = false;
                 bool คณะบดีลาอุปสมบทฮัจญ์ = false;
-
                 int หัวหน้าภาควิชาลาป่วยวัน = -1;
                 int หัวหน้าภาควิชาลากิจวัน = -1;
                 bool หัวหน้าภาควิชาลาคลอดบุตร = false;
                 bool หัวหน้าภาควิชาลาช่วยเหลือภริยาคลอดบุตร = false;
                 bool หัวหน้าภาควิชาลาพักผ่อน = false;
                 bool หัวหน้าภาควิชาลาอุปสมบทฮัจญ์ = false;
-
                 int หัวหน้าฝ่ายลาป่วยวัน = -1;
                 int หัวหน้าฝ่ายลากิจวัน = -1;
                 bool หัวหน้าฝ่ายลาคลอดบุตร = false;
                 bool หัวหน้าฝ่ายลาช่วยเหลือภริยาคลอดบุตร = false;
                 bool หัวหน้าฝ่ายลาพักผ่อน = false;
                 bool หัวหน้าฝ่ายลาอุปสมบทฮัจญ์ = false;
-
                 OracleConnection.ClearAllPools();
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
                     con.Open();
@@ -579,73 +686,100 @@ namespace WEB_PERSONAL {
                             }
                         }
                     }
-
                 }*/
 
-                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
                     con.Open();
 
                     List<Person> tempBossID = DatabaseManager.รหัสหัวหน้า(loginPerson.PS_CITIZEN_ID);
-                    for (int i = 0; i < tempBossID.Count; i++) {
+                    for (int i = 0; i < tempBossID.Count; i++)
+                    {
                         int dayReq = 1;
                         bool ableAllow = false;
-                        using (OracleCommand com = new OracleCommand("SELECT * FROM LEV_PERMISSION WHERE ADMIN_POSITION_POWER = " + tempBossID[i].AdminPositionPower + " ORDER BY LEAVE_PERMISSION_ID DESC", con)) {
-                            using (OracleDataReader reader = com.ExecuteReader()) {
-                                while (reader.Read()) {       
-                                    if (hfLeaveTypeID.Value == "1") {
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM LEV_PERMISSION WHERE ADMIN_POSITION_POWER = " + tempBossID[i].AdminPositionPower + " ORDER BY LEAVE_PERMISSION_ID DESC", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    if (hfLeaveTypeID.Value == "1")
+                                    {
                                         dayReq = reader.GetInt32(2);
-                                    } else if (hfLeaveTypeID.Value == "2") {
+                                    }
+                                    else if (hfLeaveTypeID.Value == "2")
+                                    {
                                         dayReq = reader.GetInt32(3);
-                                    } else if (hfLeaveTypeID.Value == "3") {
+                                    }
+                                    else if (hfLeaveTypeID.Value == "3")
+                                    {
                                         ableAllow = reader.GetInt32(4) == 1 ? true : false;
-                                    } else if (hfLeaveTypeID.Value == "4") {
+                                    }
+                                    else if (hfLeaveTypeID.Value == "4")
+                                    {
                                         ableAllow = reader.GetInt32(6) == 1 ? true : false;
-                                    } else if (hfLeaveTypeID.Value == "5") {
+                                    }
+                                    else if (hfLeaveTypeID.Value == "5")
+                                    {
                                         ableAllow = reader.GetInt32(5) == 1 ? true : false;
-                                    } else if (hfLeaveTypeID.Value == "6") {
+                                    }
+                                    else if (hfLeaveTypeID.Value == "6")
+                                    {
                                         ableAllow = reader.GetInt32(7) == 1 ? true : false;
-                                    } else if (hfLeaveTypeID.Value == "7") {
+                                    }
+                                    else if (hfLeaveTypeID.Value == "7")
+                                    {
                                         ableAllow = reader.GetInt32(7) == 1 ? true : false;
                                     }
 
                                 }
                             }
                         }
-                        
-                        if(hfLeaveTypeID.Value == "1" || hfLeaveTypeID.Value == "2") {
-                            if (dayReq >= totalDay) {
+
+                        if (hfLeaveTypeID.Value == "1" || hfLeaveTypeID.Value == "2")
+                        {
+                            if (dayReq >= totalDay)
+                            {
                                 psBossID.Add(tempBossID[i]);
                                 break;
-                            } else {
-                                psBossID.Add(tempBossID[i]);
                             }
-                        } else {
-                            if(ableAllow) {
-                                psBossID.Add(tempBossID[i]);
-                                break;
-                            } else {
+                            else
+                            {
                                 psBossID.Add(tempBossID[i]);
                             }
                         }
-                        
+                        else
+                        {
+                            if (ableAllow)
+                            {
+                                psBossID.Add(tempBossID[i]);
+                                break;
+                            }
+                            else
+                            {
+                                psBossID.Add(tempBossID[i]);
+                            }
+                        }
+
 
                     }
 
-                    
+
 
                 }
 
 
-                
 
-                
+
+
                 {
                     TableRow row = new TableRow();
                     TableCell cell2;
                     System.Web.UI.WebControls.Image image;
                     tbBoss.Rows.Add(row);
 
-                    for (int j = 0; j < psBossID.Count; j++) {
+                    for (int j = 0; j < psBossID.Count; j++)
+                    {
 
                         cell2 = new TableCell();
                         cell2.Style.Add("vertical-align", "top");
@@ -667,10 +801,13 @@ namespace WEB_PERSONAL {
                             image.CssClass = "ps-ms-main-drop-profile-pic";
 
                             string imagePath = DatabaseManager.GetPersonImageFileName(psBossID[j].PS_CITIZEN_ID);
-                            if (imagePath != "") {
+                            if (imagePath != "")
+                            {
                                 image.Attributes["src"] = "Upload/PersonImage/" + imagePath;
                                 cell3.Controls.Add(image);
-                            } else {
+                            }
+                            else
+                            {
                                 image.Attributes["src"] = "Image/no_image.png";
                                 cell3.Controls.Add(image);
                             }
@@ -721,26 +858,21 @@ namespace WEB_PERSONAL {
                     TableCell cell;
                     System.Web.UI.WebControls.Image image;
                     tbBoss.Rows.Add(row);
-
                     for (int i = 0; i < psBossID.Count; i++) {
-
                         cell = new TableCell();
                         image = new System.Web.UI.WebControls.Image();
                         image.CssClass = "ps-ms-main-drop-profile-pic";
-
                         string imagePath = DatabaseManager.GetPersonImageFileName(psBossID[i].CitizenID);
                         if (imagePath != "") {
                             image.Attributes["src"] = "Upload/PersonImage/" + imagePath;
                             cell.Controls.Add(image);
                         }
-
                         
                         Panel p2 = new Panel();
                         Label lb = new Label();
                         lb.Text = "<span class='ps-lb-red-b'>" + psBossID[i].FirstNameAndLastName + "</span><br /><span style='color: #808080;'>" + psBossID[i].CitizenID + "</span><br />" + psBossID[i].PositionWorkName + "<br />" + psBossID[i].AdminPositionName + "<br />" + psBossID[i].AdminPositionNameExtra();
                         p2.Controls.Add(lb);
                         cell.Controls.Add(p2);
-
                         row.Cells.Add(cell);
                     }
                 }*/
@@ -755,10 +887,7 @@ namespace WEB_PERSONAL {
                             } else {
                                 psBossID.Add(DatabaseManager.รหัสหัวหน้าภาควิชา(loginPerson.DivisionID));
                             }
-
-
                         } else if (loginPerson.AdminPositionPower == "1") { //หัวหน้าฝ่าย
-
                             if (loginPerson.IsTeacher()) {
                                 psBossID.Add(DatabaseManager.รหัสหัวหน้าภาควิชา(loginPerson.DivisionID));
                             } else if (loginPerson.WorkDivisionID != null) {
@@ -766,7 +895,6 @@ namespace WEB_PERSONAL {
                             } else {
                                 psBossID.Add(DatabaseManager.รหัสหัวหน้าภาควิชา(loginPerson.DivisionID));
                             }
-
                             psCHID = DatabaseManager.รหัสหัวหน้าภาควิชา(loginPerson.DivisionID);
                         } else if (loginPerson.AdminPositionID == "7") { //หัวหน้าภาควิชา
                             psCHID = DatabaseManager.รหัสคณบดี(loginPerson.FacultyID);
@@ -1029,11 +1157,6 @@ namespace WEB_PERSONAL {
                      lbS2CL.Text = "ไม่มี";
                      psCLImage.Visible = false;
                  }
-
-
-
-
-
                  if (psCL != null) {
                      lbS2CL.Text = "<span class='ps-lb-red-b'>" + psCL.FirstNameAndLastName + "</span><br />" + psCL.CitizenID + "<br />" + psCL.PositionWorkName + "<br />" + psCL.AdminPositionName;
                      psCLImage.Visible = true;
@@ -1041,26 +1164,17 @@ namespace WEB_PERSONAL {
                      lbS2CL.Text = "ไม่มี";
                      psCLImage.Visible = false;
                  }
-
-
-
-
-
                  if ( (psCLID != "" && psCL == null) || (psCHID != "" && psCH == null)) {
-
                      if (psCLID != "" && psCL == null) {
                          psCLImage.Visible = false;
                          lbS2CL.Text = "พบข้อผิดพลาด<br />ไม่พบพนักงาน";
                          lbS2CL.ForeColor = Color.Red;
                      }
-
                      if (psCHID != "" && psCH == null) {
                          psCHImage.Visible = false;
                          lbS2CH.Text = "พบข้อผิดพลาด<br />ไม่พบพนักงาน";
                          lbS2CH.ForeColor = Color.Red;
                      }
-
-
                      lbuS2Finish.Visible = false;
                      return;
                  }*/
@@ -1091,7 +1205,8 @@ namespace WEB_PERSONAL {
                 leaveData.Reason = tbS1Reason.Text;
                 leaveData.Contact = tbS1Contact.Text;
                 leaveData.Telephone = tbS1Phone.Text;
-                if (lastFromDate.HasValue) {
+                if (lastFromDate.HasValue)
+                {
                     leaveData.LastFromDate = lastFromDate;
                     leaveData.LastToDate = lastToDate;
                 }
@@ -1106,7 +1221,7 @@ namespace WEB_PERSONAL {
                 leaveData.RestTotal = restTotal;
                 leaveData.WifeFirstName = tbS1WifeFirstName.Text;
                 leaveData.WifeLastName = tbS1WifeLastName.Text;
-                if(hfLeaveTypeID.Value == "5")
+                if (hfLeaveTypeID.Value == "5")
                     leaveData.GiveBirthDate = Util.ToDateTimeOracle(tbS1GBDate.Text);
                 leaveData.Ordained = rbS1OrdainedT.Checked ? 1 : 0;
                 leaveData.TempleName = tbS1TempleName.Text;
@@ -1115,7 +1230,8 @@ namespace WEB_PERSONAL {
                     leaveData.OrdainDate = Util.ToDateTimeOracle(tbS1OrdainDate.Text);
                 leaveData.Hujed = rbS1HujedT.Checked ? 1 : 0;
 
-                for (int i = 0; i < psBossID.Count; i++) {
+                for (int i = 0; i < psBossID.Count; i++)
+                {
                     LeaveBossData leaveBossData = new LeaveBossData();
                     leaveBossData.CitizenID = psBossID[i].PS_CITIZEN_ID;
                     leaveData.AddBoss(leaveBossData);
@@ -1125,7 +1241,7 @@ namespace WEB_PERSONAL {
 
                 hfFileUploadName.Value = drCer;
 
-                
+
 
             }
 
@@ -1133,32 +1249,48 @@ namespace WEB_PERSONAL {
 
         }
 
-        protected void lbuS2Back_Click(object sender, EventArgs e) {
+        protected void lbuS2Back_Click(object sender, EventArgs e)
+        {
             MV1.ActiveViewIndex = 1;
             ClearNotification();
             divReq.Visible = true;
         }
 
-        protected void lbuS2Finish_Click(object sender, EventArgs e) {
+        protected void lbuS2Finish_Click(object sender, EventArgs e)
+        {
             LeaveData leaveData = (LeaveData)(Session["LeaveData"]);
             //leaveData.LeaveID = DatabaseManager.ExecuteSequence("SEQ_LEV_DATA_ID");
-            if(hfLeaveTypeID.Value == "1") {
+            if (hfLeaveTypeID.Value == "1")
+            {
                 leaveData.AddLeaveSick();
                 FileUpload fu = (FileUpload)Session["LeaveSickFileUpload"];
-                if (fu.HasFile) {
+                if (fu.HasFile)
+                {
                     fu.SaveAs(Server.MapPath("Upload/DrCer/" + hfFileUploadName.Value));
                 }
-            } else if (hfLeaveTypeID.Value == "2") {
+            }
+            else if (hfLeaveTypeID.Value == "2")
+            {
                 leaveData.AddLeaveBusiness();
-            } else if (hfLeaveTypeID.Value == "3") {
+            }
+            else if (hfLeaveTypeID.Value == "3")
+            {
                 leaveData.AddLeaveGiveBirth();
-            } else if (hfLeaveTypeID.Value == "4") {
+            }
+            else if (hfLeaveTypeID.Value == "4")
+            {
                 leaveData.AddLeaveRest();
-            } else if (hfLeaveTypeID.Value == "5") {
+            }
+            else if (hfLeaveTypeID.Value == "5")
+            {
                 leaveData.AddLeaveHelpGiveBirth();
-            } else if (hfLeaveTypeID.Value == "6") {
+            }
+            else if (hfLeaveTypeID.Value == "6")
+            {
                 leaveData.AddLeaveOrdain();
-            } else if (hfLeaveTypeID.Value == "7") {
+            }
+            else if (hfLeaveTypeID.Value == "7")
+            {
                 leaveData.AddLeaveHuj();
             }
 
@@ -1168,7 +1300,6 @@ namespace WEB_PERSONAL {
 
 
         /*protected void ddlLeaveType_SelectedIndexChanged(object sender, EventArgs e) {
-
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person pp = ps.LoginPerson;
             if(hfLeaveTypeID.Value == "1") {
@@ -1214,7 +1345,6 @@ namespace WEB_PERSONAL {
                     return;
                 }
             }
-
             //lbLeaveTypeName.Text = "ข้อมูล" + ddlLeaveType.SelectedItem.Text;
             lbLeaveTypeName2.Text = "ข้อมูล" + ddlLeaveType.SelectedItem.Text;
             if(ddlLeaveType.SelectedIndex == 0) {
@@ -1224,7 +1354,6 @@ namespace WEB_PERSONAL {
                 MV1.ActiveViewIndex = 1;
                 ChangeNotification("info", "กรุณากรอกข้อมูล");
             }
-
             trS1WifeName.Visible = false;
             trS1GBDate.Visible = false;
             trS1Ordained.Visible = false;
@@ -1266,11 +1395,12 @@ namespace WEB_PERSONAL {
             } else if (hfLeaveTypeID.Value == "7") {
                 trS1Hujed.Visible = true;
             }
-
         }*/
 
-        private void ChangeNotification(string type) {
-            switch (type) {
+        private void ChangeNotification(string type)
+        {
+            switch (type)
+            {
                 case "info": notification.Attributes["class"] = "alert alert_info"; break;
                 case "success": notification.Attributes["class"] = "alert alert_success"; break;
                 case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
@@ -1278,8 +1408,10 @@ namespace WEB_PERSONAL {
                 default: notification.Attributes["class"] = null; break;
             }
         }
-        private void ChangeNotification(string type, string text) {
-            switch (type) {
+        private void ChangeNotification(string type, string text)
+        {
+            switch (type)
+            {
                 case "info": notification.Attributes["class"] = "alert alert_info"; break;
                 case "success": notification.Attributes["class"] = "alert alert_success"; break;
                 case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
@@ -1288,29 +1420,39 @@ namespace WEB_PERSONAL {
             }
             notification.InnerHtml = text;
         }
-        private void ClearNotification() {
+        private void ClearNotification()
+        {
             notification.Attributes["class"] = null;
             notification.InnerHtml = "";
         }
-        private void AddNotification(string text) {
+        private void AddNotification(string text)
+        {
             notification.InnerHtml += text;
         }
 
-        protected void lbuBackMain_Click(object sender, EventArgs e) {
+        protected void lbuBackMain_Click(object sender, EventArgs e)
+        {
             Response.Redirect("Default.aspx");
         }
 
-        protected void lbuHistory_Click(object sender, EventArgs e) {
+        protected void lbuHistory_Click(object sender, EventArgs e)
+        {
             Response.Redirect("LeaveHistory.aspx");
         }
-        protected void lbuSelectSick_Click(object sender, EventArgs e) {
+        protected void lbuSelectSick_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using(OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using(OracleCommand com = new OracleCommand("SELECT SICK_NOW - SICK_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using(OracleDataReader reader = com.ExecuteReader()) {
-                        while(reader.Read()) {
-                            if(reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT SICK_NOW - SICK_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลาป่วยอยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1330,14 +1472,20 @@ namespace WEB_PERSONAL {
             trS1Phone.Visible = true;
             trS1DrCer.Visible = true;
         }
-        protected void lbuSelectBusiness_Click(object sender, EventArgs e) {
+        protected void lbuSelectBusiness_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT BUSINESS_NOW - BUSINESS_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            if (reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT BUSINESS_NOW - BUSINESS_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลากิจอยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1356,14 +1504,20 @@ namespace WEB_PERSONAL {
             trS1Contact.Visible = true;
             trS1Phone.Visible = true;
         }
-        protected void lbuSelectRest_Click(object sender, EventArgs e) {
+        protected void lbuSelectRest_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT REST_NOW - REST_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            if (reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT REST_NOW - REST_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลาพักผ่อนอยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1381,14 +1535,20 @@ namespace WEB_PERSONAL {
             trS1Contact.Visible = true;
             trS1Phone.Visible = true;
         }
-        protected void lbuSelectGiveBirth_Click(object sender, EventArgs e) {
+        protected void lbuSelectGiveBirth_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT GB_NOW - GB_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            if (reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT GB_NOW - GB_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลาคลอดบุตรอยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1407,14 +1567,20 @@ namespace WEB_PERSONAL {
             trS1Contact.Visible = true;
             trS1Phone.Visible = true;
         }
-        protected void lbuSelectHelpGiveBirth_Click(object sender, EventArgs e) {
+        protected void lbuSelectHelpGiveBirth_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT HGB_NOW - HGB_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            if (reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT HGB_NOW - HGB_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลาไปช่วยเหลือภริยาที่คลอดบุตรอยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1433,16 +1599,22 @@ namespace WEB_PERSONAL {
             trS1GBDate.Visible = true;
             trS1Contact.Visible = true;
             trS1Phone.Visible = true;
-            
+
         }
-        protected void lbuSelectOrdain_Click(object sender, EventArgs e) {
+        protected void lbuSelectOrdain_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT ORDAIN_NOW - ORDAIN_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            if (reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT ORDAIN_NOW - ORDAIN_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลาไปอุปสมบทอยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1463,14 +1635,20 @@ namespace WEB_PERSONAL {
             trS1OrdainDate.Visible = true;
             trS1Phone.Visible = true;
         }
-        protected void lbuSelectHuj_Click(object sender, EventArgs e) {
+        protected void lbuSelectHuj_Click(object sender, EventArgs e)
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT HUJ_NOW - HUJ_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con)) {
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            if (reader.GetInt32(0) != 0) {
+                using (OracleCommand com = new OracleCommand("SELECT HUJ_NOW - HUJ_REQ FROM LEV_CLAIM WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND YEAR = " + Util.BudgetYear(), con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.GetInt32(0) != 0)
+                            {
                                 ChangeNotification("danger", "ไม่สามารถลาได้ มีการลาไปประกอบพิธีฮัจญ์อยู่ในระหว่างดำเนินการ");
                                 return;
                             }
@@ -1487,7 +1665,8 @@ namespace WEB_PERSONAL {
             HideAllFromFill();
             trS1Hujed.Visible = true;
         }
-        private void HideAllReq() {
+        private void HideAllReq()
+        {
             trReqSick.Visible = false;
             trReqBusiness.Visible = false;
             trReqRest.Visible = false;
@@ -1496,7 +1675,8 @@ namespace WEB_PERSONAL {
             trReqOrdain.Visible = false;
             trReqHuj.Visible = false;
         }
-        private void ShowAllReq() {
+        private void ShowAllReq()
+        {
             trReqSick.Visible = true;
             trReqBusiness.Visible = true;
             trReqRest.Visible = true;
@@ -1505,7 +1685,8 @@ namespace WEB_PERSONAL {
             trReqOrdain.Visible = true;
             trReqHuj.Visible = true;
         }
-        private void HideAllFromFill() {
+        private void HideAllFromFill()
+        {
             trS1WifeName.Visible = false;
             trS1GBDate.Visible = false;
             trS1Ordained.Visible = false;
@@ -1519,12 +1700,14 @@ namespace WEB_PERSONAL {
             trS1DrCer.Visible = false;
         }
 
-        protected void lbuS1Back_Click(object sender, EventArgs e) {
+        protected void lbuS1Back_Click(object sender, EventArgs e)
+        {
             MV1.ActiveViewIndex = 0;
             ShowAllReq();
             ClearNotification();
 
-            if (loginPerson.IsMale()) {
+            if (loginPerson.IsMale())
+            {
                 trReqGiveBirth.Visible = false;
                 trReqHelpGiveBirth.Visible = true;
                 trReqOrdain.Visible = true;
@@ -1535,7 +1718,9 @@ namespace WEB_PERSONAL {
                 lbuSelectOrdain.Visible = true;
                 lbuSelectHuj.Visible = true;
 
-            } else {
+            }
+            else
+            {
                 trReqGiveBirth.Visible = true;
                 trReqHelpGiveBirth.Visible = false;
                 trReqOrdain.Visible = false;

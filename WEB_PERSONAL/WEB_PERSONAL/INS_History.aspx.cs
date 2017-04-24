@@ -7,79 +7,221 @@ using System.Web.UI.WebControls;
 using WEB_PERSONAL.Class;
 using System.Data.OracleClient;
 
-namespace WEB_PERSONAL {
+namespace WEB_PERSONAL
+{
 
-    public partial class INS_History : System.Web.UI.Page {
-
-        protected void Page_Load(object sender, EventArgs e) {
-
+    public partial class INS_History : System.Web.UI.Page
+    {
+        private Person loginPerson;
+        protected void Page_Load(object sender, EventArgs e)
+        {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
+            loginPerson = ps.LoginPerson;
 
-            Table table = new Table();
-            table.CssClass = "c1";
+            FuncGVFinish();
+            FuncGVProcessing();
+            FuncGVHistory();
+
+            if (!IsPostBack)
             {
-                TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.ColumnSpan = 2; cell.Text = "เครื่องรายฯ"; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันทีขอ"; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ได้รับ"; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สถานะ"; row.Cells.Add(cell); }
-                table.Rows.Add(row);
+               
             }
+        }
 
-            string CheckNull = DatabaseManager.ExecuteString("SELECT CITIZEN_ID FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
-            if (string.IsNullOrEmpty(CheckNull))
-            {
-                NoInsig.Visible = true;
-                return;
-            }
+        protected void gvHistory_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvHistory.PageIndex = e.NewPageIndex;
+            FuncGVHistory();
+        }
+        protected void gvProgressing_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvProgressing.PageIndex = e.NewPageIndex;
+            FuncGVProcessing();
+        }
 
+        protected void gvFinish_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvFinish.PageIndex = e.NewPageIndex;
+            FuncGVFinish();
+        }
+
+        private void FuncGVFinish()
+        {
             OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
-                con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT TB_INSIG_PERSON.*, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID), (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND IP_STATUS_ID = 3", con)) {
+            SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT LEAVE_ID รหัสการลา, (SELECT LEAVE_TYPE_NAME FROM LEV_TYPE WHERE LEV_TYPE.LEAVE_TYPE_ID = LEV_DATA.LEAVE_TYPE_ID) ประเภทการลา, REQ_DATE วันที่ข้อมูล, FROM_DATE จากวันที่, TO_DATE ถึงวันที่, TOTAL_DAY รวมวัน, (SELECT LEAVE_STATUS_NAME FROM LEV_STATUS WHERE LEV_STATUS.LEAVE_STATUS_ID = LEV_DATA.LEAVE_STATUS_ID) สถานะ, NVL(V_ALLOW,0) ผลการอนุมัติ FROM LEV_DATA WHERE LEAVE_STATUS_ID in(2,5) AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY LEAVE_ID DESC");
+            gvFinish.DataSource = sds;
+            gvFinish.DataBind();
 
-                    com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
-                    using (OracleDataReader reader = com.ExecuteReader()) {
-                        while (reader.Read()) {
-                            {
-                                TableHeaderRow row = new TableHeaderRow();
-                                {
-                                    TableCell cell = new TableCell();
-                                    Image image = new Image();
-                                    string fileName;
-                                    switch (int.Parse(reader.GetValue(2).ToString())) {
-                                        case 12: fileName = "บ.ม."; break;
-                                        case 11: fileName = "บ.ช."; break;
-                                        case 10: fileName = "จ.ม."; break;
-                                        case 9: fileName = "จ.ช."; break;
-                                        case 8: fileName = "ต.ม."; break;
-                                        case 7: fileName = "ต.ช."; break;
-                                        case 6: fileName = "ท.ม."; break;
-                                        case 5: fileName = "ท.ช."; break;
-                                        case 4: fileName = "ป.ม."; break;
-                                        case 3: fileName = "ป.ช."; break;
-                                        case 2: fileName = "ม.ว.ม."; break;
-                                        default: fileName = "ม.ป.ช."; break;
-                                    }
-                                    image.Attributes["src"] = "Image/Insignia/" + fileName + ".png";
-                                    cell.Controls.Add(image);
-                                    row.Cells.Add(cell);
-                                }
-                                { TableCell cell = new TableCell(); cell.Text = reader.GetString(6); row.Cells.Add(cell); }
-                                { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(3).ToLongDateString(); row.Cells.Add(cell); }
-                                { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(4).ToLongDateString(); row.Cells.Add(cell); }
-                                { TableCell cell = new TableCell(); cell.Text = reader.GetString(7); row.Cells.Add(cell); }
-                                table.Rows.Add(row);
-                            }
+            if (gvFinish.Rows.Count > 0)
+            {
+                lbFinish.Visible = false;
+                TableHeaderCell headerCell = new TableHeaderCell();
+                headerCell.Text = "ตกลง";
+                gvFinish.HeaderRow.Cells.Add(headerCell);
+
+                gvFinish.HeaderRow.Cells[0].Text = "<img src='Image/Small/ID.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[0].Text;
+                gvFinish.HeaderRow.Cells[1].Text = "<img src='Image/Small/list.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[1].Text;
+                gvFinish.HeaderRow.Cells[2].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[2].Text;
+                gvFinish.HeaderRow.Cells[3].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[3].Text;
+                gvFinish.HeaderRow.Cells[4].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[4].Text;
+                gvFinish.HeaderRow.Cells[6].Text = "<img src='Image/Small/question.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[6].Text;
+                gvFinish.HeaderRow.Cells[7].Text = "<img src='Image/Small/correct.png' class='icon_left'/>" + gvFinish.HeaderRow.Cells[7].Text;
+
+                for (int i = 0; i < gvFinish.Rows.Count; ++i)
+                {
+                    string ID = gvFinish.Rows[i].Cells[0].Text;
+                    TableCell cell = new TableCell();
+                    LinkButton btn = new LinkButton();
+                    btn.CssClass = "ps-button-img";
+                    btn.Text = "ตกลง";
+                    btn.Click += (e2, e3) =>
+                    {
+                        LeaveData leaveData = new LeaveData();
+                        leaveData.Load(int.Parse(ID));
+
+                        if (leaveData.LeaveStatusID == 2)
+                        {
+                            DatabaseManager.ExecuteNonQuery("UPDATE LEV_DATA SET LEAVE_STATUS_ID = 3 WHERE LEAVE_ID = " + ID);
                         }
+                        else if (leaveData.LeaveStatusID == 5)
+                        {
+                            DatabaseManager.ExecuteNonQuery("UPDATE LEV_DATA SET LEAVE_STATUS_ID = 6 WHERE LEAVE_ID = " + ID);
+                        }
+                        Response.Redirect("LeaveHistory.aspx");
+                    };
+                    cell.Controls.Add(btn);
+                    gvFinish.Rows[i].Cells.Add(cell);
+
+                    if (Util.StringEqual(gvFinish.Rows[i].Cells[7].Text, new string[] { "2" }))
+                    {
+                        gvFinish.Rows[i].Cells[7].Text = "ไม่อนุญาต";
+                        gvFinish.Rows[i].Cells[7].ForeColor = System.Drawing.Color.Red;
                     }
+                    if (Util.StringEqual(gvFinish.Rows[i].Cells[7].Text, new string[] { "1" }))
+                    {
+                        gvFinish.Rows[i].Cells[7].Text = "อนุญาต";
+                        gvFinish.Rows[i].Cells[7].ForeColor = System.Drawing.Color.Green;
+                    }
+                }
+
+                Util.NormalizeGridViewDate(gvFinish, 2);
+                Util.NormalizeGridViewDate(gvFinish, 3);
+                Util.NormalizeGridViewDate(gvFinish, 4);
+            }
+            else
+            {
+                lbFinish.Visible = true;
+            }
+        }
+        private void FuncGVProcessing()
+        {
+            OracleConnection.ClearAllPools();
+            SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT LEAVE_ID รหัสการลา, (SELECT LEAVE_TYPE_NAME FROM LEV_TYPE WHERE LEV_TYPE.LEAVE_TYPE_ID = LEV_DATA.LEAVE_TYPE_ID) ประเภทการลา, REQ_DATE วันที่ข้อมูล, FROM_DATE จากวันที่, TO_DATE ถึงวันที่, TOTAL_DAY รวมวัน, (SELECT LEAVE_STATUS_NAME FROM LEV_STATUS WHERE LEV_STATUS.LEAVE_STATUS_ID = LEV_DATA.LEAVE_STATUS_ID) สถานะ FROM LEV_DATA WHERE LEAVE_STATUS_ID in(1,4) AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY LEAVE_ID DESC");
+            gvProgressing.DataSource = sds;
+            gvProgressing.DataBind();
+
+            if (gvProgressing.Rows.Count > 0)
+            {
+                lbProgressing.Visible = false;
+                TableHeaderCell headerCell = new TableHeaderCell();
+                headerCell.Text = "ดูข้อมูล";
+                gvProgressing.HeaderRow.Cells.Add(headerCell);
+
+                gvProgressing.HeaderRow.Cells[0].Text = "<img src='Image/Small/ID.png' class='icon_left'/>" + gvProgressing.HeaderRow.Cells[0].Text;
+                gvProgressing.HeaderRow.Cells[1].Text = "<img src='Image/Small/list.png' class='icon_left'/>" + gvProgressing.HeaderRow.Cells[1].Text;
+                gvProgressing.HeaderRow.Cells[2].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvProgressing.HeaderRow.Cells[2].Text;
+                gvProgressing.HeaderRow.Cells[3].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvProgressing.HeaderRow.Cells[3].Text;
+                gvProgressing.HeaderRow.Cells[4].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvProgressing.HeaderRow.Cells[4].Text;
+                gvProgressing.HeaderRow.Cells[6].Text = "<img src='Image/Small/question.png' class='icon_left'/>" + gvProgressing.HeaderRow.Cells[6].Text;
+
+                for (int i = 0; i < gvProgressing.Rows.Count; ++i)
+                {
+                    string ID = gvProgressing.Rows[i].Cells[0].Text;
+                    TableCell cell = new TableCell();
+                    LinkButton btn = new LinkButton();
+                    btn.CssClass = "ps-button-img";
+                    btn.Text = "<img src='Image/Small/search.png'></img>";
+                    btn.Click += (e2, e3) =>
+                    {
+                        Response.Redirect("ViewLeaveForm.aspx?LeaveID=" + ID);
+                    };
+                    cell.Controls.Add(btn);
+                    gvProgressing.Rows[i].Cells.Add(cell);
 
                 }
+
+                Util.NormalizeGridViewDate(gvProgressing, 2);
+                Util.NormalizeGridViewDate(gvProgressing, 3);
+                Util.NormalizeGridViewDate(gvProgressing, 4);
             }
-
-            div1.Controls.Add(table);
-
+            else
+            {
+                lbProgressing.Visible = true;
+            }
         }
+        private void FuncGVHistory()
+        {
+            OracleConnection.ClearAllPools();
+            SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT LEAVE_ID รหัสการลา, (SELECT LEAVE_TYPE_NAME FROM LEV_TYPE WHERE LEV_TYPE.LEAVE_TYPE_ID = LEV_DATA.LEAVE_TYPE_ID) ประเภทการลา, REQ_DATE วันที่ข้อมูล, FROM_DATE จากวันที่, TO_DATE ถึงวันที่, TOTAL_DAY รวมวัน, (SELECT LEAVE_STATUS_NAME FROM LEV_STATUS WHERE LEV_STATUS.LEAVE_STATUS_ID = LEV_DATA.LEAVE_STATUS_ID) สถานะ, NVL(V_ALLOW,0) ผลการอนุมัติ FROM LEV_DATA WHERE LEAVE_STATUS_ID in(3,6,7,8) AND PS_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY LEAVE_ID DESC");
+            gvHistory.DataSource = sds;
+            gvHistory.DataBind();
+
+            if (gvHistory.Rows.Count > 0)
+            {
+                lbHistory.Visible = false;
+                TableHeaderCell headerCell = new TableHeaderCell();
+                headerCell.Text = "ดูข้อมูล";
+                gvHistory.HeaderRow.Cells.Add(headerCell);
+
+                gvHistory.HeaderRow.Cells[0].Text = "<img src='Image/Small/ID.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[0].Text;
+                gvHistory.HeaderRow.Cells[1].Text = "<img src='Image/Small/list.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[1].Text;
+                gvHistory.HeaderRow.Cells[2].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[2].Text;
+                gvHistory.HeaderRow.Cells[3].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[3].Text;
+                gvHistory.HeaderRow.Cells[4].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[4].Text;
+                gvHistory.HeaderRow.Cells[6].Text = "<img src='Image/Small/question.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[6].Text;
+                gvHistory.HeaderRow.Cells[7].Text = "<img src='Image/Small/correct.png' class='icon_left'/>" + gvHistory.HeaderRow.Cells[7].Text;
+
+                for (int i = 0; i < gvHistory.Rows.Count; ++i)
+                {
+                    string ID = gvHistory.Rows[i].Cells[0].Text;
+                    TableCell cell = new TableCell();
+                    LinkButton btn = new LinkButton();
+                    btn.CssClass = "ps-button-img";
+                    btn.Text = "<img src='Image/Small/search.png'></img>";
+                    btn.Click += (e2, e3) =>
+                    {
+                        Response.Redirect("ViewLeaveForm.aspx?LeaveID=" + ID);
+                    };
+                    cell.Controls.Add(btn);
+                    gvHistory.Rows[i].Cells.Add(cell);
+
+                    if (Util.StringEqual(gvHistory.Rows[i].Cells[7].Text, new string[] { "0" }))
+                    {
+                        gvHistory.Rows[i].Cells[7].Text = "-";
+                        gvHistory.Rows[i].Cells[7].ForeColor = System.Drawing.Color.Black;
+                    }
+                    if (Util.StringEqual(gvHistory.Rows[i].Cells[7].Text, new string[] { "2" }))
+                    {
+                        gvHistory.Rows[i].Cells[7].Text = "ไม่อนุญาต";
+                        gvHistory.Rows[i].Cells[7].ForeColor = System.Drawing.Color.Red;
+                    }
+                    if (Util.StringEqual(gvHistory.Rows[i].Cells[7].Text, new string[] { "1" }))
+                    {
+                        gvHistory.Rows[i].Cells[7].Text = "อนุญาต";
+                        gvHistory.Rows[i].Cells[7].ForeColor = System.Drawing.Color.Green;
+                    }
+                }
+
+                Util.NormalizeGridViewDate(gvHistory, 2);
+                Util.NormalizeGridViewDate(gvHistory, 3);
+                Util.NormalizeGridViewDate(gvHistory, 4);
+            }
+            else
+            {
+                lbHistory.Visible = true;
+            }
+        }
+
+
     }
 }

@@ -13,21 +13,57 @@ namespace WEB_PERSONAL {
     public partial class INS_History {
         
         /// <summary>
-        /// NoInsig control.
+        /// lbFinish control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl NoInsig;
+        protected global::System.Web.UI.WebControls.Label lbFinish;
         
         /// <summary>
-        /// div1 control.
+        /// gvFinish control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div1;
+        protected global::System.Web.UI.WebControls.GridView gvFinish;
+        
+        /// <summary>
+        /// lbProgressing control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbProgressing;
+        
+        /// <summary>
+        /// gvProgressing control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvProgressing;
+        
+        /// <summary>
+        /// lbHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbHistory;
+        
+        /// <summary>
+        /// gvHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvHistory;
     }
 }

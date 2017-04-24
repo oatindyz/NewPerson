@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="editproject.aspx.cs" Inherits="WEB_PERSONAL.editproject" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-        <script type = "text/javascript">
+    <script type = "text/javascript">
     function DisableButton() {
         document.getElementById("<%=btnUpdateProject.ClientID %>").disabled = true;
     }
