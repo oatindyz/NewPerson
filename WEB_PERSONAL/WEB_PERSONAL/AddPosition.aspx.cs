@@ -199,19 +199,41 @@ namespace WEB_PERSONAL
                 DatabaseManager.ExecuteNonQuery("DELETE PS_POSITION_HISTORY WHERE PH_ID = '" + ValuePHID + "'");
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
                 BindPosition();
-
+                string CheckNull = DatabaseManager.ExecuteString("SELECT COUNT(*) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'");
 
                 OracleConnection.ClearAllPools();
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING)) {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con)) {
-                        com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
-                        com.ExecuteNonQuery();
+
+                    if(CheckNull != "")
+                    {
+                        using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                            com.ExecuteNonQuery();
+                        }
+                        using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_FIRST_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                            com.ExecuteNonQuery();
+                        }
                     }
-                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_FIRST_POSITION_ID = (SELECT P_ID FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID AND GET_DATE = (SELECT MIN(GET_DATE) FROM PS_POSITION_HISTORY WHERE CITIZEN_ID = :CITIZEN_ID)) WHERE PS_CITIZEN_ID = :CITIZEN_ID", con)) {
-                        com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
-                        com.ExecuteNonQuery();
+                    else
+                    {
+                        using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_POSITION_ID = :PS_POSITION_ID WHERE PS_CITIZEN_ID = :CITIZEN_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("PS_POSITION_ID", DBNull.Value));
+                            com.Parameters.Add(new OracleParameter("PS_CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                            com.ExecuteNonQuery();
+                        }
+                        using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_FIRST_POSITION_ID = :PS_FIRST_POSITION_ID WHERE PS_CITIZEN_ID = :CITIZEN_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("PS_FIRST_POSITION_ID", DBNull.Value));
+                            com.Parameters.Add(new OracleParameter("CITIZEN_ID", MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())));
+                            com.ExecuteNonQuery();
+                        }
                     }
+                    
                 }
 
             }

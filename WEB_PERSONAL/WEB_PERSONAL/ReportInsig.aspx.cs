@@ -46,7 +46,7 @@ namespace WEB_PERSONAL {
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ราบชื่อผู้ที่ขอเครื่องราช"; cell.ColumnSpan = 4; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "รายชื่อผู้ที่ขอเครื่องราชฯ"; cell.ColumnSpan = 4; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -84,7 +84,7 @@ namespace WEB_PERSONAL {
             Table table = loadReport1Table();
 
             Response.ContentType = "application/x-msexcel";
-            Response.AddHeader("Content-Disposition", "attachment;filename=ราบชื่อผู้ที่ขอเครื่องราช.xls");
+            Response.AddHeader("Content-Disposition", "attachment;filename=รายชื่อผู้ที่ขอเครื่องราชฯ.xls");
             Response.ContentEncoding = Encoding.UTF8;
 
             StringWriter tw = new StringWriter();

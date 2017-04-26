@@ -37,6 +37,7 @@ namespace WEB_PERSONAL
             else if (Request.QueryString["ID"] == "EmpInsigYearCon") { BindEmpInsigYearCon(); }
             else if (Request.QueryString["ID"] == "GovEmpAvailable") { BindGovEmpAvailable(); }
             else if (Request.QueryString["ID"] == "GovEmpInsigYearCon") { BindGovEmpInsigYearCon(); }
+            else if (Request.QueryString["ID"] == "GovEmpInworkYear") { BindGovEmpInworkYear(); }
         }
 
         private void HideAll()
@@ -52,6 +53,7 @@ namespace WEB_PERSONAL
             Panel9.Visible = false;
             Panel10.Visible = false;
             Panel11.Visible = false;
+            Panel12.Visible = false;
         }
 
         //
@@ -976,6 +978,87 @@ namespace WEB_PERSONAL
                 BindGovEmpInsigYearCon();
             }
         }
+
+        //
+        protected void BindGovEmpInworkYear()
+        {
+            HideAll();
+            Panel12.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IGIY_ID, P_ID_MIN, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOVEMP_INWORK_YEAR.P_ID_MIN)P_ID_MIN_NAME, P_ID_MAX, (SELECT P_NAME FROM TB_POSITION WHERE TB_POSITION.P_ID = TB_INSIG_GOVEMP_INWORK_YEAR.P_ID_MAX)P_ID_MAX_NAME, P_ID_YEAR FROM TB_INSIG_GOVEMP_INWORK_YEAR ORDER BY ABS(IGIY_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterGovEmpInworkYear.DataSource = dt;
+            myRepeaterGovEmpInworkYear.DataBind();
+            DatabaseManager.BindDropDown(ddlGovEmpInworkYearP_ID_MIN, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 5 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlGovEmpInworkYearP_ID_MAX, "SELECT * FROM TB_POSITION WHERE P_STAFFTYPE_ID = 5 ORDER BY ABS(P_ID) ASC", "P_NAME", "P_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearGovEmpInworkYear()
+        {
+            ddlGovEmpInworkYearP_ID_MIN.SelectedIndex = 0;
+            ddlGovEmpInworkYearP_ID_MAX.SelectedIndex = 0;
+            tbGovEmpInworkYearP_ID_YEAR.Text = "";
+        }
+        protected void lbuMenuGovEmpInworkYear_Click(object sender, EventArgs e)
+        {
+            BindGovEmpInworkYear();
+        }
+        protected void btnInsertGovEmpInworkYear_Click(object sender, EventArgs e)
+        {
+            DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_GOVEMP_INWORK_YEAR (IGIY_ID,P_ID_MIN,P_ID_MAX,P_ID_YEAR) VALUES (TB_INSIG_GOVEMP_INWORK_YE_SEQ.NEXTVAL," + ddlGovEmpInworkYearP_ID_MIN.SelectedValue + "," + ddlGovEmpInworkYearP_ID_MAX.SelectedValue + ",'" + tbGovEmpInworkYearP_ID_YEAR.Text + "')");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindGovEmpInworkYear();
+            ClearGovEmpInworkYear();
+        }
+        protected void btnUpdateGovEmpInworkYear_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdGovEmpInworkYear"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_GOVEMP_INWORK_YEAR SET P_ID_MIN = " + ddlGovEmpInworkYearP_ID_MIN.SelectedValue + ", P_ID_MAX = " + ddlGovEmpInworkYearP_ID_MAX.SelectedValue + ", P_ID_YEAR = '" + tbGovEmpInworkYearP_ID_YEAR.Text + "' WHERE IGIY_ID = '" + Session["DefaultIdGovEmpInworkYear"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindGovEmpInworkYear();
+                ClearGovEmpInworkYear();
+                Session.Remove("DefaultIdGovEmpInworkYear");
+            }
+        }
+        protected void lbuClearGovEmpInworkYear_Click(object sender, EventArgs e)
+        {
+            BindGovEmpInworkYear();
+            ClearGovEmpInworkYear();
+            Session.Remove("DefaultIdGovEmpInworkYear");
+        }
+        protected void OnEditGovEmpInworkYear(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFGovEmpInworkYearID = (item.FindControl("HFGovEmpInworkYearID") as HiddenField).Value;
+            string ValueHFGovEmpInworkYearP_ID_MIN = (item.FindControl("HFGovEmpInworkYearP_ID_MIN") as HiddenField).Value;
+            string ValueHFGovEmpInworkYearP_ID_MAX = (item.FindControl("HFGovEmpInworkYearP_ID_MAX") as HiddenField).Value;
+            string ValuelbInworkYear = (item.FindControl("lbInworkYear") as Label).Text;
+
+            ddlGovEmpInworkYearP_ID_MIN.SelectedValue = ValueHFGovEmpInworkYearP_ID_MIN;
+            ddlGovEmpInworkYearP_ID_MAX.SelectedValue = ValueHFGovEmpInworkYearP_ID_MAX;
+            tbGovEmpInworkYearP_ID_YEAR.Text = ValuelbInworkYear;
+
+            Session["DefaultIdGovEmpInworkYear"] = ValueHFGovEmpInworkYearID;
+        }
+        protected void OnDeleteGovEmpInworkYear(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFGovEmpInworkYearID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_GOVEMP_INWORK_YEAR WHERE IGIY_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindGovEmpInworkYear();
+            }
+        }
+
 
     }
 }

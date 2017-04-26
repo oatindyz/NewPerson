@@ -314,8 +314,7 @@
             <div id="hvr6" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/medal.png" />เครื่องราชฯ</div>
                 <a href="INSG_Request.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />การขอเครื่องราชฯ</a>
-                <a href="INS_History.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการขอเครื่องราชฯ</a>   
-                <a href="#.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ</a>                 
+                <a href="INS_History.aspx" runat="server" class="ps-ms-left-ext-link"><img src="Image/Small/medal.png" />ประวัติการขอเครื่องราชฯ</a>                
             </div>
             <div id="hvr7" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/document.png" />การลา</div>

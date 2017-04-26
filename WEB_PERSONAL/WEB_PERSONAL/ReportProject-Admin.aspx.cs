@@ -22,21 +22,35 @@ namespace WEB_PERSONAL
             {
                 Server.Transfer("NoPermission.aspx");
             }
-
+            
             if (!IsPostBack)
             {
                 BindDDL();
                 ddlYear.Items.Insert(0, new ListItem("--กรุณาเลือก", ""));
-                for (int i = 2550; i < 2600; ++i)
+                for (int i = 2560; i < 2600; ++i)
                 {
                     ddlYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
                 }
+                ddlView.Items.Add(new ListItem("แสดงจำนวนรวมข้อมูลการพัฒนาบุคลากร", "1"));
+                ddlView.Items.Add(new ListItem("แสดงรายละเอียดข้อมูลการพัฒนาบุคลากร", "2"));
+            }
+
+            if (ddlView.SelectedValue == "1")
+            {
+                Bindจำนวนรวมแต่ละวิทยาเขต();
+                DateTD.Visible = false;
+            }
+            else if (ddlView.SelectedValue == "2")
+            {
+                Bindรายละเอียดแต่ละวิทยาเขต();
+                DateTD.Visible = true;
             }
         }
 
         protected void BindDDL()
         {
-            DatabaseManager.BindDropDown(ddlCategory, "SELECT * FROM TB_PROJECT_CATEGORY ORDER BY CATEGORY_ID", "CATEGORY_NAME", "CATEGORY_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlCampus, "SELECT * FROM TB_CAMPUS ORDER BY CAMPUS_ID", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
+            //DatabaseManager.BindDropDown(ddlCategory, "SELECT * FROM TB_PROJECT_CATEGORY ORDER BY CATEGORY_ID", "CATEGORY_NAME", "CATEGORY_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlCountry, "SELECT * FROM TB_PROJECT_COUNTRY ORDER BY COUNTRY_ID", "COUNTRY_NAME", "COUNTRY_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlSubCountry, "SELECT * FROM TB_PROJECT_COUNTRY_SUB ORDER BY SUB_COUNTRY_ID", "SUB_COUNTRY_NAME", "SUB_COUNTRY_ID", "--กรุณาเลือก--");
         }
@@ -66,7 +80,210 @@ namespace WEB_PERSONAL
             notification.InnerHtml = text;
         }
 
-        private Table BindToTable()
+        private Table Bindจำนวนรวมแต่ละวิทยาเขต()
+        {
+            Table table = new Table();
+            table.CssClass = "ps-table-1";
+
+            {
+                TableHeaderRow row = new TableHeaderRow();
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลอบรม/สัมมนา/ดูงาน"; cell.ColumnSpan = 14; row.Cells.Add(cell); }
+                table.Rows.Add(row);
+            }
+
+            {
+                TableHeaderRow row = new TableHeaderRow();
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = ""; cell.ColumnSpan = 4; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประเภท"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประเภท"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
+                table.Rows.Add(row);
+            }
+
+            {
+                TableHeaderRow row = new TableHeaderRow();
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = ""; cell.ColumnSpan = 4; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ในประเทศ"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ต่างประเทศ"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
+                table.Rows.Add(row);
+            }
+
+            {
+                TableHeaderRow row = new TableHeaderRow();
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ลำดับ"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อ-สกุล"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วิทยาเขต"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "จำนวน"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อบรม"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประชุม"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สัมมนา"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ดูงาน"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อื่นๆ"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อบรม"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประชุม"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สัมมนา"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ดูงาน"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อื่นๆ"; row.Cells.Add(cell); }
+                table.Rows.Add(row);
+            }
+
+            List<string> CITIZEN_ID = new List<string>();
+
+            OracleConnection.ClearAllPools();
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+
+                string where = "";
+                if (ddlYear.SelectedValue != "")
+                {
+                    where += " AND EXTRACT(YEAR FROM START_DATE) = '" + ddlYear.SelectedValue + "'-543";
+                }
+                if (ddlCampus.SelectedValue != "")
+                {
+                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
+                }
+                if (ddlCountry.SelectedValue != "")
+                {
+                    where += " AND COUNTRY_ID = '" + ddlCountry.SelectedValue + "'";
+                }
+                if (ddlSubCountry.SelectedValue != "")
+                {
+                    where += " AND SUB_COUNTRY_ID = '" + ddlSubCountry.SelectedValue + "'";
+                }
+                if (tbStartDate.Text != "" && tbEndDate.Text != "")
+                {
+                    where += " AND START_DATE >= TO_DATE('" + tbStartDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND END_DATE <= TO_DATE('" + tbEndDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') ";
+                }
+
+                using (OracleCommand com = new OracleCommand("SELECT DISTINCT(CITIZEN_ID) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = (SELECT PS_CITIZEN_ID FROM PS_PERSON WHERE TB_PROJECT.CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID)" + where, con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            CITIZEN_ID.Add(reader.GetValue(0).ToString());
+                        }
+                    }
+                }
+
+                for (int i = 0; i < CITIZEN_ID.Count; i++)
+                {
+                    string citizen_id = CITIZEN_ID[i];
+                    TableRow row = new TableRow();
+                    {
+                        TableCell cell = new TableCell();
+                        cell.Text = "" + (i + 1);
+                        row.Cells.Add(cell);
+                    }
+                    {
+                        TableCell cell = new TableCell();
+                        using (OracleCommand com = new OracleCommand("SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME NAME FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizen_id + "'", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    cell.Text = reader.GetString(0);
+                                }
+                            }
+                        }
+                        row.Cells.Add(cell);
+                    }
+                    {
+                        TableCell cell = new TableCell();
+                        using (OracleCommand com = new OracleCommand("SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizen_id + "'", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    cell.Text = reader.GetString(0);
+                                }
+                            }
+                        }
+                        row.Cells.Add(cell);
+                    }
+                    {
+                        TableCell cell = new TableCell();
+                        using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END) FROM TB_PROJECT", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    cell.Text = reader.GetInt32(0).ToString();
+                                }
+                            }
+                        }
+                        row.Cells.Add(cell);
+                    }
+
+                    {
+                        using (OracleCommand com = new OracleCommand(
+                            "SELECT" +
+                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 1)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 2)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 3)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 4)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 5)" +
+                            " FROM DUAL",
+                            con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    TableCell cell;
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(0); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(1); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(2); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(3); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(4); row.Cells.Add(cell);
+                                }
+                            }
+                        }
+                    }
+                    {
+                        using (OracleCommand com = new OracleCommand(
+                            "SELECT" +
+                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 1)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 2)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 3)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 4)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 5)" +
+                            " FROM DUAL",
+                            con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    TableCell cell;
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(0); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(1); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(2); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(3); row.Cells.Add(cell);
+                                    cell = new TableCell(); cell.Text = "" + reader.GetInt32(4); row.Cells.Add(cell);
+                                }
+                            }
+                        }
+                    }
+                    table.Rows.Add(row);
+                }
+
+            }
+
+            if (CITIZEN_ID.Count > 0)
+            {
+                return table;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private Table Bindรายละเอียดแต่ละวิทยาเขต()
         {
             Table table = new Table();
             table.CssClass = "ps-table-1";
@@ -100,7 +317,7 @@ namespace WEB_PERSONAL
                 TableHeaderRow row = new TableHeaderRow();
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ลำดับ"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อ-สกุล"; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "จำนวน"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วิทยาเขต"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "เรื่อง"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อบรม"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประชุม"; row.Cells.Add(cell); }
@@ -114,24 +331,26 @@ namespace WEB_PERSONAL
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อื่นๆ"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สถานที่"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วัน เดือน ปี ที่เข้าร่วม"; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "จำนวนเงินที่ใช้ในการ"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "จำนวนเงินที่ใช้"; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
+
             List<string> PRO_ID = new List<string>();
             List<string> CITIZEN_ID = new List<string>();
+
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
-                string sql;
+
                 string where = "";
                 if (ddlYear.SelectedValue != "")
                 {
                     where += " AND EXTRACT(YEAR FROM START_DATE) = '" + ddlYear.SelectedValue + "'-543";
                 }
-                if (ddlCategory.SelectedValue != "")
+                if (ddlCampus.SelectedValue != "")
                 {
-                    where += " AND CATEGORY_ID = '" + ddlCategory.SelectedValue + "'";
+                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
                 }
                 if (ddlCountry.SelectedValue != "")
                 {
@@ -141,12 +360,8 @@ namespace WEB_PERSONAL
                 {
                     where += " AND SUB_COUNTRY_ID = '" + ddlSubCountry.SelectedValue + "'";
                 }
-                if (tbStartDate.Text != "" && tbEndDate.Text != "")
-                {
-                    where += " AND START_DATE >= TO_DATE('" + tbStartDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND END_DATE <= TO_DATE('" + tbEndDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') ";
-                }
 
-                using (OracleCommand com = new OracleCommand("SELECT TB_PROJECT.PRO_ID,TB_PROJECT.CITIZEN_ID,TB_PROJECT.CATEGORY_ID FROM TB_PROJECT,PS_PERSON WHERE TB_PROJECT.CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID" + where, con))
+                using (OracleCommand com = new OracleCommand("SELECT PRO_ID,CITIZEN_ID FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = (SELECT PS_CITIZEN_ID FROM PS_PERSON WHERE TB_PROJECT.CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID)" + where + "ORDER BY ABS(PRO_ID)", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
@@ -184,13 +399,13 @@ namespace WEB_PERSONAL
                     }
                     {
                         TableCell cell = new TableCell();
-                        using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END) FROM TB_PROJECT", con))
+                        using (OracleCommand com = new OracleCommand("SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + citizen_id + "'", con))
                         {
                             using (OracleDataReader reader = com.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    cell.Text = reader.GetInt32(0).ToString();
+                                    cell.Text = reader.GetString(0);
                                 }
                             }
                         }
@@ -204,20 +419,21 @@ namespace WEB_PERSONAL
                             {
                                 while (reader.Read())
                                 {
-                                    cell.Text = reader.GetString(0);
+                                    cell.Text = reader.GetValue(0).ToString();
                                 }
                             }
                         }
                         row.Cells.Add(cell);
                     }
+
                     {
                         using (OracleCommand com = new OracleCommand(
                             "SELECT" +
-                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 1)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 2)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 3)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 4)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 5)" +
+                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 1)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 2)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 3)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 4)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 5)" +
                             " FROM DUAL",
                             con))
                         {
@@ -238,11 +454,11 @@ namespace WEB_PERSONAL
                     {
                         using (OracleCommand com = new OracleCommand(
                             "SELECT" +
-                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 1)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 2)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 3)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 4)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE PRO_ID = '" + pro_id + "' AND CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 5)" +
+                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 1)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 2)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 3)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 4)" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 5)" +
                             " FROM DUAL",
                             con))
                         {
@@ -268,7 +484,7 @@ namespace WEB_PERSONAL
                             {
                                 while (reader.Read())
                                 {
-                                    cell.Text = reader.GetString(0);
+                                    cell.Text = reader.GetValue(0).ToString();
                                 }
                             }
                         }
@@ -317,71 +533,6 @@ namespace WEB_PERSONAL
             }
         }
 
-        protected void lbuExport_Click(object sender, EventArgs e)
-        {
-            Table table;
-            table = BindToTable();
-            if (table == null)
-            {
-                return;
-            }
-
-            Response.ContentType = "application/x-msexcel";
-
-            if (ddlYear.SelectedValue != "")
-            {
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน " + ddlYear.SelectedValue + ".xls");
-            }
-            else if (ddlCategory.SelectedValue != "")
-            {
-                string name = DatabaseManager.ExecuteString("SELECT (SELECT CATEGORY_NAME FROM TB_PROJECT_CATEGORY WHERE TB_PROJECT_CATEGORY.CATEGORY_ID = TB_PROJECT.CATEGORY_ID) NAME FROM TB_PROJECT WHERE CATEGORY_ID = '" + ddlCategory.SelectedValue + "'");
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน " + name + ".xls");
-            }
-            else if (ddlCountry.SelectedValue != "")
-            {
-                string name = DatabaseManager.ExecuteString("SELECT (SELECT COUNTRY_NAME FROM TB_PROJECT_COUNTRY WHERE TB_PROJECT_COUNTRY.COUNTRY_ID = TB_PROJECT.COUNTRY_ID) NAME FROM TB_PROJECT WHERE COUNTRY_ID = '" + ddlCountry.SelectedValue + "'");
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน " + name + ".xls");
-            }
-            else if (ddlSubCountry.SelectedValue != "")
-            {
-                string name = DatabaseManager.ExecuteString("SELECT (SELECT SUB_COUNTRY_NAME FROM TB_PROJECT_COUNTRY_SUB WHERE TB_PROJECT_COUNTRY_SUB.SUB_COUNTRY_ID = TB_PROJECT.SUB_COUNTRY_ID) NAME FROM TB_PROJECT WHERE SUB_COUNTRY_ID = '" + ddlSubCountry.SelectedValue + "'");
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน " + name + ".xls");
-            }
-            else if (tbStartDate.Text != "" && tbEndDate.Text != "")
-            {
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน " + tbStartDate.Text + " - " + tbEndDate.Text + ".xls");
-            }
-            else
-            {
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน.xls");
-            }
-
-            Response.ContentEncoding = Encoding.UTF8;
-
-            StringWriter tw = new StringWriter();
-            HtmlTextWriter hw = new HtmlTextWriter(tw);
-            tw.WriteLine("<html>");
-            tw.WriteLine("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
-            tw.WriteLine("<style>");
-            tw.WriteLine("table { border-collapse:collapse; }");
-            tw.WriteLine("td { border-collapse:collapse; border: thin solid black; }");
-            tw.WriteLine("</style>");
-
-            table.RenderControl(hw);
-
-            tw.WriteLine("</html>");
-            Response.Write(tw.ToString());
-            Response.End();
-
-
-        }
-
-        public override void VerifyRenderingInServerForm(Control control)
-        {
-            /* Confirms that an HtmlForm control is rendered for the specified ASP.NET
-               server control at run time. */
-        }
-
         protected void lbuSearch_Click(object sender, EventArgs e)
         {
             if (tbStartDate.Text != "" && tbEndDate.Text == "")
@@ -400,15 +551,65 @@ namespace WEB_PERSONAL
             {
                 ChangeNotification("", "");
             }
+            if (ddlView.SelectedValue == "1")
+            {
+                Table table;
+                table = Bindจำนวนรวมแต่ละวิทยาเขต();
+                if (table == null)
+                {
+                    return;
+                }
+                Panel1.Controls.Clear();
+                Panel1.Controls.Add(table);
+            }
+            else if (ddlView.SelectedValue == "2")
+            {
+                Table table;
+                table = Bindรายละเอียดแต่ละวิทยาเขต();
+                if (table == null)
+                {
+                    return;
+                }
+                Panel1.Controls.Clear();
+                Panel1.Controls.Add(table);
+            }
+
+        }
+
+        protected void lbuExport_Click(object sender, EventArgs e)
+        {
             Table table;
-            table = BindToTable();
+            table = Bindจำนวนรวมแต่ละวิทยาเขต();
             if (table == null)
             {
                 return;
             }
 
-            Panel1.Controls.Clear();
-            Panel1.Controls.Add(table);
+            Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน" + ddlView.SelectedItem.Text + ".xls");
+            Response.ContentType = "application/x-msexcel";
+            Response.ContentEncoding = Encoding.UTF8;
+
+            StringWriter tw = new StringWriter();
+            HtmlTextWriter hw = new HtmlTextWriter(tw);
+            tw.WriteLine("<html>");
+            tw.WriteLine("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
+            tw.WriteLine("<style>");
+            tw.WriteLine("table { border-collapse:collapse; }");
+            tw.WriteLine("td { border-collapse:collapse; border: thin solid black; }");
+            tw.WriteLine("</style>");
+
+            table.RenderControl(hw);
+
+            tw.WriteLine("</html>");
+            Response.Write(tw.ToString());
+            Response.End();
+
+        }
+
+        public override void VerifyRenderingInServerForm(Control control)
+        {
+            /* Confirms that an HtmlForm control is rendered for the specified ASP.NET
+               server control at run time. */
         }
 
     }

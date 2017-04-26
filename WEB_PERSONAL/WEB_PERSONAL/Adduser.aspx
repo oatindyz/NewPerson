@@ -25,7 +25,6 @@
                 else {
                     alert('รหัสประจำตัวประชาชนไม่ถูกต้อง');
                     document.getElementById('<%= tbCitizenID.ClientID %>').value = "";
-                    nextObj.focus();
                 }
 
             }

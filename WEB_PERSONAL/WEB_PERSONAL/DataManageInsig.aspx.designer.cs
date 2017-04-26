@@ -112,6 +112,24 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovEmpInsigYearCon;
         
         /// <summary>
+        /// lbuMenuGovEmpInworkYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuGovEmpInworkYear;
+        
+        /// <summary>
+        /// lbuMenuEmpUnivAvailable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbuMenuEmpUnivAvailable;
+        
+        /// <summary>
         /// Panel1 control.
         /// </summary>
         /// <remarks>
@@ -1100,5 +1118,86 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater myRepeaterGovEmpInsigYearCon;
+        
+        /// <summary>
+        /// Panel12 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel Panel12;
+        
+        /// <summary>
+        /// Label12 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label12;
+        
+        /// <summary>
+        /// ddlGovEmpInworkYearP_ID_MIN control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlGovEmpInworkYearP_ID_MIN;
+        
+        /// <summary>
+        /// ddlGovEmpInworkYearP_ID_MAX control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlGovEmpInworkYearP_ID_MAX;
+        
+        /// <summary>
+        /// tbGovEmpInworkYearP_ID_YEAR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbGovEmpInworkYearP_ID_YEAR;
+        
+        /// <summary>
+        /// btnInsertGovEmpInworkYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnInsertGovEmpInworkYear;
+        
+        /// <summary>
+        /// btnUpdateGovEmpInworkYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpdateGovEmpInworkYear;
+        
+        /// <summary>
+        /// lbuClearGovEmpInworkYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbuClearGovEmpInworkYear;
+        
+        /// <summary>
+        /// myRepeaterGovEmpInworkYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater myRepeaterGovEmpInworkYear;
     }
 }

@@ -19,14 +19,14 @@ namespace WEB_PERSONAL
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
 
-           /* if (loginPerson.PS_STAFFTYPE_ID == "1" || loginPerson.PS_STAFFTYPE_ID == "3" || loginPerson.PS_STAFFTYPE_ID == "5")
-            {
-                
-            }else
-            {
-                ChangeNotification("danger", "สามารถขอเครื่องราชฯได้ เฉพาะบุคลากรประเภท ข้าราชการ, ลูกจ้างประจำ, พนักงานราชการ");
-                return;
-            }*/
+             if (loginPerson.PS_STAFFTYPE_ID == "1" || loginPerson.PS_STAFFTYPE_ID == "3" || loginPerson.PS_STAFFTYPE_ID == "5" || loginPerson.PS_STAFFTYPE_ID == "2")
+             {
+
+             }else
+             {
+                 ChangeNotification("danger", "สามารถขอเครื่องราชฯได้เฉพาะบุคลากรประเภท ข้าราชการ, ลูกจ้างประจำ, พนักงานราชการ และพนักงานในสถาบันฯ");
+                 return;
+             }
 
             if (loginPerson.PS_STAFFTYPE_ID == "3")
             {
@@ -51,6 +51,11 @@ namespace WEB_PERSONAL
                     ChangeNotification("danger", "บุคลากรยังไม่มีระดับตำแหน่งและเงินเดือน");
                     return;
                 }
+            }
+            if (loginPerson.PS_STAFFTYPE_ID == "4")
+            {
+                ChangeNotification("danger", "บุคลากรประเภทลูกจ้างชั่วคราวไม่สามารถขอเครื่องราชฯได้");
+                return;
             }
             
 

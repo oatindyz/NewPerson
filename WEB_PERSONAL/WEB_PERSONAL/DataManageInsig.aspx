@@ -10,7 +10,7 @@
     <!-- for Menu List -->
     <script>
         $(document).ready(function () {
-            $('#dataTables-GovAvailable,#dataTables-GovHighSalaryCon,#dataTables-GovInsigYearCon,#dataTables-GovPosYearCon,#dataTables-GovSalaryCon,#dataTables-GovSalaryYearCon,#dataTables-GovAddOne,#dataTables-EmpAvailable,#dataTables-EmpInsigYearCon,#dataTables-GovEmpAvailable,#dataTables-GovEmpInsigYearCon').DataTable({
+            $('#dataTables-GovAvailable,#dataTables-GovHighSalaryCon,#dataTables-GovInsigYearCon,#dataTables-GovPosYearCon,#dataTables-GovSalaryCon,#dataTables-GovSalaryYearCon,#dataTables-GovAddOne,#dataTables-EmpAvailable,#dataTables-EmpInsigYearCon,#dataTables-GovEmpAvailable,#dataTables-GovEmpInsigYearCon,#dataTables-GovEmpInworkYear').DataTable({
                 responsive: true
             });
         });
@@ -66,7 +66,15 @@
         <asp:LinkButton ID="lbuMenuGovEmpAvailable" runat="server" OnClick="lbuMenuGovEmpAvailable_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขช่วงที่สามารถขอได้ถึง</asp:LinkButton>
 
         <asp:LinkButton ID="lbuMenuGovEmpInsigYearCon" runat="server" OnClick="lbuMenuGovEmpInsigYearCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ</asp:LinkButton>
+
+        <asp:LinkButton ID="lbuMenuGovEmpInworkYear" runat="server" OnClick="lbuMenuGovEmpInworkYear_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขจำนวนปีที่ปฏิบัติงานติดต่อกัน</asp:LinkButton>
     </div>
+
+    <!--<div class="c1">
+        <div class="ps-ms-left-ext-submenu"><img src="Image/Small/medal.png" />พนักงานในสถาบันฯ</div>
+
+        <asp:LinkButton ID="lbuMenuEmpUnivAvailable" runat="server"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขช่วงที่สามารถขอได้ถึง</asp:LinkButton>
+    </div>-->
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
@@ -755,7 +763,7 @@
                                 </td>
                             </tr>
                         </ItemTemplate>
-                    </asp:Repeater>
+                    </asp:Repeater> 
                 </table>
             </div>
         </asp:Panel>
@@ -897,6 +905,74 @@
                                 <td>
                                     <asp:LinkButton ID="lnkEditGovEmpInsigYearCon" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditGovEmpInsigYearCon" />
                                     <asp:LinkButton ID="lnkDeleteGovEmpInsigYearCon" Text="ลบ" runat="server" CssClass="btn btn-danger" OnClick="OnDeleteGovEmpInsigYearCon" OnClientClick="return confirm('คุณต้องการที่จะลบใช่หรือไม่?');" />
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </table>
+            </div>
+        </asp:Panel>
+
+        <asp:Panel ID="Panel12" runat="server" CssClass="divpan" Visible="false">
+            <div class="ps-header">
+                <img src="Image/Small/wrench.png" /><asp:Label ID="Label12" runat="server" Text="พนักงานราชการ : เงื่อนไขจำนวนปีที่ปฏิบัติงานติดต่อกัน"></asp:Label>
+            </div>
+            <div class="dataTable_wrapper">
+                <div class="ps-header">
+                    <img src="Image/Small/Add.png" />เพิ่มข้อมูล
+                </div>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <td>ระดับตำแหน่งต่ำ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlGovEmpInworkYearP_ID_MIN" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>ระดับตำแหน่งต่ำสูง<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlGovEmpInworkYearP_ID_MAX" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>จำนวนปี<span class="ps-lb-red" />*<br />
+                            <asp:TextBox ID="tbGovEmpInworkYearP_ID_YEAR" runat="server" onkeypress="return isNumberKey(event)" MaxLength="2" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>จัดการข้อมูล:<br />
+                            <asp:Button ID="btnInsertGovEmpInworkYear" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertGovEmpInworkYear_Click" Text="เพิ่มข้อมูล" />
+                            <asp:Button ID="btnUpdateGovEmpInworkYear" runat="server" CssClass="btn btn-info ekknidRight" OnClick="btnUpdateGovEmpInworkYear_Click" Text="อัพเดทข้อมูล" />
+                            <asp:LinkButton ID="lbuClearGovEmpInworkYear" runat="server" CssClass="btn btn-success" OnClick="lbuClearGovEmpInworkYear_Click" Text="ล้างข้อมูล" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="dataTable_wrapper">
+                <div class="ps-header">
+                    <img src="Image/Small/list.png" />ข้อมูล
+                </div>
+                <table class="table table-striped table-bordered table-hover" id="dataTables-GovEmpInworkYear">
+                    <thead>
+                        <tr>
+                            <th>ลำดับที่</th>
+                            <th>ระดับตำแหน่งต่ำ</th>
+                            <th>ระดับตำแหน่งต่ำสูง</th>
+                            <th>จำนวนปี</th>
+                            <th>จัดการข้อมูล</th>
+                        </tr>
+                    </thead>
+                    <asp:Repeater ID="myRepeaterGovEmpInworkYear" runat="server">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Container.ItemIndex +1 %><asp:HiddenField ID="HFGovEmpInworkYearID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "IGIY_ID") %>' />
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFGovEmpInworkYearP_ID_MIN" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "P_ID_MIN") %>' />
+                                    <asp:Label ID="lbGovEmpInworkYearP_ID_MIN" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "P_ID_MIN_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFGovEmpInworkYearP_ID_MAX" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "P_ID_MAX") %>' />
+                                    <asp:Label ID="lbGovEmpInworkYearP_ID_MAX" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "P_ID_MAX_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:Label ID="lbInworkYear" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "P_ID_YEAR") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:LinkButton ID="lnkEditGovEmpInworkYear" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditGovEmpInworkYear" />
+                                    <asp:LinkButton ID="lnkDeleteGovEmpInworkYear" Text="ลบ" runat="server" CssClass="btn btn-danger" OnClick="OnDeleteGovEmpInworkYear" OnClientClick="return confirm('คุณต้องการที่จะลบใช่หรือไม่?');" />
                                 </td>
                             </tr>
                         </ItemTemplate>

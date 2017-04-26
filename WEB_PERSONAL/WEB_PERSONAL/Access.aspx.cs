@@ -163,7 +163,6 @@ namespace WEB_PERSONAL
                                     if (Login == 0) {
                                         LabelTop.Text = "รหัสบัตรประชาชนดังกล่าวเป็นการล็อคอินครั้งแรก โปรดยืนยันตัวตน ด้วยการใส่รหัสผ่านเป็นวันเกิด";
                                         ScriptManager.GetCurrent(this.Page).SetFocus(this.tbPassword);
-                                        return;
                                     }
                                     if (Login == 1) {
                                         LabelTop.Text = "";

@@ -10,7 +10,7 @@
     <div>
         ประเภทรายงาน 
         <select id="ddlR" class="ps-button">
-            <option value="1">แสดงผู้ที่ขอเครื่องราชฯ</option>
+            <option value="1">แสดงรายชื่อผู้ที่ขอเครื่องราชฯ</option>
         </select>
     </div>
     

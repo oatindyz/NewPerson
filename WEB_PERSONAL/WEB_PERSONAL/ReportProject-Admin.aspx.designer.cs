@@ -31,13 +31,22 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl notification;
         
         /// <summary>
-        /// Dp1 control.
+        /// ddlView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Dp1;
+        protected global::System.Web.UI.WebControls.DropDownList ddlView;
+        
+        /// <summary>
+        /// Menu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Menu;
         
         /// <summary>
         /// ddlYear control.
@@ -49,13 +58,13 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.DropDownList ddlYear;
         
         /// <summary>
-        /// ddlCategory control.
+        /// ddlCampus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampus;
         
         /// <summary>
         /// ddlCountry control.
@@ -74,6 +83,15 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSubCountry;
+        
+        /// <summary>
+        /// DateTD control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow DateTD;
         
         /// <summary>
         /// tbStartDate control.

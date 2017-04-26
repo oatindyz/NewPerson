@@ -123,8 +123,8 @@ namespace WEB_PERSONAL
             DatabaseManager.BindDropDown(ddlGenderID, "SELECT * FROM TB_GENDER ORDER BY ABS(GENDER_ID) ASC", "GENDER_NAME", "GENDER_ID", "--กรุณาเลือก--");
 
             DatabaseManager.BindDropDown(ddlProvinceID, "SELECT * FROM TB_PROVINCE", "PROVINCE_TH", "PROVINCE_ID", "--กรุณาเลือกจังหวัด--");
-            ddlAmphurID.Items.Insert(0, new ListItem("--กรุณาเลือกอำเภอ--", "0"));
-            ddlDistrictID.Items.Insert(0, new ListItem("--กรุณาเลือกตำบล--", "0"));
+            ddlAmphurID.Items.Insert(0, new ListItem("--กรุณาเลือกอำเภอ--", ""));
+            ddlDistrictID.Items.Insert(0, new ListItem("--กรุณาเลือกตำบล--", ""));
             tbZipcode.Text = "";
 
             DatabaseManager.BindDropDown(ddlNationID, "SELECT * FROM TB_NATION ORDER BY ABS(NATION_ID) ASC", "NATION_NAME_EN", "NATION_ID", "--กรุณาเลือก--");
@@ -168,9 +168,9 @@ namespace WEB_PERSONAL
                         ddlAmphurID.DataBind();
                         sqlConn.Close();
 
-                        ddlAmphurID.Items.Insert(0, new ListItem("--กรุณาเลือกอำเภอ--", "0"));
+                        ddlAmphurID.Items.Insert(0, new ListItem("--กรุณาเลือกอำเภอ--", ""));
                         ddlDistrictID.Items.Clear();
-                        ddlDistrictID.Items.Insert(0, new ListItem("--กรุณาเลือกตำบล--", "0"));
+                        ddlDistrictID.Items.Insert(0, new ListItem("--กรุณาเลือกตำบล--", ""));
                         tbZipcode.Text = "";
                     }
                 }
@@ -199,7 +199,7 @@ namespace WEB_PERSONAL
                         ddlDistrictID.DataBind();
                         sqlConn.Close();
 
-                        ddlDistrictID.Items.Insert(0, new ListItem("--กรุณาเลือกตำบล--", "0"));
+                        ddlDistrictID.Items.Insert(0, new ListItem("--กรุณาเลือกตำบล--", ""));
                         tbZipcode.Text = "";
 
                     }
@@ -235,10 +235,10 @@ namespace WEB_PERSONAL
                         ddlCampusID.DataBind();
                         sqlConn.Close();
 
-                        ddlCampusID.Items.Insert(0, new ListItem("--กรุณาเลือกวิทยาเขต--", "0"));
-                        ddlFacultyID.Items.Insert(0, new ListItem("--กรุณาเลือกสำนัก/สถาบัน/คณะ--", "0"));
-                        ddlDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกกอง/สำนักงานเลขา/ภาควิชา--", "0"));
-                        ddlWorkDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกงาน/ฝ่าย--", "0"));
+                        ddlCampusID.Items.Insert(0, new ListItem("--กรุณาเลือกวิทยาเขต--", ""));
+                        ddlFacultyID.Items.Insert(0, new ListItem("--กรุณาเลือกสำนัก/สถาบัน/คณะ--", ""));
+                        ddlDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกกอง/สำนักงานเลขา/ภาควิชา--", ""));
+                        ddlWorkDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกงาน/ฝ่าย--", ""));
                     }
                 }
             }
@@ -266,11 +266,11 @@ namespace WEB_PERSONAL
                         ddlFacultyID.DataBind();
                         sqlConn.Close();
 
-                        ddlFacultyID.Items.Insert(0, new ListItem("--กรุณาเลือกสำนัก/สถาบัน/คณะ--", "0"));
+                        ddlFacultyID.Items.Insert(0, new ListItem("--กรุณาเลือกสำนัก/สถาบัน/คณะ--", ""));
                         ddlDivisionID.Items.Clear();
-                        ddlDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกกอง/สำนักงานเลขา/ภาควิชา--", "0"));
+                        ddlDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกกอง/สำนักงานเลขา/ภาควิชา--", ""));
                         ddlWorkDivisionID.Items.Clear();
-                        ddlWorkDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกงาน/ฝ่าย--", "0"));
+                        ddlWorkDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกงาน/ฝ่าย--", ""));
                     }
                 }
             }
@@ -298,9 +298,9 @@ namespace WEB_PERSONAL
                         ddlDivisionID.DataBind();
                         sqlConn.Close();
 
-                        ddlDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกกอง/สำนักงานเลขา/ภาควิชา--", "0"));
+                        ddlDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกกอง/สำนักงานเลขา/ภาควิชา--", ""));
                         ddlWorkDivisionID.Items.Clear();
-                        ddlWorkDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกงาน/ฝ่าย--", "0"));
+                        ddlWorkDivisionID.Items.Insert(0, new ListItem("--กรุณาเลือกงาน/ฝ่าย--", ""));
                     }
                 }
             }
