@@ -10,7 +10,7 @@
     <!-- for Menu List -->
     <script>
         $(document).ready(function () {
-            $('#dataTables-GovAvailable,#dataTables-GovHighSalaryCon,#dataTables-GovInsigYearCon,#dataTables-GovPosYearCon,#dataTables-GovSalaryCon,#dataTables-GovSalaryYearCon,#dataTables-GovAddOne,#dataTables-EmpAvailable,#dataTables-EmpInsigYearCon,#dataTables-GovEmpAvailable,#dataTables-GovEmpInsigYearCon,#dataTables-GovEmpInworkYear').DataTable({
+            $('#dataTables-GovAvailable,#dataTables-GovHighSalaryCon,#dataTables-GovInsigYearCon,#dataTables-GovPosYearCon,#dataTables-GovSalaryCon,#dataTables-GovSalaryYearCon,#dataTables-GovAddOne,#dataTables-EmpAvailable,#dataTables-EmpInsigYearCon,#dataTables-GovEmpAvailable,#dataTables-GovEmpInsigYearCon,#dataTables-GovEmpInworkYear,#dataTables-EUAvailable,#dataTables-EUInsigYearCon').DataTable({
                 responsive: true
             });
         });
@@ -71,11 +71,11 @@
     </div>
 
     <div class="c1">
-        <div class="ps-ms-left-ext-submenu"><img src="Image/Small/medal.png" />พนักงานในสถาบันฯ</div>
+        <div class="ps-ms-left-ext-submenu"><img src="Image/Small/medal.png" />พนักงานในสถาบัน</div>
 
-        <asp:LinkButton ID="lbuMenuEmpUnivAvailable" runat="server"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขช่วงที่สามารถขอได้ถึง</asp:LinkButton>
+        <asp:LinkButton ID="lbuMenuEUAvailable" runat="server" OnClick="lbuMenuEUAvailable_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขช่วงที่สามารถขอได้ถึง</asp:LinkButton>
 
-        <asp:LinkButton ID="LinkButton1" runat="server"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ</asp:LinkButton>
+        <asp:LinkButton ID="lbuMenuEUInsigYearCon" runat="server" OnClick="lbuMenuEUInsigYearCon_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ</asp:LinkButton>
     </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -975,6 +975,167 @@
                                 <td>
                                     <asp:LinkButton ID="lnkEditGovEmpInworkYear" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditGovEmpInworkYear" />
                                     <asp:LinkButton ID="lnkDeleteGovEmpInworkYear" Text="ลบ" runat="server" CssClass="btn btn-danger" OnClick="OnDeleteGovEmpInworkYear" OnClientClick="return confirm('คุณต้องการที่จะลบใช่หรือไม่?');" />
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </table>
+            </div>
+        </asp:Panel>
+
+        <asp:Panel ID="Panel13" runat="server" CssClass="divpan" Visible="false">
+            <div class="ps-header">
+                <img src="Image/Small/wrench.png" /><asp:Label ID="Label13" runat="server" Text="พนักงานในสถาบัน : เงื่อนไขช่วงที่สามารถขอได้ถึง"></asp:Label>
+            </div>
+            <div class="dataTable_wrapper">
+                <div class="ps-header">
+                    <img src="Image/Small/Add.png" />เพิ่มข้อมูล
+                </div>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <td>ตำแหน่งในสายงาน<br />
+                            <asp:DropDownList ID="ddlEUAvailablePOSITION_WORK_ID" runat="server" CssClass="form-control input-sm" />
+                        </td>
+                        <td>ตำแหน่งทางบริหาร<br />
+                            <asp:DropDownList ID="ddlEUAvailableADMIN_POS_ID" runat="server" CssClass="form-control input-sm" />
+                        </td>
+                        <td>เริ่มต้นขอ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlEUAvailableINSIG_MIN" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>เลื่อนได้ถึง<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlEUAvailableINSIG_MAX" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>จัดการข้อมูล:<br />
+                            <asp:Button ID="btnInsertEUAvailable" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertEUAvailable_Click" Text="เพิ่มข้อมูล" />
+                            <asp:Button ID="btnUpdateEUAvailable" runat="server" CssClass="btn btn-info ekknidRight" OnClick="btnUpdateEUAvailable_Click" Text="อัพเดทข้อมูล" />
+                            <asp:LinkButton ID="lbuClearEUAvailable" runat="server" CssClass="btn btn-success" OnClick="lbuClearEUAvailable_Click" Text="ล้างข้อมูล" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="dataTable_wrapper">
+                <div class="ps-header">
+                    <img src="Image/Small/list.png" />ข้อมูล
+                </div>
+                <table class="table table-striped table-bordered table-hover" id="dataTables-EUAvailable">
+                    <thead>
+                        <tr>
+                            <th>ลำดับที่</th>
+                            <th>ตำแหน่งในสายงาน</th>
+                            <th>ตำแหน่งทางบริหาร</th>
+                            <th>เริ่มต้นขอ</th>
+                            <th>เลื่อนได้ถึง</th>
+                            <th>จัดการข้อมูล</th>
+                        </tr>
+                    </thead>
+                    <asp:Repeater ID="myRepeaterEUAvailable" runat="server">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Container.ItemIndex +1 %><asp:HiddenField ID="HFEUAvailableID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "IEUA_ID") %>' />
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUAvailablePOSITION_WORK_ID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "POSITION_WORK_ID") %>' />
+                                    <asp:Label ID="lbEUAvailablePOSITION_WORK_ID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "POSITION_WORK_ID_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUAvailableADMIN_POS_ID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "ADMIN_POS_ID") %>' />
+                                    <asp:Label ID="lbEUAvailableADMIN_POS_ID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ADMIN_POS_ID_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUAvailableINSIG_MIN" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "INSIG_MIN") %>' />
+                                    <asp:Label ID="lbGovInsigAvailableMin" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_MIN_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUAvailableINSIG_MAX" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "INSIG_MAX") %>' />
+                                    <asp:Label ID="lbGovInsigAvailableMax" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_MAX_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:LinkButton ID="lnkEditEUAvailable" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditEUAvailable" />
+                                    <asp:LinkButton ID="lnkDeleteEUAvailable" Text="ลบ" runat="server" CssClass="btn btn-danger" OnClick="OnDeleteEUAvailable" OnClientClick="return confirm('คุณต้องการที่จะลบใช่หรือไม่?');" />
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </table>
+            </div>
+        </asp:Panel>
+
+        <asp:Panel ID="Panel14" runat="server" CssClass="divpan" Visible="false">
+            <div class="ps-header">
+                <img src="Image/Small/wrench.png" /><asp:Label ID="Label14" runat="server" Text="พนักงานในสถาบัน : เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ"></asp:Label>
+            </div>
+            <div class="dataTable_wrapper">
+                <div class="ps-header">
+                    <img src="Image/Small/Add.png" />เพิ่มข้อมูล
+                </div>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <td>ตำแหน่งในสายงาน<br />
+                            <asp:DropDownList ID="ddlEUInsigYearConPOSITION_WORK_ID" runat="server" CssClass="form-control input-sm" />
+                        </td>
+                        <td>ตำแหน่งทางบริหาร<br />
+                            <asp:DropDownList ID="ddlEUInsigYearConADMIN_POS_ID" runat="server" CssClass="form-control input-sm" />
+                        </td>
+                        <td>ชั้นเครื่องราชฯที่จะขอ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlEUInsigYearConINSIG_TARGET" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>ต้องครองชั้นเครื่องราชฯ<span class="ps-lb-red" />*<br />
+                            <asp:DropDownList ID="ddlEUInsigYearConINSIG_USE" runat="server" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>จำนวนปี<span class="ps-lb-red" />*<br />
+                            <asp:TextBox ID="tbEUInsigYearConINSIG_YEAR" runat="server" onkeypress="return isNumberKey(event)" MaxLength="2" CssClass="form-control input-sm" required="required" TabIndex="1" />
+                        </td>
+                        <td>จัดการข้อมูล:<br />
+                            <asp:Button ID="btnInsertEUInsigYearCon" runat="server" CssClass="btn btn-primary ekknidRight" OnClick="btnInsertEUInsigYearCon_Click" Text="เพิ่มข้อมูล" />
+                            <asp:Button ID="btnUpdateEUInsigYearCon" runat="server" CssClass="btn btn-info ekknidRight" OnClick="btnUpdateEUInsigYearCon_Click" Text="อัพเดทข้อมูล" />
+                            <asp:LinkButton ID="lbuClearEUInsigYearCon" runat="server" CssClass="btn btn-success" OnClick="lbuClearEUInsigYearCon_Click" Text="ล้างข้อมูล" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="dataTable_wrapper">
+                <div class="ps-header">
+                    <img src="Image/Small/list.png" />ข้อมูล
+                </div>
+                <table class="table table-striped table-bordered table-hover" id="dataTables-EUInsigYearCon">
+                    <thead>
+                        <tr>
+                            <th>ลำดับที่</th>
+                            <th>ตำแหน่งในสายงาน</th>
+                            <th>ตำแหน่งทางบริหาร</th>
+                            <th>ชั้นเครื่องราชฯที่จะขอ</th>
+                            <th>ต้องครองชั้นเครื่องราชฯ</th>
+                            <th>จำนวนปี</th>
+                            <th>จัดการข้อมูล</th>
+                        </tr>
+                    </thead>
+                    <asp:Repeater ID="myRepeaterEUInsigYearCon" runat="server">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Container.ItemIndex +1 %><asp:HiddenField ID="HFEUInsigYearConID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "IEUIYC_ID") %>' />
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUInsigYearConPOSITION_WORK_ID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "POSITION_WORK_ID") %>' />
+                                    <asp:Label ID="lbEUInsigYearConPOSITION_WORK_ID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "POSITION_WORK_ID_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUInsigYearConADMIN_POS_ID" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "ADMIN_POS_ID") %>' />
+                                    <asp:Label ID="lbEUInsigYearConADMIN_POS_ID" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ADMIN_POS_ID_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUInsigYearConINSIG_TARGET" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "INSIG_TARGET") %>' />
+                                    <asp:Label ID="lbEUInsigYearConINSIG_TARGET" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_TARGET_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:HiddenField ID="HFEUInsigYearConINSIG_USE" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "INSIG_USE") %>' />
+                                    <asp:Label ID="lbEUInsigYearConINSIG_USE" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_USE_NAME") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:Label ID="lbEUInsigYearConINSIG_YEAR" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "INSIG_YEAR") %>'></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:LinkButton ID="lnkEditEUInsigYearCon" Text="แก้ไข" runat="server" CssClass="btn btn-warning" OnClick="OnEditEUInsigYearCon" />
+                                    <asp:LinkButton ID="lnkDeleteEUInsigYearCon" Text="ลบ" runat="server" CssClass="btn btn-danger" OnClick="OnDeleteEUInsigYearCon" OnClientClick="return confirm('คุณต้องการที่จะลบใช่หรือไม่?');" />
                                 </td>
                             </tr>
                         </ItemTemplate>

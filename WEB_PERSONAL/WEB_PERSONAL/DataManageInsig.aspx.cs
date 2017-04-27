@@ -38,6 +38,8 @@ namespace WEB_PERSONAL
             else if (Request.QueryString["ID"] == "GovEmpAvailable") { BindGovEmpAvailable(); }
             else if (Request.QueryString["ID"] == "GovEmpInsigYearCon") { BindGovEmpInsigYearCon(); }
             else if (Request.QueryString["ID"] == "GovEmpInworkYear") { BindGovEmpInworkYear(); }
+            else if (Request.QueryString["ID"] == "EUAvailable") { BindEUAvailable(); }
+            else if (Request.QueryString["ID"] == "EUInsigYearCon") { BindEUInsigYearCon(); }
         }
 
         private void HideAll()
@@ -54,6 +56,8 @@ namespace WEB_PERSONAL
             Panel10.Visible = false;
             Panel11.Visible = false;
             Panel12.Visible = false;
+            Panel13.Visible = false;
+            Panel14.Visible = false;
         }
 
         //
@@ -1059,6 +1063,297 @@ namespace WEB_PERSONAL
             }
         }
 
+        //
+        protected void BindEUAvailable()
+        {
+            HideAll();
+            Panel13.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IEUA_ID, POSITION_WORK_ID, (SELECT POSITION_WORK_NAME FROM TB_POSITION_WORK WHERE TB_POSITION_WORK.POSITION_WORK_ID = TB_INSIG_EU_AVAILABLE.POSITION_WORK_ID) POSITION_WORK_ID_NAME, ADMIN_POS_ID, (SELECT ADMIN_POSITION_NAME FROM TB_ADMIN_POSITION WHERE TB_ADMIN_POSITION.ADMIN_POSITION_ID = TB_INSIG_EU_AVAILABLE.ADMIN_POS_ID) ADMIN_POS_ID_NAME, INSIG_MIN, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN_NAME, INSIG_MAX, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX_NAME FROM TB_INSIG_EU_AVAILABLE ORDER BY ABS(IEUA_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterEUAvailable.DataSource = dt;
+            myRepeaterEUAvailable.DataBind();
+            DatabaseManager.BindDropDown(ddlEUAvailablePOSITION_WORK_ID, "SELECT * FROM TB_POSITION_WORK ORDER BY ABS(POSITION_WORK_ID) ASC", "POSITION_WORK_NAME", "POSITION_WORK_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEUAvailableADMIN_POS_ID, "SELECT * FROM TB_ADMIN_POSITION ORDER BY ABS(ADMIN_POSITION_ID) ASC", "ADMIN_POSITION_NAME", "ADMIN_POSITION_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEUAvailableINSIG_MIN, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEUAvailableINSIG_MAX, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearEUAvailable()
+        {
+            ddlEUAvailablePOSITION_WORK_ID.SelectedIndex = 0;
+            ddlEUAvailableADMIN_POS_ID.SelectedIndex = 0;
+            ddlEUAvailableINSIG_MIN.SelectedIndex = 0;
+            ddlEUAvailableINSIG_MAX.SelectedIndex = 0;
+        }
+        protected void lbuMenuEUAvailable_Click(object sender, EventArgs e)
+        {
+            BindEUAvailable();
+        }
+        protected void btnInsertEUAvailable_Click(object sender, EventArgs e)
+        {
+            OracleConnection.ClearAllPools();
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+                using (OracleCommand com = new OracleCommand("INSERT INTO TB_INSIG_EU_AVAILABLE (IEUA_ID,POSITION_WORK_ID,ADMIN_POS_ID,INSIG_MIN,INSIG_MAX) VALUES (TB_INSIG_EU_AVAILABLE_SEQ.NEXTVAL, :POSITION_WORK_ID, :ADMIN_POS_ID, :INSIG_MIN, :INSIG_MAX)", con))
+                {
+                    if (ddlEUAvailablePOSITION_WORK_ID.SelectedValue != "")
+                    {
+                        com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", ddlEUAvailablePOSITION_WORK_ID.SelectedValue));
+                    }else
+                    {
+                        com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", DBNull.Value));
+                    }
+
+                    if (ddlEUAvailableADMIN_POS_ID.SelectedValue != "")
+                    {
+                        com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", ddlEUAvailableADMIN_POS_ID.SelectedValue));
+                    }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", DBNull.Value));
+                    }
+                    com.Parameters.Add(new OracleParameter("INSIG_MIN", ddlEUAvailableINSIG_MIN.SelectedValue));
+                    com.Parameters.Add(new OracleParameter("INSIG_MAX", ddlEUAvailableINSIG_MAX.SelectedValue));
+                    com.ExecuteNonQuery();
+                }
+            }
+
+            //DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_EU_AVAILABLE (IEUA_ID,POSITION_WORK_ID,ADMIN_POS_ID,INSIG_MIN,INSIG_MAX) VALUES (TB_INSIG_EU_AVAILABLE_SEQ.NEXTVAL," + ddlEUAvailablePOSITION_WORK_ID.SelectedValue + "," + ddlEUAvailableADMIN_POS_ID.SelectedValue + "," + ddlEUAvailableINSIG_MIN.SelectedValue + "," + ddlEUAvailableINSIG_MAX.SelectedValue + ")");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindEUAvailable();
+            ClearEUAvailable();
+        }
+        protected void btnUpdateEUAvailable_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdEUAvailable"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                OracleConnection.ClearAllPools();
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("UPDATE TB_INSIG_EU_AVAILABLE SET POSITION_WORK_ID=:POSITION_WORK_ID, ADMIN_POS_ID=:ADMIN_POS_ID, INSIG_MIN=:INSIG_MIN, INSIG_MAX=:INSIG_MAX WHERE IEUA_ID=:IEUA_ID", con))
+                    {
+                        if (ddlEUAvailablePOSITION_WORK_ID.SelectedValue != "")
+                        {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", ddlEUAvailablePOSITION_WORK_ID.SelectedValue));
+                        }
+                        else
+                        {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", DBNull.Value));
+                        }
+
+                        if (ddlEUAvailableADMIN_POS_ID.SelectedValue != "")
+                        {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", ddlEUAvailableADMIN_POS_ID.SelectedValue));
+                        }
+                        else
+                        {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", DBNull.Value));
+                        }
+                        com.Parameters.Add(new OracleParameter("INSIG_MIN", ddlEUAvailableINSIG_MIN.SelectedValue));
+                        com.Parameters.Add(new OracleParameter("INSIG_MAX", ddlEUAvailableINSIG_MAX.SelectedValue));
+                        com.Parameters.Add(new OracleParameter("IEUA_ID", Session["DefaultIdEUAvailable"].ToString()));
+                        com.ExecuteNonQuery();
+                    }
+                }
+
+                //DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_EU_AVAILABLE SET POSITION_WORK_ID = " + ddlEUAvailablePOSITION_WORK_ID.SelectedValue + ", ADMIN_POS_ID = " + ddlEUAvailableADMIN_POS_ID.SelectedValue + ", INSIG_MIN = " + ddlEUAvailableINSIG_MIN.SelectedValue + ", INSIG_MAX = " + ddlEUAvailableINSIG_MAX.SelectedValue + " WHERE IEUA_ID = '" + Session["DefaultIdEUAvailable"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindEUAvailable();
+                ClearEUAvailable();
+                Session.Remove("DefaultIdEUAvailable");
+            }
+        }
+        protected void lbuClearEUAvailable_Click(object sender, EventArgs e)
+        {
+            BindEUAvailable();
+            ClearEUAvailable();
+            Session.Remove("DefaultIdEUAvailable");
+        }
+        protected void OnEditEUAvailable(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFEUAvailableID = (item.FindControl("HFEUAvailableID") as HiddenField).Value;
+            string ValueHFEUAvailablePOSITION_WORK_ID = (item.FindControl("HFEUAvailablePOSITION_WORK_ID") as HiddenField).Value;
+            string ValueHFEUAvailableADMIN_POS_ID = (item.FindControl("HFEUAvailableADMIN_POS_ID") as HiddenField).Value;
+            string ValueHFEUAvailableINSIG_MIN = (item.FindControl("HFEUAvailableINSIG_MIN") as HiddenField).Value;
+            string ValueHFEUAvailableINSIG_MAX = (item.FindControl("HFEUAvailableINSIG_MAX") as HiddenField).Value;
+
+            ddlEUAvailablePOSITION_WORK_ID.SelectedValue = ValueHFEUAvailablePOSITION_WORK_ID;
+            ddlEUAvailableADMIN_POS_ID.SelectedValue = ValueHFEUAvailableADMIN_POS_ID;
+            ddlEUAvailableINSIG_MIN.SelectedValue = ValueHFEUAvailableINSIG_MIN;
+            ddlEUAvailableINSIG_MAX.SelectedValue = ValueHFEUAvailableINSIG_MAX;
+
+            Session["DefaultIdEUAvailable"] = ValueHFEUAvailableID;
+        }
+        protected void OnDeleteEUAvailable(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFEUAvailableID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_EU_AVAILABLE WHERE IEUA_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindEUAvailable();
+            }
+        }
+
+        //
+        protected void BindEUInsigYearCon()
+        {
+            HideAll();
+            Panel14.Visible = true;
+            OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT IEUIYC_ID, POSITION_WORK_ID, (SELECT POSITION_WORK_NAME FROM TB_POSITION_WORK WHERE TB_POSITION_WORK.POSITION_WORK_ID = TB_INSIG_EU_INSIG_YEAR_CON.POSITION_WORK_ID) POSITION_WORK_ID_NAME, ADMIN_POS_ID, (SELECT ADMIN_POSITION_NAME FROM TB_ADMIN_POSITION WHERE TB_ADMIN_POSITION.ADMIN_POSITION_ID = TB_INSIG_EU_INSIG_YEAR_CON.ADMIN_POS_ID) ADMIN_POS_ID_NAME, INSIG_TARGET, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_TARGET) INSIG_TARGET_NAME, INSIG_USE, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_USE) INSIG_USE_NAME, INSIG_YEAR FROM TB_INSIG_EU_INSIG_YEAR_CON ORDER BY ABS(IEUIYC_ID) ASC", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            myRepeaterEUInsigYearCon.DataSource = dt;
+            myRepeaterEUInsigYearCon.DataBind();
+            DatabaseManager.BindDropDown(ddlEUInsigYearConPOSITION_WORK_ID, "SELECT * FROM TB_POSITION_WORK ORDER BY ABS(POSITION_WORK_ID) ASC", "POSITION_WORK_NAME", "POSITION_WORK_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEUInsigYearConADMIN_POS_ID, "SELECT * FROM TB_ADMIN_POSITION ORDER BY ABS(ADMIN_POSITION_ID) ASC", "ADMIN_POSITION_NAME", "ADMIN_POSITION_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEUInsigYearConINSIG_TARGET, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+            DatabaseManager.BindDropDown(ddlEUInsigYearConINSIG_USE, "SELECT * FROM TB_INSIG_GRADE ORDER BY ABS(INSIG_GRADE_ID) ASC", "INSIG_GRADE_NAME_L", "INSIG_GRADE_ID", "--กรุณาเลือก--");
+        }
+        protected void ClearEUInsigYearCon()
+        {
+            ddlEUInsigYearConPOSITION_WORK_ID.SelectedIndex = 0;
+            ddlEUInsigYearConADMIN_POS_ID.SelectedIndex = 0;
+            ddlEUInsigYearConINSIG_TARGET.SelectedIndex = 0;
+            ddlEUInsigYearConINSIG_USE.SelectedIndex = 0;
+            tbEUInsigYearConINSIG_YEAR.Text = "";
+        }
+        protected void lbuMenuEUInsigYearCon_Click(object sender, EventArgs e)
+        {
+            BindEUInsigYearCon();
+        }
+        protected void btnInsertEUInsigYearCon_Click(object sender, EventArgs e)
+        {
+            OracleConnection.ClearAllPools();
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+                using (OracleCommand com = new OracleCommand("INSERT INTO TB_INSIG_EU_INSIG_YEAR_CON (IEUIYC_ID,POSITION_WORK_ID,ADMIN_POS_ID,INSIG_TARGET,INSIG_USE,INSIG_YEAR) VALUES (TB_INSIG_EU_INSIG_YEAR_CON_SEQ.NEXTVAL, :POSITION_WORK_ID, :ADMIN_POS_ID, :INSIG_TARGET, :INSIG_USE, :INSIG_YEAR)", con))
+                {
+                    if (ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue != "")
+                    {
+                        com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue));
+                    }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", DBNull.Value));
+                    }
+
+                    if (ddlEUInsigYearConADMIN_POS_ID.SelectedValue != "")
+                    {
+                        com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", ddlEUInsigYearConADMIN_POS_ID.SelectedValue));
+                    }
+                    else
+                    {
+                        com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", DBNull.Value));
+                    }
+                    com.Parameters.Add(new OracleParameter("INSIG_TARGET", ddlEUInsigYearConINSIG_TARGET.SelectedValue));
+                    com.Parameters.Add(new OracleParameter("INSIG_USE", ddlEUInsigYearConINSIG_USE.SelectedValue));
+                    com.Parameters.Add(new OracleParameter("INSIG_YEAR", tbEUInsigYearConINSIG_YEAR.Text));
+                    com.ExecuteNonQuery();
+                }
+            }
+
+            //DatabaseManager.ExecuteNonQuery("INSERT INTO TB_INSIG_EU_INSIG_YEAR_CON (IEUIYC_ID,POSITION_WORK_ID,ADMIN_POS_ID,INSIG_TARGET,INSIG_USE,INSIG_YEAR) VALUES (TB_INSIG_EU_INSIG_YEAR_CON_SEQ.NEXTVAL," + ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue + "," + ddlEUInsigYearConADMIN_POS_ID.SelectedValue + "," + ddlEUInsigYearConINSIG_TARGET.SelectedValue + "," + ddlEUInsigYearConINSIG_USE.SelectedValue + ", " + tbEUInsigYearConINSIG_YEAR.Text + ")");
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('เพิ่มข้อมูลเรียบร้อย')", true);
+            BindEUInsigYearCon();
+            ClearEUInsigYearCon();
+        }
+        protected void btnUpdateEUInsigYearCon_Click(object sender, EventArgs e)
+        {
+            if (Session["DefaultIdEUInsigYearCon"] == null)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('กรุณาเลือกรายการที่จะแก้ไขก่อน')", true);
+                return;
+            }
+            else
+            {
+                OracleConnection.ClearAllPools();
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("UPDATE TB_INSIG_EU_INSIG_YEAR_CON SET POSITION_WORK_ID=:POSITION_WORK_ID, ADMIN_POS_ID=:ADMIN_POS_ID, INSIG_TARGET=:INSIG_TARGET, INSIG_USE=:INSIG_USE, INSIG_YEAR=:INSIG_YEAR WHERE IEUIYC_ID=:IEUIYC_ID", con))
+                    {
+                        if (ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue != "")
+                        {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue));
+                        }
+                        else
+                        {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", DBNull.Value));
+                        }
+
+                        if (ddlEUInsigYearConADMIN_POS_ID.SelectedValue != "")
+                        {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", ddlEUInsigYearConADMIN_POS_ID.SelectedValue));
+                        }
+                        else
+                        {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", DBNull.Value));
+                        }
+                        com.Parameters.Add(new OracleParameter("INSIG_TARGET", ddlEUInsigYearConINSIG_TARGET.SelectedValue));
+                        com.Parameters.Add(new OracleParameter("INSIG_USE", ddlEUInsigYearConINSIG_USE.SelectedValue));
+                        com.Parameters.Add(new OracleParameter("INSIG_YEAR", tbEUInsigYearConINSIG_YEAR.Text));
+                        com.Parameters.Add(new OracleParameter("IEUIYC_ID", Session["DefaultIdEUInsigYearCon"].ToString()));
+                        com.ExecuteNonQuery();
+                    }
+                }
+
+                //DatabaseManager.ExecuteNonQuery("UPDATE TB_INSIG_EU_INSIG_YEAR_CON SET POSITION_WORK_ID = " + ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue + ", ADMIN_POS_ID = " + ddlEUInsigYearConADMIN_POS_ID.SelectedValue + ", INSIG_TARGET = " + ddlEUInsigYearConINSIG_TARGET.SelectedValue + ", INSIG_USE = " + ddlEUInsigYearConINSIG_USE.SelectedValue + ", INSIG_YEAR = '" + tbEUInsigYearConINSIG_YEAR.Text + "' WHERE IEUIYC_ID = '" + Session["DefaultIdEUInsigYearCon"].ToString() + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('อัพเดทข้อมูลเรียบร้อย')", true);
+                BindEUInsigYearCon();
+                ClearEUInsigYearCon();
+                Session.Remove("DefaultIdEUInsigYearCon");
+            }
+        }
+        protected void lbuClearEUInsigYearCon_Click(object sender, EventArgs e)
+        {
+            BindEUInsigYearCon();
+            ClearEUInsigYearCon();
+            Session.Remove("DefaultIdEUInsigYearCon");
+        }
+        protected void OnEditEUInsigYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            string ValueHFEUInsigYearConID = (item.FindControl("HFEUInsigYearConID") as HiddenField).Value;
+            string ValueHFEUInsigYearConPOSITION_WORK_ID = (item.FindControl("HFEUInsigYearConPOSITION_WORK_ID") as HiddenField).Value;
+            string ValueHFEUInsigYearConADMIN_POS_ID = (item.FindControl("HFEUInsigYearConADMIN_POS_ID") as HiddenField).Value;
+            string ValueHFEUInsigYearConINSIG_TARGET = (item.FindControl("HFEUInsigYearConINSIG_TARGET") as HiddenField).Value;
+            string ValueHFEUInsigYearConINSIG_USE = (item.FindControl("HFEUInsigYearConINSIG_USE") as HiddenField).Value;
+            string ValuelbEUInsigYearConINSIG_YEAR = (item.FindControl("lbEUInsigYearConINSIG_YEAR") as Label).Text;
+
+            ddlEUInsigYearConPOSITION_WORK_ID.SelectedValue = ValueHFEUInsigYearConPOSITION_WORK_ID;
+            ddlEUInsigYearConADMIN_POS_ID.SelectedValue = ValueHFEUInsigYearConADMIN_POS_ID;
+            ddlEUInsigYearConINSIG_TARGET.SelectedValue = ValueHFEUInsigYearConINSIG_TARGET;
+            ddlEUInsigYearConINSIG_USE.SelectedValue = ValueHFEUInsigYearConINSIG_USE;
+            tbEUInsigYearConINSIG_YEAR.Text = ValuelbEUInsigYearConINSIG_YEAR;
+
+            Session["DefaultIdEUInsigYearCon"] = ValueHFEUInsigYearConID;
+        }
+        protected void OnDeleteEUInsigYearCon(object sender, EventArgs e)
+        {
+            RepeaterItem item = (sender as LinkButton).Parent as RepeaterItem;
+            int ValueID = int.Parse((item.FindControl("HFEUInsigYearConID") as HiddenField).Value);
+
+            if (ValueID != 0)
+            {
+                DatabaseManager.ExecuteNonQuery("DELETE TB_INSIG_EU_INSIG_YEAR_CON WHERE IEUIYC_ID = '" + ValueID + "'");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('ลบข้อมูลเรียบร้อย')", true);
+                BindEUInsigYearCon();
+            }
+        }
 
     }
 }
