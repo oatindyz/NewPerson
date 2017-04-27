@@ -74,6 +74,7 @@ namespace WEB_PERSONAL
                             //--
 
                             ddlCampusID.SelectedValue = reader.IsDBNull(i) ? "" : reader.GetValue(i).ToString(); ++i;
+
                             ddlFacultyID.Items.Clear();
                             string z1 = reader.IsDBNull(i) ? "" : reader.GetValue(i).ToString(); ++i;
                             DatabaseManager.BindDropDown(ddlFacultyID, "SELECT * FROM TB_FACULTY WHERE CAMPUS_ID = '" + ddlCampusID.SelectedValue + "'", "FACULTY_NAME", "FACULTY_ID", "--กรุณาเลือก--");
@@ -81,12 +82,12 @@ namespace WEB_PERSONAL
                             //
                             ddlDivisionID.Items.Clear();
                             string z2 = reader.IsDBNull(i) ? "" : reader.GetValue(i).ToString(); ++i;
-                            DatabaseManager.BindDropDown(ddlDivisionID, "SELECT * FROM TB_DIVISION WHERE DIVISION_ID = '" + ddlDivisionID.SelectedValue + "'", "DIVISION_NAME", "DIVISION_ID", "--กรุณาเลือก--");
+                            DatabaseManager.BindDropDown(ddlDivisionID, "SELECT * FROM TB_DIVISION WHERE FACULTY_ID = '" + ddlFacultyID.SelectedValue + "'", "DIVISION_NAME", "DIVISION_ID", "--กรุณาเลือก--");
                             ddlDivisionID.SelectedValue = z2;
                             //
                             ddlWorkDivisionID.Items.Clear();
                             string z3 = reader.IsDBNull(i) ? "" : reader.GetValue(i).ToString(); ++i;
-                            DatabaseManager.BindDropDown(ddlWorkDivisionID, "SELECT * FROM TB_WORK_DIVISION WHERE WORK_ID = '" + ddlWorkDivisionID.SelectedValue + "'", "WORK_NAME", "WORK_ID", "--กรุณาเลือก--");
+                            DatabaseManager.BindDropDown(ddlWorkDivisionID, "SELECT * FROM TB_WORK_DIVISION WHERE DIVISION_ID = '" + ddlDivisionID.SelectedValue + "'", "WORK_NAME", "WORK_ID", "--กรุณาเลือก--");
                             ddlWorkDivisionID.SelectedValue = z3;
                             //--
 
