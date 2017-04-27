@@ -197,9 +197,6 @@ namespace WEB_PERSONAL
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่ถูกต้อง')", true);
             }
-
-
-
         }
 
         protected void lbu1_Click(object sender, EventArgs e)

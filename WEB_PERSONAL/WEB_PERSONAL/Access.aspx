@@ -54,6 +54,50 @@
     <link rel="stylesheet" type="text/css" href="CSS/Master.css" />
     <link href="CSS/Access.css" rel="stylesheet" />
 
+    <script>
+        $.datepicker.regional['th'] = {
+            changeMonth: true,
+            changeYear: true,
+            //defaultDate: GetFxupdateDate(FxRateDateAndUpdate.d[0].Day),
+            yearOffSet: 543,
+            //showOn: "button",
+            //buttonImage: 'jQueryCalendarThai/images/calendar.gif',
+            //buttonImageOnly: true,
+            dateFormat: 'dd M yy',
+            dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+            dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+            monthNames: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+            monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+            constrainInput: true,
+
+            prevText: 'ก่อนหน้า',
+            nextText: 'ถัดไป',
+            yearRange: '-100:+100',
+            buttonText: 'เลือก',
+            beforeShow: function () {
+                if ($(this).val() != "") {
+                    var arrayDate = $(this).val().split(" ");
+                    if (arrayDate.length == 4) {
+                        arrayDate[2] = arrayDate[3];
+                    }
+                    $(this).val(arrayDate[0] + " " + arrayDate[1] + " " + arrayDate[2]);
+                } else {
+                    $(this).datepicker("setDate", new Date()); //Set ค่าวันปัจจุบัน
+                }
+            },
+            onClose: function (dateText, inst) {
+                $(this).datepicker('option', 'dateFormat', 'dd M yy');
+            }
+        };
+        $.datepicker.setDefaults($.datepicker.regional['th']);
+    </script>
+
+    <script>
+        $(function () {
+            $("#tbPassDate").datepicker($.datepicker.regional["th"]);
+        });
+    </script>
+
     <script type="text/javascript">
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -105,9 +149,9 @@
                                         <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
                                     </div>
                                     <div>
-                                       
-                                       <asp:Label ID="LabelTop" runat="server" CssClass="cerror"></asp:Label>
-                         
+
+                                        <asp:Label ID="LabelTop" runat="server" CssClass="cerror"></asp:Label>
+
                                     </div>
 
                                     <asp:UpdatePanel ID="UpdatetbPassword" runat="server">

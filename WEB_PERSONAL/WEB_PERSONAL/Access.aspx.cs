@@ -161,7 +161,7 @@ namespace WEB_PERSONAL
 
                                 if (tbUsername.Text.Length == 13) {
                                     if (Login == 0) {
-                                        LabelTop.Text = "รหัสบัตรประชาชนดังกล่าวเป็นการล็อคอินครั้งแรก โปรดยืนยันตัวตน ด้วยการใส่รหัสผ่านเป็นวันเกิด";
+                                        LabelTop.Text = "รหัสบัตรประชาชนดังกล่าวเป็นการล็อคอินครั้งแรก โปรดยืนยันตัวตน ด้วยการใส่รหัสผ่านเป็นวันเกิด รูปแบบ(01 ม.ค. 2500)";
                                         ScriptManager.GetCurrent(this.Page).SetFocus(this.tbPassword);
                                     }
                                     if (Login == 1) {
@@ -193,6 +193,11 @@ namespace WEB_PERSONAL
                                 {
                                     if (reader.GetInt32(0) == First)
                                     {
+                                        if (!Util.IsDateValid(tbPassword.Text))
+                                        {
+                                            LabelBottom.Text = "รหัสผ่านไม่ถูกต้อง!";
+                                            return;
+                                        }
                                         if (DatabaseManager.ValidatePasswordFirst(tbUsername.Text, Util.ToDateTimeOracle(Server.UrlDecode(tbPassword.Text))))
                                         {
                                             PersonnelSystem ps = new PersonnelSystem();
