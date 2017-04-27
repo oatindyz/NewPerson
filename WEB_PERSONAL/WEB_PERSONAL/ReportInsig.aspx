@@ -44,6 +44,12 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>ปีงบประมาณ</td>
+                            <td>
+                                <asp:DropDownList ID="ddlBudgetYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td>
                                 <asp:LinkButton ID="lbuV1Search" runat="server" CssClass="ps-button" OnClick="lbuV1Search_Click"><img src="Image/Small/search.png" class="icon_left"/>ค้นหา</asp:LinkButton>
@@ -60,8 +66,13 @@
     <div id="divUser" runat="server" visible="false" class="panel panel-default">
         <div class="panel-body">
             <div class="panel-body">
-                <div style="text-align: center;">
+                <div style="text-align: center; margin-bottom: 10px;">
+                        
                      <asp:Panel ID="Panel2" runat="server" CssClass="ppp"></asp:Panel>
+
+                </div>
+                <div style="text-align: center;">
+                    <asp:LinkButton ID="lbuV2Export" runat="server" CssClass="ps-button" OnClick="lbuV2Export_Click"><img src="Image/Small/excel.png" class="icon_left"/>Export</asp:LinkButton>
                 </div>
             </div>
         </div>

@@ -30,6 +30,14 @@ namespace WEB_PERSONAL
                     ddlView.Items.Add(new ListItem("--กรุณาเลือก--", ""));
                     ddlView.Items.Add(new ListItem("แสดงรายชื่อผู้ที่กำลังขอเครื่องราชฯ", "1"));
                     ddlView.Items.Add(new ListItem("แสดงรายชื่อผู้ที่ได้รับเครื่องราชฯ", "2"));
+
+                    int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)) FROM TB_INSIG_PERSON") + 543;
+                    int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM GET_DATE)) FROM TB_INSIG_PERSON") + 543;
+
+                    for (int i = yearMin; i <= yearMax; ++i) {
+                        ddlBudgetYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + (i-543)));
+                    }
+                    ddlBudgetYear.Items.Insert(0, new ListItem("--กรุณาเลือก--", ""));
                 }
                 else
                 {
@@ -114,6 +122,9 @@ namespace WEB_PERSONAL
                 {
                     where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
                 }
+                if (ddlBudgetYear.SelectedValue != "") {
+                    where += " AND EXTRACT(YEAR FROM GET_DATE) = " + ddlBudgetYear.SelectedValue + "";
+                }
 
                 using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, (SELECT (SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = PS_PERSON.PS_FACULTY_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) FACULTY_NAME, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ข้อมูล, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1 " + where + " ORDER BY ABS(CITIZEN_ID) ASC, ABS(INSIG_ID) DESC", con))
                 {
@@ -178,6 +189,9 @@ namespace WEB_PERSONAL
                 if (ddlCampus.SelectedValue != "")
                 {
                     where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
+                }
+                if (ddlBudgetYear.SelectedValue != "") {
+                    where += " AND EXTRACT(YEAR FROM GET_DATE) = " + ddlBudgetYear.SelectedValue + "";
                 }
 
                 using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, (SELECT (SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = PS_PERSON.PS_FACULTY_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) FACULTY_NAME, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ข้อมูล, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ, GET_DATE วันที่ได้รับ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID IN(2,3) " + where + " ORDER BY ABS(CITIZEN_ID) ASC, ABS(INSIG_ID) DESC", con))
@@ -363,6 +377,34 @@ namespace WEB_PERSONAL
             }
         }
 
+        protected void lbuV2Export_Click(object sender, EventArgs e) {
+            if (loginPerson.PERSON_ROLE_ID != "4") {
+                Table table = loadReportSelf();
+                if (table == null) {
+                    return;
+                }
+                Panel2.Controls.Clear();
+                Panel2.Controls.Add(loadReport1Table());
 
+                Response.ContentType = "application/x-msexcel";
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการขอเครื่องราชฯของตนเอง ณ วันที่ " + DateTime.Today.ToLongDateString() + ".xls");
+                Response.ContentEncoding = Encoding.UTF8;
+
+                StringWriter tw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(tw);
+                tw.WriteLine("<html>");
+                tw.WriteLine("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
+                tw.WriteLine("<style>");
+                tw.WriteLine("table { border-collapse:collapse; }");
+                tw.WriteLine("td { border-collapse:collapse; border: thin solid black; }");
+                tw.WriteLine("</style>");
+
+                table.RenderControl(hw);
+
+                tw.WriteLine("</html>");
+                Response.Write(tw.ToString());
+                Response.End();
+            }
+        }
     }
 }

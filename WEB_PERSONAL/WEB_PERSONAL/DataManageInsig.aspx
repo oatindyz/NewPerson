@@ -70,11 +70,13 @@
         <asp:LinkButton ID="lbuMenuGovEmpInworkYear" runat="server" OnClick="lbuMenuGovEmpInworkYear_Click"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขจำนวนปีที่ปฏิบัติงานติดต่อกัน</asp:LinkButton>
     </div>
 
-    <!--<div class="c1">
+    <div class="c1">
         <div class="ps-ms-left-ext-submenu"><img src="Image/Small/medal.png" />พนักงานในสถาบันฯ</div>
 
         <asp:LinkButton ID="lbuMenuEmpUnivAvailable" runat="server"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขช่วงที่สามารถขอได้ถึง</asp:LinkButton>
-    </div>-->
+
+        <asp:LinkButton ID="LinkButton1" runat="server"><img src="Image/Small/wrench.png" class="icon_left"/> เงื่อนไขระยะเวลาครองชั้นเครื่องราชฯ</asp:LinkButton>
+    </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>

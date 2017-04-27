@@ -161,9 +161,43 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
+                } else if (loginPerson.PS_STAFFTYPE_ID == "2") {
+
+                    
+
+                    if (loginPerson.PS_ADMIN_POS_ID != "0") {
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_EU_AVAILABLE WHERE ADMIN_POS_ID = :ADMIN_POS_ID", con)) {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", loginPerson.PS_ADMIN_POS_ID));
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                while (reader.Read()) {
+                                    insig_min = int.Parse(reader.GetValue(3).ToString());
+                                    insig_max = int.Parse(reader.GetValue(4).ToString());
+                                    
+                                }
+                            }
+                        }
+                    } else {
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_EU_AVAILABLE WHERE POSITION_WORK_ID = :POSITION_WORK_ID", con)) {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", loginPerson.PS_WORK_POS_ID));
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                while (reader.Read()) {
+                                    insig_min = int.Parse(reader.GetValue(3).ToString());
+                                    insig_max = int.Parse(reader.GetValue(4).ToString());
+                                    
+                                }
+                            }
+                        }
+                    }
+
+                        
                 }
 
-                
+                if (insig_min == int.MaxValue && insig_max == int.MinValue) {
+                    ChangeNotification("danger", "ไม่พบขอบบนและขอบล่างของการขอเครื่องราชฯ");
+                    return;
+                }
+
+
 
                 //Is Requesting
                 bool insigRequest = false;
@@ -941,6 +975,233 @@ namespace WEB_PERSONAL
 
                     }
 
+                } else if (loginPerson.PS_STAFFTYPE_ID == "2") { //-------------------------------------------------------------------------------------------------------------
+
+                    /*string pos_admin_id = null;
+                    string pos_work_id = null;
+                    if(loginPerson.PS_ADMIN_POS_ID == "0") {
+                        pos_work_id = loginPerson.PS_WORK_POS_ID;
+                    } else {
+                        pos_admin_id = loginPerson.PS_ADMIN_POS_ID;
+                    }*/
+
+                    
+                    
+
+                    //-----------------
+
+                   
+
+                    if (insigNewID >= insig_max) {
+
+                        // Check Inwork Year
+
+                        bool inWorkYearCon = true;
+                        {
+                            DateTime currentDate = DateTime.Now;
+                            DateTime inworkDate = loginPerson.PS_INWORK_DATE.Value;
+                            //double year = (DateTime.Now - inworkDate).TotalDays / 365;
+                            double year = (new DateTime(DateTime.Now.Year, 10, 6) - inworkDate).TotalDays / 365;
+                            //lbTest.Text += "---------------(" + DateTime.Now.Year + ", " + inworkDate.Year + ")";
+                            TableRow row = new TableRow();
+                            TableCell cell = new TableCell();
+                            cell.Text = "ระยะเวลารับราชการไม่น้อยกว่า 5 ปี";
+
+                            row.Cells.Add(cell);
+                            TableCondition.Rows.Add(row);
+                            if (year < 5) {
+                                cell.ForeColor = System.Drawing.Color.Red;
+                                inWorkYearCon = false;
+                            } else {
+                                cell.ForeColor = System.Drawing.Color.Green;
+                            }
+                        }
+
+
+                        // Check Insig Year Con
+                        bool insigYearCon = true;
+                        string insigYearConSql;
+
+                        if (loginPerson.PS_ADMIN_POS_ID != "0") {
+                            insigYearConSql = "SELECT * FROM TB_INSIG_EU_INSIG_YEAR_CON WHERE INSIG_TARGET = :INSIG_TARGET AND ADMIN_POS_ID = :ADMIN_POS_ID";
+                        } else {
+                            insigYearConSql = "SELECT * FROM TB_INSIG_EU_INSIG_YEAR_CON WHERE INSIG_TARGET = :INSIG_TARGET AND POSITION_WORK_ID = :POSITION_WORK_ID";
+                        }
+
+                        int insigUseID = -1;
+                        int insigUseYear = -1;
+                        bool useInsigYearCon = false;
+
+                        using (OracleCommand com = new OracleCommand(insigYearConSql, con)) {
+                            com.Parameters.Add(new OracleParameter("INSIG_TARGET", insigNewID));
+                            if (loginPerson.PS_ADMIN_POS_ID != "0") {
+                                com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", loginPerson.PS_ADMIN_POS_ID));
+                            } else {
+                                com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", loginPerson.PS_WORK_POS_ID));
+                            }
+
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                while (reader.Read()) {
+                                    insigUseID = int.Parse(reader.GetValue(4).ToString());
+                                    insigUseYear = int.Parse(reader.GetValue(5).ToString());
+                                    useInsigYearCon = true;
+                                    bool insigPass = false;
+
+                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID IN(2,3)", con)) {
+                                        com2.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
+                                        com2.Parameters.Add(new OracleParameter("INSIG_ID", insigUseID));
+                                        using (OracleDataReader reader2 = com2.ExecuteReader()) {
+                                            while (reader2.Read()) {
+                                                DateTime getDate = reader2.GetDateTime(0);
+                                                DateTime currentDate = DateTime.Now;
+                                                double year = (currentDate - getDate).TotalDays / 365;
+
+                                                if (year >= insigUseYear) {
+                                                    insigPass = true;
+                                                    string Insig_name = "?";
+                                                    using (OracleCommand com3 = new OracleCommand("SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = :INSIG_GRADE_ID", con)) {
+                                                        com3.Parameters.Add(new OracleParameter("INSIG_GRADE_ID", insigUseID));
+                                                        using (OracleDataReader reader3 = com3.ExecuteReader()) {
+                                                            while (reader3.Read()) {
+                                                                Insig_name = reader3.GetValue(0).ToString();
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                    TableRow row = new TableRow();
+                                                    TableCell cell = new TableCell();
+
+                                                    cell.ForeColor = System.Drawing.Color.Green;
+                                                    cell.Text = "ต้องมีระยะเวลาการครองเครื่องราชฯ ชั้น " + Insig_name + " มากกว่า " + insigUseYear + " ปี";
+
+                                                    row.Cells.Add(cell);
+                                                    TableCondition.Rows.Add(row);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (!insigPass) {
+                                        insigYearCon = false;
+                                        string Insig_name = "?";
+                                        using (OracleCommand com3 = new OracleCommand("SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = :INSIG_GRADE_ID", con)) {
+                                            com3.Parameters.Add(new OracleParameter("INSIG_GRADE_ID", insigUseID));
+                                            using (OracleDataReader reader3 = com3.ExecuteReader()) {
+                                                while (reader3.Read()) {
+                                                    Insig_name = reader3.GetValue(0).ToString();
+                                                }
+
+                                            }
+                                        }
+
+                                        TableRow row = new TableRow();
+                                        TableCell cell = new TableCell();
+
+                                        cell.ForeColor = System.Drawing.Color.Red;
+                                        cell.Text = "ต้องมีระยะเวลาการครองเครื่องราชฯ ชั้น " + Insig_name + " มากกว่า " + insigUseYear + " ปี";
+
+                                        row.Cells.Add(cell);
+                                        TableCondition.Rows.Add(row);
+                                    }
+                                }
+                            }
+                        }
+
+                        //Check Insig Year Gap
+                        bool insigYearGapCon = true;
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_PERSON WHERE IP_STATUS_ID IN(2,3) AND CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID", con)) {
+                            com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
+                            com.Parameters.Add(new OracleParameter("INSIG_ID", insigOldID));
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                if (reader.Read()) {
+                                    DateTime currentDate = DateTime.Now;
+                                    DateTime getDate = reader.GetDateTime(4);
+
+                                    double year = (currentDate - getDate).TotalDays / 365;
+
+                                    TableRow row = new TableRow();
+                                    TableCell cell = new TableCell();
+                                    if(useInsigYearCon) {
+                                        cell.Text = "เว้นระยะเวลาการได้รับเครื่องราชฯไม่น้อยกว่า " + insigUseYear + " ปี";
+                                    } else {
+                                        cell.Text = "เว้นระยะเวลาการได้รับเครื่องราชฯไม่น้อยกว่า 5 ปี";
+                                    }
+                                    
+
+                                    row.Cells.Add(cell);
+                                    TableCondition.Rows.Add(row);
+                                    if (useInsigYearCon) {
+                                        if (year < insigUseYear) {
+                                            cell.ForeColor = System.Drawing.Color.Red;
+                                            insigYearGapCon = false;
+                                        } else {
+                                            cell.ForeColor = System.Drawing.Color.Green;
+                                        }
+                                    } else {
+                                        if (year < 5) {
+                                            cell.ForeColor = System.Drawing.Color.Red;
+                                            insigYearGapCon = false;
+                                        } else {
+                                            cell.ForeColor = System.Drawing.Color.Green;
+                                        }
+                                    }
+                                    
+
+                                }
+                            }
+                        }
+
+
+                        // New Image
+                        using (OracleCommand com = new OracleCommand("SELECT INSIG_GRADE_ID, INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = :AAA", con)) {
+                            com.Parameters.Add(new OracleParameter("AAA", insigNewID));
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                while (reader.Read()) {
+                                    //Pic
+                                    string fileName;
+                                    switch (insigNewID) {
+                                        case 12: fileName = "บ.ม."; break;
+                                        case 11: fileName = "บ.ช."; break;
+                                        case 10: fileName = "จ.ม."; break;
+                                        case 9: fileName = "จ.ช."; break;
+                                        case 8: fileName = "ต.ม."; break;
+                                        case 7: fileName = "ต.ช."; break;
+                                        case 6: fileName = "ท.ม."; break;
+                                        case 5: fileName = "ท.ช."; break;
+                                        case 4: fileName = "ป.ม."; break;
+                                        case 3: fileName = "ป.ช."; break;
+                                        case 2: fileName = "ม.ว.ม."; break;
+                                        default: fileName = "ม.ป.ช."; break;
+                                    }
+                                    imgNewInsig.Attributes["src"] = "Image/Insignia/" + fileName + ".png";
+
+                                    //Name
+                                    lbNewInsigName.Text = "(" + insigNewID + ") " + reader.GetString(1);
+                                    break;
+
+                                }
+                            }
+                        }
+
+
+                        Session["INSIGNEWID"] = insigNewID.ToString();
+                        // Final
+                        if (inWorkYearCon && insigYearCon && insigYearGapCon && !insigRequest) {
+
+                        } else {
+                            lbuSubmitView2.Visible = false;
+                        }
+
+                        if (insigRequest) {
+                            lbInsigRequest.Visible = true;
+                        } else {
+                            lbInsigRequest.Visible = false;
+                        }
+
+
+                    }
+
                 }
                 lbTitleName.Text = Util.IsBlank(loginPerson.PS_TITLE_NAME) ? "-" : loginPerson.PS_TITLE_NAME;
                 lbName.Text = Util.IsBlank(loginPerson.PS_FIRSTNAME) ? "-" : loginPerson.PS_FIRSTNAME;
@@ -949,7 +1210,17 @@ namespace WEB_PERSONAL
                 lbBirthDate.Text = Util.IsBlank(loginPerson.PS_BIRTHDAY_DATE.ToString()) ? "-" : loginPerson.PS_BIRTHDAY_DATE.Value.ToLongDateString();
                 lbDateInwork.Text = Util.IsBlank(loginPerson.PS_INWORK_DATE.ToString()) ? "-" : loginPerson.PS_INWORK_DATE.Value.ToLongDateString();
                 lbFirstPosition.Text = Util.IsBlank(loginPerson.FIRST_POSITION_NAME) ? "-" : loginPerson.FIRST_POSITION_NAME;
-                lbPositionCurrent.Text = Util.IsBlank(loginPerson.PS_POSITION_NAME) ? "-" : loginPerson.PS_POSITION_NAME;
+
+
+                if (loginPerson.PS_STAFFTYPE_ID == "2") {
+                    lbPositionCurrent.Text = Util.IsBlank(loginPerson.PS_WORK_POS_NAME) ? "-" : loginPerson.PS_WORK_POS_NAME;
+                } else {
+                    lbPositionCurrent.Text = Util.IsBlank(loginPerson.PS_POSITION_NAME) ? "-" : loginPerson.PS_POSITION_NAME;
+                }
+
+
+
+
                 lbType.Text = Util.IsBlank(loginPerson.PS_STAFFTYPE_NAME) ? "-" : loginPerson.PS_STAFFTYPE_NAME;
                 lbDegree.Text = Util.IsBlank(loginPerson.PS_ADMIN_POS_NAME) ? "-" : loginPerson.PS_ADMIN_POS_NAME;
 
@@ -958,7 +1229,7 @@ namespace WEB_PERSONAL
                     lbSalaryCurrent.Text = "-";
                 }
                 else
-                {
+                { 
                     lbSalaryCurrent.Text = Util.IsBlank(salary.ToString()) ? "-" : Convert.ToInt32(salary).ToString();
                 }
                 
@@ -998,6 +1269,27 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
+                } else if (loginPerson.PS_STAFFTYPE_ID == "2") {
+                    if (loginPerson.PS_ADMIN_POS_ID != "0") {
+                        using (OracleCommand com = new OracleCommand("SELECT (SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX FROM TB_INSIG_EU_AVAILABLE WHERE ADMIN_POS_ID = :ADMIN_POS_ID", con)) {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", loginPerson.PS_ADMIN_POS_ID));
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                while (reader.Read()) {
+                                    lbMinMaxInsig.Text = reader.GetValue(0).ToString() + " - " + reader.GetValue(1).ToString() + " (" + insig_min + " - " + insig_max + ")";
+                                }
+                            }
+                        }
+                    } else {
+                        using (OracleCommand com = new OracleCommand("SELECT (SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MIN) INSIG_MIN,(SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_MAX) INSIG_MAX FROM TB_INSIG_EU_AVAILABLE WHERE POSITION_WORK_ID = :POSITION_WORK_ID", con)) {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", loginPerson.PS_WORK_POS_ID));
+                            using (OracleDataReader reader = com.ExecuteReader()) {
+                                while (reader.Read()) {
+                                    lbMinMaxInsig.Text = reader.GetValue(0).ToString() + " - " + reader.GetValue(1).ToString() + " (" + insig_min + " - " + insig_max + ")";
+                                }
+                            }
+                        }
+                    }
+                        
                 }
                 if (insigOldID == insig_max) {
                     lbuSubmitView2.Visible = false;
