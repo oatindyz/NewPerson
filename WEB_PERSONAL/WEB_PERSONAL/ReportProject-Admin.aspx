@@ -41,6 +41,12 @@
                     <div style="text-align: center;">
                         <table style="text-align: left; margin: auto;" class="ps-table-1">
                             <tr>
+                                <td>ข้อมูลการแสดงผล</td>
+                                <td>
+                                    <asp:DropDownList ID="ddlView" runat="server" CssClass="ps-dropdown input-sm select2" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>ปีงบประมาณ</td>
                                 <td>
                                     <asp:DropDownList ID="ddlYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
