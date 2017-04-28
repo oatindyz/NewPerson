@@ -38,12 +38,10 @@ namespace WEB_PERSONAL
             if (ddlView.SelectedValue == "1")
             {
                 Bindจำนวนรวมแต่ละวิทยาเขต();
-                DateTD.Visible = false;
             }
             else if (ddlView.SelectedValue == "2")
             {
                 Bindรายละเอียดแต่ละวิทยาเขต();
-                DateTD.Visible = true;
             }
         }
 
@@ -87,7 +85,7 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลอบรม/สัมมนา/ดูงาน"; cell.ColumnSpan = 14; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการพัฒนาบุคลากร"; cell.ColumnSpan = 15; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -96,6 +94,7 @@ namespace WEB_PERSONAL
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = ""; cell.ColumnSpan = 4; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประเภท"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ประเภท"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = ""; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -104,6 +103,7 @@ namespace WEB_PERSONAL
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = ""; cell.ColumnSpan = 4; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ในประเทศ"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ต่างประเทศ"; cell.ColumnSpan = 5; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = ""; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -123,6 +123,7 @@ namespace WEB_PERSONAL
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สัมมนา"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ดูงาน"; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "อื่นๆ"; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "จำนวนเงินที่ใช้"; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -205,17 +206,37 @@ namespace WEB_PERSONAL
                     }
                     {
                         TableCell cell = new TableCell();
-                        using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END) FROM TB_PROJECT", con))
+                        if (ddlCampus.SelectedValue != "")
                         {
-                            using (OracleDataReader reader = com.ExecuteReader())
+                            using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END), COUNT((SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_PROJECT.CITIZEN_ID AND PS_CAMPUS_ID = " + ddlCampus.SelectedValue + ")) FROM TB_PROJECT", con))
                             {
-                                while (reader.Read())
+                                using (OracleDataReader reader = com.ExecuteReader())
                                 {
-                                    cell.Text = reader.GetInt32(0).ToString();
+                                    while (reader.Read())
+                                    {
+                                        cell.Text = reader.GetInt32(0).ToString();
+                                        Session["SessionCount"] = reader.GetValue(1).ToString();
+                                    }
                                 }
                             }
+                            row.Cells.Add(cell);
                         }
-                        row.Cells.Add(cell);
+                        else
+                        {
+                            using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END), COUNT(PRO_ID) FROM TB_PROJECT", con))
+                            {
+                                using (OracleDataReader reader = com.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        cell.Text = reader.GetInt32(0).ToString();
+                                        Session["SessionCount"] = reader.GetValue(1).ToString();
+                                    }
+                                }
+                            }
+                            row.Cells.Add(cell);
+                        }
+                        
                     }
 
                     {
@@ -268,9 +289,37 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
+                    {
+                        TableCell cell = new TableCell();
+                        using (OracleCommand com = new OracleCommand("SELECT SUM(EXPENSES) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "'", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    cell.Text = reader.GetInt32(0).ToString("#,###");
+                                }
+                            }
+                        }
+                        row.Cells.Add(cell);
+                    }
+                    
                     table.Rows.Add(row);
                 }
 
+                {
+                    TableHeaderRow row = new TableHeaderRow();
+                    TableHeaderCell cell = new TableHeaderCell();
+                    if (ddlCampus.SelectedValue != "")
+                    {
+                        { cell.Text = "สรุปข้อมูลการพัฒนาบุคลากรของ" + ddlCampus.SelectedItem.Text + " จำนวน : <b>" + Session["SessionCount"].ToString() + "</b> ครั้ง"; cell.ColumnSpan = 15; row.Cells.Add(cell); }
+                    }
+                    else
+                    {
+                        { cell.Text = "สรุปข้อมูลการพัฒนาบุคลากรของทุกวิทยาเขต จำนวน : <b>" + Session["SessionCount"].ToString() + "</b> ครั้ง"; cell.ColumnSpan = 15; row.Cells.Add(cell); }
+                    }
+                    table.Rows.Add(row);
+                }
             }
 
             if (CITIZEN_ID.Count > 0)
@@ -290,7 +339,7 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลอบรม/สัมมนา/ดูงาน"; cell.ColumnSpan = 17; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการพัฒนาบุคลากร"; cell.ColumnSpan = 17; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -360,7 +409,10 @@ namespace WEB_PERSONAL
                 {
                     where += " AND SUB_COUNTRY_ID = '" + ddlSubCountry.SelectedValue + "'";
                 }
-
+                if (tbStartDate.Text != "" && tbEndDate.Text != "")
+                {
+                    where += " AND START_DATE >= TO_DATE('" + tbStartDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') AND END_DATE <= TO_DATE('" + tbEndDate.Text + "', 'DD/MM/YYYY','NLS_CALENDAR=''THAI BUDDHA''NLS_DATE_LANGUAGE=THAI') ";
+                }
                 using (OracleCommand com = new OracleCommand("SELECT PRO_ID,CITIZEN_ID FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = (SELECT PS_CITIZEN_ID FROM PS_PERSON WHERE TB_PROJECT.CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID)" + where + "ORDER BY ABS(PRO_ID)", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
@@ -585,7 +637,7 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลอบรม/สัมมนา/ดูงาน" + ddlView.SelectedItem.Text + ".xls");
+            Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการพัฒนาบุคลากร" + ddlView.SelectedItem.Text + ".xls");
             Response.ContentType = "application/x-msexcel";
             Response.ContentEncoding = Encoding.UTF8;
 

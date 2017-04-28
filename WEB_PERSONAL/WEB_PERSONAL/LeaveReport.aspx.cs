@@ -17,23 +17,18 @@ namespace WEB_PERSONAL {
 
             loginPerson = PersonnelSystem.GetPersonnelSystem(this).LoginPerson;
 
-            if (!IsPostBack) {
-                //Session["LeaveReportTable"] = null;
+            if (!IsPostBack)
+            {
+                //int yearMin = DatabaseManager.ExecuteInt("select EXTRACT(YEAR FROM PS_INWORK_DATE)+543 from ps_person where ps_citizen_id = '" + loginPerson.PS_CITIZEN_ID + "'") + 543;
+                //DateTime CurrentYear = DateTime.Today.AddYears(+543);
 
                 int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
                 int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
 
-                for (int i = yearMin; i <= yearMax; ++i) {
+                for (int i = yearMin; i <= yearMax; ++i)
+                {
                     DropDownList1.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
                 }
-                //DateTime dt = Util.ODTT();
-
-
-                /*if (dt.Month >= 10) {
-                    DropDownList1.SelectedValue = "" + (dt.Year + 1);
-                } else {
-                    DropDownList1.SelectedValue = "" + dt.Year;
-                }*/
 
                 DropDownList1.SelectedValue = "" + (Util.BudgetYear() + 543);
 
@@ -47,23 +42,8 @@ namespace WEB_PERSONAL {
                 ddlSelfView.Items.Add(new ListItem("แสดงการลาทั้งหมด", "1"));
                 ddlSelfView.Items.Add(new ListItem("แสดงตามรหัสการลา", "2"));
 
-                /*  trSelfView.Style.Add("display", "none");
-                  trSelfViewLeaveID.Style.Add("display", "none");*/
-
             }
-
-            
-
-            /*if(Session["LeaveReportTable"] != null) {
-                Table tb = (Table)Session["LeaveReportTable"];
-                Panel1.Controls.Clear();
-                Panel1.Controls.Add(tb);
-            }*/
-
-            
-        }
-
-        
+        }  
 
         private Table BindToTable() {
 
@@ -84,7 +64,6 @@ namespace WEB_PERSONAL {
             TableHeaderRow rowXT = new TableHeaderRow();
             TableHeaderCell cellXT = new TableHeaderCell();
             {
-                
                 {  cellXT.Text = ""; cellXT.ColumnSpan = 14; rowXT.Cells.Add(cellXT); }
                 table.Rows.Add(rowXT);
 

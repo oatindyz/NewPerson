@@ -8,9 +8,6 @@ using System.Data.OracleClient;
 namespace WEB_PERSONAL.Class {
 
     public class InsigCheckGet {
-
-        
-
         public static bool Check(Person loginPerson) {
 
             int insigOldID;
@@ -107,8 +104,42 @@ namespace WEB_PERSONAL.Class {
                         }
                     }
                 }
+                else if (loginPerson.PS_STAFFTYPE_ID == "2")
+                {
 
+                    if (loginPerson.PS_ADMIN_POS_ID != "0")
+                    {
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_EU_AVAILABLE WHERE ADMIN_POS_ID = :ADMIN_POS_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", loginPerson.PS_ADMIN_POS_ID));
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    insig_min = int.Parse(reader.GetValue(3).ToString());
+                                    insig_max = int.Parse(reader.GetValue(4).ToString());
 
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_EU_AVAILABLE WHERE POSITION_WORK_ID = :POSITION_WORK_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", loginPerson.PS_WORK_POS_ID));
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    insig_min = int.Parse(reader.GetValue(3).ToString());
+                                    insig_max = int.Parse(reader.GetValue(4).ToString());
+
+                                }
+                            }
+                        }
+                    }
+                }
 
                 //Is Requesting
                 bool insigRequest = false;
@@ -150,13 +181,9 @@ namespace WEB_PERSONAL.Class {
                     }
                 }
 
-
-
                 //NEW
 
                 if (loginPerson.PS_STAFFTYPE_ID == "1") {  //-------------------------------------------------------------------------------------------------------------
-
-
 
                     if (insigNewID >= insig_max) {
 
@@ -403,9 +430,6 @@ namespace WEB_PERSONAL.Class {
                             if (todayYear - retireYear >= -1 && todayYear - retireYear <= 0) {
                                 retiring = true;
                             }
-                            
-
-
                         }
                         if (retiring) {
 
@@ -414,7 +438,6 @@ namespace WEB_PERSONAL.Class {
                                 --insigNewID;
                             }
                         }
-
                         
                         // Final
                         if (inWorkYearCon && insigYearCon && insigSalaryCon && insigPosYearCon && insigSalaryYearCon && insigHighSalaryCon && !insigRequest) {
@@ -422,9 +445,6 @@ namespace WEB_PERSONAL.Class {
                         } else {
                             return false;
                         }
-
-
-
                     }
                 } else if (loginPerson.PS_STAFFTYPE_ID == "3") { //-------------------------------------------------------------------------------------------------------------
 
@@ -444,7 +464,6 @@ namespace WEB_PERSONAL.Class {
                                 inWorkYearCon = false;
                             }
                         }
-
 
                         // Check Insig Year Con
                         bool insigYearCon = true;
@@ -506,20 +525,13 @@ namespace WEB_PERSONAL.Class {
                             }
                         }
 
-                        //Final
+                        // Final
                         if (inWorkYearCon && insigYearCon && !insigRequest) {
                             return true;
                         } else {
                             return false;
                         }
-
-
-
-
-
-
                     }
-
                 } else if (loginPerson.PS_STAFFTYPE_ID == "5") { //-------------------------------------------------------------------------------------------------------------
 
                     int gov_emp_year_use = -1;
@@ -550,7 +562,6 @@ namespace WEB_PERSONAL.Class {
                                 inWorkYearCon = false;
                             }
                         }
-
 
                         // Check Insig Year Con
                         bool insigYearCon = true;
@@ -589,7 +600,6 @@ namespace WEB_PERSONAL.Class {
                                                         }
                                                     }
 
-                                                    
                                                 }
                                             }
                                         }
@@ -608,13 +618,10 @@ namespace WEB_PERSONAL.Class {
                                             }
                                         }
 
-                                        
                                     }
                                 }
                             }
                         }
-
-
 
                         // Final
                         if (inWorkYearCon && insigYearCon && !insigRequest) {
@@ -622,19 +629,174 @@ namespace WEB_PERSONAL.Class {
                         } else {
                             return false;
                         }
+                    }
+
+                }
+                else if (loginPerson.PS_STAFFTYPE_ID == "2") { //-------------------------------------------------------------------------------------------------------------
+
+                    if (insigNewID >= insig_max)
+                    {
+
+                        // Check Inwork Year
+
+                        bool inWorkYearCon = true;
+                        {
+                            DateTime currentDate = DateTime.Now;
+                            DateTime inworkDate = loginPerson.PS_INWORK_DATE.Value;
+                            //double year = (DateTime.Now - inworkDate).TotalDays / 365;
+                            double year = (new DateTime(DateTime.Now.Year, 10, 6) - inworkDate).TotalDays / 365;
+                            //lbTest.Text += "---------------(" + DateTime.Now.Year + ", " + inworkDate.Year + ")";
+
+                            if (year < 5)
+                            {
+                                inWorkYearCon = false;
+                            }
+                        }
+
+                        // Check Insig Year Con
+                        bool insigYearCon = true;
+                        string insigYearConSql;
+
+                        if (loginPerson.PS_ADMIN_POS_ID != "0")
+                        {
+                            insigYearConSql = "SELECT * FROM TB_INSIG_EU_INSIG_YEAR_CON WHERE INSIG_TARGET = :INSIG_TARGET AND ADMIN_POS_ID = :ADMIN_POS_ID";
+                        }
+                        else
+                        {
+                            insigYearConSql = "SELECT * FROM TB_INSIG_EU_INSIG_YEAR_CON WHERE INSIG_TARGET = :INSIG_TARGET AND POSITION_WORK_ID = :POSITION_WORK_ID";
+                        }
+
+                        int insigUseID = -1;
+                        int insigUseYear = -1;
+                        bool useInsigYearCon = false;
+
+                        using (OracleCommand com = new OracleCommand(insigYearConSql, con))
+                        {
+                            com.Parameters.Add(new OracleParameter("INSIG_TARGET", insigNewID));
+                            if (loginPerson.PS_ADMIN_POS_ID != "0")
+                            {
+                                com.Parameters.Add(new OracleParameter("ADMIN_POS_ID", loginPerson.PS_ADMIN_POS_ID));
+                            }
+                            else
+                            {
+                                com.Parameters.Add(new OracleParameter("POSITION_WORK_ID", loginPerson.PS_WORK_POS_ID));
+                            }
+
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    insigUseID = int.Parse(reader.GetValue(4).ToString());
+                                    insigUseYear = int.Parse(reader.GetValue(5).ToString());
+                                    useInsigYearCon = true;
+                                    bool insigPass = false;
+
+                                    using (OracleCommand com2 = new OracleCommand("SELECT GET_DATE FROM TB_INSIG_PERSON WHERE CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID AND IP_STATUS_ID IN(2,3)", con))
+                                    {
+                                        com2.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
+                                        com2.Parameters.Add(new OracleParameter("INSIG_ID", insigUseID));
+                                        using (OracleDataReader reader2 = com2.ExecuteReader())
+                                        {
+                                            while (reader2.Read())
+                                            {
+                                                DateTime getDate = reader2.GetDateTime(0);
+                                                DateTime currentDate = DateTime.Now;
+                                                double year = (currentDate - getDate).TotalDays / 365;
+
+                                                if (year >= insigUseYear)
+                                                {
+                                                    insigPass = true;
+                                                    string Insig_name = "?";
+                                                    using (OracleCommand com3 = new OracleCommand("SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = :INSIG_GRADE_ID", con))
+                                                    {
+                                                        com3.Parameters.Add(new OracleParameter("INSIG_GRADE_ID", insigUseID));
+                                                        using (OracleDataReader reader3 = com3.ExecuteReader())
+                                                        {
+                                                            while (reader3.Read())
+                                                            {
+                                                                Insig_name = reader3.GetValue(0).ToString();
+                                                            }
+
+                                                        }
+                                                    }
+                                                    //
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (!insigPass)
+                                    {
+                                        insigYearCon = false;
+                                        string Insig_name = "?";
+                                        using (OracleCommand com3 = new OracleCommand("SELECT INSIG_GRADE_NAME_S FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = :INSIG_GRADE_ID", con))
+                                        {
+                                            com3.Parameters.Add(new OracleParameter("INSIG_GRADE_ID", insigUseID));
+                                            using (OracleDataReader reader3 = com3.ExecuteReader())
+                                            {
+                                                while (reader3.Read())
+                                                {
+                                                    Insig_name = reader3.GetValue(0).ToString();
+                                                }
+
+                                            }
+                                        }
+
+                                        //
+                                    }
+                                }
+                            }
+                        }
+
+                        //Check Insig Year Gap
+                        bool insigYearGapCon = true;
+                        using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_PERSON WHERE IP_STATUS_ID IN(2,3) AND CITIZEN_ID = :CITIZEN_ID AND INSIG_ID = :INSIG_ID", con))
+                        {
+                            com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
+                            com.Parameters.Add(new OracleParameter("INSIG_ID", insigOldID));
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    DateTime currentDate = DateTime.Now;
+                                    DateTime getDate = reader.GetDateTime(4);
+
+                                    double year = (currentDate - getDate).TotalDays / 365;
+
+                                    if (useInsigYearCon)
+                                    {
+                                        if (year < insigUseYear)
+                                        {
+                                            insigYearGapCon = false;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (year < 5)
+                                        {
+                                            insigYearGapCon = false;
+                                        }
+                                    }
 
 
+                                }
+                            }
+                        }
 
-
-
+                        // Final
+                        if (inWorkYearCon && insigYearCon && insigYearGapCon && !insigRequest)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
 
                     }
 
                 }
-              
-               
 
-               
             }
 
             return false;

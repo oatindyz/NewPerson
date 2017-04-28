@@ -16,9 +16,6 @@ namespace WEB_PERSONAL
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
-
             int count = DatabaseManager.ExecuteInt("SELECT COUNT(*) FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1");
 
             if (count == 0)
@@ -88,7 +85,6 @@ namespace WEB_PERSONAL
 
                         int insigTargetID = DatabaseManager.ExecuteInt("SELECT INSIG_ID FROM TB_INSIG_PERSON WHERE IP_ID = " + int.Parse(id));
 
-
                         lbTitleName.Text = Util.IsBlank(QueryString.PS_TITLE_NAME) ? "-" : QueryString.PS_TITLE_NAME;
                         lbName.Text = Util.IsBlank(QueryString.PS_FIRSTNAME) ? "-" : QueryString.PS_FIRSTNAME;
                         lbLastName.Text = Util.IsBlank(QueryString.PS_LASTNAME) ? "-" : QueryString.PS_LASTNAME;
@@ -96,11 +92,37 @@ namespace WEB_PERSONAL
                         lbBirthDate.Text = Util.IsBlank(QueryString.PS_BIRTHDAY_DATE.ToString()) ? "-" : QueryString.PS_BIRTHDAY_DATE.Value.ToLongDateString();
                         lbDateInwork.Text = Util.IsBlank(QueryString.PS_INWORK_DATE.ToString()) ? "-" : QueryString.PS_INWORK_DATE.Value.ToLongDateString();
                         lbFirstPosition.Text = Util.IsBlank(QueryString.FIRST_POSITION_NAME) ? "-" : QueryString.FIRST_POSITION_NAME;
-                        lbPositionCurrent.Text = Util.IsBlank(QueryString.PS_POSITION_NAME) ? "-" : QueryString.PS_POSITION_NAME;
+
+
+                        if (QueryString.PS_STAFFTYPE_ID == "2")
+                        {
+                            lbPositionCurrent.Text = Util.IsBlank(QueryString.PS_WORK_POS_NAME) ? "-" : QueryString.PS_WORK_POS_NAME;
+                        }
+                        else
+                        {
+                            lbPositionCurrent.Text = Util.IsBlank(QueryString.PS_POSITION_NAME) ? "-" : QueryString.PS_POSITION_NAME;
+                        }
+
                         lbType.Text = Util.IsBlank(QueryString.PS_STAFFTYPE_NAME) ? "-" : QueryString.PS_STAFFTYPE_NAME;
                         lbDegree.Text = Util.IsBlank(QueryString.PS_ADMIN_POS_NAME) ? "-" : QueryString.PS_ADMIN_POS_NAME;
-                        lbSalaryCurrent.Text = Util.IsBlank(salary.ToString()) ? "-" : Convert.ToInt32(salary).ToString();
-                        lbPositionSalary.Text = Util.IsBlank(positionsalary.ToString()) ? "-" : Convert.ToInt32(positionsalary).ToString();
+
+                        if (salary == -1)
+                        {
+                            lbSalaryCurrent.Text = "-";
+                        }
+                        else
+                        {
+                            lbSalaryCurrent.Text = Util.IsBlank(salary.ToString()) ? "-" : Convert.ToInt32(salary).ToString();
+                        }
+
+                        if (positionsalary == -1)
+                        {
+                            lbPositionSalary.Text = "-";
+                        }
+                        else
+                        {
+                            lbPositionSalary.Text = Util.IsBlank(positionsalary.ToString()) ? "-" : Convert.ToInt32(positionsalary).ToString();
+                        }
                         lbInsigReq.Text = insigName;
 
                         string fileName;
@@ -162,7 +184,7 @@ namespace WEB_PERSONAL
                     {
                         while (reader.Read())
                         {
-                            DateTime reqDate = reader.GetDateTime(0);
+                            DateTime reqDate = reader.GetDateTime(0).AddDays(-1);
                             if (Util.ToDateTimeOracle(tbDateAllow.Text) > reqDate)
                             {
                                 ok = true;
@@ -178,7 +200,11 @@ namespace WEB_PERSONAL
 
             if (ok)
             {
-
+                if (Util.ToDateTimeOracle(tbDateAllow.Text) > DateTime.Now)
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถมากกว่าวันปัจจุบัน')", true);
+                    return;
+                }
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                 {
                     con.Open();
@@ -211,9 +237,6 @@ namespace WEB_PERSONAL
 
         protected void lbuBack_Click(object sender, EventArgs e)
         {
-            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
-
             int count = DatabaseManager.ExecuteInt("SELECT COUNT(*) FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1");
 
             if (count == 0)

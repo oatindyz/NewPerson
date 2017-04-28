@@ -161,9 +161,7 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
-                } else if (loginPerson.PS_STAFFTYPE_ID == "2") {
-
-                    
+                } else if (loginPerson.PS_STAFFTYPE_ID == "2") { 
 
                     if (loginPerson.PS_ADMIN_POS_ID != "0") {
                         using (OracleCommand com = new OracleCommand("SELECT * FROM TB_INSIG_EU_AVAILABLE WHERE ADMIN_POS_ID = :ADMIN_POS_ID", con)) {
@@ -196,8 +194,6 @@ namespace WEB_PERSONAL
                     ChangeNotification("danger", "ไม่พบขอบบนและขอบล่างของการขอเครื่องราชฯ");
                     return;
                 }
-
-
 
                 //Is Requesting
                 bool insigRequest = false;
@@ -274,8 +270,6 @@ namespace WEB_PERSONAL
                 //NEW
 
                 if (loginPerson.PS_STAFFTYPE_ID == "1") {  //-------------------------------------------------------------------------------------------------------------
-
-
 
                     if (insigNewID >= insig_max) {
 
@@ -1217,9 +1211,6 @@ namespace WEB_PERSONAL
                 } else {
                     lbPositionCurrent.Text = Util.IsBlank(loginPerson.PS_POSITION_NAME) ? "-" : loginPerson.PS_POSITION_NAME;
                 }
-
-
-
 
                 lbType.Text = Util.IsBlank(loginPerson.PS_STAFFTYPE_NAME) ? "-" : loginPerson.PS_STAFFTYPE_NAME;
                 lbDegree.Text = Util.IsBlank(loginPerson.PS_ADMIN_POS_NAME) ? "-" : loginPerson.PS_ADMIN_POS_NAME;

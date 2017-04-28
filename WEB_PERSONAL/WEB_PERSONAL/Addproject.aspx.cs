@@ -61,33 +61,33 @@ namespace WEB_PERSONAL
         {
             string[] validFileTypes = { "pdf" };
             string ext = System.IO.Path.GetExtension(FUdocument.PostedFile.FileName);
-            bool isValidFile = false;
+            //bool isValidFile = false;
 
-            for (int i = 0; i < validFileTypes.Length; i++)
-            {
-                if (ext == "." + validFileTypes[i])
-                {
-                    isValidFile = true;
-                    break;
-                }
-            }
-            if (!isValidFile)
-            {
-                ScriptManager.GetCurrent(this.Page).SetFocus(this.FUdocument);
-                ChangeNotification("danger", "กรุณาแนบไฟล์นามสกุล " + string.Join(",", validFileTypes) + " เท่านั้น");
-                return;
-            }
+            /*for (int i = 0; i < validFileTypes.Length; i++)
+           {
+               if (ext == "." + validFileTypes[i])
+               {
+                   isValidFile = true;
+                   break;
+               }
+           }
+          if (!isValidFile)
+           {
+               ScriptManager.GetCurrent(this.Page).SetFocus(this.FUdocument);
+               ChangeNotification("danger", "กรุณาแนบไฟล์นามสกุล " + string.Join(",", validFileTypes) + " เท่านั้น");
+               return;
+           }
 
-            else if (FUdocument.PostedFile.ContentLength > 26214400)
-            {
-                ScriptManager.GetCurrent(this.Page).SetFocus(this.FUdocument);
-                ChangeNotification("danger", "กรุณาแนบไฟล์ไม่เกิน 25 MB");
-                return;
-            }
-            else
-            {
-                ChangeNotification("", "");
-            }
+           else if (FUdocument.PostedFile.ContentLength > 26214400)
+           {
+               ScriptManager.GetCurrent(this.Page).SetFocus(this.FUdocument);
+               ChangeNotification("danger", "กรุณาแนบไฟล์ไม่เกิน 25 MB");
+               return;
+           }
+           else
+           {
+               ChangeNotification("", "");
+           }*/
 
             if (tbStartDate.Text != "" && tbEndDate.Text != "")
             {
