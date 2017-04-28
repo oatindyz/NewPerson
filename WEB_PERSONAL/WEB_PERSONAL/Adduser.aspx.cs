@@ -472,21 +472,6 @@ namespace WEB_PERSONAL
             }
         }
 
-        protected void ddlGradLevID_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int LevID = DatabaseManager.ExecuteInt("SELECT LEV_ID FROM TB_LEV WHERE LEV_ID = 25");
-            if (ddlGradLevID.SelectedValue == LevID.ToString())
-            {
-                trGradIscedID.Visible = false;
-                trGradProgID.Visible = false;
-            }
-            else
-            {
-                trGradIscedID.Visible = true;
-                trGradProgID.Visible = true;
-            }
-        }
-
         private void ChangeNotification(string type)
         {
             switch (type)

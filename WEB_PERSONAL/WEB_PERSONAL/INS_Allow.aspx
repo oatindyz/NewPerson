@@ -136,7 +136,7 @@
                         <td class="col1">
                             <img src="Image/Small/calendar.png" class="icon_left" />วันที่</td>
                         <td class="col2">
-                            <asp:TextBox ID="tbDateAllow" runat="server" CssClass="ps-textbox"></asp:TextBox>
+                            <asp:TextBox ID="tbDateAllow" runat="server" CssClass="ps-textbox" required="required" tabindex="1"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>

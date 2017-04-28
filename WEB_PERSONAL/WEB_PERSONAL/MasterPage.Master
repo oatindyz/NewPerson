@@ -364,7 +364,8 @@
 				</div>
                 <div class="ps-ms-separator"></div>
 				<div>
-                    <a href="ChangePassword.aspx" class="ps-ms-button-blue">เปลี่ยนรหัสผ่าน</a>
+                    <a href="Profile.aspx" class="ps-ms-button-blue">ดูข้อมูลส่วนตัว</a>
+                    <a href="ChangePassword.aspx" class="ps-ms-button-orange">เปลี่ยนรหัสผ่าน</a>
                     <asp:LinkButton ID="lbuLogout" runat="server" CssClass="ps-ms-button-red" OnClick="lbuLogout_Click">ออกจากระบบ</asp:LinkButton>
                 </div>
 			</div>

@@ -28,26 +28,6 @@ namespace WEB_PERSONAL
             {
                 BindDDL();
                 ReadSelectID();
-
-                string CheckIsNull = DatabaseManager.ExecuteString("SELECT COUNT(PDF_FILE) FROM TB_PROJECT WHERE PRO_ID = " + int.Parse(MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString())) + "");
-                if (CheckIsNull == "0")
-                {
-                    lbFile.Visible = true;
-                    FUdocument.Visible = true;
-                    spFile.InnerText = "*";
-                    spFile.Attributes.Add("class", "ps-lb-red");
-                    spFile.Attributes["style"] = "color:red;";
-                    FUdocument.Attributes.Add("required", "true");
-                }
-                else
-                {
-                    lbFile.Visible = false;
-                    FUdocument.Visible = false;
-                    spFile.InnerText = "";
-                    spFile.Attributes.Add("class", "");
-                    spFile.Attributes["style"] = "";
-                    FUdocument.Attributes.Add("required", "false");
-                }
             }
             ReadFile();
         }
@@ -185,7 +165,7 @@ namespace WEB_PERSONAL
         {
             if (Request.QueryString["id"] != null)
             {
-                string[] validFileTypes = { "pdf" };
+                /*string[] validFileTypes = { "pdf" };
                 string ext = System.IO.Path.GetExtension(FUdocument.PostedFile.FileName);
                 bool isValidFile = false;
 
@@ -213,7 +193,7 @@ namespace WEB_PERSONAL
                 else
                 {
                     ChangeNotification("", "");
-                }
+                }*/
 
                 if (tbStartDate.Text != "" && tbEndDate.Text != "")
                 {
@@ -236,38 +216,83 @@ namespace WEB_PERSONAL
                     }
                 }
 
-                PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-                Person loginPerson = ps.LoginPerson;
-                Project p = new Project();
-                p.CATEGORY_ID = Convert.ToInt32(ddlCategory.SelectedValue);
-                p.PROJECT_NAME = tbProjectName.Text;
-                p.ADDRESS_PROJECT = tbAddressProject.Text;
-                p.START_DATE = DateTime.Parse(tbStartDate.Text);
-                p.END_DATE = DateTime.Parse(tbEndDate.Text);
-                p.EXPENSES = Convert.ToInt32(tbExpenses.Text);
-                p.FUNDING = tbFunding.Text;
-                p.CERTIFICATE = tbCertificate.Text;
-                p.SUMMARIZE_PROJECT = tbSummarizeProject.Text;
-                p.RESULT_TEACHING = tbResultTeaching.Text;
-                p.RESULT_ACADEMIC = tbResultAcademic.Text;
-                p.DIFFICULTY_PROJECT = tbDifficultyProject.Text;
-                p.RESULT_PROJECT = tbResultProject.Text;
-                p.RESULT_RESEARCHING = tbResultResearching.Text;
-                p.RESULT_OTHER = tbResultOther.Text;
-                p.COUNSEL = tbCounsel.Text;
-                p.COUNTRY_ID = Convert.ToInt32(ddlCountry.SelectedValue);
-                p.SUB_COUNTRY_ID = Convert.ToInt32(ddlSubCountry.SelectedValue);
-                if (FUdocument.HasFile)
+                if (Util.ToDateTimeOracle(tbStartDate.Text) > DateTime.Now)
                 {
-                    string CountBase = DatabaseManager.ExecuteString("SELECT COUNT(*) FROM TB_PROJECT WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
-                    FileInfo fi = new FileInfo(FUdocument.FileName);
-                    string imgFile = "UID=" + loginPerson.PS_CITIZEN_ID + "&count=" + CountBase + fi.Extension;
-                    FUdocument.SaveAs(Server.MapPath("Upload/Project/PDF/" + imgFile));
-                    p.PDF_FILE = imgFile;
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถมากกว่าวันปัจจุบัน')", true);
+                    return;
                 }
-                p.PRO_ID = int.Parse(MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()));
-                p.UPDATE_PROJECT();
+                if (Util.ToDateTimeOracle(tbEndDate.Text) > DateTime.Now)
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถมากกว่าวันปัจจุบัน')", true);
+                    return;
+                }
 
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+                    Person loginPerson = ps.LoginPerson;
+
+                    con.Open();
+
+                    string query = "Update TB_PROJECT Set";
+                    query += " CATEGORY_ID = :CATEGORY_ID ,";
+                    query += " COUNTRY_ID = :COUNTRY_ID ,";
+                    query += " SUB_COUNTRY_ID = :SUB_COUNTRY_ID ,";
+                    query += " PROJECT_NAME = :PROJECT_NAME ,";
+                    query += " ADDRESS_PROJECT = :ADDRESS_PROJECT ,";
+                    query += " START_DATE = :START_DATE ,";
+                    query += " END_DATE = :END_DATE ,";
+                    query += " EXPENSES = :EXPENSES ,";
+                    query += " FUNDING = :FUNDING ,";
+                    query += " CERTIFICATE = :CERTIFICATE ,";
+                    query += " SUMMARIZE_PROJECT = :SUMMARIZE_PROJECT ,";
+                    query += " RESULT_TEACHING = :RESULT_TEACHING ,";
+                    query += " RESULT_ACADEMIC = :RESULT_ACADEMIC ,";
+                    query += " DIFFICULTY_PROJECT = :DIFFICULTY_PROJECT ,";
+                    query += " RESULT_PROJECT = :RESULT_PROJECT ,";
+                    query += " RESULT_RESEARCHING = :RESULT_RESEARCHING ,";
+                    query += " RESULT_OTHER = :RESULT_OTHER ,";
+                    query += " COUNSEL = :COUNSEL ,";
+                    query += " PDF_FILE = :PDF_FILE ";
+                    query += " where PRO_ID = :PRO_ID ";
+
+                    using (OracleCommand com = new OracleCommand(query, con))
+                    {
+                        com.Parameters.Add(new OracleParameter("CATEGORY_ID", Convert.ToInt32(ddlCategory.SelectedValue)));
+                        com.Parameters.Add(new OracleParameter("COUNTRY_ID", Convert.ToInt32(ddlCountry.SelectedValue)));
+                        com.Parameters.Add(new OracleParameter("SUB_COUNTRY_ID", Convert.ToInt32(ddlSubCountry.SelectedValue)));
+                        com.Parameters.Add(new OracleParameter("PROJECT_NAME", tbProjectName.Text));
+                        com.Parameters.Add(new OracleParameter("ADDRESS_PROJECT", tbAddressProject.Text));
+                        com.Parameters.Add(new OracleParameter("START_DATE", DateTime.Parse(tbStartDate.Text)));
+                        com.Parameters.Add(new OracleParameter("END_DATE", DateTime.Parse(tbEndDate.Text)));
+                        com.Parameters.Add(new OracleParameter("EXPENSES", Convert.ToInt32(tbExpenses.Text)));
+                        com.Parameters.Add(new OracleParameter("FUNDING", tbFunding.Text));
+                        com.Parameters.Add(new OracleParameter("CERTIFICATE", tbCertificate.Text));
+                        com.Parameters.Add(new OracleParameter("SUMMARIZE_PROJECT", tbSummarizeProject.Text));
+                        com.Parameters.Add(new OracleParameter("RESULT_TEACHING", tbResultTeaching.Text));
+                        com.Parameters.Add(new OracleParameter("RESULT_ACADEMIC", tbResultAcademic.Text));
+                        com.Parameters.Add(new OracleParameter("DIFFICULTY_PROJECT", tbDifficultyProject.Text));
+                        com.Parameters.Add(new OracleParameter("RESULT_PROJECT", tbResultProject.Text));
+                        com.Parameters.Add(new OracleParameter("RESULT_RESEARCHING", tbResultResearching.Text));
+                        com.Parameters.Add(new OracleParameter("RESULT_OTHER", tbResultOther.Text));
+                        com.Parameters.Add(new OracleParameter("COUNSEL", tbCounsel.Text));
+                        if (FUdocument.HasFile)
+                        {
+                            string CountBase = DatabaseManager.ExecuteString("SELECT COUNT(*) FROM TB_PROJECT WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+                            FileInfo fi = new FileInfo(FUdocument.FileName);
+                            string imgFile = "CID=" + loginPerson.PS_CITIZEN_ID + "&count=" + CountBase + fi.Extension;
+                            FUdocument.SaveAs(Server.MapPath("Upload/Project/PDF/" + imgFile));
+                            com.Parameters.Add(new OracleParameter("PDF_FILE", imgFile));
+                        }
+                        else
+                        {
+                            com.Parameters.Add(new OracleParameter("PDF_FILE", DBNull.Value));
+                        }
+                        com.Parameters.Add(new OracleParameter("PRO_ID", int.Parse(MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()))));
+                        com.ExecuteNonQuery();
+                    }
+                } 
+      
                 Notsuccess.Visible = false;
                 success.Visible = true;
             }

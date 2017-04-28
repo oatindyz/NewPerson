@@ -47,7 +47,6 @@
             if (reg.test(emailField.value) == false) {
                 alert('อีเมลไม่ถูกต้อง');
                 document.getElementById('<%= tbEmail.ClientID %>').value = "";
-                return false;
             }
             return true;
         }
@@ -268,7 +267,7 @@
                         <tr>
                             <td class="col1">ระดับการศึกษาที่จบสูงสุด<span class="ps-lb-red" />*</td>
                             <td class="col2">
-                                <asp:DropDownList ID="ddlGradLevID" runat="server" CssClass="form-control input-sm select2" AutoPostBack="true" OnSelectedIndexChanged="ddlGradLevID_SelectedIndexChanged" required="required" tabindex="1"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlGradLevID" runat="server" CssClass="form-control input-sm select2" required="required" tabindex="1"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>

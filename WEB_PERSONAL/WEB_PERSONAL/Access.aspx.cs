@@ -17,6 +17,7 @@ namespace WEB_PERSONAL
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
                 PersonnelSystem ps = new PersonnelSystem();
@@ -45,7 +46,7 @@ namespace WEB_PERSONAL
                     }
                 }
             }
-            //Session.Clear();
+            Session.Clear();
         }
 
         static string GetMd5Hash(MD5 md5Hash, string input)

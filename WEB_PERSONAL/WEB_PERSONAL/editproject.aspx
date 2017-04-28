@@ -6,7 +6,7 @@
     }
     window.onbeforeunload = DisableButton;
     </script>
-
+      
     <script>
         $(function () {
             $("#ContentPlaceHolder1_tbStartDate, #ContentPlaceHolder1_tbEndDate").datepicker($.datepicker.regional["th"]);
@@ -26,7 +26,7 @@
         <div id="Notsuccess" runat="server" class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group">
-                    <table class="table table-striped table-bordered table-hover ps-table-1">
+                    <table id="aaa" runat="server" visible="false" class="table table-striped table-bordered table-hover ps-table-1">
                         <tr>
                             <td class="col1">ชื่อ - สกุล:</td>
                             <td class="col2" style="margin-right: 10px">
@@ -62,7 +62,7 @@
                         </td>
                         <td>
                             <div class="form-group">
-                                <asp:Label ID="lbFile" runat="server">แนบไฟล์ .pdf (รูปภาพ,เอกสาร ประกอบการอบรม)<span id="spFile" runat="server"></span></asp:Label>
+                                <asp:Label ID="lbFile" runat="server">แนบไฟล์ .pdf (รูปภาพ,เอกสาร ประกอบการอบรม)</asp:Label>
                                 <asp:FileUpload ID="FUdocument" runat="server" Width="250px"/>
                             </div>   
                         </td>
