@@ -94,6 +94,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.Panel Panel2;
         
         /// <summary>
+        /// lbFinish control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbFinish;
+        
+        /// <summary>
         /// lbuV2Export control.
         /// </summary>
         /// <remarks>

@@ -204,6 +204,7 @@ namespace WEB_PERSONAL
                                 }
                             }
                         }
+                        row.Cells.Add(cell);
                     }
 
                     {
@@ -256,31 +257,18 @@ namespace WEB_PERSONAL
                             }
                         }
                     }
+
                     table.Rows.Add(row);
                 }
 
+                if (CITIZEN_ID.Count > 0)
                 {
-                    TableHeaderRow row = new TableHeaderRow();
-                    TableHeaderCell cell = new TableHeaderCell();
-                    if (ddlCampus.SelectedValue != "")
-                    {
-                        { cell.Text = "สรุปข้อมูลการพัฒนาบุคลากรของ"; cell.ColumnSpan = 14; row.Cells.Add(cell); }
-                    }
-                    else
-                    {
-                        { cell.Text = "สรุปข้อมูลการพัฒนาบุคลากรของทุกวิทยาเขต"; cell.ColumnSpan = 14; row.Cells.Add(cell); }
-                    }
-                    table.Rows.Add(row);
+                    return table;
                 }
-            }
-
-            if (CITIZEN_ID.Count > 0)
-            {
-                return table;
-            }
-            else
-            {
-                return null;
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -312,7 +300,7 @@ namespace WEB_PERSONAL
             Panel1.Controls.Clear();
             Panel1.Controls.Add(table);
         }
-    
+
 
         protected void lbuExport_Click(object sender, EventArgs e)
         {

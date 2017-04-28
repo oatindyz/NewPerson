@@ -60,16 +60,15 @@
                 </div>
             </div>
         </div>
-        <asp:Panel ID="Panel1" runat="server" CssClass="ppp"></asp:Panel>
     </div>
+    <asp:Panel ID="Panel1" runat="server" CssClass="ppp"></asp:Panel>
 
     <div id="divUser" runat="server" visible="false" class="panel panel-default">
         <div class="panel-body">
             <div class="panel-body">
                 <div style="text-align: center; margin-bottom: 10px;">
-                        
-                     <asp:Panel ID="Panel2" runat="server" CssClass="ppp"></asp:Panel>
-
+                    <asp:Panel ID="Panel2" runat="server" CssClass="ppp"></asp:Panel>
+                    <asp:Label ID="lbFinish" runat="server" Text="ไม่มีข้อมูล" CssClass="lbGV"></asp:Label>
                 </div>
                 <div style="text-align: center;">
                     <asp:LinkButton ID="lbuV2Export" runat="server" CssClass="ps-button" OnClick="lbuV2Export_Click"><img src="Image/Small/excel.png" class="icon_left"/>Export</asp:LinkButton>

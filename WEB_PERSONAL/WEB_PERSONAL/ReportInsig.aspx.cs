@@ -33,7 +33,7 @@ namespace WEB_PERSONAL
 
                     int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)) FROM TB_INSIG_PERSON") + 543;
                     int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM GET_DATE)) FROM TB_INSIG_PERSON") + 543;
-
+                    
                     for (int i = yearMin; i <= yearMax; ++i) {
                         ddlBudgetYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + (i-543)));
                     }
@@ -41,16 +41,26 @@ namespace WEB_PERSONAL
                 }
                 else
                 {
-                    divOfficer.Visible = false;
-                    divUser.Visible = true;
-                    Table table;
-                    table = loadReportSelf();
-                    if (table == null)
+                    string CheckNull = DatabaseManager.ExecuteString("SELECT COUNT(*) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+                    if (CheckNull != "0")
                     {
-                        return;
+                        divOfficer.Visible = false;
+                        divUser.Visible = true;
+                        lbFinish.Visible = false;
+                        Table table;
+                        table = loadReportSelf();
+                        if (table == null)
+                        {
+                            return;
+                        }
+                        Panel2.Controls.Clear();
+                        Panel2.Controls.Add(loadReportSelf());
                     }
-                    Panel2.Controls.Clear();
-                    Panel2.Controls.Add(loadReportSelf());
+                    else
+                    {
+                        divUser.Visible = true;
+                        lbuV2Export.Visible = false;
+                    }
                 }
                
             }
