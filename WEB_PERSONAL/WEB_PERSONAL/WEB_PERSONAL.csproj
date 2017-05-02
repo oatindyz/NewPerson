@@ -1057,6 +1057,7 @@
     <Content Include="Plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="MasterPage.Master" />
+    <Content Include="previewproject.aspx" />
     <Content Include="Profile.aspx" />
     <Content Include="ReportInsig.aspx" />
     <Content Include="ReportPerson.aspx" />
@@ -3090,6 +3091,13 @@
     </Compile>
     <Compile Include="PersonBranch.aspx.designer.cs">
       <DependentUpon>PersonBranch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="previewproject.aspx.cs">
+      <DependentUpon>previewproject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="previewproject.aspx.designer.cs">
+      <DependentUpon>previewproject.aspx</DependentUpon>
     </Compile>
     <Compile Include="Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>

@@ -11,6 +11,8 @@
     <div class="default_page_style">
         <div class="ps-header">
             <img src="Image/Small/copy.png" />ออกรายงานข้อมูลการพัฒนาบุคลากร
+            <span style="text-align:right; float:right;"><a href="listproject.aspx">
+            <img src="Image/Small/back.png" />ย้อนกลับ</a></span>
         </div>
     <div style="margin-bottom:10px">
         <asp:LinkButton ID="lbuExport" runat="server" CssClass="ps-button" OnClick="lbuExport_Click"><img src="Image/Small/word.png" class="icon_left"/>ออกรายงาน WORD</asp:LinkButton>
@@ -196,9 +198,6 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div style="text-align: center; margin-top: 10px;">
-        <a href="listproject.aspx" class="btn btn-info">ย้อนกลับ</a>
     </div>
 
 </asp:Content>

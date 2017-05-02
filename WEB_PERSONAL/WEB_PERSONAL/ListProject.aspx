@@ -37,6 +37,7 @@
                                 <th>ประเภทโครงการ</th>
                                 <th>ชื่อโครงการ</th>
                                 <th>สถานที่จัดโครงการ</th>
+                                <th>วันที่เริ่มโครงการ - วันที่สิ้นสุดโครงการ</th>
                                 <th><img src="Image/Small/document-edit.png" class="icon_left" />จัดการข้อมูล</th>
                             </tr>
                         </thead>
@@ -48,6 +49,7 @@
                                     <td><%# DataBinder.Eval(Container.DataItem, "CATEGORY_ID") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "PROJECT_NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "ADDRESS_PROJECT") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "DATEPROJECT") %></td>
                                     <td>
                                         <a><asp:LinkButton ID="lbuPreview" CommandName="Preview" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PRO_ID").ToString()) %>' class="btn btn-info ekknidRight">ดู</asp:LinkButton></a>
                                         <a><asp:LinkButton ID="lbuEdit" CommandName="Edit" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "PRO_ID").ToString()) %>' class="btn btn-warning ekknidRight">แก้ไข</asp:LinkButton></a>

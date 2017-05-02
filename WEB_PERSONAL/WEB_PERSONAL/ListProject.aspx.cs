@@ -25,7 +25,7 @@ namespace WEB_PERSONAL
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             Person loginPerson = ps.LoginPerson;
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT (SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_PROJECT.CITIZEN_ID) NAME, (SELECT CATEGORY_NAME FROM TB_PROJECT_CATEGORY WHERE TB_PROJECT_CATEGORY.CATEGORY_ID = TB_PROJECT.CATEGORY_ID) CATEGORY_ID, PROJECT_NAME, ADDRESS_PROJECT, PRO_ID FROM TB_PROJECT WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY PRO_ID ASC", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT (SELECT PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_PROJECT.CITIZEN_ID) NAME, (SELECT CATEGORY_NAME FROM TB_PROJECT_CATEGORY WHERE TB_PROJECT_CATEGORY.CATEGORY_ID = TB_PROJECT.CATEGORY_ID) CATEGORY_ID, PROJECT_NAME, ADDRESS_PROJECT, add_months(START_DATE,6516) || ' - ' || add_months(END_DATE,6516) DATEPROJECT, PRO_ID FROM TB_PROJECT WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY START_DATE DESC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeater.DataSource = dt;

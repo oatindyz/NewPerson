@@ -20,7 +20,7 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div class="default_page_style">
         <div class="ps-header">
-            <img src="Image/Icon/edit.png" />ยื่นคำร้องขอแก้ไขข้อมูลที่ถูกล็อค
+            <img src="Image/Icon/edit.png" />ยื่นคำร้องขอแก้ไขข้อมูล
         </div>
         <div id="notification" runat="server"></div>
 
@@ -334,9 +334,24 @@
         <div id="SaveShow" runat="server" visible="false" class="panel panel-default">
             <div class="panel-body">
                 <div class="ps-box-ct10" style="text-align: center;">
-                    <div class="ps-div-title-red">ทำการบันทึกข้อมูลคำร้องแก้ไขข้อมูลที่ถูกล็อคไว้สำเร็จ</div>
+                    <div class="ps-div-title-red">ทำการบันทึกข้อมูลยื่นคำร้องแก้ไขข้อมูล</div>
                     <div style="color: #808080; margin-top: 10px; text-align: center;">
-                        ระบบได้ทำการบันทึกข้อมูลแล้ว กรุณารอเจ้าหน้าที่บุคลากรอนุมัติคำร้องขอ !
+                        ระบบได้ทำการบันทึกข้อมูลแล้ว สถานะ:อยู่ระหว่างดำเนินการ
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="Default.aspx" class="ps-button btn btn-primary">
+                            <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="InProcess" runat="server" visible="false" class="panel panel-default">
+            <div class="panel-body">
+                <div class="ps-box-ct10" style="text-align: center;">
+                    <div class="ps-div-title-red">มีรายการยื่นคำร้องขอแก้ไขข้อมูล</div>
+                    <div style="color: #808080; margin-top: 10px; text-align: center;">
+                        สามารถดูการแจ้งผลได้ที่แจ้งเตือน เมื่อเจ้าหน้าที่บุคลากรทำการแจ้งผลข้อมูล
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
                         <a href="Default.aspx" class="ps-button btn btn-primary">

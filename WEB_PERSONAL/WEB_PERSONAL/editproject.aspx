@@ -25,21 +25,6 @@
 
         <div id="Notsuccess" runat="server" class="panel panel-default">
             <div class="panel-body">
-                <div class="form-group">
-                    <table id="aaa" runat="server" visible="false" class="table table-striped table-bordered table-hover ps-table-1">
-                        <tr>
-                            <td class="col1">ชื่อ - สกุล:</td>
-                            <td class="col2" style="margin-right: 10px">
-                                <asp:Label ID="lbName" runat="server" CssClass="ekknidRight"></asp:Label></td>
-                            <td class="col1">ตำแหน่ง :</td>
-                            <td class="col2" style="margin-right: 10px">
-                                <asp:Label ID="lbPosition" runat="server" CssClass="ekknidRight"></asp:Label></td>
-                            <td class="col1">สังกัด :</td>
-                            <td class="col2" style="margin-right: 10px">
-                                <asp:Label ID="lbDepartment" runat="server"></asp:Label></td>
-                        </tr>
-                    </table>
-                </div>
                 <table style="width: 97%;">
                     <tr>
                         <td>

@@ -102,7 +102,7 @@ namespace WEB_PERSONAL
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT COUNTRY_ID, SUB_COUNTRY_ID, (SELECT (SELECT TITLE_NAME_TH FROM TB_TITLENAME WHERE PS_PERSON.PS_TITLE_ID = TB_TITLENAME.TITLE_ID) || ' ' || PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_PROJECT.CITIZEN_ID) NAME, (SELECT (SELECT POSITION_WORK_NAME FROM TB_POSITION_WORK WHERE TB_POSITION_WORK.POSITION_WORK_ID = PS_PERSON.PS_WORK_POS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_PROJECT.CITIZEN_ID) POSITION_NAME, CATEGORY_ID, PROJECT_NAME, ADDRESS_PROJECT, START_DATE, END_DATE, EXPENSES, FUNDING, CERTIFICATE, SUMMARIZE_PROJECT, RESULT_TEACHING, RESULT_ACADEMIC, DIFFICULTY_PROJECT, RESULT_PROJECT, RESULT_RESEARCHING, RESULT_OTHER, COUNSEL FROM TB_PROJECT WHERE PRO_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                using (OracleCommand com = new OracleCommand("SELECT COUNTRY_ID, SUB_COUNTRY_ID, CATEGORY_ID, PROJECT_NAME, ADDRESS_PROJECT, START_DATE, END_DATE, EXPENSES, FUNDING, CERTIFICATE, SUMMARIZE_PROJECT, RESULT_TEACHING, RESULT_ACADEMIC, DIFFICULTY_PROJECT, RESULT_PROJECT, RESULT_RESEARCHING, RESULT_OTHER, COUNSEL FROM TB_PROJECT WHERE PRO_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
@@ -111,8 +111,6 @@ namespace WEB_PERSONAL
                             int i = 0;
                             ddlCountry.SelectedValue = reader.IsDBNull(i) ? "" : reader.GetInt32(i).ToString(); ++i;
                             ddlSubCountry.SelectedValue = reader.IsDBNull(i) ? "" : reader.GetInt32(i).ToString(); ++i;
-                            lbName.Text = reader.IsDBNull(i) ? "" : reader.GetString(i); ++i;
-                            lbPosition.Text = reader.IsDBNull(i) ? "" : reader.GetString(i); ++i;
                             ddlCategory.SelectedValue = reader.IsDBNull(i) ? "" : reader.GetInt32(i).ToString(); ++i;
                             tbProjectName.Text = reader.IsDBNull(i) ? "" : reader.GetString(i); ++i;
                             tbAddressProject.Text = reader.IsDBNull(i) ? "" : reader.GetString(i); ++i;

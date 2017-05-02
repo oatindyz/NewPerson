@@ -18,6 +18,26 @@ namespace WEB_PERSONAL
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             loginPerson = ps.LoginPerson;
 
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+                using (OracleCommand com = new OracleCommand("SELECT R_STATUS_ID FROM TB_REQUEST WHERE R_STATUS_ID = 1 AND CITIZEN_ID = '" + ps.LoginPerson.PS_CITIZEN_ID + "'", con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!reader.IsDBNull(0) && reader.GetValue(0).ToString() == "1")
+                            {
+                                InProcess.Visible = true;
+                                DataShow.Visible = false;
+                                SaveShow.Visible = false;
+                            }
+                        }
+                    }
+                }
+            }
+
             if (!IsPostBack)
             {
                 BindDDL();
@@ -234,7 +254,7 @@ namespace WEB_PERSONAL
                 //using (OracleCommand com = new OracleCommand("INSERT INTO TB_REQUEST (R_ID, CITIZEN_ID, R_STATUS_ID, DATE_START, TITLE_ID, FIRSTNAME, LASTNAME, GENDER_ID, BIRTHDAY_DATE, EMAIL, NATION_ID, CAMPUS_ID, FACULTY_ID, DIVISION_ID, WORK_DIVISION_ID, STAFFTYPE_ID, TIME_CONTACT_ID, BUDGET_ID, SUBSTAFFTYPE_ID, ADMIN_POS_ID, WORK_POS_ID, INWORK_DATE, DATE_START_THIS_U, SPECIAL_NAME, TEACH_ISCED_ID, GRAD_LEV_ID, GRAD_CURR, GRAD_ISCED_ID, GRAD_PROG_ID, GRAD_UNIV, GRAD_COUNTRY_ID, DEFORM_ID, SIT_NO, RELIGION_ID, MOVEMENT_TYPE_ID, MOVEMENT_DATE) VALUES (TB_REQUEST_SEQ.NEXTVAL, :CITIZEN_ID, :R_STATUS_ID, :DATE_START, :TITLE_ID, :FIRSTNAME, :LASTNAME, :GENDER_ID, :BIRTHDAY_DATE, :EMAIL, :NATION_ID, :CAMPUS_ID, :FACULTY_ID, :DIVISION_ID, :WORK_DIVISION_ID, :STAFFTYPE_ID, :TIME_CONTACT_ID, :BUDGET_ID, :SUBSTAFFTYPE_ID, :ADMIN_POS_ID, :WORK_POS_ID, :INWORK_DATE, :DATE_START_THIS_U, :SPECIAL_NAME, :TEACH_ISCED_ID, :GRAD_LEV_ID, :GRAD_CURR, :GRAD_ISCED_ID, :GRAD_PROG_ID, :GRAD_UNIV, :GRAD_COUNTRY_ID, :DEFORM_ID, :SIT_NO, :RELIGION_ID, :MOVEMENT_TYPE_ID, :MOVEMENT_DATE)", con))
                 {
                     com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
-                    com.Parameters.Add(new OracleParameter("R_STATUS_ID", "0"));
+                    com.Parameters.Add(new OracleParameter("R_STATUS_ID", "1"));
                     com.Parameters.Add(new OracleParameter("DATE_START", DateTime.Today));
 
                     com.Parameters.Add(new OracleParameter("TITLE_ID", ddlTitleID.SelectedValue));
