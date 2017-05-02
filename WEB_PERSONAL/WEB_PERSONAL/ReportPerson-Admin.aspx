@@ -22,6 +22,10 @@
             .ppp td {
                 text-align: left;
             }
+
+            .ps-table-1 td {
+                text-align: center;
+            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -36,7 +40,7 @@
                     <table style="text-align: left; margin: auto;" class="ps-table-1">
                         <tr>
                             <td>ปีงบประมาณ</td>
-                            <td>
+                            <td style="text-align: left;">
                                 <asp:DropDownList ID="ddlYear" runat="server" CssClass="ps-dropdown input-sm select2"></asp:DropDownList>
                             </td>
                         </tr>

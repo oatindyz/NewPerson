@@ -29,13 +29,10 @@
         <div class="panel-body">
             <div class="panel-body">
                 <div id="divLoad" runat="server" class="dataTable_wrapper">
-                    <asp:Table id="tb1" runat="server" CssClass="ps-table-1" style="display: inline-block; margin-right: 20px; vertical-align: top;">
-                        <asp:TableHeaderRow>
-                            <asp:TableHeaderCell ColumnSpan="2" style="text-align:center;">รายละเอียด</asp:TableHeaderCell>
-                            <asp:TableHeaderCell>ความเห็น</asp:TableHeaderCell>
-                            <asp:TableHeaderCell>ผลลัพธ์การอนุมัติ</asp:TableHeaderCell>
-                        </asp:TableHeaderRow>
-                    </asp:Table>
+                    
+
+                    <div id="div1" runat="server"></div>
+
                 </div>
             </div>
         </div>

@@ -40,12 +40,12 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLoad;
         
         /// <summary>
-        /// tb1 control.
+        /// div1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tb1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div1;
     }
 }
