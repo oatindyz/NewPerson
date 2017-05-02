@@ -274,7 +274,7 @@
             <div id="hvr1" runat="server" style="display: none;">
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="ListPerson-ADMIN.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลบุคลากร</a> 
-                <a href="ListRequest.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการคำร้องแก้ไขข้อมูลบุคลากร</a> 
+                <a href="ListRequest.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการคำร้องแก้ไขข้อมูล<asp:Label ID="lbPersonRequestCount" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
                 <a href="Boss.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>
                 <a href="PersonBranch.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูแผนผังบุคลากร</a>
                 <a href="DataManage.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลตัวเลือก</a> 
@@ -308,6 +308,7 @@
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="Edit.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />แก้ไขข้อมูลบุคลากร</a> 
                 <a href="Request.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />คำร้องแก้ไขข้อมูลบุคลากร</a> 
+                <a href="RequestHistory.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ประวัติคำร้องแก้ไขข้อมูล</a> 
                 <a href="listproject.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลการพัฒนาบุคลากร</a> 
                 <a href="Profile.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูข้อมูลส่วนตัว</a> 
             </div>
@@ -378,6 +379,26 @@
                     </div>
                     <div class="ps-box-il-ms">
                         <div class="ps-box-i0">
+                            <div class="ps-box-hd10-cen"><img src="Image/Small/person2.png" />ข้อมูลบุคลากร</div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_person_none" runat="server">
+                            <div class="ps-box-hd10-cen" style="color: #a0a0a0; margin-top: 120px;">ไม่มีการแจ้งเตือนข้อมูลบุคลากร</div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_person_request" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/person2.png' class='icon_left' />คุณได้รับการแจ้งการยื่นคำร้องขอแก้ไขข้อมูล</div><br />
+                                <div><a href='ListRequest.aspx'>ไปหน้ารายชื่อผู้ยื่นคำร้องขอแก้ไขข้อมูล<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+                        <div class="ps-box-i0" id="noti_person_finish" runat="server">
+                            <div class="ps-box-ct10-cen">
+                                <div><img src='Image/Small/person2.png' class='icon_left' />คุณได้รับการแจ้งผลการยื่นคำร้องขอแก้ไขข้อมูล</div><br />
+                                <div><a href='RequestHistory.aspx'>ไปหน้าประวัติการยื่นคำร้องขอแก้ไขข้อมูล<img src='Image/Small/next.png' class='icon_right' /></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ps-box-il-ms">
+                        <div class="ps-box-i0">
                             <div class="ps-box-hd10-cen"><img src="Image/Small/document.png" />การลา</div>
                         </div>
                         <div class="ps-box-i0" id="noti_leave_none" runat="server">
@@ -421,8 +442,6 @@
                                 <div><a href='INS_Allow.aspx'>ไปหน้ารายชื่อผู้ขอเครื่องราชฯ<img src='Image/Small/next.png' class='icon_right' /></a></div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>

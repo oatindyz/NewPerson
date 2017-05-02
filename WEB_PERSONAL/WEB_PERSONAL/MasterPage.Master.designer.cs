@@ -112,6 +112,15 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl hvr1;
         
         /// <summary>
+        /// lbPersonRequestCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbPersonRequestCount;
+        
+        /// <summary>
         /// hvr2 control.
         /// </summary>
         /// <remarks>
@@ -236,6 +245,33 @@ namespace WEB_PERSONAL {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbuLogout;
+        
+        /// <summary>
+        /// noti_person_none control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noti_person_none;
+        
+        /// <summary>
+        /// noti_person_request control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noti_person_request;
+        
+        /// <summary>
+        /// noti_person_finish control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl noti_person_finish;
         
         /// <summary>
         /// noti_leave_none control.

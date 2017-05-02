@@ -293,7 +293,7 @@
                                 <asp:Label ID="lbSitNo" runat="server"></asp:Label>
                             </td>
                             <td>
-                                <asp:TextBox ID="tbSitNo" runat="server" CssClass="form-control input-sm"></asp:TextBox>
+                                <asp:TextBox ID="tbSitNo" runat="server" CssClass="form-control input-sm" MaxLength="5" onkeypress="return isNumberKey(event)"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>

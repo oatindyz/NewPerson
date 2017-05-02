@@ -1060,10 +1060,12 @@
     <Content Include="previewproject.aspx" />
     <Content Include="Profile.aspx" />
     <Content Include="ReportInsig.aspx" />
+    <Content Include="ReportPerson-Admin.aspx" />
     <Content Include="ReportPerson.aspx" />
     <Content Include="ReportProject-Admin.aspx" />
     <Content Include="Reportproject.aspx" />
     <Content Include="Request.aspx" />
+    <Content Include="RequestHistory.aspx" />
     <Content Include="RequestManage.aspx" />
     <Content Include="ViewLeaveForm.aspx" />
     <Content Include="WorkingDay.aspx" />
@@ -3114,6 +3116,13 @@
     <Compile Include="ReportInsig.aspx.designer.cs">
       <DependentUpon>ReportInsig.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ReportPerson-Admin.aspx.cs">
+      <DependentUpon>ReportPerson-Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportPerson-Admin.aspx.designer.cs">
+      <DependentUpon>ReportPerson-Admin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ReportPerson.aspx.cs">
       <DependentUpon>ReportPerson.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3141,6 +3150,13 @@
     </Compile>
     <Compile Include="Request.aspx.designer.cs">
       <DependentUpon>Request.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequestHistory.aspx.cs">
+      <DependentUpon>RequestHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequestHistory.aspx.designer.cs">
+      <DependentUpon>RequestHistory.aspx</DependentUpon>
     </Compile>
     <Compile Include="RequestManage.aspx.cs">
       <DependentUpon>RequestManage.aspx</DependentUpon>

@@ -12,8 +12,8 @@ namespace WEB_PERSONAL.Class {
 
         public static readonly string PROVIDER = "System.Data.OracleClient";
         //public static readonly string DATA_SOURCE = "203.158.140.67";
-        //public static readonly string DATA_SOURCE = "192.168.1.50";
-        public static readonly string DATA_SOURCE = "192.168.100.7";
+        public static readonly string DATA_SOURCE = "192.168.1.50";
+        //public static readonly string DATA_SOURCE = "192.168.100.7";
         //public static readonly string DATA_SOURCE = "localhost";
         public static readonly string PORT = "1521";
         public static readonly string SID = "orcl";
@@ -145,7 +145,7 @@ namespace WEB_PERSONAL.Class {
                     "(SELECT SUBSTAFFTYPE_NAME FROM TB_SUBSTAFFTYPE WHERE TB_SUBSTAFFTYPE.SUBSTAFFTYPE_ID = PS_PERSON.PS_SUBSTAFFTYPE_ID) PS_SUBSTAFFTYPE_NAME," +
                     "(SELECT ISCED_NAME FROM TB_ISCED WHERE TB_ISCED.ISCED_ID = PS_PERSON.PS_TEACH_ISCED_ID) PS_TEACH_ISCED_NAME," +
                     "(SELECT LEV_NAME_TH FROM TB_LEV WHERE TB_LEV.LEV_ID = PS_PERSON.PS_GRAD_LEV_ID) PS_GRAD_LEV_NAME," +
-                    "(SELECT ISCED_NAME FROM TB_ISCED WHERE TB_ISCED.ISCED_ID = PS_PERSON.PS_TEACH_ISCED_ID) PS_GRAD_ISCED_ID," +
+                    "(SELECT ISCED_NAME FROM TB_ISCED WHERE TB_ISCED.ISCED_ID = PS_PERSON.PS_GRAD_ISCED_ID) PS_GRAD_ISCED_NAME," +
                     "(SELECT PROGRAM_NAME FROM TB_PROGRAM WHERE TB_PROGRAM.PROGRAM_ID_NEW = PS_PERSON.PS_GRAD_PROG_ID) PS_GRAD_PROG_NAME," +
                     "(SELECT NATION_NAME_EN FROM TB_NATION WHERE TB_NATION.NATION_ID = PS_PERSON.PS_GRAD_COUNTRY_ID) PS_GRAD_COUNTRY_NAME," +
                     "(SELECT DEFORM_NAME FROM TB_DEFORM WHERE TB_DEFORM.DEFORM_ID = PS_PERSON.PS_DEFORM_ID) PS_DEFORM_NAME," +

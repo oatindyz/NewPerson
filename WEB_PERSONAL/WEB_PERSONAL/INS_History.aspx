@@ -52,7 +52,7 @@
         <asp:Label ID="lbProgressing" runat="server" Text="ไม่มีข้อมูล" CssClass="lbGV"></asp:Label>
         <asp:GridView ID="gvProgressing" runat="server" CssClass="ps-table-1" Style="margin: 0 auto; margin-bottom: 20px;" AllowPaging="True" PageSize="10" OnPageIndexChanging="gvProgressing_PageIndexChanging"></asp:GridView>
 
-        <div class="ps-div-title-red">ประวัติการได้รับเครื่องราชฯ</div>
+        <div class="ps-div-title-red">ประวัติการขอเครื่องราชฯ</div>
         <asp:Label ID="lbHistory" runat="server" Text="ไม่พบข้อมูล" CssClass="lbGV"></asp:Label>
         <asp:GridView ID="gvHistory" runat="server" CssClass="ps-table-1" Style="margin: 0 auto; margin-bottom: 20px;" AllowPaging="True" PageSize="10" OnPageIndexChanging="gvHistory_PageIndexChanging"></asp:GridView>
 

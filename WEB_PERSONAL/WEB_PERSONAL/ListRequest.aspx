@@ -33,6 +33,7 @@
                                 <th>ชื่อ-สกุล</th>
                                 <th>ประเภทบุคลากร</th>
                                 <th>วิทยาเขต</th>
+                                <th>วันที่ข้อมูล</th>
                                 <th><img src="Image/Small/document-edit.png" class="icon_left" />จัดการข้อมูล</th>
                             </tr>
                         </thead>
@@ -43,6 +44,7 @@
                                     <td><%# DataBinder.Eval(Container.DataItem, "NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "STAFFTYPE_NAME") %></td>
                                     <td><%# DataBinder.Eval(Container.DataItem, "CAMPUS_NAME") %></td>
+                                    <td><%# DataBinder.Eval(Container.DataItem, "DATE_START") %></td>
                                     <td>
                                         <a><asp:LinkButton ID="lbuEdit" CommandName="Edit" runat="server" CommandArgument='<%#WEB_PERSONAL.MyCrypto.GetEncryptedQueryString(DataBinder.Eval(Container.DataItem, "R_ID").ToString()) %>' class="btn btn-warning">จัดการข้อมูล</asp:LinkButton></a>
                                     </td>

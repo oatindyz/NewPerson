@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
         <script type="text/javascript">
         function DisableButton() {
-            document.getElementById("<%=btnSaveRequest.ClientID %>").disabled = true;
+            document.getElementById("<%=btnAddComment.ClientID %>").disabled = true;
         }
         window.onbeforeunload = DisableButton;
     </script>
@@ -325,11 +325,37 @@
                             </td>
                         </tr>
                     </table>
-                    
-                    <div style="text-align: center; margin-top: 20px">
-                        <asp:Button ID="btnSaveRequest" runat="server" CssClass="btn btn-success" OnClick="btnSaveRequest_Click" Text="อนุมัติ" ></asp:Button>
-                        <asp:Button ID="btnNoRequest" runat="server" CssClass="btn btn-danger" OnClick="btnNoRequest_Click" Text="ไม่อนุมัติ" ></asp:Button>
-                    </div>
+                    <div class="ps-separator"></div>
+
+                <div class="ps-div-title-red">อนุมัติการยื่นคำร้องขอแก้ไขข้อมูล</div>
+                <table class="ps-table-1" style="margin: 0 auto; margin-bottom: 10px;">
+                    <tr>
+                        <td class="col1">
+                            <img src="Image/Small/calendar.png" class="icon_left" />วันที่ข้อมูล</td>
+                        <td class="col2">
+                            <asp:Label ID="lbDateReq" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col1">
+                            <img src="Image/Small/calendar.png" class="icon_left" />ความเห็น</td>
+                        <td class="col2">
+                            <asp:TextBox ID="tbComment" runat="server" CssClass="ps-textbox" required="required" TabIndex="1"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col1">
+                            <img src="Image/Small/correct.png" class="icon_left" />การอนุมัติ</td>
+                        <td class="col2">
+                            <asp:RadioButton ID="rbAllow" runat="server" GroupName="allow" Text="อนุมัติ" Checked="true" />
+                            <asp:RadioButton ID="rbNotAllow" runat="server" GroupName="allow" Text="ไม่อนุมัติ" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <asp:Button ID="btnAddComment" runat="server" CssClass="btn btn-success" OnClick="btnAddComment_Click" Text="ยืนยันการอนุมัติ"></asp:Button>
+                </div>
                 </div>
             </div>
         </div>

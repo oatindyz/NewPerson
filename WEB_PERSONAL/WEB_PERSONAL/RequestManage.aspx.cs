@@ -16,6 +16,12 @@ namespace WEB_PERSONAL
         string Citizen_id;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.QueryString["id"] == null)
+            {
+                Response.Redirect("ListRequest.aspx");
+                return;
+            }
+
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
             loginPerson = ps.LoginPerson;
             Citizen_id = DatabaseManager.ExecuteString("SELECT CITIZEN_ID FROM TB_REQUEST WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'");
@@ -26,15 +32,11 @@ namespace WEB_PERSONAL
                 Server.Transfer("NoPermission.aspx");
             }
 
-            if (Request.QueryString["id"] == null)
-            {
-                Response.Redirect("ListPerson-ADMIN.aspx");
-            }
-
             if (!IsPostBack)
             {
                 BindDDL();
                 ReadID();
+                ReadRequest();
             }
 
             lbTitleID.Text = Util.IsBlank(QueryString.PS_TITLE_NAME) ? "-" : QueryString.PS_TITLE_NAME;
@@ -171,6 +173,24 @@ namespace WEB_PERSONAL
                             if (reader.IsDBNull(i)) { trMovementDate.Visible = false; } else { tbMovementDate.Text = reader.GetDateTime(i).ToString("dd MMM yyyy");  }
                             ++i;
 
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void ReadRequest()
+        {
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+                using (OracleCommand com = new OracleCommand("SELECT DATE_START FROM TB_REQUEST WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lbDateReq.Text = reader.GetDateTime(0).ToLongDateString();
                         }
                     }
                 }
@@ -609,42 +629,43 @@ namespace WEB_PERSONAL
                 }
 
                 /*/*/
-                using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID, COMMENT_INFO=:COMMENT_INFO WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
                 {
                     com.Parameters.Add(new OracleParameter("DATE_END", DateTime.Today));
-                    com.Parameters.Add(new OracleParameter("R_STATUS_ID", "1"));
+                    com.Parameters.Add(new OracleParameter("R_STATUS_ID", "2"));
+                    com.Parameters.Add(new OracleParameter("COMMENT_INFO", tbComment.Text));
                     id = com.ExecuteNonQuery();
                 }
             }
             return id;
         }
 
-        protected void btnSaveRequest_Click(object sender, EventArgs e)
+        protected void btnAddComment_Click(object sender, EventArgs e)
         {
-            UPDATE_PERSON();
-            DataShow.Visible = false;
-            Accept.Visible = true;
-            //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกข้อมูลเรียบร้อย')", true);
-        }
-
-        protected void btnNoRequest_Click(object sender, EventArgs e)
-        {
-            int id = 0;
-            OracleConnection.ClearAllPools();
-            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            if (rbAllow.Checked)
             {
-                con.Open();
-                using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
-                {
-                    com.Parameters.Add(new OracleParameter("DATE_END", DateTime.Today));
-                    com.Parameters.Add(new OracleParameter("R_STATUS_ID", "2"));
-                    id = com.ExecuteNonQuery();
-                }
+                UPDATE_PERSON();
+                DataShow.Visible = false;
+                Accept.Visible = true;
+                //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('บันทึกข้อมูลเรียบร้อย')", true);
             }
-            DataShow.Visible = false;
-            NoAccept.Visible = true;
-
+            else if(rbNotAllow.Checked)
+            {
+                OracleConnection.ClearAllPools();
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID, COMMENT_INFO=:COMMENT_INFO WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                    {
+                        com.Parameters.Add(new OracleParameter("DATE_END", DateTime.Today));
+                        com.Parameters.Add(new OracleParameter("R_STATUS_ID", "4"));
+                        com.Parameters.Add(new OracleParameter("COMMENT_INFO", tbComment.Text));
+                        com.ExecuteNonQuery();
+                    }
+                }
+                DataShow.Visible = false;
+                NoAccept.Visible = true;
+            }
         }
-
     }
 }

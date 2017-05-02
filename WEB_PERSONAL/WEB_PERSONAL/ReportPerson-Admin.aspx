@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="ReportPerson.aspx.cs" Inherits="WEB_PERSONAL.ReportPerson" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="ReportPerson-Admin.aspx.cs" Inherits="WEB_PERSONAL.ReportPerson_Admin" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
         $(function () {

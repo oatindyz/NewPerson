@@ -50,7 +50,7 @@ namespace WEB_PERSONAL
             lbBirthdayDate.Text = Util.IsBlank(ps.LoginPerson.PS_BIRTHDAY_DATE.ToString()) ? "-" : ps.LoginPerson.PS_BIRTHDAY_DATE.Value.ToLongDateString();
             lbEmail.Text = Util.IsBlank(ps.LoginPerson.PS_EMAIL) ? "-" : ps.LoginPerson.PS_EMAIL;
             lbNationID.Text = Util.IsBlank(ps.LoginPerson.PS_NATION_NAME) ? "-" : ps.LoginPerson.PS_NATION_NAME;
-            lbCampusID.Text = Util.IsBlank(ps.LoginPerson.PS_CAMPUS_NAME) ? "-" : ps.LoginPerson.PS_FIRSTNAME;
+            lbCampusID.Text = Util.IsBlank(ps.LoginPerson.PS_CAMPUS_NAME) ? "-" : ps.LoginPerson.PS_CAMPUS_NAME;
             lbFacultyID.Text = Util.IsBlank(ps.LoginPerson.PS_FACULTY_NAME) ? "-" : ps.LoginPerson.PS_FACULTY_NAME;
             lbDivisionID.Text = Util.IsBlank(ps.LoginPerson.PS_DIVISION_NAME) ? "-" : ps.LoginPerson.PS_DIVISION_NAME;
             lbWorkDivisionID.Text = Util.IsBlank(ps.LoginPerson.PS_WORK_DIVISION_NAME) ? "-" : ps.LoginPerson.PS_WORK_DIVISION_NAME;

@@ -22,7 +22,7 @@ namespace WEB_PERSONAL {
                 //int yearMin = DatabaseManager.ExecuteInt("select EXTRACT(YEAR FROM PS_INWORK_DATE)+543 from ps_person where ps_citizen_id = '" + loginPerson.PS_CITIZEN_ID + "'") + 543;
                 //DateTime CurrentYear = DateTime.Today.AddYears(+543);
                 int minDateInwork = DatabaseManager.ExecuteInt("SELECT EXTRACT(YEAR FROM PS_INWORK_DATE)+543 FROM PS_PERSON WHERE PS_CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
-                int currentYear = DateTime.Now.Year+543;
+                int currentYear = Util.BudgetYear();
                 //int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
                 //int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
 

@@ -96,6 +96,8 @@ namespace WEB_PERSONAL
             int count_ins = 0;
             int count_get_ins = 0;
             int count_req_ins = 0;
+            int count_person_edit = 0;
+            int count_person_get = 0;
 
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
@@ -207,8 +209,48 @@ namespace WEB_PERSONAL
                         lbInsigCount.Visible = false;
                     }
 
+                    //Person-get
+                    if (loginPerson.PERSON_ROLE_ID == "2")
+                    {
+                        using (OracleCommand com = new OracleCommand("SELECT COUNT(R_ID) FROM TB_REQUEST WHERE TB_REQUEST.R_STATUS_ID = 1", con))
+                        {
+                            using (OracleDataReader reader = com.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    count_person_edit = reader.GetInt32(0);
+                                }
+                            }
+                        }
+                    }
+                    if (count_person_edit != 0)
+                    {
+                        lbPersonRequestCount.Text = "" + count_person_edit;
+                        lbPersonRequestCount.Visible = true;
+                    }
+                    else
+                    {
+                        lbPersonRequestCount.Text = "";
+                        lbPersonRequestCount.Visible = false;
+                    }
 
-                    int count = count_approve + count_leave_finish + count_ins + count_get_ins + count_req_ins;
+                    //person-finish
+                    using (OracleCommand com = new OracleCommand("SELECT COUNT(R_ID) FROM TB_REQUEST WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' AND R_STATUS_ID IN(2, 4)", con))
+                    {
+                        using (OracleDataReader reader = com.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                count_person_get = reader.GetInt32(0);
+                            }
+                        }
+                    }
+
+                    int count = count_approve + count_leave_finish + count_ins + count_get_ins + count_req_ins + count_person_edit + count_person_get;
+
+                    noti_person_none.Visible = false;
+                    noti_person_request.Visible = false;
+                    noti_person_finish.Visible = false;
 
                     noti_leave_none.Visible = false;
                     noti_approve.Visible = false;
@@ -218,6 +260,22 @@ namespace WEB_PERSONAL
                     noti_ins.Visible = false;
                     noti_get_ins.Visible = false;
                     noti_req_ins.Visible = false;
+
+                    if (count_person_edit + count_person_get == 0)
+                    {
+                        noti_person_none.Visible = true;
+                    }
+                    else
+                    {
+                        if (count_person_edit != 0)
+                        {
+                            noti_person_request.Visible = true;
+                        }
+                        if (count_person_get != 0)
+                        {
+                            noti_person_finish.Visible = true;
+                        }
+                    }
 
                     if (count_approve + count_leave_finish == 0)
                     {

@@ -149,9 +149,7 @@
                                         <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
                                     </div>
                                     <div>
-
                                         <asp:Label ID="LabelTop" runat="server" CssClass="cerror"></asp:Label>
-
                                     </div>
 
                                     <asp:UpdatePanel ID="UpdatetbPassword" runat="server">

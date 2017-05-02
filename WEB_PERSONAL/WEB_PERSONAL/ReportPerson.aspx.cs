@@ -21,6 +21,13 @@ namespace WEB_PERSONAL
                 ddlView.Items.Add(new ListItem("แสดงจำนวนบุคลารสายวิชาการ จำแนกตามประเภทบุคลากร คณะ และตำแหน่งทางวิชาการ", "1"));
                 ddlView.Items.Add(new ListItem("แสดงจำนวนบุคลารสายวิชาการ จำแนกตามประเภทบุคลากร คณะ และวุฒิการศึกษา", "2"));
                 DatabaseManager.BindDropDown(ddlCampus, "SELECT * FROM TB_CAMPUS ORDER BY CAMPUS_ID", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
+
+                int minDateInwork = DatabaseManager.ExecuteInt("SELECT EXTRACT(YEAR FROM PS_INWORK_DATE)+543 FROM PS_PERSON WHERE PS_INWORK_DATE = (SELECT MIN(PS_INWORK_DATE) FROM PS_PERSON)");
+                int currentYear = Util.BudgetYear();
+                for (int i = minDateInwork; i <= currentYear; ++i)
+                {
+                    ddlYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
+                }
             }
         }
 

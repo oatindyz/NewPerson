@@ -10,7 +10,7 @@
 namespace WEB_PERSONAL {
     
     
-    public partial class ReportPerson {
+    public partial class ReportPerson_Admin {
         
         /// <summary>
         /// ScriptManager1 control.

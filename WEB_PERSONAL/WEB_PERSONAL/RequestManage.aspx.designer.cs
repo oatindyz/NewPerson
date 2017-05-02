@@ -904,22 +904,49 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.TextBox tbMovementDate;
         
         /// <summary>
-        /// btnSaveRequest control.
+        /// lbDateReq control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveRequest;
+        protected global::System.Web.UI.WebControls.Label lbDateReq;
         
         /// <summary>
-        /// btnNoRequest control.
+        /// tbComment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNoRequest;
+        protected global::System.Web.UI.WebControls.TextBox tbComment;
+        
+        /// <summary>
+        /// rbAllow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbAllow;
+        
+        /// <summary>
+        /// rbNotAllow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rbNotAllow;
+        
+        /// <summary>
+        /// btnAddComment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddComment;
         
         /// <summary>
         /// Accept control.

@@ -36,7 +36,6 @@
                     <div style="text-align: center;">
 
                         <table class="ps-table-x16" style="display: inline-block; margin-right: 20px; vertical-align: top;">
-
                             <tr>
                                 <td class="col1">คำนำหน้าชื่อ</td>
                                 <td class="col2">
@@ -136,7 +135,7 @@
                         <td class="col1">
                             <img src="Image/Small/calendar.png" class="icon_left" />วันที่</td>
                         <td class="col2">
-                            <asp:TextBox ID="tbDateAllow" runat="server" CssClass="ps-textbox" required="required" tabindex="1"></asp:TextBox>
+                            <asp:TextBox ID="tbDateAllow" runat="server" CssClass="ps-textbox" required="required" TabIndex="1"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -154,9 +153,6 @@
                     <asp:LinkButton ID="lbuAddComment" runat="server" CssClass="ps-button" OnClick="lbuAllow_Click">ยืนยันการอนุมัติ<img src="Image/Small/next.png" class="icon_right"/></asp:LinkButton>
                 </div>
 
-
-
-
             </asp:View>
             <asp:View ID="View3" runat="server">
                 <div class="ps-div-title-red">
@@ -170,14 +166,5 @@
         </asp:MultiView>
 
         <div class="ps-separator"></div>
-
-
-
-
-
-
-
-
-
     </div>
 </asp:Content>
