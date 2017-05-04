@@ -20,33 +20,38 @@
             }
     </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderLeft" runat="server">
-</asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <div class="ps-header">
-        <img src="Image/Small/person2.png" />ออกรายงานเครื่องราชฯ</div>
+        <img src="Image/Small/medal.png" />ออกรายงานเครื่องราชฯ
+    </div>
     <div id="divOfficer" runat="server" visible="false" class="panel panel-default">
         <div class="panel-body">
             <div class="panel-body">
                 <div style="text-align: center;">
                     <table style="text-align: left; margin: auto;" class="ps-table-1">
                         <tr>
-                            <td>เลือกข้อมูลการแสดงผล</td>
+                            <td>ข้อมูลการแสดงผล</td>
                             <td>
-                                <asp:DropDownList ID="ddlView" runat="server" CssClass="ps-dropdown input-sm select2" AutoPostBack="true"></asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>วิทยาเขต</td>
-                            <td>
-                                <asp:DropDownList ID="ddlCampus" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlView" runat="server" CssClass="form-control" AutoPostBack="true"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td>ปีงบประมาณ</td>
                             <td>
-                                <asp:DropDownList ID="ddlBudgetYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlYear" runat="server" CssClass="form-control"></asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ชื่อบุคลากร</td>
+                            <td>
+                                <asp:DropDownList ID="ddlPerson" runat="server" CssClass="form-control select2"></asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>วิทยาเขต</td>
+                            <td>
+                                <asp:DropDownList ID="ddlCampus" runat="server" CssClass="form-control"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -61,21 +66,50 @@
             </div>
         </div>
     </div>
-    <asp:Panel ID="Panel1" runat="server" CssClass="ppp"></asp:Panel>
 
-    <div id="divUser" runat="server" visible="false" class="panel panel-default">
+    <div id="User" runat="server" visible="false" class="panel panel-default">
         <div class="panel-body">
             <div class="panel-body">
-                <div style="text-align: center; margin-bottom: 10px;">
-                    <asp:Panel ID="Panel2" runat="server" CssClass="ppp"></asp:Panel>
-                    <asp:Label ID="lbFinish" runat="server" Text="ไม่มีข้อมูล" CssClass="lbGV"></asp:Label>
-                </div>
                 <div style="text-align: center;">
-                    <asp:LinkButton ID="lbuV2Export" runat="server" CssClass="ps-button" OnClick="lbuV2Export_Click"><img src="Image/Small/excel.png" class="icon_left"/>Export</asp:LinkButton>
+                    <table style="text-align: left; margin: auto;" class="ps-table-1">
+                        <tr>
+                            <td>ปีงบประมาณ</td>
+                            <td>
+                                <asp:DropDownList ID="ddlYearUser" runat="server" CssClass="form-control"></asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <asp:LinkButton ID="lbuV2Search" runat="server" CssClass="ps-button" OnClick="lbuV2Search_Click"><img src="Image/Small/search.png" class="icon_left"/>ค้นหา</asp:LinkButton>
+                                <asp:LinkButton ID="lbuV2Export" runat="server" CssClass="ps-button" OnClick="lbuV2Export_Click"><img src="Image/Small/excel.png" class="icon_left"/>Export</asp:LinkButton>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
-       
+    </div>
+
+    <div class="ps-header">
+        <img src="Image/Small/list.png" />ข้อมูล
+    </div>
+    <div id="Div1" runat="server" class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-body">
+                <div style="text-align: center;">
+                    <div style="margin-top: 10px; overflow-x: auto;">
+                        <asp:Panel ID="Panel1" runat="server" CssClass="ppp" Style="text-align: left; margin: auto;" class="ps-table-1"></asp:Panel>
+                    </div>
+                    <div id="divUser" runat="server" visible="false">
+                        <div style="text-align: center; margin-bottom: 10px;">
+                            <asp:Panel ID="Panel2" runat="server" CssClass="ppp"></asp:Panel>
+                            <asp:Label ID="lbFinish" runat="server" Text="ไม่มีข้อมูล" CssClass="lbGV"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </asp:Content>

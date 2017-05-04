@@ -1061,13 +1061,13 @@
     <Content Include="Profile.aspx" />
     <Content Include="ReportInsig.aspx" />
     <Content Include="ReportPerson-Admin.aspx" />
-    <Content Include="ReportPerson.aspx" />
     <Content Include="ReportProject-Admin.aspx" />
     <Content Include="Reportproject.aspx" />
     <Content Include="Request.aspx" />
     <Content Include="RequestHistory.aspx" />
     <Content Include="RequestManage.aspx" />
     <Content Include="ViewLeaveForm.aspx" />
+    <Content Include="ViewRequestForm.aspx" />
     <Content Include="WorkingDay.aspx" />
     <Content Include="WorkingTime.aspx" />
     <Content Include="WorkingTimeHistory.aspx" />
@@ -3123,13 +3123,6 @@
     <Compile Include="ReportPerson-Admin.aspx.designer.cs">
       <DependentUpon>ReportPerson-Admin.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ReportPerson.aspx.cs">
-      <DependentUpon>ReportPerson.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ReportPerson.aspx.designer.cs">
-      <DependentUpon>ReportPerson.aspx</DependentUpon>
-    </Compile>
     <Compile Include="ReportProject-Admin.aspx.cs">
       <DependentUpon>ReportProject-Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3173,6 +3166,13 @@
     </Compile>
     <Compile Include="ViewLeaveForm.aspx.designer.cs">
       <DependentUpon>ViewLeaveForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewRequestForm.aspx.cs">
+      <DependentUpon>ViewRequestForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewRequestForm.aspx.designer.cs">
+      <DependentUpon>ViewRequestForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

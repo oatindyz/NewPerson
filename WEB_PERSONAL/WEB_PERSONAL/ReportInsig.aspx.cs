@@ -25,19 +25,20 @@ namespace WEB_PERSONAL
                 if (loginPerson.PERSON_ROLE_ID == "4")
                 {
                     divOfficer.Visible = true;
-                    divUser.Visible = false;
+                    divUser.Visible = false;      
+
+                    int minDateInsigPerson = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)+543) FROM TB_INSIG_PERSON");
+                    int currentYear = Util.BudgetYear() + 543;
+
+                    for (int i = minDateInsigPerson; i <= currentYear; ++i)
+                    {
+                        ddlYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
+                    }
+
+                    DatabaseManager.BindDropDown(ddlPerson, "SELECT DISTINCT(PS_FIRSTNAME || ' ' || PS_LASTNAME) NAME,CITIZEN_ID FROM TB_INSIG_PERSON INNER JOIN PS_PERSON ON CITIZEN_ID = PS_CITIZEN_ID", "NAME", "CITIZEN_ID", "--กรุณาเลือก--");
                     DatabaseManager.BindDropDown(ddlCampus, "SELECT * FROM TB_CAMPUS", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
-                    ddlView.Items.Add(new ListItem("--กรุณาเลือก--", ""));
                     ddlView.Items.Add(new ListItem("แสดงรายชื่อผู้ที่กำลังขอเครื่องราชฯ", "1"));
                     ddlView.Items.Add(new ListItem("แสดงรายชื่อผู้ที่ได้รับเครื่องราชฯ", "2"));
-
-                    int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)) FROM TB_INSIG_PERSON") + 543;
-                    int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM GET_DATE)) FROM TB_INSIG_PERSON") + 543;
-                    
-                    for (int i = yearMin; i <= yearMax; ++i) {
-                        ddlBudgetYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + (i-543)));
-                    }
-                    ddlBudgetYear.Items.Insert(0, new ListItem("--กรุณาเลือก--", ""));
                 }
                 else
                 {
@@ -46,15 +47,16 @@ namespace WEB_PERSONAL
                     {
                         divOfficer.Visible = false;
                         divUser.Visible = true;
+                        User.Visible = true;
                         lbFinish.Visible = false;
-                        Table table;
-                        table = loadReportSelf();
-                        if (table == null)
+
+                        int minDateInsigPerson = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)+543) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
+                        int currentYear = Util.BudgetYear() + 543;
+
+                        for (int i = minDateInsigPerson; i <= currentYear; ++i)
                         {
-                            return;
+                            ddlYearUser.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
                         }
-                        Panel2.Controls.Clear();
-                        Panel2.Controls.Add(loadReportSelf());
                     }
                     else
                     {
@@ -99,27 +101,25 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลรายชื่อผู้ที่กำลังขอเครื่องราชฯ ณ วันที่ " + DateTime.Today.ToLongDateString(); cell.ColumnSpan = 8; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลเครื่องราชฯ " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue; cell.ColumnSpan = 6; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก"; cell.ColumnSpan = 8; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก"; cell.ColumnSpan = 6; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
             {
                 TableHeaderRow row = new TableHeaderRow();
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ลำดับที่"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "รหัสการขอเครื่องราช"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อผู้ขอเครื่องราช"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อ-สกุล"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วิทยาเขต"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "คณะ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ขอ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ระดับชั้นเครื่องราชที่ขอ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ข้อมูล"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สถานะ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                
+
                 table.Rows.Add(row);
             }
 
@@ -128,30 +128,32 @@ namespace WEB_PERSONAL
                 con.Open();
 
                 string where = "";
+                if (ddlYear.SelectedValue != "")
+                {
+                    where += " AND EXTRACT(YEAR FROM GET_DATE) = '" + ddlYear.SelectedValue + "'-543";
+                }
+                if (ddlPerson.SelectedValue != "")
+                {
+                    where += " AND CITIZEN_ID = '" + ddlPerson.SelectedValue + "'";
+                }
                 if (ddlCampus.SelectedValue != "")
                 {
-                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
-                }
-                if (ddlBudgetYear.SelectedValue != "") {
-                    where += " AND EXTRACT(YEAR FROM GET_DATE) = " + ddlBudgetYear.SelectedValue + "";
+                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue;
                 }
 
-                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, (SELECT (SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = PS_PERSON.PS_FACULTY_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) FACULTY_NAME, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ข้อมูล, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1 " + where + " ORDER BY ABS(CITIZEN_ID) ASC, ABS(INSIG_ID) DESC", con))
+                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อ, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, REQ_DATE วันที่ขอ, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1 " + where + "  ORDER BY ABS(IP_ID) DESC, CITIZEN_ID DESC", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
-                        int i = 0;
                         while (reader.Read())
                         {
                             TableRow row = new TableRow();
-                            { TableCell cell = new TableCell(); cell.Text = "" + (++i); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(0).ToString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(1).ToString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(2).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(3).ToString(); row.Cells.Add(cell); }
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(3).ToLongDateString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(4).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(5).ToLongDateString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(6).ToString(); row.Cells.Add(cell); } 
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(5).ToString(); row.Cells.Add(cell); }
                             table.Rows.Add(row);
                         }
                     }
@@ -167,27 +169,26 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลรายชื่อผู้ที่ได้รับเครื่องราชฯ ณ วันที่ " + DateTime.Today.ToLongDateString(); cell.ColumnSpan = 9; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลเครื่องราชฯ " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue; cell.ColumnSpan = 8; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก"; cell.ColumnSpan = 9; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก"; cell.ColumnSpan = 8; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ลำดับที่"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "รหัสการขอเครื่องราช"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อผู้ขอเครื่องราช"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อ-สกุล"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วิทยาเขต"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "คณะ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ขอ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ระดับชั้นเครื่องราชที่ขอ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ข้อมูล"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สถานะ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ได้รับ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ผลการอนุมัติ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่อนุมัติ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -196,30 +197,44 @@ namespace WEB_PERSONAL
                 con.Open();
 
                 string where = "";
+                if (ddlYear.SelectedValue != "")
+                {
+                    where += " AND EXTRACT(YEAR FROM GET_DATE) = '" + ddlYear.SelectedValue + "'-543";
+                }
+                if (ddlPerson.SelectedValue != "")
+                {
+                    where += " AND CITIZEN_ID = '" + ddlPerson.SelectedValue + "'";
+                }
                 if (ddlCampus.SelectedValue != "")
                 {
-                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
-                }
-                if (ddlBudgetYear.SelectedValue != "") {
-                    where += " AND EXTRACT(YEAR FROM GET_DATE) = " + ddlBudgetYear.SelectedValue + "";
+                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue;
                 }
 
-                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, (SELECT (SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = PS_PERSON.PS_FACULTY_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) FACULTY_NAME, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ข้อมูล, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ, GET_DATE วันที่ได้รับ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID IN(2,3) " + where + " ORDER BY ABS(CITIZEN_ID) ASC, ABS(INSIG_ID) DESC", con))
+                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อ, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, REQ_DATE วันที่ขอ, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ,NVL(I_ALLOW,0) ผลการอนุมัติ, GET_DATE วันที่อนุมัติ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID IN(2,3) " + where + " ORDER BY ABS(IP_ID) DESC, CITIZEN_ID DESC", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
-                        int i = 0;
                         while (reader.Read())
                         {
                             TableRow row = new TableRow();
-                            { TableCell cell = new TableCell(); cell.Text = "" + (++i); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(0).ToString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(1).ToString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(2).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(3).ToString(); row.Cells.Add(cell); }
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(3).ToLongDateString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(4).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(5).ToLongDateString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(6).ToString(); row.Cells.Add(cell); }
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(5).ToString(); row.Cells.Add(cell); }
+                            if (reader.GetValue(6).ToString() == "1")
+                            {
+                                { TableCell cell = new TableCell(); cell.Text = "ได้รับ"; row.Cells.Add(cell); }
+                            }
+                            else if (reader.GetValue(6).ToString() == "2")
+                            {
+                                { TableCell cell = new TableCell(); cell.Text = "ไม่ได้รับ"; row.Cells.Add(cell); }
+                            }
+                            else
+                            {
+                                { TableCell cell = new TableCell(); cell.Text = "-"; row.Cells.Add(cell); }
+                            }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(7).ToLongDateString(); row.Cells.Add(cell); }
                             table.Rows.Add(row);
                         }
@@ -236,27 +251,26 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการขอเครื่องราชฯของตนเอง ณ วันที่ " + DateTime.Today.ToLongDateString(); cell.ColumnSpan = 9; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลเครื่องราชฯ ประจำปีงบประมาณ พ.ศ. " + ddlYearUser.SelectedValue; cell.ColumnSpan = 8; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก"; cell.ColumnSpan = 9; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก"; cell.ColumnSpan = 8; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ลำดับที่"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "รหัสการขอเครื่องราช"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อผู้ขอเครื่องราช"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ชื่อ-สกุล"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วิทยาเขต"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "คณะ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ขอ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ระดับชั้นเครื่องราชที่ขอ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ข้อมูล"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สถานะ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่ได้รับ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "ผลการอนุมัติ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "วันที่อนุมัติ"; cell.ColumnSpan = 1; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -265,27 +279,36 @@ namespace WEB_PERSONAL
                 con.Open();
 
                 string where = "";
-                if (ddlCampus.SelectedValue != "")
+                if (ddlYearUser.SelectedValue != "")
                 {
-                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
+                    where += " AND EXTRACT(YEAR FROM GET_DATE) = '" + ddlYearUser.SelectedValue + "'-543";
                 }
 
-                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, (SELECT (SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = PS_PERSON.PS_FACULTY_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) FACULTY_NAME, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ข้อมูล, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ, GET_DATE วันที่ได้รับ FROM TB_INSIG_PERSON WHERE CITIZEN_ID = " + loginPerson.PS_CITIZEN_ID + " ORDER BY ABS(CITIZEN_ID) ASC, ABS(INSIG_ID) DESC", con))
+                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อ, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, REQ_DATE วันที่ขอ, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ,NVL(I_ALLOW,0) ผลการอนุมัติ, GET_DATE วันที่อนุมัติ FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' " + where + " ORDER BY ABS(IP_ID) DESC, CITIZEN_ID DESC", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
-                        int i = 0;
                         while (reader.Read())
                         {
                             TableRow row = new TableRow();
-                            { TableCell cell = new TableCell(); cell.Text = "" + (++i); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(0).ToString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(1).ToString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(2).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(3).ToString(); row.Cells.Add(cell); }
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(3).ToLongDateString(); row.Cells.Add(cell); }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetValue(4).ToString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(5).ToLongDateString(); row.Cells.Add(cell); }
-                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(6).ToString(); row.Cells.Add(cell); }
+                            { TableCell cell = new TableCell(); cell.Text = reader.GetValue(5).ToString(); row.Cells.Add(cell); }
+                            if(reader.GetValue(6).ToString() == "1")
+                            {
+                                { TableCell cell = new TableCell(); cell.Text = "ได้รับ"; row.Cells.Add(cell); }
+                            }
+                            else if (reader.GetValue(6).ToString() == "2")
+                            {
+                                { TableCell cell = new TableCell(); cell.Text = "ไม่ได้รับ"; row.Cells.Add(cell); }
+                            }
+                            else
+                            {
+                                { TableCell cell = new TableCell(); cell.Text = "-"; row.Cells.Add(cell); }
+                            }
                             { TableCell cell = new TableCell(); cell.Text = reader.GetDateTime(7).ToLongDateString(); row.Cells.Add(cell); }
                             table.Rows.Add(row);
                         }
@@ -308,7 +331,7 @@ namespace WEB_PERSONAL
                 Panel1.Controls.Add(loadReport1Table());
 
                 Response.ContentType = "application/x-msexcel";
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูล'" + ddlView.SelectedItem.Text + "' ณ วันที่ " + DateTime.Today.ToLongDateString() + ".xls");
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลเครื่องราชฯ " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue + ".xls");
                 Response.ContentEncoding = Encoding.UTF8;
 
                 StringWriter tw = new StringWriter();
@@ -337,37 +360,7 @@ namespace WEB_PERSONAL
                 Panel1.Controls.Add(loadReport2Table());
 
                 Response.ContentType = "application/x-msexcel";
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูล'" + ddlView.SelectedItem.Text + "' ณ วันที่ " + DateTime.Today.ToLongDateString() + ".xls");
-                Response.ContentEncoding = Encoding.UTF8;
-
-                StringWriter tw = new StringWriter();
-                HtmlTextWriter hw = new HtmlTextWriter(tw);
-                tw.WriteLine("<html>");
-                tw.WriteLine("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
-                tw.WriteLine("<style>");
-                tw.WriteLine("table { border-collapse:collapse; }");
-                tw.WriteLine("td { border-collapse:collapse; border: thin solid black; }");
-                tw.WriteLine("</style>");
-
-                table.RenderControl(hw);
-
-                tw.WriteLine("</html>");
-                Response.Write(tw.ToString());
-                Response.End();
-            }
-
-            if (loginPerson.PERSON_ROLE_ID != "4")
-            {
-                Table table = loadReportSelf();
-                if (table == null)
-                {
-                    return;
-                }
-                Panel2.Controls.Clear();
-                Panel2.Controls.Add(loadReport1Table());
-
-                Response.ContentType = "application/x-msexcel";
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการขอเครื่องราชฯของตนเอง ณ วันที่ " + DateTime.Today.ToLongDateString() + ".xls");
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลเครื่องราชฯ " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue + ".xls");
                 Response.ContentEncoding = Encoding.UTF8;
 
                 StringWriter tw = new StringWriter();
@@ -387,6 +380,18 @@ namespace WEB_PERSONAL
             }
         }
 
+        protected void lbuV2Search_Click(object sender, EventArgs e)
+        {
+            Table table;
+            table = loadReportSelf();
+            if (table == null)
+            {
+                return;
+            }
+            Panel2.Controls.Clear();
+            Panel2.Controls.Add(loadReportSelf());
+        }
+
         protected void lbuV2Export_Click(object sender, EventArgs e) {
             if (loginPerson.PERSON_ROLE_ID != "4") {
                 Table table = loadReportSelf();
@@ -394,10 +399,10 @@ namespace WEB_PERSONAL
                     return;
                 }
                 Panel2.Controls.Clear();
-                Panel2.Controls.Add(loadReport1Table());
+                Panel2.Controls.Add(loadReportSelf());
 
                 Response.ContentType = "application/x-msexcel";
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการขอเครื่องราชฯของตนเอง ณ วันที่ " + DateTime.Today.ToLongDateString() + ".xls");
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลเครื่องราชฯ ประจำปีงบประมาณ พ.ศ. " + ddlYearUser.SelectedValue + ".xls");
                 Response.ContentEncoding = Encoding.UTF8;
 
                 StringWriter tw = new StringWriter();

@@ -14,8 +14,12 @@ namespace WEB_PERSONAL
 {
     public partial class editproject : System.Web.UI.Page
     {
+        Person loginPerson;
         protected void Page_Load(object sender, EventArgs e)
         {
+            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
+            loginPerson = ps.LoginPerson;
+
             Notsuccess.Visible = true;
             success.Visible = false;
 
@@ -163,6 +167,28 @@ namespace WEB_PERSONAL
         {
             if (Request.QueryString["id"] != null)
             {
+                OracleConnection.ClearAllPools();
+                using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+                {
+                    con.Open();
+                    using (OracleCommand com = new OracleCommand("SELECT PRO_ID FROM TB_PROJECT WHERE START_DATE BETWEEN " + Util.DatabaseToDateSearch(tbStartDate.Text) + " AND " + Util.DatabaseToDateSearch(tbEndDate.Text) + " AND CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'", con))
+                    {
+                        using (OracleDataReader reader = com.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (!reader.IsDBNull(0))
+                                {
+                                    Project ProjectData = new Project();
+                                    ProjectData.Load(reader.GetInt32(0));
+                                    ChangeNotification("danger", "ไม่สามารถเพิ่มข้อมูลได้ พบวันซ้อนทับกัน (รหัสโครงการ " + ProjectData.PRO_ID + ", " + ProjectData.START_DATE.Value.ToLongDateString() + " ถึง " + ProjectData.END_DATE.Value.ToLongDateString() + ")");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 /*string[] validFileTypes = { "pdf" };
                 string ext = System.IO.Path.GetExtension(FUdocument.PostedFile.FileName);
                 bool isValidFile = false;
@@ -289,8 +315,9 @@ namespace WEB_PERSONAL
                         com.Parameters.Add(new OracleParameter("PRO_ID", int.Parse(MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()))));
                         com.ExecuteNonQuery();
                     }
-                } 
-      
+                }
+
+                ChangeNotification("", "");
                 Notsuccess.Visible = false;
                 success.Visible = true;
             }

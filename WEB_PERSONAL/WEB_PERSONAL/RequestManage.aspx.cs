@@ -46,7 +46,7 @@ namespace WEB_PERSONAL
             lbBirthdayDate.Text = Util.IsBlank(QueryString.PS_BIRTHDAY_DATE.ToString()) ? "-" : QueryString.PS_BIRTHDAY_DATE.Value.ToLongDateString();
             lbEmail.Text = Util.IsBlank(QueryString.PS_EMAIL) ? "-" : QueryString.PS_EMAIL;
             lbNationID.Text = Util.IsBlank(QueryString.PS_NATION_NAME) ? "-" : QueryString.PS_NATION_NAME;
-            lbCampusID.Text = Util.IsBlank(QueryString.PS_CAMPUS_NAME) ? "-" : QueryString.PS_FIRSTNAME;
+            lbCampusID.Text = Util.IsBlank(QueryString.PS_CAMPUS_NAME) ? "-" : QueryString.PS_CAMPUS_NAME;
             lbFacultyID.Text = Util.IsBlank(QueryString.PS_FACULTY_NAME) ? "-" : QueryString.PS_FACULTY_NAME;
             lbDivisionID.Text = Util.IsBlank(QueryString.PS_DIVISION_NAME) ? "-" : QueryString.PS_DIVISION_NAME;
             lbWorkDivisionID.Text = Util.IsBlank(QueryString.PS_WORK_DIVISION_NAME) ? "-" : QueryString.PS_WORK_DIVISION_NAME;
@@ -67,10 +67,7 @@ namespace WEB_PERSONAL
             lbGradUniv.Text = Util.IsBlank(QueryString.PS_GRAD_UNIV) ? "-" : QueryString.PS_GRAD_UNIV;
             lbGradCountryID.Text = Util.IsBlank(QueryString.PS_GRAD_COUNTRY_NAME) ? "-" : QueryString.PS_GRAD_COUNTRY_NAME;
             lbDeformID.Text = Util.IsBlank(QueryString.PS_DEFORM_NAME) ? "-" : QueryString.PS_DEFORM_NAME;
-            lbSitNo.Text = Util.IsBlank(QueryString.PS_SIT_NO) ? "-" : QueryString.PS_SIT_NO;
             lbReligionID.Text = Util.IsBlank(QueryString.PS_RELIGION_NAME) ? "-" : QueryString.PS_RELIGION_NAME;
-            lbMovementTypeID.Text = Util.IsBlank(QueryString.PS_MOVEMENT_TYPE_NAME) ? "-" : QueryString.PS_MOVEMENT_TYPE_NAME;
-            lbMovementDate.Text = Util.IsBlank(QueryString.PS_MOVEMENT_DATE.ToString()) ? "-" : QueryString.PS_MOVEMENT_DATE.Value.ToLongDateString();
         }
 
         protected void ReadID()
@@ -78,28 +75,28 @@ namespace WEB_PERSONAL
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("SELECT TITLE_ID, FIRSTNAME, LASTNAME, GENDER_ID, BIRTHDAY_DATE, EMAIL, NATION_ID, CAMPUS_ID, FACULTY_ID, DIVISION_ID, WORK_DIVISION_ID, STAFFTYPE_ID, TIME_CONTACT_ID, BUDGET_ID, SUBSTAFFTYPE_ID, ADMIN_POS_ID, WORK_POS_ID, INWORK_DATE, DATE_START_THIS_U, SPECIAL_NAME, TEACH_ISCED_ID, GRAD_LEV_ID, GRAD_CURR, GRAD_ISCED_ID, GRAD_PROG_ID, GRAD_UNIV, GRAD_COUNTRY_ID, DEFORM_ID, SIT_NO, RELIGION_ID, MOVEMENT_TYPE_ID, MOVEMENT_DATE FROM TB_REQUEST WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                using (OracleCommand com = new OracleCommand("SELECT TITLE_ID, FIRSTNAME, LASTNAME, GENDER_ID, BIRTHDAY_DATE, EMAIL, NATION_ID, CAMPUS_ID, FACULTY_ID, DIVISION_ID, WORK_DIVISION_ID, STAFFTYPE_ID, TIME_CONTACT_ID, BUDGET_ID, SUBSTAFFTYPE_ID, ADMIN_POS_ID, WORK_POS_ID, INWORK_DATE, DATE_START_THIS_U, SPECIAL_NAME, TEACH_ISCED_ID, GRAD_LEV_ID, GRAD_CURR, GRAD_ISCED_ID, GRAD_PROG_ID, GRAD_UNIV, GRAD_COUNTRY_ID, DEFORM_ID, RELIGION_ID, (SELECT TITLE_NAME_TH FROM TB_TITLENAME WHERE TB_TITLENAME.TITLE_ID = TB_REQUEST.TITLE_ID) TITLE_NAME, (SELECT GENDER_NAME FROM TB_GENDER WHERE TB_GENDER.GENDER_ID = TB_REQUEST.GENDER_ID) GENDER_NAME, (SELECT NATION_NAME_EN FROM TB_NATION WHERE TB_NATION.NATION_ID = TB_REQUEST.NATION_ID) NATION_NAME, (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = TB_REQUEST.CAMPUS_ID) CAMPUS_NAME, (SELECT FACULTY_NAME FROM TB_FACULTY WHERE TB_FACULTY.FACULTY_ID = TB_REQUEST.FACULTY_ID) FACULTY_NAME, (SELECT DIVISION_NAME FROM TB_DIVISION WHERE TB_DIVISION.DIVISION_ID = TB_REQUEST.DIVISION_ID) DIVISION_NAME, (SELECT WORK_NAME FROM TB_WORK_DIVISION WHERE TB_WORK_DIVISION.WORK_ID = TB_REQUEST.WORK_DIVISION_ID) WORK_DIVISION_NAME, (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE TB_STAFFTYPE.STAFFTYPE_ID = TB_REQUEST.STAFFTYPE_ID) STAFFTYPE_NAME, (SELECT TIME_CONTACT_NAME FROM TB_TIME_CONTACT WHERE TB_TIME_CONTACT.TIME_CONTACT_ID = TB_REQUEST.TIME_CONTACT_ID) TIME_CONTACT_NAME, (SELECT BUDGET_NAME FROM TB_BUDGET WHERE TB_BUDGET.BUDGET_ID = TB_REQUEST.BUDGET_ID) BUDGET_NAME, (SELECT SUBSTAFFTYPE_NAME FROM TB_SUBSTAFFTYPE WHERE TB_SUBSTAFFTYPE.SUBSTAFFTYPE_ID = TB_REQUEST.SUBSTAFFTYPE_ID) SUBSTAFFTYPE_NAME, (SELECT ADMIN_POSITION_NAME FROM TB_ADMIN_POSITION WHERE TB_ADMIN_POSITION.ADMIN_POSITION_ID = TB_REQUEST.ADMIN_POS_ID) ADMIN_POSITION_NAME, (SELECT POSITION_WORK_NAME FROM TB_POSITION_WORK WHERE TB_POSITION_WORK.POSITION_WORK_ID = TB_REQUEST.WORK_POS_ID) WORK_POS_NAME, (SELECT ISCED_NAME FROM TB_ISCED WHERE TB_ISCED.ISCED_ID = TB_REQUEST.TEACH_ISCED_ID) TEACH_ISCED_NAME, (SELECT LEV_NAME_TH FROM TB_LEV WHERE TB_LEV.LEV_ID = TB_REQUEST.GRAD_LEV_ID) GRAD_LEV_NAME, (SELECT ISCED_NAME FROM TB_ISCED WHERE TB_ISCED.ISCED_ID = TB_REQUEST.GRAD_ISCED_ID) GRAD_ISCED_NAME, (SELECT PROGRAM_NAME FROM TB_PROGRAM WHERE TB_PROGRAM.PROGRAM_ID_NEW = TB_REQUEST.GRAD_PROG_ID) GRAD_PROG_NAME, (SELECT NATION_NAME_EN FROM TB_NATION WHERE TB_NATION.NATION_ID = TB_REQUEST.GRAD_COUNTRY_ID) GRAD_COUNTRY_NAME, (SELECT DEFORM_NAME FROM TB_DEFORM WHERE TB_DEFORM.DEFORM_ID = TB_REQUEST.DEFORM_ID) DEFORM_NAME, (SELECT RELIGION_NAME FROM TB_RELIGION WHERE TB_RELIGION.RELIGION_ID = TB_REQUEST.RELIGION_ID) RELIGION_NAME FROM TB_REQUEST WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             int i = 0;
-                            if (reader.IsDBNull(i)) { trTitleID.Visible = false; } else { ddlTitleID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trTitleID.Visible = false; } else { ddlTitleID.SelectedValue = reader.GetValue(i).ToString(); ddlTitleID2.Text = reader.GetValue(29).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trFirstName.Visible = false; } else { tbFirstName.Text = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trFirstName.Visible = false; } else { tbFirstName.Text = reader.GetValue(i).ToString(); tbFirstName2.Text = reader.GetValue(i).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trLastName.Visible = false; } else { tbLastName.Text = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trLastName.Visible = false; } else { tbLastName.Text = reader.GetValue(i).ToString(); tbLastName2.Text = reader.GetValue(i).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGenderID.Visible = false; } else { ddlGenderID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGenderID.Visible = false; } else { ddlGenderID.SelectedValue = reader.GetValue(i).ToString(); ddlGenderID2.Text = reader.GetValue(30).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trBirthdayDate.Visible = false; } else { tbBirthdayDate.Text = reader.GetDateTime(i).ToString("dd MMM yyyy");  }
+                            if (reader.IsDBNull(i)) { trBirthdayDate.Visible = false; } else { tbBirthdayDate.Text = reader.GetDateTime(i).ToString("dd MMM yyyy"); tbBirthdayDate2.Text = reader.GetDateTime(i).ToString("dd MMM yyyy"); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trEmail.Visible = false; } else { tbEmail.Text = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trEmail.Visible = false; } else { tbEmail.Text = reader.GetValue(i).ToString(); tbEmail2.Text = reader.GetValue(i).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trNationID.Visible = false; } else { ddlNationID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trNationID.Visible = false; } else { ddlNationID.SelectedValue = reader.GetValue(i).ToString(); ddlNationID2.Text = reader.GetValue(31).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trCampusID.Visible = false; } else { ddlCampusID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trCampusID.Visible = false; } else { ddlCampusID.SelectedValue = reader.GetValue(i).ToString(); ddlCampusID2.Text = reader.GetValue(32).ToString(); }
                             ++i;
 
                             if (reader.IsDBNull(i)) { trFacultyID.Visible = false; }
@@ -109,6 +106,7 @@ namespace WEB_PERSONAL
                                 string z1 = reader.GetValue(i).ToString(); 
                                 DatabaseManager.BindDropDown(ddlFacultyID, "SELECT * FROM TB_FACULTY WHERE CAMPUS_ID = '" + ddlCampusID.SelectedValue + "'", "FACULTY_NAME", "FACULTY_ID", "--กรุณาเลือก--");
                                 ddlFacultyID.SelectedValue = z1;
+                                ddlFacultyID2.Text = reader.GetValue(33).ToString();
                             }
                             ++i;
                             if (reader.IsDBNull(i)) { trDivisionID.Visible = false; }
@@ -118,6 +116,7 @@ namespace WEB_PERSONAL
                                 string z2 = reader.GetValue(i).ToString(); 
                                 DatabaseManager.BindDropDown(ddlDivisionID, "SELECT * FROM TB_DIVISION WHERE DIVISION_ID = '" + ddlDivisionID.SelectedValue + "'", "DIVISION_NAME", "DIVISION_ID", "--กรุณาเลือก--");
                                 ddlDivisionID.SelectedValue = z2;
+                                ddlDivisionID2.Text = reader.GetValue(34).ToString();
                             }
                             ++i;
                             if (reader.IsDBNull(i)) { trWorkDivisionID.Visible = false; }
@@ -127,50 +126,45 @@ namespace WEB_PERSONAL
                                 string z3 = reader.GetValue(i).ToString(); 
                                 DatabaseManager.BindDropDown(ddlWorkDivisionID, "SELECT * FROM TB_WORK_DIVISION WHERE WORK_ID = '" + ddlWorkDivisionID.SelectedValue + "'", "WORK_NAME", "WORK_ID", "--กรุณาเลือก--");
                                 ddlWorkDivisionID.SelectedValue = z3;
+                                ddlWorkDivisionID2.Text = reader.GetValue(35).ToString();
                             }
                             ++i;
 
-                            if (reader.IsDBNull(i)) { trStafftypeID.Visible = false; } else { ddlStafftypeID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trStafftypeID.Visible = false; } else { ddlStafftypeID.SelectedValue = reader.GetValue(i).ToString(); ddlStafftypeID2.Text = reader.GetValue(36).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trTimeContactID.Visible = false; } else { ddlTimeContactID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trTimeContactID.Visible = false; } else { ddlTimeContactID.SelectedValue = reader.GetValue(i).ToString(); ddlTimeContactID2.Text = reader.GetValue(37).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trBudgetID.Visible = false; } else { ddlBudgetID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trBudgetID.Visible = false; } else { ddlBudgetID.SelectedValue = reader.GetValue(i).ToString(); ddlBudgetID2.Text = reader.GetValue(38).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trSubStafftypeID.Visible = false; } else { ddlSubStafftypeID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trSubStafftypeID.Visible = false; } else { ddlSubStafftypeID.SelectedValue = reader.GetValue(i).ToString(); ddlSubStafftypeID2.Text = reader.GetValue(39).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trAdminPosID.Visible = false; } else { ddlAdminPosID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trAdminPosID.Visible = false; } else { ddlAdminPosID.SelectedValue = reader.GetValue(i).ToString(); ddlAdminPosID2.Text = reader.GetValue(40).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trWorkPosID.Visible = false; } else { ddlWorkPosID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trWorkPosID.Visible = false; } else { ddlWorkPosID.SelectedValue = reader.GetValue(i).ToString(); ddlWorkPosID2.Text = reader.GetValue(41).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trDateInwork.Visible = false; } else { tbDateInwork.Text = reader.GetDateTime(i).ToString("dd MMM yyyy");  }
+                            if (reader.IsDBNull(i)) { trDateInwork.Visible = false; } else { tbDateInwork.Text = reader.GetDateTime(i).ToString("dd MMM yyyy"); tbDateInwork2.Text = reader.GetDateTime(i).ToString("dd MMM yyyy"); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trDateStartThisU.Visible = false; } else { tbDateStartThisU.Text = reader.GetDateTime(i).ToString("dd MMM yyyy");  }
+                            if (reader.IsDBNull(i)) { trDateStartThisU.Visible = false; } else { tbDateStartThisU.Text = reader.GetDateTime(i).ToString("dd MMM yyyy"); tbDateStartThisU2.Text = reader.GetDateTime(i).ToString("dd MMM yyyy"); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trSpecialName.Visible = false; } else { tbSpecialName.Text = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trSpecialName.Visible = false; } else { tbSpecialName.Text = reader.GetValue(i).ToString(); tbSpecialName2.Text = reader.GetValue(i).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trTeachIscedID.Visible = false; } else { ddlTeachIscedID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trTeachIscedID.Visible = false; } else { ddlTeachIscedID.SelectedValue = reader.GetValue(i).ToString(); ddlTeachIscedID2.Text = reader.GetValue(42).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGradLevID.Visible = false; } else { ddlGradLevID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGradLevID.Visible = false; } else { ddlGradLevID.SelectedValue = reader.GetValue(i).ToString(); ddlGradLevID2.Text = reader.GetValue(43).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGradCurr.Visible = false; } else { tbGradCurr.Text = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGradCurr.Visible = false; } else { tbGradCurr.Text = reader.GetValue(i).ToString(); tbGradCurr2.Text = reader.GetValue(i).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGradIscedID.Visible = false; } else { ddlGradIscedID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGradIscedID.Visible = false; } else { ddlGradIscedID.SelectedValue = reader.GetValue(i).ToString(); ddlGradIscedID2.Text = reader.GetValue(44).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGradProgID.Visible = false; } else { ddlGradProgID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGradProgID.Visible = false; } else { ddlGradProgID.SelectedValue = reader.GetValue(i).ToString(); ddlGradProgID2.Text = reader.GetValue(45).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGradUniv.Visible = false; } else { tbGradUniv.Text = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGradUniv.Visible = false; } else { tbGradUniv.Text = reader.GetValue(i).ToString(); tbGradUniv2.Text = reader.GetValue(i).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trGradCountryID.Visible = false; } else { ddlGradCountryID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trGradCountryID.Visible = false; } else { ddlGradCountryID.SelectedValue = reader.GetValue(i).ToString(); ddlGradCountryID2.Text = reader.GetValue(46).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trDeformID.Visible = false; } else { ddlDeformID.SelectedValue = reader.GetValue(i).ToString();  }
+                            if (reader.IsDBNull(i)) { trDeformID.Visible = false; } else { ddlDeformID.SelectedValue = reader.GetValue(i).ToString(); ddlDeformID2.Text = reader.GetValue(47).ToString(); }
                             ++i;
-                            if (reader.IsDBNull(i)) { trSitNo.Visible = false; } else { tbSitNo.Text = reader.GetValue(i).ToString();  }
-                            ++i;
-                            if (reader.IsDBNull(i)) { trReligionID.Visible = false; } else { ddlReligionID.SelectedValue = reader.GetValue(i).ToString();  }
-                            ++i;
-                            if (reader.IsDBNull(i)) { trMovementTypeID.Visible = false; } else { ddlMovementTypeID.SelectedValue = reader.GetValue(i).ToString();  }
-                            ++i;
-                            if (reader.IsDBNull(i)) { trMovementDate.Visible = false; } else { tbMovementDate.Text = reader.GetDateTime(i).ToString("dd MMM yyyy");  }
+                            if (reader.IsDBNull(i)) { trReligionID.Visible = false; } else { ddlReligionID.SelectedValue = reader.GetValue(i).ToString(); ddlReligionID2.Text = reader.GetValue(48).ToString(); }
                             ++i;
 
                         }
@@ -215,7 +209,6 @@ namespace WEB_PERSONAL
             DatabaseManager.BindDropDown(ddlGradCountryID, "SELECT * FROM TB_NATION ORDER BY ABS(NATION_ID) ASC", "NATION_NAME_EN", "NATION_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlDeformID, "SELECT * FROM TB_DEFORM ORDER BY ABS(DEFORM_ID) ASC", "DEFORM_NAME", "DEFORM_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlReligionID, "SELECT * FROM TB_RELIGION ORDER BY ABS(RELIGION_ID) ASC", "RELIGION_NAME", "RELIGION_ID", "--กรุณาเลือก--");
-            DatabaseManager.BindDropDown(ddlMovementTypeID, "SELECT * FROM TB_MOVEMENT_TYPE ORDER BY ABS(MOVEMENT_TYPE_ID) ASC", "MOVEMENT_TYPE_NAME", "MOVEMENT_TYPE_ID", "--กรุณาเลือก--");
 
             SQLCampus();
         }
@@ -595,14 +588,6 @@ namespace WEB_PERSONAL
                         com.ExecuteNonQuery();
                     }
                 }
-                if (trSitNo.Visible == true)
-                {
-                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_SIT_NO=:PS_SIT_NO WHERE PS_CITIZEN_ID = '" + Citizen_id + "'", con))
-                    {
-                        com.Parameters.Add(new OracleParameter("PS_SIT_NO", tbSitNo.Text));
-                        com.ExecuteNonQuery();
-                    }
-                }
                 if (trReligionID.Visible == true)
                 {
                     using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_RELIGION_ID=:PS_RELIGION_ID WHERE PS_CITIZEN_ID = '" + Citizen_id + "'", con))
@@ -611,36 +596,21 @@ namespace WEB_PERSONAL
                         com.ExecuteNonQuery();
                     }
                 }
-                if (trMovementTypeID.Visible == true)
-                {
-                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_MOVEMENT_TYPE_ID=:PS_MOVEMENT_TYPE_ID WHERE PS_CITIZEN_ID = '" + Citizen_id + "'", con))
-                    {
-                        com.Parameters.Add(new OracleParameter("PS_MOVEMENT_TYPE_ID", ddlMovementTypeID.SelectedValue));
-                        com.ExecuteNonQuery();
-                    }
-                }
-                if (trMovementDate.Visible == true)
-                {
-                    using (OracleCommand com = new OracleCommand("UPDATE PS_PERSON SET PS_MOVEMENT_DATE=:PS_MOVEMENT_DATE WHERE PS_CITIZEN_ID = '" + Citizen_id + "'", con))
-                    {
-                        com.Parameters.Add(new OracleParameter("PS_MOVEMENT_DATE", Util.ToDateTimeOracle(tbMovementDate.Text)));
-                        com.ExecuteNonQuery();
-                    }
-                }
 
                 /*/*/
-                using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID, COMMENT_INFO=:COMMENT_INFO WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID, COMMENT_INFO=:COMMENT_INFO, R_ALLOW=:R_ALLOW WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
                 {
                     com.Parameters.Add(new OracleParameter("DATE_END", DateTime.Today));
                     com.Parameters.Add(new OracleParameter("R_STATUS_ID", "2"));
                     com.Parameters.Add(new OracleParameter("COMMENT_INFO", tbComment.Text));
+                    com.Parameters.Add(new OracleParameter("R_ALLOW", "1"));
                     id = com.ExecuteNonQuery();
                 }
             }
             return id;
         }
 
-        protected void btnAddComment_Click(object sender, EventArgs e)
+        protected void lbuAllow_Click(object sender, EventArgs e)
         {
             if (rbAllow.Checked)
             {
@@ -655,17 +625,23 @@ namespace WEB_PERSONAL
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                 {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID, COMMENT_INFO=:COMMENT_INFO WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
+                    using (OracleCommand com = new OracleCommand("UPDATE TB_REQUEST SET DATE_END=:DATE_END, R_STATUS_ID=:R_STATUS_ID, COMMENT_INFO=:COMMENT_INFO, R_ALLOW=:R_ALLOW WHERE R_ID = '" + MyCrypto.GetDecryptedQueryString(Request.QueryString["id"].ToString()) + "'", con))
                     {
                         com.Parameters.Add(new OracleParameter("DATE_END", DateTime.Today));
                         com.Parameters.Add(new OracleParameter("R_STATUS_ID", "4"));
                         com.Parameters.Add(new OracleParameter("COMMENT_INFO", tbComment.Text));
+                        com.Parameters.Add(new OracleParameter("R_ALLOW", "2"));
                         com.ExecuteNonQuery();
                     }
                 }
                 DataShow.Visible = false;
                 NoAccept.Visible = true;
             }
+        }
+
+        protected void lbuBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ListRequest.aspx");
         }
     }
 }

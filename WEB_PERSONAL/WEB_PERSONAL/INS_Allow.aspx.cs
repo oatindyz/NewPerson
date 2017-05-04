@@ -32,7 +32,7 @@ namespace WEB_PERSONAL
             if (count > 0)
             {
 
-                SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ข้อมูล, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1");
+                SqlDataSource sds = DatabaseManager.CreateSQLDataSource("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อผู้ขอเครื่องราช, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, REQ_DATE วันที่ขอ, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1");
                 GridView1.DataSource = sds;
                 GridView1.DataBind();
 
@@ -41,13 +41,6 @@ namespace WEB_PERSONAL
                 TableHeaderCell newHeader = new TableHeaderCell();
                 newHeader.Text = "เลือก";
                 GridView1.HeaderRow.Cells.Add(newHeader);
-
-                /*GridView1.HeaderRow.Cells[0].Text = "<img src='Image/Small/ID.png' class='icon_left'/>" + GridView1.HeaderRow.Cells[0].Text;
-                GridView1.HeaderRow.Cells[1].Text = "<img src='Image/Small/person2.png' class='icon_left'/>" + GridView1.HeaderRow.Cells[1].Text;
-                GridView1.HeaderRow.Cells[2].Text = "<img src='Image/Small/list.png' class='icon_left'/>" + GridView1.HeaderRow.Cells[2].Text;
-                GridView1.HeaderRow.Cells[3].Text = "<img src='Image/Small/calendar.png' class='icon_left'/>" + GridView1.HeaderRow.Cells[3].Text;
-                GridView1.HeaderRow.Cells[4].Text = "<img src='Image/Small/question.png' class='icon_left'/>" + GridView1.HeaderRow.Cells[4].Text;
-                GridView1.HeaderRow.Cells[5].Text = "<img src='Image/Small/pointer.png' class='icon_left'/>" + GridView1.HeaderRow.Cells[5].Text;*/
 
                 for (int i = 0; i < GridView1.Rows.Count; ++i)
                 {
@@ -167,6 +160,11 @@ namespace WEB_PERSONAL
 
         protected void lbuAllow_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(tbDateAllow.Text))
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถว่างได้')", true);
+                return;
+            }
             int ipID = (int)Session["IP_ID"];
             int allow = 2;
             if (rbNotAllow.Checked)
@@ -208,11 +206,18 @@ namespace WEB_PERSONAL
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                 {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("UPDATE TB_INSIG_PERSON SET GET_DATE = :GET_DATE, IP_STATUS_ID = :IP_STATUS_ID WHERE IP_ID = :IP_ID", con))
+                    using (OracleCommand com = new OracleCommand("UPDATE TB_INSIG_PERSON SET GET_DATE = :GET_DATE, IP_STATUS_ID = :IP_STATUS_ID, I_ALLOW = :I_ALLOW WHERE IP_ID = :IP_ID", con))
                     {
                         com.Parameters.AddWithValue("GET_DATE", Util.ToDateTimeOracle(tbDateAllow.Text));
                         com.Parameters.AddWithValue("IP_STATUS_ID", allow);
                         com.Parameters.AddWithValue("IP_ID", ipID);
+                        if (rbAllow.Checked)
+                        {
+                            com.Parameters.AddWithValue("I_ALLOW", "1");
+                        }else if (rbNotAllow.Checked)
+                        {
+                            com.Parameters.AddWithValue("I_ALLOW", "2");
+                        }
                         com.ExecuteNonQuery();
                     }
                 }

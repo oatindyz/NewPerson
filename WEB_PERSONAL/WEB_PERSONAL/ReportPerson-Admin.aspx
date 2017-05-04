@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="ReportPerson-Admin.aspx.cs" Inherits="WEB_PERSONAL.ReportPerson_Admin" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
         $(function () {
@@ -23,9 +24,9 @@
                 text-align: left;
             }
 
-            .ps-table-1 td {
-                text-align: center;
-            }
+        .ps-table-1 td {
+            text-align: center;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -41,13 +42,13 @@
                         <tr>
                             <td>ปีงบประมาณ</td>
                             <td style="text-align: left;">
-                                <asp:DropDownList ID="ddlYear" runat="server" CssClass="ps-dropdown input-sm select2"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlYear" runat="server" CssClass="form-control select2"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
                             <td>ข้อมูลการแสดงผล</td>
                             <td>
-                                <asp:DropDownList ID="ddlView" runat="server" CssClass="ps-dropdown input-sm select2" AutoPostBack="true"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlView" runat="server" CssClass="form-control select2" AutoPostBack="true"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr>
@@ -72,7 +73,15 @@
     <div class="ps-header">
         <img src="Image/Small/list.png" />ข้อมูล
     </div>
-    <div style="margin-top: 10px; overflow-x: auto;">
-        <asp:Panel ID="Panel1" runat="server" CssClass="ppp"></asp:Panel>
+    <div id="Div1" runat="server" class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-body">
+                <div style="text-align: center;">
+                    <div style="margin-top: 10px; overflow-x: auto;">
+                        <asp:Panel ID="Panel1" runat="server" CssClass="ppp" style="text-align: left; margin: auto;" class="ps-table-1"></asp:Panel>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </asp:Content>

@@ -1,40 +1,58 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="RequestHistory.aspx.cs" Inherits="WEB_PERSONAL.RequestHistory" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <!-- for Menu List -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-    <script src="dist/js/sb-admin-2.js"></script>
-    <!-- for Menu List -->
+        <style>
+        .c2 {
+        }
 
-    <script>
-        $(document).ready(function () {
-            $('#dataTables-example').DataTable({
-                responsive: true
-            });
-        });
-    </script>
+        .c1 {
+            display: inline-block;
+            text-decoration: none;
+            padding: 3px 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #c0c0c0;
+        }
+
+            .c1:hover {
+                background-color: #f0f0f0;
+            }
+
+        .sec {
+            background-color: #ffffff;
+            margin-bottom: 1px;
+            border-top: 1px solid rgb(235,235,235);
+        }
+
+        .sec2 {
+            padding: 20px;
+            padding-top: 0px;
+        }
+
+        .lbGV {
+            display: block;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="ps-header">
-        <img src="Image/Icon/manage.png" />จัดการข้อมูลการพัฒนาบุคลากร
-        <span style="text-align: right; float: right;"><a href="addproject.aspx">
-            <img src="Image/Small/add.png" />เพิ่มข้อมูลการพัฒนาบุคลากร</a></span>
+        <img src="Image/Small/clock-history.png" />ประวัติคำร้องขอแก้ไขข้อมูล
     </div>
-    <div id="notification" runat="server"></div>
+    <div>
 
-    <div id="Dp1" runat="server" class="panel panel-default">
-        <div class="panel-body">
-            <div class="panel-body">
-                <div id="divLoad" runat="server" class="dataTable_wrapper">
-                    
+        <div class="ps-div-title-red">รายการที่เสร็จสิ้น</div>
+        <asp:Label ID="lbFinish" runat="server" Text="ไม่มีข้อมูล" CssClass="lbGV"></asp:Label>
+        <asp:GridView ID="gvFinish" runat="server" CssClass="ps-table-1" Style="margin: 0 auto; margin-bottom: 20px;" AllowPaging="True" PageSize="10" OnPageIndexChanging="gvFinish_PageIndexChanging"></asp:GridView>
 
-                    <div id="div1" runat="server"></div>
+        <div class="ps-div-title-red">รายการที่อยู่ระหว่างการดำเนินการ</div>
+        <asp:Label ID="lbProgressing" runat="server" Text="ไม่มีข้อมูล" CssClass="lbGV"></asp:Label>
+        <asp:GridView ID="gvProgressing" runat="server" CssClass="ps-table-1" Style="margin: 0 auto; margin-bottom: 20px;" AllowPaging="True" PageSize="10" OnPageIndexChanging="gvProgressing_PageIndexChanging"></asp:GridView>
 
-                </div>
-            </div>
-        </div>
+        <div class="ps-div-title-red">ประวัติคำร้องแก้ไขข้อมูล</div>
+        <asp:Label ID="lbHistory" runat="server" Text="ไม่พบข้อมูล" CssClass="lbGV"></asp:Label>
+        <asp:GridView ID="gvHistory" runat="server" CssClass="ps-table-1" Style="margin: 0 auto; margin-bottom: 20px;" AllowPaging="True" PageSize="10" OnPageIndexChanging="gvHistory_PageIndexChanging"></asp:GridView>
+
     </div>
 </asp:Content>

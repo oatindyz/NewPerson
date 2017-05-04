@@ -13,39 +13,57 @@ namespace WEB_PERSONAL {
     public partial class RequestHistory {
         
         /// <summary>
-        /// notification control.
+        /// lbFinish control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl notification;
+        protected global::System.Web.UI.WebControls.Label lbFinish;
         
         /// <summary>
-        /// Dp1 control.
+        /// gvFinish control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Dp1;
+        protected global::System.Web.UI.WebControls.GridView gvFinish;
         
         /// <summary>
-        /// divLoad control.
+        /// lbProgressing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLoad;
+        protected global::System.Web.UI.WebControls.Label lbProgressing;
         
         /// <summary>
-        /// div1 control.
+        /// gvProgressing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div1;
+        protected global::System.Web.UI.WebControls.GridView gvProgressing;
+        
+        /// <summary>
+        /// lbHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbHistory;
+        
+        /// <summary>
+        /// gvHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvHistory;
     }
 }

@@ -31,7 +31,7 @@ namespace WEB_PERSONAL
         protected void BindData()
         {
             OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING);
-            OracleDataAdapter sda = new OracleDataAdapter("SELECT PS_ID,PS_CITIZEN_ID, PS_FIRSTNAME || ' ' || PS_LASTNAME NAME, (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE STAFFTYPE_ID = PS_STAFFTYPE_ID) STAFFTYPE_NAME, (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) CAMPUS_NAME FROM PS_PERSON", con);
+            OracleDataAdapter sda = new OracleDataAdapter("SELECT PS_ID,PS_CITIZEN_ID, PS_FIRSTNAME || ' ' || PS_LASTNAME NAME, (SELECT STAFFTYPE_NAME FROM TB_STAFFTYPE WHERE STAFFTYPE_ID = PS_STAFFTYPE_ID) STAFFTYPE_NAME, (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) CAMPUS_NAME FROM PS_PERSON ORDER BY PS_ID DESC", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             myRepeater.DataSource = dt;

@@ -1,6 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Request.aspx.cs" Inherits="WEB_PERSONAL.Request" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        function validateEmail(emailField) {
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+            if (reg.test(emailField.value) == false) {
+                alert('อีเมลไม่ถูกต้อง');
+                document.getElementById('<%= tbEmail.ClientID %>').value = "";
+            }
+            return true;
+        }
+    </script>
+
     <script type="text/javascript">
         function DisableButton() {
             document.getElementById("<%=btnSaveRequest.ClientID %>").disabled = true;
@@ -86,7 +98,7 @@
                                 <asp:Label ID="lbEmail" runat="server"></asp:Label>
                             </td>
                             <td>
-                                <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm"></asp:TextBox>
+                                <asp:TextBox ID="tbEmail" runat="server" CssClass="form-control input-sm" onblur="validateEmail(this);"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -288,39 +300,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="col1">เลขที่ตำแหน่ง</td>
-                            <td class="col2">
-                                <asp:Label ID="lbSitNo" runat="server"></asp:Label>
-                            </td>
-                            <td>
-                                <asp:TextBox ID="tbSitNo" runat="server" CssClass="form-control input-sm" MaxLength="5" onkeypress="return isNumberKey(event)"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
                             <td class="col1">ศาสนา</td>
                             <td class="col2">
                                 <asp:Label ID="lbReligionID" runat="server"></asp:Label>
                             </td>
                             <td>
                                 <asp:DropDownList ID="ddlReligionID" runat="server" CssClass="form-control input-sm"></asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">ประเภทการดำรงตำแหน่งปัจจุบัน</td>
-                            <td class="col2">
-                                <asp:Label ID="lbMovementTypeID" runat="server"></asp:Label>
-                            </td>
-                            <td>
-                                <asp:DropDownList ID="ddlMovementTypeID" runat="server" CssClass="form-control input-sm"></asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">วันที่มีผลบังคับใช้"การเข้าสู่ตำแหน่งปัจจุบัน"</td>
-                            <td class="col2">
-                                <asp:Label ID="lbMovementDate" runat="server"></asp:Label>
-                            </td>
-                            <td>
-                                <asp:TextBox ID="tbMovementDate" runat="server" CssClass="form-control input-sm"></asp:TextBox>
                             </td>
                         </tr>
                     </table>
@@ -339,8 +324,7 @@
                         ระบบได้ทำการบันทึกข้อมูลแล้ว สถานะ:อยู่ระหว่างดำเนินการ
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
-                        <a href="Default.aspx" class="ps-button btn btn-primary">
-                            <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
+                        <a href="Default.aspx" class="ps-button btn btn-primary"><img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
                     </div>
                 </div>
             </div>
@@ -349,13 +333,13 @@
         <div id="InProcess" runat="server" visible="false" class="panel panel-default">
             <div class="panel-body">
                 <div class="ps-box-ct10" style="text-align: center;">
-                    <div class="ps-div-title-red">มีรายการยื่นคำร้องขอแก้ไขข้อมูล</div>
+                    <div class="ps-div-title-red">คุณมีรายการที่กำลังดำเนินการ</div>
                     <div style="color: #808080; margin-top: 10px; text-align: center;">
-                        สามารถดูการแจ้งผลได้ที่แจ้งเตือน เมื่อเจ้าหน้าที่บุคลากรทำการแจ้งผลข้อมูล
+                        สามารถตรวจสอบประวัติได้ที่เมนู > ประวัติคำร้องแก้ไขข้อมูล 
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
-                        <a href="Default.aspx" class="ps-button btn btn-primary">
-                            <img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
+                        <a href="Default.aspx" class="ps-button btn btn-primary"><img src="Image/Small/home3.png" class="icon_left" />กลับหน้าหลัก</a>
+                        <a href="RequestHistory.aspx" class="ps-button btn btn-primary"><img src="Image/Small/clock-history.png" class="icon_left" />ประวัติคำร้องแก้ไขข้อมูล</a>
                     </div>
                 </div>
             </div>

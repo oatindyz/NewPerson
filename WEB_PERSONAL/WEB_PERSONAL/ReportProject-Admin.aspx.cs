@@ -25,20 +25,18 @@ namespace WEB_PERSONAL
 
             if (!IsPostBack)
             {
-                BindDDL();
-                ddlYear.Items.Insert(0, new ListItem("--กรุณาเลือก", ""));
-                int minDate = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM START_DATE)) FROM TB_PROJECT") + 543;
-                int currentYear = DateTime.Now.Year + 543;
-                //int yearMin = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
-                //int yearMax = DatabaseManager.ExecuteInt("SELECT MAX(EXTRACT(YEAR FROM FROM_DATE)) FROM LEV_DATA") + 543;
+                int minDateProject = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM START_DATE)+543) FROM TB_PROJECT");
+                int currentYear = Util.BudgetYear() + 543;
 
-                for (int i = minDate; i <= currentYear; ++i)
+                for (int i = minDateProject; i <= currentYear; ++i)
                 {
                     ddlYear.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
                 }
 
-                ddlView.Items.Add(new ListItem("แสดงรายละเอียดข้อมูลทั้งหมด", "1"));
-                ddlView.Items.Add(new ListItem("แสดงจำนวนข้อมูลรวมของแต่ละบุคคล", "2"));
+                BindDDL();
+                ddlView.Items.Add(new ListItem("แสดงรายละเอียดข้อมูลของบุคลากร", "1"));
+                ddlView.Items.Add(new ListItem("แสดงจำนวนข้อมูลรวมของบุคลากร", "2"));
+
             }
 
             if (ddlView.SelectedValue == "1")
@@ -53,34 +51,10 @@ namespace WEB_PERSONAL
 
         protected void BindDDL()
         {
+            DatabaseManager.BindDropDown(ddlPerson, "SELECT DISTINCT(PS_FIRSTNAME || ' ' || PS_LASTNAME) NAME,CITIZEN_ID FROM TB_PROJECT INNER JOIN PS_PERSON ON CITIZEN_ID = PS_CITIZEN_ID", "NAME", "CITIZEN_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlCampus, "SELECT * FROM TB_CAMPUS ORDER BY CAMPUS_ID", "CAMPUS_NAME", "CAMPUS_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlCountry, "SELECT * FROM TB_PROJECT_COUNTRY ORDER BY COUNTRY_ID", "COUNTRY_NAME", "COUNTRY_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlSubCountry, "SELECT * FROM TB_PROJECT_COUNTRY_SUB ORDER BY SUB_COUNTRY_ID", "SUB_COUNTRY_NAME", "SUB_COUNTRY_ID", "--กรุณาเลือก--");
-        }
-
-        public void ChangeNotification(string type)
-        {
-            switch (type)
-            {
-                case "info": notification.Attributes["class"] = "alert alert_info"; break;
-                case "success": notification.Attributes["class"] = "alert alert_success"; break;
-                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
-                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
-                default: notification.Attributes["class"] = null; break;
-            }
-        }
-
-        public void ChangeNotification(string type, string text)
-        {
-            switch (type)
-            {
-                case "info": notification.Attributes["class"] = "alert alert_info"; break;
-                case "success": notification.Attributes["class"] = "alert alert_success"; break;
-                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
-                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
-                default: notification.Attributes["class"] = null; break;
-            }
-            notification.InnerHtml = text;
         }
 
         private Table BindToTable()
@@ -90,10 +64,9 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการพัฒนาบุคลากร"; cell.ColumnSpan = 17; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการพัฒนาบุคลากร " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue; cell.ColumnSpan = 17; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
-
 
             {
                 TableHeaderRow row = new TableHeaderRow();
@@ -146,9 +119,13 @@ namespace WEB_PERSONAL
                 {
                     where += " AND EXTRACT(YEAR FROM START_DATE) = '" + ddlYear.SelectedValue + "'-543";
                 }
+                if (ddlPerson.SelectedValue != "")
+                {
+                    where += " AND CITIZEN_ID = '" + ddlPerson.SelectedValue + "'";
+                }
                 if (ddlCampus.SelectedValue != "")
                 {
-                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
+                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue;
                 }
                 if (ddlCountry.SelectedValue != "")
                 {
@@ -341,7 +318,7 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการพัฒนาบุคลากร"; cell.ColumnSpan = 14; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลการพัฒนาบุคลากร " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue; cell.ColumnSpan = 14; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -392,9 +369,13 @@ namespace WEB_PERSONAL
                 {
                     where += " AND EXTRACT(YEAR FROM START_DATE) = '" + ddlYear.SelectedValue + "'-543";
                 }
+                if (ddlPerson.SelectedValue != "")
+                {
+                    where += " AND CITIZEN_ID = '" + ddlPerson.SelectedValue + "'";
+                }
                 if (ddlCampus.SelectedValue != "")
                 {
-                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue + "";
+                    where += " AND (SELECT PS_CAMPUS_ID FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) = " + ddlCampus.SelectedValue;
                 }
                 if (ddlCountry.SelectedValue != "")
                 {
@@ -459,7 +440,7 @@ namespace WEB_PERSONAL
                     }
                     {
                         TableCell cell = new TableCell();
-                        using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END) FROM TB_PROJECT", con))
+                        using (OracleCommand com = new OracleCommand("SELECT COUNT(CASE WHEN CITIZEN_ID = '" + citizen_id + "' THEN 1 END) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = (SELECT PS_CITIZEN_ID FROM PS_PERSON WHERE TB_PROJECT.CITIZEN_ID = PS_PERSON.PS_CITIZEN_ID)" + where, con))
                         {
                             using (OracleDataReader reader = com.ExecuteReader())
                             {
@@ -475,11 +456,11 @@ namespace WEB_PERSONAL
                     {
                         using (OracleCommand com = new OracleCommand(
                             "SELECT" +
-                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 1)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 2)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 3)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 4)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 5)" +
+                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 1 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 2 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 3 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 4 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 1 AND SUB_COUNTRY_ID = 5 " + where + ")" +
                             " FROM DUAL",
                             con))
                         {
@@ -500,11 +481,11 @@ namespace WEB_PERSONAL
                     {
                         using (OracleCommand com = new OracleCommand(
                             "SELECT" +
-                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 1)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 2)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 3)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 4)" +
-                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 5)" +
+                            " (SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 1 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 2 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 3 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 4 " + where + ")" +
+                            ",(SELECT NVL(COUNT(PRO_ID),0) FROM TB_PROJECT WHERE TB_PROJECT.CITIZEN_ID = '" + citizen_id + "' AND COUNTRY_ID = 2 AND SUB_COUNTRY_ID = 5 " + where + ")" +
                             " FROM DUAL",
                             con))
                         {
@@ -548,7 +529,7 @@ namespace WEB_PERSONAL
                     return;
                 }
 
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการพัฒนาบุคลากร" + ddlView.SelectedItem.Text + ".xls");
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการพัฒนาบุคลากร " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue + ".xls");
                 Response.ContentType = "application/x-msexcel";
                 Response.ContentEncoding = Encoding.UTF8;
 
@@ -576,7 +557,7 @@ namespace WEB_PERSONAL
                     return;
                 }
 
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการพัฒนาบุคลากร" + ddlView.SelectedItem.Text + ".xls");
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลการพัฒนาบุคลากร " + ddlView.SelectedItem.Text + " ประจำปีงบประมาณ พ.ศ. " + ddlYear.SelectedValue + ".xls");
                 Response.ContentType = "application/x-msexcel";
                 Response.ContentEncoding = Encoding.UTF8;
 
@@ -601,6 +582,31 @@ namespace WEB_PERSONAL
         {
             /* Confirms that an HtmlForm control is rendered for the specified ASP.NET
                server control at run time. */
+        }
+
+        public void ChangeNotification(string type)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+        }
+
+        public void ChangeNotification(string type, string text)
+        {
+            switch (type)
+            {
+                case "info": notification.Attributes["class"] = "alert alert_info"; break;
+                case "success": notification.Attributes["class"] = "alert alert_success"; break;
+                case "warning": notification.Attributes["class"] = "alert alert_warning"; break;
+                case "danger": notification.Attributes["class"] = "alert alert_danger"; break;
+                default: notification.Attributes["class"] = null; break;
+            }
+            notification.InnerHtml = text;
         }
 
         protected void lbuSearch_Click(object sender, EventArgs e)

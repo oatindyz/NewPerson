@@ -12,10 +12,11 @@ namespace WEB_PERSONAL
 {
     public partial class Addproject : System.Web.UI.Page
     {
+        Person loginPerson;
         protected void Page_Load(object sender, EventArgs e)
         {
             PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
+            loginPerson = ps.LoginPerson;
 
             Notsuccess.Visible = true;
             success.Visible = false;
@@ -58,8 +59,38 @@ namespace WEB_PERSONAL
             notification.InnerHtml = text;
         }
 
+        private void ClearNotification()
+        {
+            notification.Attributes["class"] = null;
+            notification.InnerHtml = "";
+        }
+
         protected void btnAddProject_Click(object sender, EventArgs e)
         {
+            OracleConnection.ClearAllPools();
+            using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
+            {
+                con.Open();
+                using (OracleCommand com = new OracleCommand("SELECT PRO_ID FROM TB_PROJECT WHERE START_DATE BETWEEN " + Util.DatabaseToDateSearch(tbStartDate.Text) + " AND " + Util.DatabaseToDateSearch(tbEndDate.Text) + " AND CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'", con))
+                {
+                    using (OracleDataReader reader = com.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                Project ProjectData = new Project();
+                                ProjectData.Load(reader.GetInt32(0));
+                                ChangeNotification("danger", "ไม่สามารถเพิ่มข้อมูลได้ พบวันซ้อนทับกัน (รหัสโครงการ " + ProjectData.PRO_ID + ", " + ProjectData.START_DATE.Value.ToLongDateString() + " ถึง " + ProjectData.END_DATE.Value.ToLongDateString() + ")");
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
             /*string[] validFileTypes = { "pdf" };
             string ext = System.IO.Path.GetExtension(FUdocument.PostedFile.FileName);
             //bool isValidFile = false;
@@ -122,9 +153,6 @@ namespace WEB_PERSONAL
                 return;
             }
 
-            PersonnelSystem ps = PersonnelSystem.GetPersonnelSystem(this);
-            Person loginPerson = ps.LoginPerson;
-
             OracleConnection.ClearAllPools();
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
@@ -166,7 +194,7 @@ namespace WEB_PERSONAL
                 }
             }
 
-
+            ChangeNotification("", "");
             Notsuccess.Visible = false;
             success.Visible = true;
 

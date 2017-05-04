@@ -71,10 +71,7 @@ namespace WEB_PERSONAL
             lbGradUniv.Text = Util.IsBlank(ps.LoginPerson.PS_GRAD_UNIV) ? "-" : ps.LoginPerson.PS_GRAD_UNIV;
             lbGradCountryID.Text = Util.IsBlank(ps.LoginPerson.PS_GRAD_COUNTRY_NAME) ? "-" : ps.LoginPerson.PS_GRAD_COUNTRY_NAME;
             lbDeformID.Text = Util.IsBlank(ps.LoginPerson.PS_DEFORM_NAME) ? "-" : ps.LoginPerson.PS_DEFORM_NAME;
-            lbSitNo.Text = Util.IsBlank(ps.LoginPerson.PS_SIT_NO) ? "-" : ps.LoginPerson.PS_SIT_NO;
             lbReligionID.Text = Util.IsBlank(ps.LoginPerson.PS_RELIGION_NAME) ? "-" : ps.LoginPerson.PS_RELIGION_NAME;
-            lbMovementTypeID.Text = Util.IsBlank(ps.LoginPerson.PS_MOVEMENT_TYPE_NAME) ? "-" : ps.LoginPerson.PS_MOVEMENT_TYPE_NAME;
-            lbMovementDate.Text = Util.IsBlank(ps.LoginPerson.PS_MOVEMENT_DATE.ToString()) ? "-" : ps.LoginPerson.PS_MOVEMENT_DATE.Value.ToLongDateString();
         }
 
         protected void BindDDL()
@@ -95,7 +92,6 @@ namespace WEB_PERSONAL
             DatabaseManager.BindDropDown(ddlGradCountryID, "SELECT * FROM TB_NATION ORDER BY ABS(NATION_ID) ASC", "NATION_NAME_EN", "NATION_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlDeformID, "SELECT * FROM TB_DEFORM ORDER BY ABS(DEFORM_ID) ASC", "DEFORM_NAME", "DEFORM_ID", "--กรุณาเลือก--");
             DatabaseManager.BindDropDown(ddlReligionID, "SELECT * FROM TB_RELIGION ORDER BY ABS(RELIGION_ID) ASC", "RELIGION_NAME", "RELIGION_ID", "--กรุณาเลือก--");
-            DatabaseManager.BindDropDown(ddlMovementTypeID, "SELECT * FROM TB_MOVEMENT_TYPE ORDER BY ABS(MOVEMENT_TYPE_ID) ASC", "MOVEMENT_TYPE_NAME", "MOVEMENT_TYPE_ID", "--กรุณาเลือก--");
 
             SQLCampus();
         }
@@ -250,8 +246,7 @@ namespace WEB_PERSONAL
             using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
             {
                 con.Open();
-                using (OracleCommand com = new OracleCommand("INSERT INTO TB_REQUEST (R_ID, CITIZEN_ID, R_STATUS_ID, DATE_START, TITLE_ID, FIRSTNAME, LASTNAME, GENDER_ID, BIRTHDAY_DATE, EMAIL, NATION_ID, CAMPUS_ID, FACULTY_ID, DIVISION_ID, WORK_DIVISION_ID, STAFFTYPE_ID, TIME_CONTACT_ID, BUDGET_ID, SUBSTAFFTYPE_ID, ADMIN_POS_ID, WORK_POS_ID, INWORK_DATE, DATE_START_THIS_U, SPECIAL_NAME, TEACH_ISCED_ID, GRAD_LEV_ID, GRAD_CURR, GRAD_ISCED_ID, GRAD_PROG_ID, GRAD_UNIV, GRAD_COUNTRY_ID, DEFORM_ID, SIT_NO, RELIGION_ID, MOVEMENT_TYPE_ID, MOVEMENT_DATE) VALUES (TB_REQUEST_SEQ.NEXTVAL, :CITIZEN_ID, :R_STATUS_ID, :DATE_START, :TITLE_ID, :FIRSTNAME, :LASTNAME, :GENDER_ID, :BIRTHDAY_DATE, :EMAIL, :NATION_ID, :CAMPUS_ID, :FACULTY_ID, :DIVISION_ID, :WORK_DIVISION_ID, :STAFFTYPE_ID, :TIME_CONTACT_ID, :BUDGET_ID, :SUBSTAFFTYPE_ID, :ADMIN_POS_ID, :WORK_POS_ID, :INWORK_DATE, :DATE_START_THIS_U, :SPECIAL_NAME, :TEACH_ISCED_ID, :GRAD_LEV_ID, :GRAD_CURR, :GRAD_ISCED_ID, :GRAD_PROG_ID, :GRAD_UNIV, :GRAD_COUNTRY_ID, :DEFORM_ID, :SIT_NO, :RELIGION_ID, :MOVEMENT_TYPE_ID, :MOVEMENT_DATE)", con))
-                //using (OracleCommand com = new OracleCommand("INSERT INTO TB_REQUEST (R_ID, CITIZEN_ID, R_STATUS_ID, DATE_START, TITLE_ID, FIRSTNAME, LASTNAME, GENDER_ID, BIRTHDAY_DATE, EMAIL, NATION_ID, CAMPUS_ID, FACULTY_ID, DIVISION_ID, WORK_DIVISION_ID, STAFFTYPE_ID, TIME_CONTACT_ID, BUDGET_ID, SUBSTAFFTYPE_ID, ADMIN_POS_ID, WORK_POS_ID, INWORK_DATE, DATE_START_THIS_U, SPECIAL_NAME, TEACH_ISCED_ID, GRAD_LEV_ID, GRAD_CURR, GRAD_ISCED_ID, GRAD_PROG_ID, GRAD_UNIV, GRAD_COUNTRY_ID, DEFORM_ID, SIT_NO, RELIGION_ID, MOVEMENT_TYPE_ID, MOVEMENT_DATE) VALUES (TB_REQUEST_SEQ.NEXTVAL, :CITIZEN_ID, :R_STATUS_ID, :DATE_START, :TITLE_ID, :FIRSTNAME, :LASTNAME, :GENDER_ID, :BIRTHDAY_DATE, :EMAIL, :NATION_ID, :CAMPUS_ID, :FACULTY_ID, :DIVISION_ID, :WORK_DIVISION_ID, :STAFFTYPE_ID, :TIME_CONTACT_ID, :BUDGET_ID, :SUBSTAFFTYPE_ID, :ADMIN_POS_ID, :WORK_POS_ID, :INWORK_DATE, :DATE_START_THIS_U, :SPECIAL_NAME, :TEACH_ISCED_ID, :GRAD_LEV_ID, :GRAD_CURR, :GRAD_ISCED_ID, :GRAD_PROG_ID, :GRAD_UNIV, :GRAD_COUNTRY_ID, :DEFORM_ID, :SIT_NO, :RELIGION_ID, :MOVEMENT_TYPE_ID, :MOVEMENT_DATE)", con))
+                using (OracleCommand com = new OracleCommand("INSERT INTO TB_REQUEST (R_ID, CITIZEN_ID, R_STATUS_ID, DATE_START, TITLE_ID, FIRSTNAME, LASTNAME, GENDER_ID, BIRTHDAY_DATE, EMAIL, NATION_ID, CAMPUS_ID, FACULTY_ID, DIVISION_ID, WORK_DIVISION_ID, STAFFTYPE_ID, TIME_CONTACT_ID, BUDGET_ID, SUBSTAFFTYPE_ID, ADMIN_POS_ID, WORK_POS_ID, INWORK_DATE, DATE_START_THIS_U, SPECIAL_NAME, TEACH_ISCED_ID, GRAD_LEV_ID, GRAD_CURR, GRAD_ISCED_ID, GRAD_PROG_ID, GRAD_UNIV, GRAD_COUNTRY_ID, DEFORM_ID, RELIGION_ID) VALUES (TB_REQUEST_SEQ.NEXTVAL, :CITIZEN_ID, :R_STATUS_ID, :DATE_START, :TITLE_ID, :FIRSTNAME, :LASTNAME, :GENDER_ID, :BIRTHDAY_DATE, :EMAIL, :NATION_ID, :CAMPUS_ID, :FACULTY_ID, :DIVISION_ID, :WORK_DIVISION_ID, :STAFFTYPE_ID, :TIME_CONTACT_ID, :BUDGET_ID, :SUBSTAFFTYPE_ID, :ADMIN_POS_ID, :WORK_POS_ID, :INWORK_DATE, :DATE_START_THIS_U, :SPECIAL_NAME, :TEACH_ISCED_ID, :GRAD_LEV_ID, :GRAD_CURR, :GRAD_ISCED_ID, :GRAD_PROG_ID, :GRAD_UNIV, :GRAD_COUNTRY_ID, :DEFORM_ID, :RELIGION_ID)", con))
                 {
                     com.Parameters.Add(new OracleParameter("CITIZEN_ID", loginPerson.PS_CITIZEN_ID));
                     com.Parameters.Add(new OracleParameter("R_STATUS_ID", "1"));
@@ -316,10 +311,7 @@ namespace WEB_PERSONAL
                     com.Parameters.Add(new OracleParameter("GRAD_UNIV", tbGradUniv.Text));
                     com.Parameters.Add(new OracleParameter("GRAD_COUNTRY_ID", ddlGradCountryID.SelectedValue));
                     com.Parameters.Add(new OracleParameter("DEFORM_ID", ddlDeformID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("SIT_NO", tbSitNo.Text));
                     com.Parameters.Add(new OracleParameter("RELIGION_ID", ddlReligionID.SelectedValue));
-                    com.Parameters.Add(new OracleParameter("MOVEMENT_TYPE_ID", ddlMovementTypeID.SelectedValue));
-                    if (tbMovementDate.Text == "") { com.Parameters.Add(new OracleParameter("MOVEMENT_DATE", DBNull.Value)); } else { com.Parameters.Add(new OracleParameter("MOVEMENT_DATE", Util.ToDateTimeOracle(tbMovementDate.Text))); }
                     
                     com.ExecuteNonQuery();
                 }
