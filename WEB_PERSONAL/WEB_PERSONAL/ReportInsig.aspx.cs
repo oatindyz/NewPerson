@@ -25,7 +25,8 @@ namespace WEB_PERSONAL
                 if (loginPerson.PERSON_ROLE_ID == "4")
                 {
                     divOfficer.Visible = true;
-                    divUser.Visible = false;      
+                    divUser.Visible = false;
+                    lbuV2Export.Visible = false;
 
                     int minDateInsigPerson = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)+543) FROM TB_INSIG_PERSON");
                     int currentYear = Util.BudgetYear() + 543;
@@ -47,16 +48,14 @@ namespace WEB_PERSONAL
                     {
                         divOfficer.Visible = false;
                         divUser.Visible = true;
-                        User.Visible = true;
                         lbFinish.Visible = false;
-
-                        int minDateInsigPerson = DatabaseManager.ExecuteInt("SELECT MIN(EXTRACT(YEAR FROM GET_DATE)+543) FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "'");
-                        int currentYear = Util.BudgetYear() + 543;
-
-                        for (int i = minDateInsigPerson; i <= currentYear; ++i)
+                        Table table = loadReportSelf();
+                        if (table == null)
                         {
-                            ddlYearUser.Items.Add(new System.Web.UI.WebControls.ListItem("" + i, "" + i));
+                            return;
                         }
+                        Panel2.Controls.Clear();
+                        Panel2.Controls.Add(loadReportSelf());
                     }
                     else
                     {
@@ -251,7 +250,7 @@ namespace WEB_PERSONAL
 
             {
                 TableHeaderRow row = new TableHeaderRow();
-                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลเครื่องราชฯ ประจำปีงบประมาณ พ.ศ. " + ddlYearUser.SelectedValue; cell.ColumnSpan = 8; row.Cells.Add(cell); }
+                { TableHeaderCell cell = new TableHeaderCell(); cell.Text = "สรุปข้อมูลรายการเครื่องราชฯของตนเอง"; cell.ColumnSpan = 8; row.Cells.Add(cell); }
                 table.Rows.Add(row);
             }
 
@@ -278,13 +277,7 @@ namespace WEB_PERSONAL
             {
                 con.Open();
 
-                string where = "";
-                if (ddlYearUser.SelectedValue != "")
-                {
-                    where += " AND EXTRACT(YEAR FROM GET_DATE) = '" + ddlYearUser.SelectedValue + "'-543";
-                }
-
-                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อ, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, REQ_DATE วันที่ขอ, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ,NVL(I_ALLOW,0) ผลการอนุมัติ, GET_DATE วันที่อนุมัติ FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' " + where + " ORDER BY ABS(IP_ID) DESC, CITIZEN_ID DESC", con))
+                using (OracleCommand com = new OracleCommand("SELECT IP_ID รหัสการขอเครื่องราช, (SELECT  PS_FIRSTNAME || ' ' || PS_LASTNAME FROM PS_PERSON WHERE PS_CITIZEN_ID = CITIZEN_ID) ชื่อ, (SELECT (SELECT CAMPUS_NAME FROM TB_CAMPUS WHERE TB_CAMPUS.CAMPUS_ID = PS_PERSON.PS_CAMPUS_ID) FROM PS_PERSON WHERE PS_PERSON.PS_CITIZEN_ID = TB_INSIG_PERSON.CITIZEN_ID) CAMPUS_NAME, REQ_DATE วันที่ขอ, (SELECT INSIG_GRADE_NAME_L FROM TB_INSIG_GRADE WHERE INSIG_GRADE_ID = INSIG_ID) ระดับชั้นเครื่องราชที่ขอ, (SELECT IP_STATUS_NAME FROM TB_INSIG_PERSON_STATUS WHERE TB_INSIG_PERSON_STATUS.IP_STATUS_ID = TB_INSIG_PERSON.IP_STATUS_ID) สถานะ,NVL(I_ALLOW,0) ผลการอนุมัติ, GET_DATE วันที่อนุมัติ FROM TB_INSIG_PERSON WHERE CITIZEN_ID = '" + loginPerson.PS_CITIZEN_ID + "' ORDER BY ABS(IP_ID) DESC, CITIZEN_ID DESC", con))
                 {
                     using (OracleDataReader reader = com.ExecuteReader())
                     {
@@ -378,31 +371,52 @@ namespace WEB_PERSONAL
                 Response.Write(tw.ToString());
                 Response.End();
             }
-        }
 
-        protected void lbuV2Search_Click(object sender, EventArgs e)
-        {
-            Table table;
-            table = loadReportSelf();
-            if (table == null)
+            if (loginPerson.PERSON_ROLE_ID != "4")
             {
-                return;
-            }
-            Panel2.Controls.Clear();
-            Panel2.Controls.Add(loadReportSelf());
-        }
-
-        protected void lbuV2Export_Click(object sender, EventArgs e) {
-            if (loginPerson.PERSON_ROLE_ID != "4") {
                 Table table = loadReportSelf();
-                if (table == null) {
+                if (table == null)
+                {
                     return;
                 }
                 Panel2.Controls.Clear();
                 Panel2.Controls.Add(loadReportSelf());
 
                 Response.ContentType = "application/x-msexcel";
-                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลเครื่องราชฯ ประจำปีงบประมาณ พ.ศ. " + ddlYearUser.SelectedValue + ".xls");
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลรายการเครื่องราชฯของตนเอง.xls");
+                Response.ContentEncoding = Encoding.UTF8;
+
+                StringWriter tw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(tw);
+                tw.WriteLine("<html>");
+                tw.WriteLine("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />");
+                tw.WriteLine("<style>");
+                tw.WriteLine("table { border-collapse:collapse; }");
+                tw.WriteLine("td { border-collapse:collapse; border: thin solid black; }");
+                tw.WriteLine("</style>");
+
+                table.RenderControl(hw);
+
+                tw.WriteLine("</html>");
+                Response.Write(tw.ToString());
+                Response.End();
+            }
+        }
+
+        protected void lbuV2Export_Click(object sender, EventArgs e)
+        {
+            if (loginPerson.PERSON_ROLE_ID != "4")
+            {
+                Table table = loadReportSelf();
+                if (table == null)
+                {
+                    return;
+                }
+                Panel2.Controls.Clear();
+                Panel2.Controls.Add(loadReportSelf());
+
+                Response.ContentType = "application/x-msexcel";
+                Response.AddHeader("Content-Disposition", "attachment;filename=สรุปข้อมูลรายการเครื่องราชฯของตนเอง.xls");
                 Response.ContentEncoding = Encoding.UTF8;
 
                 StringWriter tw = new StringWriter();

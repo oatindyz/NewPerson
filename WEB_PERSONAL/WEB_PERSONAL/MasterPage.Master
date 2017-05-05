@@ -272,6 +272,7 @@
                 <div class="ps-ms-left-ext-header"><img src="Image/Small/person2.png" />บุคลากร</div>
                 <a href="ListPerson-ADMIN.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลบุคลากร</a> 
                 <a href="ListRequest.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการคำร้องขอแก้ไขข้อมูล<asp:Label ID="lbPersonRequestCount" runat="server" Text="ทดสอบ" CssClass="master_text_alert"></asp:Label></a>
+                <a href="RequestHistory-Admin.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ประวัติคำร้องแก้ไขข้อมูล</a>
                 <a href="Boss.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการแต่งตั้งหัวหน้า</a>
                 <a href="PersonBranch.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />ดูแผนผังบุคลากร</a>
                 <a href="DataManage.aspx" class="ps-ms-left-ext-link"><img src="Image/Small/person2.png" />จัดการข้อมูลตัวเลือก</a> 

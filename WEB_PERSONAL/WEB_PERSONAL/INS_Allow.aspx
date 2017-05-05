@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
         $(function () {
-            $("#ContentPlaceHolder1_tbDateAllow").datepicker($.datepicker.regional["th"]);
+            $("#ContentPlaceHolder1_tbGetDate").datepicker({ minDate: <%Session%>, maxDate: new Date() });
         });
     </script>
     <style>
@@ -133,9 +133,17 @@
                     </tr>
                     <tr>
                         <td class="col1">
-                            <img src="Image/Small/calendar.png" class="icon_left" />วันที่</td>
+                            <img src="Image/Small/calendar.png" class="icon_left" />วันที่บันทึก</td>
                         <td class="col2">
-                            <asp:TextBox ID="tbDateAllow" runat="server" CssClass="ps-textbox" required="required" TabIndex="1"></asp:TextBox>
+
+                            <asp:Label ID="lbDateAllow" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col1">
+                            <img src="Image/Small/calendar.png" class="icon_left" />วันที่อนุมัติ</td>
+                        <td class="col2">
+                            <asp:TextBox ID="tbGetDate" runat="server" CssClass="ps-textbox" required="required" TabIndex="1"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -150,7 +158,7 @@
 
                 <div style="text-align: center; margin-bottom: 10px;">
                     <asp:LinkButton ID="lbuBack" runat="server" CssClass="ps-button" OnClick="lbuBack_Click"><img src="Image/Small/back.png" class="icon_left"/>ย้อนกลับ</asp:LinkButton>
-                    <asp:LinkButton ID="lbuAddComment" runat="server" CssClass="ps-button" OnClick="lbuAllow_Click">ยืนยันการอนุมัติ<img src="Image/Small/next.png" class="icon_right"/></asp:LinkButton>
+                    <asp:LinkButton ID="lbuAllow" runat="server" CssClass="ps-button" OnClick="lbuAllow_Click">ยืนยันการอนุมัติ<img src="Image/Small/next.png" class="icon_right"/></asp:LinkButton>
                 </div>
 
             </asp:View>

@@ -202,13 +202,22 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.Label lbDateReq;
         
         /// <summary>
-        /// tbDateAllow control.
+        /// lbDateAllow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDateAllow;
+        protected global::System.Web.UI.WebControls.Label lbDateAllow;
+        
+        /// <summary>
+        /// tbGetDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbGetDate;
         
         /// <summary>
         /// rbAllow control.
@@ -238,13 +247,13 @@ namespace WEB_PERSONAL {
         protected global::System.Web.UI.WebControls.LinkButton lbuBack;
         
         /// <summary>
-        /// lbuAddComment control.
+        /// lbuAllow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbuAddComment;
+        protected global::System.Web.UI.WebControls.LinkButton lbuAllow;
         
         /// <summary>
         /// View3 control.

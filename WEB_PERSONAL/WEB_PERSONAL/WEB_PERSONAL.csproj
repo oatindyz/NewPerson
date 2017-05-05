@@ -1064,6 +1064,7 @@
     <Content Include="ReportProject-Admin.aspx" />
     <Content Include="Reportproject.aspx" />
     <Content Include="Request.aspx" />
+    <Content Include="RequestHistory-ADMIN.aspx" />
     <Content Include="RequestHistory.aspx" />
     <Content Include="RequestManage.aspx" />
     <Content Include="ViewLeaveForm.aspx" />
@@ -3143,6 +3144,13 @@
     </Compile>
     <Compile Include="Request.aspx.designer.cs">
       <DependentUpon>Request.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequestHistory-ADMIN.aspx.cs">
+      <DependentUpon>RequestHistory-ADMIN.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequestHistory-ADMIN.aspx.designer.cs">
+      <DependentUpon>RequestHistory-ADMIN.aspx</DependentUpon>
     </Compile>
     <Compile Include="RequestHistory.aspx.cs">
       <DependentUpon>RequestHistory.aspx</DependentUpon>

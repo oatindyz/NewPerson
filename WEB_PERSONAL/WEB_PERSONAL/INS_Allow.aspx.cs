@@ -18,6 +18,11 @@ namespace WEB_PERSONAL
         {
             int count = DatabaseManager.ExecuteInt("SELECT COUNT(*) FROM TB_INSIG_PERSON WHERE IP_STATUS_ID = 1");
 
+            if (!IsPostBack)
+            {
+                lbDateAllow.Text = DateTime.Now.ToString("dd MMM yyyy");
+            }
+
             if (count == 0)
             {
                 error_area.InnerHtml = "ไม่มีรายการที่ท่านต้องอนุมัติ";
@@ -160,7 +165,7 @@ namespace WEB_PERSONAL
 
         protected void lbuAllow_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(tbDateAllow.Text))
+            if (string.IsNullOrEmpty(tbGetDate.Text))
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถว่างได้')", true);
                 return;
@@ -183,7 +188,7 @@ namespace WEB_PERSONAL
                         while (reader.Read())
                         {
                             DateTime reqDate = reader.GetDateTime(0).AddDays(-1);
-                            if (Util.ToDateTimeOracle(tbDateAllow.Text) > reqDate)
+                            if (Util.ToDateTimeOracle(tbGetDate.Text) > reqDate)
                             {
                                 ok = true;
                             }
@@ -198,7 +203,7 @@ namespace WEB_PERSONAL
 
             if (ok)
             {
-                if (Util.ToDateTimeOracle(tbDateAllow.Text) > DateTime.Now)
+                if (Util.ToDateTimeOracle(tbGetDate.Text) > DateTime.Now)
                 {
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('วันที่ไม่สามารถมากกว่าวันปัจจุบัน')", true);
                     return;
@@ -206,9 +211,9 @@ namespace WEB_PERSONAL
                 using (OracleConnection con = new OracleConnection(DatabaseManager.CONNECTION_STRING))
                 {
                     con.Open();
-                    using (OracleCommand com = new OracleCommand("UPDATE TB_INSIG_PERSON SET GET_DATE = :GET_DATE, IP_STATUS_ID = :IP_STATUS_ID, I_ALLOW = :I_ALLOW WHERE IP_ID = :IP_ID", con))
+                    using (OracleCommand com = new OracleCommand("UPDATE TB_INSIG_PERSON SET GET_DATE = :GET_DATE, IP_STATUS_ID = :IP_STATUS_ID, I_ALLOW = :I_ALLOW, ALLOW_DATE = :ALLOW_DATE WHERE IP_ID = :IP_ID", con))
                     {
-                        com.Parameters.AddWithValue("GET_DATE", Util.ToDateTimeOracle(tbDateAllow.Text));
+                        com.Parameters.AddWithValue("GET_DATE", Util.ToDateTimeOracle(tbGetDate.Text));
                         com.Parameters.AddWithValue("IP_STATUS_ID", allow);
                         com.Parameters.AddWithValue("IP_ID", ipID);
                         if (rbAllow.Checked)
@@ -218,6 +223,7 @@ namespace WEB_PERSONAL
                         {
                             com.Parameters.AddWithValue("I_ALLOW", "2");
                         }
+                        com.Parameters.AddWithValue("ALLOW_DATE", DateTime.Today);
                         com.ExecuteNonQuery();
                     }
                 }
