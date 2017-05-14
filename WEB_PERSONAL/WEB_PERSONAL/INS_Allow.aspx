@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
         $(function () {
-            $("#ContentPlaceHolder1_tbGetDate").datepicker({ minDate: <%Session%>, maxDate: new Date() });
+            $("#ContentPlaceHolder1_tbGetDate").datepicker({ maxDate: new Date() });
         });
     </script>
     <style>
